@@ -1,0 +1,10 @@
+{
+  "name": {
+    "name": "name",
+    "reqs": "none",
+    "regexValidationString": "^[\\w\\d-_!@#$%^&*]+( [\\w\\d-_!@#$%^&*]+)*$"
+  },
+  "password": { "name": "password", "reqs": "none", "regexValidationString": "" },
+  "email": { "name": "email", "reqs": "none", "regexValidationString": "" },
+  "validate_password": { "name": "validate_password", "reqs": "none", "regexValidationString": "" }
+}
