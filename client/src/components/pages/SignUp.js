@@ -6,10 +6,10 @@ function SignUp(props) {
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordValidationInput, setPasswordValidationInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
-  const [nameValid, setNameValid] = useState(true);
-  const [passwordValid, setPasswordValid] = useState(true);
-  const [emailValid, setEmailValid] = useState(true);
-  const [verifyPasswordValid, setVerifyPasswordValid] = useState(true);
+  const [nameError, setNameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [verifyPasswordError, setVerifyPasswordError] = useState(false);
 
   function isValid(regex, inputValue) {
     let reg = new RegExp(regex);
@@ -21,17 +21,17 @@ function SignUp(props) {
   }
   function submit() {
     if (!isValid(inputs.email.regexValidationString, emailInput)) {
-      setEmailValid(false);
+      setEmailError(true);
       return;
     } else if (!isValid(inputs.password.regexValidationString, passwordInput)) {
-      setPasswordValid(false);
+      setPasswordError(true);
       return;
     } else if (passwordValidationInput != passwordInput) {
       console.log(passwordValidationInput, passwordInput);
-      setVerifyPasswordValid(false);
+      setVerifyPasswordError(true);
       return;
     } else if (!isValid(inputs.name.regexValidationString, nameInput)) {
-      setNameValid(false);
+      setNameError(true);
       return;
     }
     const exists = props.users.find((user) => user.email === emailInput);
@@ -52,31 +52,31 @@ function SignUp(props) {
         name={inputs.email.name}
         reqs={inputs.email.reqs}
         value={emailInput}
-        isValid={emailValid}
-        hideMessage={() => setEmailValid(true)}
+        error={emailError}
+        showMessage={setEmailError}
         setValue={setEmailInput}
       />
       <ValidationInput
         name={inputs.password.name}
         reqs={inputs.password.reqs}
         value={passwordInput}
-        isValid={passwordValid}
-        hideMessage={() => setPasswordValid(true)}
+        error={passwordError}
+        showMessage={setPasswordError}
         setValue={setPasswordInput}
       />
       <ValidationInput
         name={inputs.validate_password.name}
         reqs={inputs.validate_password.reqs}
-        isValid={verifyPasswordValid}
-        hideMessage={() => setVerifyPasswordValid(true)}
+        error={verifyPasswordError}
+        showMessage={setVerifyPasswordError}
         value={passwordValidationInput}
         setValue={setPasswordValidationInput}
       />
       <ValidationInput
         name={inputs.name.name}
         reqs={inputs.name.reqs}
-        isValid={nameValid}
-        hideMessage={() => setNameValid(true)}
+        error={nameError}
+        showMessage={setNameError}
         value={nameInput}
         setValue={setNameInput}
       />
