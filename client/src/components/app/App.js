@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import SignUp from "./components/pages/SignUp";
+import SignUp from "../pages/sign_up/SignUp";
 
 function App() {
   const [users, setUsers] = useState([]);

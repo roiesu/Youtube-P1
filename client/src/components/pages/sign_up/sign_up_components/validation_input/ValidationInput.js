@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PopUpMessage from "./PopUpMessage";
+import PopUpMessage from "../popup_message/PopUpMessage";
 
 function ValidationInput(props) {
   useEffect(() => {
