@@ -1,20 +1,34 @@
 .validation-input-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 3px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 3px 0px;
 }
 label {
-    text-transform: capitalize;
-    font-size: 1.25rem;
+  text-transform: capitalize;
+  font-size: 1.25rem;
 }
 input.text-input {
-    border: none;
-    background: none;
-    border-bottom: 0.5px solid black;
-    font-size: 1.1rem;
+  border: none;
+  background: none;
+  border-bottom: 0.5px solid black;
+  font-size: 1.1rem;
 }
 
-input.text-input:focus{
-    outline:none;
+input.text-input:focus {
+  outline: none;
+}
+
+.input-div-content {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 75%;
+  justify-content: flex-start;
+}
+
+.input-div-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
