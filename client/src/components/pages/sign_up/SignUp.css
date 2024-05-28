@@ -1,0 +1,27 @@
+.signup-page {
+    min-height: inherit;
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+      
+}
+.input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main-component {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    background: #ebebeb;
+    padding: 15px;
+    width: 60%;
+    flex-direction: row;
+    border-radius: 23px;
+    box-shadow: #cdcdcd 1px 1px 5px 0px;
+}
