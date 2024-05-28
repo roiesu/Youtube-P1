@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ValidationInput from "../ValidationInput";
-import inputs from "../../data/inputs";
+import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
+import inputs from "../../../data/inputs.json";
 function SignUp(props) {
   const [nameInput, setNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
