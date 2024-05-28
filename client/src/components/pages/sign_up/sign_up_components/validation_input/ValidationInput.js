@@ -12,23 +12,27 @@ function ValidationInput(props) {
   }, [props.error]);
   return (
     <div className="validation-input-div">
-      <label for={props.name}>{props.name.replace(/[-_]/g, " ")}</label>
-      {/* {props.reqs && (
-        <span
-          className="reqs"
-          onMouseMove={() => props.showMessage(true)}
-          onMouseLeave={() => props.showMessage(false)}
-        >
-          ?
-        </span>
-      )} */}
-      <PopUpMessage message={props.reqs} isActive={props.error} />
-      <input
-        // type={props.name.match("password") ? "password" : "text"}
-        name={props.name}
-        className="text-input"
-        onChange={(e) => props.setValue(e.target.value)}
-      />
+      <div className="input-div-header">
+        <label for={props.name}>{props.name.replace(/[-_]/g, " ")}</label>
+        {props.reqs && (
+          <span
+            className="reqs"
+            onMouseMove={() => props.showMessage(true)}
+            onMouseLeave={() => props.showMessage(false)}
+          >
+            ?
+          </span>
+        )}
+      </div>
+      <div className="input-div-content">
+        <input
+          // type={props.name.match("password") ? "password" : "text"}
+          name={props.name}
+          className="text-input"
+          onChange={(e) => props.setValue(e.target.value)}
+        />
+        <PopUpMessage message={props.reqs} isActive={props.error} />
+      </div>
     </div>
   );
 }

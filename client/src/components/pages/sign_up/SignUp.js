@@ -53,44 +53,43 @@ function SignUp(props) {
         <div className="header-div">
           <h1>Hello</h1>
         </div>
-      <div className="input-div">
-      <ValidationInput
-        name={inputs.email.name}
-        reqs={inputs.email.reqs}
-        value={emailInput}
-        error={emailError}
-        showMessage={setEmailError}
-        setValue={setEmailInput}
-      />
-      <ValidationInput
-        name={inputs.password.name}
-        reqs={inputs.password.reqs}
-        value={passwordInput}
-        error={passwordError}
-        showMessage={setPasswordError}
-        setValue={setPasswordInput}
-      />
-      <ValidationInput
-        name={inputs.validate_password.name}
-        reqs={inputs.validate_password.reqs}
-        error={verifyPasswordError}
-        showMessage={setVerifyPasswordError}
-        value={passwordValidationInput}
-        setValue={setPasswordValidationInput}
-      />
-      <ValidationInput
-        name={inputs.name.name}
-        reqs={inputs.name.reqs}
-        error={nameError}
-        showMessage={setNameError}
-        value={nameInput}
-        setValue={setNameInput}
-      />
-      <button onClick={submit}>submit</button>
+        <div className="input-div">
+          <ValidationInput
+            name={inputs.email.name}
+            reqs={inputs.email.reqs}
+            value={emailInput}
+            error={emailError}
+            showMessage={setEmailError}
+            setValue={setEmailInput}
+          />
+          <ValidationInput
+            name={inputs.password.name}
+            reqs={inputs.password.reqs}
+            value={passwordInput}
+            error={passwordError}
+            showMessage={setPasswordError}
+            setValue={setPasswordInput}
+          />
+          <ValidationInput
+            name={inputs.validate_password.name}
+            reqs={inputs.validate_password.reqs}
+            error={verifyPasswordError}
+            showMessage={setVerifyPasswordError}
+            value={passwordValidationInput}
+            setValue={setPasswordValidationInput}
+          />
+          <ValidationInput
+            name={inputs.name.name}
+            reqs={inputs.name.reqs}
+            error={nameError}
+            showMessage={setNameError}
+            value={nameInput}
+            setValue={setNameInput}
+          />
+          <button onClick={submit}>submit</button>
+        </div>
       </div>
     </div>
-    </div>
-
   );
 }
 
