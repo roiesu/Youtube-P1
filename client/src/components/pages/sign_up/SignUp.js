@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../data/inputs.json";
 function SignUp(props) {
@@ -48,6 +49,11 @@ function SignUp(props) {
   }
   return (
     <div className="page signup-page">
+      <div className="main-component">
+        <div className="header-div">
+          <h1>Hello</h1>
+        </div>
+      <div className="input-div">
       <ValidationInput
         name={inputs.email.name}
         reqs={inputs.email.reqs}
@@ -81,7 +87,10 @@ function SignUp(props) {
         setValue={setNameInput}
       />
       <button onClick={submit}>submit</button>
+      </div>
     </div>
+    </div>
+
   );
 }
 
