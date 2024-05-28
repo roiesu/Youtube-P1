@@ -1,0 +1,21 @@
+{
+  "name": {
+    "name": "name",
+    "reqs": "Name can contain letters, numbers, special letters and spaces.",
+    "regexValidationString": "^[\\w\\d-_!@#$%^&*]+( [\\w\\d-_!@#$%^&*]+)*$"
+  },
+  "password": {
+    "name": "password",
+    "reqs": "Password needs to be at least 8 letters long, and must contain- a small letter, a capital letter, a number and a special symbol.",
+    "regexValidationString": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!?#$%&*+,\\-./@^_{}|~])[\\w\\d!?#$%&*+,\\-./@^{}|~]{8,}$"
+  },
+  "email": {
+    "name": "email",
+    "reqs": "Must be a valid email address",
+    "regexValidationString": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$"
+  },
+  "validate_password": {
+    "name": "validate_password",
+    "reqs": "Must be identical to the password"
+  }
+}
