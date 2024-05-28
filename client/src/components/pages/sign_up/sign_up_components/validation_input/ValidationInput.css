@@ -1,0 +1,9 @@
+.validation-input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+label {
+    text-transform: capitalize;
+    font-size: 1.25rem;
+}
