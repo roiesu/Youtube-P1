@@ -18,9 +18,10 @@
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-    background: grey;
+    background: #ebebeb;
     padding: 15px;
-    width: 80%;
+    width: 60%;
     flex-direction: row;
     border-radius: 23px;
+    box-shadow: #cdcdcd 1px 1px 5px 0px;
 }
