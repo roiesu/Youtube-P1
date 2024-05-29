@@ -3,12 +3,14 @@ import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../data/inputs.json";
 import PopUpMessage from "./sign_up_components/popup_message/PopUpMessage";
+import { readImageIntoState } from "../../../utilities";
 function SignUp(props) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordValidationInput, setPasswordValidationInput] = useState("");
   const [nameInput, setNameInput] = useState("");
   const [imageInput, setImageInput] = useState();
+  const [image, setImage] = useState();
   const [nameError, setNameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
@@ -22,6 +24,12 @@ function SignUp(props) {
       }, [5000]);
     }
   }, [generalError]);
+
+  useEffect(() => {
+    if (imageInput) {
+      readImageIntoState(imageInput, setImage);
+    }
+  }, [imageInput]);
 
   function isValid(regex, inputValue) {
     let reg = new RegExp(regex);
@@ -67,7 +75,7 @@ function SignUp(props) {
     <div className="page signup-page">
       <div className="main-component">
         <div className="header-div">
-          <h1>hello</h1>
+          {image ? <img className={"profile-pic"} src={image} /> : "Hello"}
         </div>
         <div className="input-div">
           <PopUpMessage message={generalError} isActive={generalError != null} />
