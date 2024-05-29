@@ -1,8 +1,8 @@
 const reader = new FileReader();
-function readImage(imageFile, setState) {
+function readImageIntoState(imageFile, setState) {
   reader.onload = () => {
     setState(reader.result);
   };
   reader.readAsDataURL(imageFile);
 }
-export { readImage };
+export { readImageIntoState };
