@@ -8,6 +8,13 @@
   transition: 0.3;
   margin-left: 10px;
   margin-bottom: 10px;
+  transition: 100ms;
+}
+.popup-message.hidden {
+  opacity: 0%;
+}
+.popup-message.visible {
+  opacity: 100%;
 }
 .message-anchor {
   display: flex;
