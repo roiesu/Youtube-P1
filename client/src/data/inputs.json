@@ -9,10 +9,10 @@
     "reqs": "Password needs to be at least 8 letters long, and must contain- a small letter, a capital letter, a number and a special symbol.",
     "regexValidationString": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!?#$%&*+,\\-./@^_{}|~])[\\w\\d!?#$%&*+,\\-./@^{}|~]{8,}$"
   },
-  "email": {
-    "name": "email",
-    "reqs": "Must be a valid email address",
-    "regexValidationString": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$"
+  "username": {
+    "name": "username",
+    "reqs": "Username needs to be at least 6 letters long. Must contain only letters, numbers and special symbols.",
+    "regexValidationString": "^[\\w\\d!@#$%^&*-_]{6,}$"
   },
   "validate_password": {
     "name": "validate_password",
