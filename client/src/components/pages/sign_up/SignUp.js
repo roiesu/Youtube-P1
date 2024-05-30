@@ -66,7 +66,7 @@ function SignUp(props) {
     user[inputs.username.name] = usernameInput;
     user[inputs.password.name] = passwordInput;
     user[inputs.name.name] = nameInput;
-    user.img = imageInput;
+    user.image = image;
     addUser(user);
     props.setCurrentUser(user);
   }
