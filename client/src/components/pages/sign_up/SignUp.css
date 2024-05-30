@@ -28,3 +28,7 @@
   border-radius: 23px;
   box-shadow: #cdcdcd 1px 1px 5px 0px;
 }
+.profile-pic {
+  width: 100%;
+  max-height: 100%;
+}
