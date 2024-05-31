@@ -6,11 +6,11 @@ import usersList from "../../data/users.json";
 function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState();
-  console.log(users);
+  console.log(currentUser);
   return (
     <div className="App">
-      <SignUp users={users} setCurrentUser={setCurrentUser} setUsers={setUsers} />
-      {/* <SignIn /> */}
+      {/* <SignUp users={users} setCurrentUser={setCurrentUser} setUsers={setUsers} /> */}
+      <SignIn setCurrentUser={setCurrentUser} users = {users}/>
     </div>
   );
 }
