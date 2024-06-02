@@ -17,5 +17,9 @@
   "validate_password": {
     "name": "validate_password",
     "reqs": "Must be identical to the password"
+  },
+  "image": {
+    "name": "image",
+    "reqs": "Image required"
   }
 }
