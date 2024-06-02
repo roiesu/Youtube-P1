@@ -75,7 +75,7 @@ function SignUp(props) {
     <div className="page signup-page">
       <div className="main-component">
         <div className="header-div">
-          {image ? <img className={"profile-pic"} src={image} /> : "Hello"}
+          {image ? <img className={"profile-pic"} src={image} /> : ""}
         </div>
         <div className="input-div">
           <PopUpMessage message={generalError} isActive={generalError != null} />
