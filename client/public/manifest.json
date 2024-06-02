@@ -1,7 +1,6 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
-  "videos": [{ "id": 1, "src": "../videos/stan.mp4", "type": "video/mp4" }],
   "icons": [
     {
       "src": "favicon.ico",
