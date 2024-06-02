@@ -39,7 +39,6 @@ function App() {
           )}
         </Routes>
       </Router>
-      main
     </div>
   );
 }
