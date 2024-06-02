@@ -1,3 +1,5 @@
+import videoList from "./data/videos.json";
+
 const reader = new FileReader();
 function readImageIntoState(imageFile, setState) {
   reader.onload = () => {
@@ -5,4 +7,10 @@ function readImageIntoState(imageFile, setState) {
   };
   reader.readAsDataURL(imageFile);
 }
-export { readImageIntoState };
+
+function findVideoById(id) {
+  const video = videoList.find((video) => video.id == id);
+  return video;
+}
+
+export { readImageIntoState, findVideoById };
