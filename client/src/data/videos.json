@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Stan",
+    "uploader": "admin",
+    "src": "../videos/stan.mp4",
+    "likes": 5,
+    "length": 48,
+    "date_time": "2.6.2024, 18:28:25",
+    "comments": [
+      {
+        "username": "admin",
+        "comment": "Wow i would have killed myself if i were you.\nVery ugly in the face."
+      }
+    ]
+  }
+]
