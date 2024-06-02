@@ -59,7 +59,7 @@ function SignUp(props) {
     }
     const exists = props.users.find((user) => user.username === usernameInput);
     if (exists) {
-      setGeneralError("User with that username address already exists");
+      setGeneralError("User with that username already exists");
       return;
     }
     const user = {};
