@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import "./App.css";
 import SignUp from "../pages/sign_up/SignUp";
 import SignIn from "../pages/sign_in/SignIn";
@@ -12,15 +14,36 @@ import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(users[0]);
   const [videos, setVideos] = useState(videoList);
+
+  function addComment(text, videoId) {
+    if (!currentUser) return;
+    const newComment = {
+      user: currentUser.username,
+      text,
+      date_time: new Date().toLocaleString(),
+    };
+    const tempVideos = [...videos];
+    tempVideos.find((item) => item.id === videoId).comments.push(newComment);
+    setVideos(tempVideos);
+  }
+
   return (
     <div className="App">
       <Router>
+        <Link to="/watch?v=1">test</Link>
+
         <Routes>
           {/* Pages anyone can see */}
           <Route exact path="/" element={<MainPage />} />
-          <Route exact path="/watch/:v?" element={<WatchVideoPage videos={videos} />} />
+          <Route
+            exact
+            path="/watch/:v?"
+            element={
+              <WatchVideoPage videos={videos} currentUser={currentUser} addComment={addComment} />
+            }
+          />
           {currentUser ? (
             // Pages only users can see
             <>
