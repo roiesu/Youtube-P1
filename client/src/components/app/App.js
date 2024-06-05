@@ -17,32 +17,16 @@ function App() {
   const [currentUser, setCurrentUser] = useState(users[0]);
   const [videos, setVideos] = useState(videoList);
 
-  function addComment(text, videoId) {
-    if (!currentUser) return;
-    const newComment = {
-      user: currentUser.username,
-      text,
-      date_time: new Date().toLocaleString(),
-    };
-    const tempVideos = [...videos];
-    tempVideos.find((item) => item.id === videoId).comments.push(newComment);
-    setVideos(tempVideos);
-  }
-
   return (
     <div className="App">
       <Router>
-        <Link to="/watch?v=1">test</Link>
-
         <Routes>
           {/* Pages anyone can see */}
           <Route exact path="/" element={<MainPage />} />
           <Route
             exact
             path="/watch/:v?"
-            element={
-              <WatchVideoPage videos={videos} currentUser={currentUser} addComment={addComment} />
-            }
+            element={<WatchVideoPage videos={videos} currentUser={currentUser} />}
           />
           {currentUser ? (
             // Pages only users can see
