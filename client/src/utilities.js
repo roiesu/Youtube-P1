@@ -8,5 +8,4 @@ function readImageIntoState(imageFile, setState) {
   reader.readAsDataURL(imageFile);
 }
 
-
 export { readImageIntoState };
