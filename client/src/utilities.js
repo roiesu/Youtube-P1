@@ -13,4 +13,10 @@ function findVideoById(id) {
   return video;
 }
 
+export const fetchVideos = async () => {
+  const response = await fetch('/path/to/videos.json');
+  const data = await response.json();
+  return data;
+};
+
 export { readImageIntoState, findVideoById };
