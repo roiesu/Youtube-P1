@@ -8,15 +8,4 @@ function readImageIntoState(imageFile, setState) {
   reader.readAsDataURL(imageFile);
 }
 
-function findVideoById(id) {
-  const video = videoList.find((video) => video.id == id);
-  return video;
-}
-
-export const fetchVideos = async () => {
-  const response = await fetch('/path/to/videos.json');
-  const data = await response.json();
-  return data;
-};
-
-export { readImageIntoState, findVideoById };
+export { readImageIntoState };
