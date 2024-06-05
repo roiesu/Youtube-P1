@@ -26,6 +26,7 @@ function ValidationInput(props) {
       </div>
       <div className="input-div-content">
         <input
+          type={props.name.match("password") ? "password" : "text"}
           name={props.name}
           className="text-input"
           onChange={(e) => props.setValue(e.target.value)}

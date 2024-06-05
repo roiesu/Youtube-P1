@@ -11,12 +11,13 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
+import videosList from "../../data/videos.json";
 
 function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState(users[0]);
   const [videos, setVideos] = useState(videoList);
-
+  
   return (
     <div className="App">
       <Router>
@@ -28,6 +29,8 @@ function App() {
             path="/watch/:v?"
             element={<WatchVideoPage videos={videos} currentUser={currentUser} />}
           />
+          <Route exact path="/" element={<MainPage videos={videos} />} />
+
           {currentUser ? (
             // Pages only users can see
             <>

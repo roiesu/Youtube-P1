@@ -1,9 +1,23 @@
-import React from 'react'
+import React from "react";
+import VideoLink from "./main_page_components/VideoLink";
+import "./MainPage.css";
 
-function MainPage(props) {
+
+function MainPage({ videos }) {
   return (
-    <div className="main-page page">MainPage</div>
-  )
+    <div>
+      <h1>Main Page</h1>
+      
+      <div className="video-list">
+      
+        {videos.map((video) => (
+          <VideoLink key={video.id} {...video} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default MainPage
+export default MainPage;
+
+
