@@ -8,6 +8,8 @@
     "views": 200,
     "length": 48,
     "date_time": "2.6.2024, 18:28:25",
+    "description": "Some guy is ghosted by the metargel in another course",
+    "tags": ["eminem"],
     "comments": [
       {
         "username": "Nadav",
@@ -24,6 +26,8 @@
     "views": 1000400,
     "length": 6,
     "date_time": "2.6.2024, 19:16:00",
+    "description": "Yes",
+    "tags": ["bishbash"],
     "comments": []
   }
 ]

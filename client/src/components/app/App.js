@@ -5,6 +5,7 @@ import SignUp from "../pages/sign_up/SignUp";
 import SignIn from "../pages/sign_in/SignIn";
 import MainPage from "../pages/main_page/MainPage";
 import usersList from "../../data/users.json";
+import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
@@ -12,13 +13,14 @@ import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState();
+  const [videos, setVideos] = useState(videoList);
   return (
     <div className="App">
       <Router>
         <Routes>
           {/* Pages anyone can see */}
           <Route exact path="/" element={<MainPage />} />
-          <Route exact path="/watch/:id" element={<WatchVideoPage />} />
+          <Route exact path="/watch/:v?" element={<WatchVideoPage videos={videos} />} />
           {currentUser ? (
             // Pages only users can see
             <>

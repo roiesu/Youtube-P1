@@ -1,0 +1,28 @@
+.video-block {
+  width: 80%;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.video {
+  width: 90%;
+  height: 40%;
+  max-width: 1000px;
+  max-height: 600px;
+  min-height: 240px;
+  min-width: 640px;
+}
+.video-tools {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  width: 100%;
+}
+.first-row {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
