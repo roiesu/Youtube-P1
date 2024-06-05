@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { findVideoById } from "../../../utilities";
-function WatchVideoPage() {
+import { useLocation } from "react-router-dom";
+import VideoBlock from "./watch_video_page_compoonents/video_block/VideoBlock";
+function WatchVideoPage({ videos }) {
   const [video, setVideo] = useState();
-  const { id } = useParams();
+  const location = useLocation();
   useEffect(() => {
-    if (!id) return;
-    const found = findVideoById(id);
-    console.log(found);
+    const query = location.search.match(/v=(.*)/);
+    if (!query) return;
+    const found = videos.find((video) => video.id == query[1]);
     setVideo(found);
-  }, [id]);
+    found.views++;
+  }, [location]);
 
   return (
-    <div>
+    <div className="video-watching-page page">
       <h1>WatchVideoPage</h1>
-      {video ? (
-        <video controls>
-          <source src={video.src} type="video/mp4" />
-        </video>
-      ) : (
-        "Video not found"
-      )}
+      {video ? <VideoBlock {...video} /> : "Video not found"}
     </div>
   );
 }
