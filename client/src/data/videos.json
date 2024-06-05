@@ -12,8 +12,9 @@
     "tags": ["eminem"],
     "comments": [
       {
-        "username": "Nadav",
-        "comment": "Wow i would have killed myself if i were you.\nVery ugly in the face."
+        "date_time": "5.6.2024, 18:37:59",
+        "user": "Nadav",
+        "text": "Wow i would have killed myself if i were you.\nVery ugly in the face."
       }
     ]
   },
