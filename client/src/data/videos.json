@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Stan",
+    "uploader": "admin",
+    "src": "../videos/stan.mp4",
+    "likes": 5,
+    "views": 200,
+    "length": 48,
+    "date_time": "2.6.2024, 18:28:25",
+    "comments": [
+      {
+        "username": "Nadav",
+        "comment": "Wow i would have killed myself if i were you.\nVery ugly in the face."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Hooop to grow in the hands of the superior",
+    "uploader": "admin",
+    "src": "../videos/hop.mp4",
+    "likes": 250,
+    "views": 1000400,
+    "length": 6,
+    "date_time": "2.6.2024, 19:16:00",
+    "comments": []
+  }
+]
