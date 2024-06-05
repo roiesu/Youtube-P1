@@ -10,14 +10,14 @@ function VideoBlock({ name, uploader, src, description, views, likes, date_time,
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="uploader">{uploader}</div>
+          <div className="uploader">Uploaded by {uploader}</div>
           <div className="actions">
             <VideoActionButton name="Comment" />
             <VideoActionButton name="Like" />
             <VideoActionButton name="Share" />
           </div>
         </div>
-        <div className="third-row row">
+        <div className="description-div">
           <div className="date">
             uploaded in{" "}
             {new Date(date_time).toLocaleDateString("en", {
@@ -26,6 +26,7 @@ function VideoBlock({ name, uploader, src, description, views, likes, date_time,
               day: "numeric",
             })}
           </div>
+          <div className="views">Views: {views}</div>
           <div className="description">{description}</div>
           <div className="tags">
             {tags.map((tag) => (
