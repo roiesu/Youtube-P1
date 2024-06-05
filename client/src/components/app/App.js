@@ -11,26 +11,23 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
-import videosList from "../../data/videos.json";
 
 function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState(users[0]);
   const [videos, setVideos] = useState(videoList);
-  
+
   return (
     <div className="App">
       <Router>
         <Routes>
           {/* Pages anyone can see */}
-          <Route exact path="/" element={<MainPage />} />
+          <Route exact path="/" element={<MainPage videos={videos} />} />
           <Route
             exact
             path="/watch/:v?"
             element={<WatchVideoPage videos={videos} currentUser={currentUser} />}
           />
-          <Route exact path="/" element={<MainPage videos={videos} />} />
-
           {currentUser ? (
             // Pages only users can see
             <>
@@ -46,7 +43,11 @@ function App() {
                 exact
                 path="/sign-up"
               />
-              <Route element={<SignIn />} exact path="/sign-in" />
+              <Route
+                element={<SignIn users={users} setCurrentUser={setCurrentUser} />}
+                exact
+                path="/sign-in"
+              />
             </>
           )}
         </Routes>

@@ -39,6 +39,8 @@
     "likes": 10000,
     "views": 190002,
     "length": 82,
+    "description": "Yes",
+    "tags": ["eminem"],
     "date_time": "5.6.2024, 18:18:18",
     "comments": []
   },
@@ -50,6 +52,8 @@
     "likes": 250,
     "views": 1000400,
     "length": 42,
+    "description": "Yes",
+    "tags": ["eminem"],
     "date_time": "5.6.2024, 18:18:18",
     "comments": []
   },
@@ -61,6 +65,8 @@
     "likes": 250,
     "views": 1000400,
     "length": 49,
+    "description": "Yes",
+    "tags": ["eminem"],
     "date_time": "5.6.2024, 18:18:18",
     "comments": []
   }
