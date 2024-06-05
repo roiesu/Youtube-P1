@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./comments/Comments";
+
 function WatchVideoPage({ videos, currentUser }) {
   const [video, setVideo] = useState();
   const commentInput = useRef(null);
-
   const location = useLocation();
   useEffect(() => {
     const query = location.search.match(/v=(.*)/);

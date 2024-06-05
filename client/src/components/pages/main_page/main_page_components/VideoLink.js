@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function VideoLink({ name, uploader, date_time, length, views, id, src }) {
   return (
     <div className="video-card">
-      <Link to="/">
+      <Link to={`/watch?v=${id}`}>
         <video muted onMouseOver={(e) => e.target.play()} onMouseOut={(e) => e.target.pause()}>
           <source src={src} type="video/mp4" />
         </video>
