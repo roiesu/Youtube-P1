@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { secondsToTime, dateDifference } from "../../../../utilities";
+import { secondsToTime, dateDifference, numberFormatter } from "../../../../utilities";
 
 function VideoLink({ name, uploader, date_time, length, views, id, src }) {
   return (
@@ -17,9 +17,7 @@ function VideoLink({ name, uploader, date_time, length, views, id, src }) {
           <div className="minor-details">
             <div>Uploaded by: {uploader}</div>
             <div>Uploaded {dateDifference(date_time)}</div>
-            <div>
-              {new Intl.NumberFormat({ maximumSignificantDiginits: 3 }).format(views)} views
-            </div>
+            <div>{numberFormatter.format(views)} views</div>
           </div>
         </div>
       </div>

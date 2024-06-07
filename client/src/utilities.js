@@ -1,4 +1,5 @@
 const reader = new FileReader();
+const numberFormatter = new Intl.NumberFormat({ maximumSignificantDiginits: 3 });
 
 function readImageIntoState(imageFile, setState) {
   reader.onload = () => {
@@ -53,4 +54,4 @@ function dateDifference(dateString) {
   diffTime = Math.floor(diffTime / 12);
   return `${diffTime} years ago`;
 }
-export { readImageIntoState, callWithEnter, secondsToTime, dateDifference };
+export { readImageIntoState, callWithEnter, secondsToTime, dateDifference, numberFormatter };

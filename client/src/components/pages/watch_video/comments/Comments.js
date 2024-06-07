@@ -15,8 +15,10 @@ function Comments({ comments, addComment, commentInput }) {
       />
       <button onClick={addComment}>Add</button>
       <div className="comments-list">
-        {comments.map((comment) => (
-          <div className="comment">{`<${new Date(comment.date_time).toLocaleDateString("en", {
+        {comments.map((comment, index) => (
+          <div key={"c" + index} className="comment">{`<${new Date(
+            comment.date_time
+          ).toLocaleDateString("en", {
             year: "numeric",
             month: "short",
             day: "numeric",

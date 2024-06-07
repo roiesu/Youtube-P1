@@ -3,7 +3,8 @@
   width: 100vw;
   height: fit-content;
   min-height: 100vh;
-  overflow-y: auto;
-  overflow-x:hidden;
 }
-
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
