@@ -14,12 +14,13 @@ import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState(users[0]);
+  const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
 
   return (
     <div className="App">
       <Router>
+        <Bar />
         <Routes>
           {/* Pages anyone can see */}
           <Route exact path="/" element={<MainPage videos={videos} />} />
