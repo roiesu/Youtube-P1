@@ -19,7 +19,7 @@ function WatchVideoPage({ videos, currentUser }) {
     const newComment = {
       user: currentUser.username,
       text: commentInput.current.value,
-      date_time: new Date().toLocaleString(),
+      date_time: new Date(),
     };
     const tempVideo = { ...video };
     tempVideo.comments.push(newComment);

@@ -16,14 +16,22 @@
   flex-wrap: nowrap;
   align-items: center;
 }
+a.video-link {
+  text-decoration: initial;
+  color: initial;
+}
 
 .video-card:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.video-card .video-container {
+  position: relative;
+}
 .video-card video {
   width: 340px;
   height: 180px;
+  background-color: black;
 }
 
 .video-details {
@@ -33,4 +41,21 @@
 .video-details h1 {
   font-size: 18px;
   margin: 5px 0;
+}
+
+.video-card .video-length {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  padding: 1.5px;
+  border-radius: 5px;
+  letter-spacing: 0.8px;
+}
+.video-card .video-name {
+  height: 45px;
+  font-size: 17px;
+  font-weight: 600;
+  text-wrap: pretty;
 }
