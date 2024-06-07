@@ -5,7 +5,9 @@ function VideoBlock({ name, uploader, src, description, views, likes, date_time,
   // Auto play
   const videoRef = useRef();
   useEffect(() => {
-    videoRef.current.play();
+    setTimeout(() => {
+      videoRef.current.play();
+    }, 500);
   }, []);
 
   return (
