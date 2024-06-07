@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import VideoActionButton from "../VideoActionButton";
 import "./VideoBlock.css";
 function VideoBlock({ name, uploader, src, description, views, likes, date_time, tags }) {
+  // Auto play
+  const videoRef = useRef();
+  useEffect(() => {
+    videoRef.current.play();
+  }, []);
+
   return (
     <div className="video-block">
-      <video controls className="video">
+      <video controls className="video" ref={videoRef}>
         <source src={src} type="video/mp4" />
       </video>
       <div className="video-tools">

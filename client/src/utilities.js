@@ -1,5 +1,5 @@
-
 const reader = new FileReader();
+
 function readImageIntoState(imageFile, setState) {
   reader.onload = () => {
     setState(reader.result);
@@ -7,4 +7,10 @@ function readImageIntoState(imageFile, setState) {
   reader.readAsDataURL(imageFile);
 }
 
-export { readImageIntoState };
+function callWithEnter(event, func) {
+  if (event.key == "Enter") {
+    func();
+  }
+}
+
+export { readImageIntoState, callWithEnter };
