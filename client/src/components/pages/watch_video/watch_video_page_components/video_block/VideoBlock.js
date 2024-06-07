@@ -21,11 +21,11 @@ function VideoBlock({
   const videoRef = useRef();
 
   // Auto play
-  useEffect(() => {
-    setTimeout(() => {
-      videoRef.current.play();
-    }, 1000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     videoRef.current.play();
+  //   }, 1000);
+  // }, []);
 
   return (
     <div className="video-block">

@@ -35,17 +35,20 @@ function WatchVideoPage({ videos, currentUser }) {
   }
 
   useEffect(() => {
+    console.log("WatchVideo");
     // Finds the video by query params
+    if (video) return;
     const query = location.search.match(/v=(.*)/);
     if (!query) return;
     const found = videos.find((video) => video.id == query[1]);
+    found.views++;
     setVideo(found);
     if (!currentUser) return;
 
     // Set if liked the video
     const user = found.likes.find((user) => user === currentUser.username);
     if (user) setLikedVideo(true);
-  }, [, videos]);
+  }, [video]);
 
   return (
     <div className="video-watching-page page">
