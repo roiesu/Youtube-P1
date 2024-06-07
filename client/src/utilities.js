@@ -1,4 +1,3 @@
-import videoList from "./data/videos.json";
 
 const reader = new FileReader();
 function readImageIntoState(imageFile, setState) {
