@@ -30,8 +30,8 @@ function MainPage({ videos }) {
       />
       <button onClick={search}>search</button>
       <div className="video-list">
-        {filteredVideos.map((video, index) => (
-          <VideoLink key={index} {...video} />
+        {filteredVideos.map((video) => (
+          <VideoLink key={video.id} {...video} />
         ))}
       </div>
     </div>
