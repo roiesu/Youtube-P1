@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px; /* Adjust the top position to leave space for the button */
+    right: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #202020;
+    padding-top: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    font-size: 18px;
+}
+
+.sidebar-link:hover {
+    background-color: #333333;
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #202020;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-toggle:hover {
+    background-color: #333333;
+}
