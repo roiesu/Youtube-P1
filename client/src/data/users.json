@@ -3,12 +3,14 @@
     "username": "admin",
     "password": "Bishbash12!",
     "name": "Bish Bash",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJBNxALcUMOOQYQljiDcMVKWVzcasEf4p6iQ&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJBNxALcUMOOQYQljiDcMVKWVzcasEf4p6iQ&s",
+    "videos": []
   },
   {
     "username": "Nadav",
     "password": "Nadav123!",
     "name": "Nadav Rottman Moses",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJBNxALcUMOOQYQljiDcMVKWVzcasEf4p6iQ&s"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJBNxALcUMOOQYQljiDcMVKWVzcasEf4p6iQ&s",
+    "videos": []
   }
 ]
