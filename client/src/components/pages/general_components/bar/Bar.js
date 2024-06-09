@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import '../bar.css';
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import "../bar.css";
+import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
+import IconVideoCamera from "../../../icons/IconVideoCamera";
+import IconLogout from "../../../icons/IconLogout";
+import IconLogin from "../../../icons/Iconlogin";
 
-function Bar() {
+function Bar({ logout, loggedIn }) {
   const location = useLocation();
   const [visible, setVisible] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!location.pathname.match("sign")) {
       setVisible(true);
@@ -21,13 +25,37 @@ function Bar() {
   return (
     <div className="sidebar-container">
       <button className="sidebar-toggle" onClick={toggleSidebar}>
-        {visible ? 'Close' : 'Open'}
+        {visible ? "Close" : "Open"}
       </button>
       {visible && (
         <div className="sidebar">
-          <div href="#" className="sidebar-link">Home</div>
-          <div href="#" className="sidebar-link">MyVideos</div>
-          <div href="#" className="sidebar-link">Subscriptions</div>
+          <Link to="/">
+            <div className="sidebar-link">
+              <IconHouseDoorFill /> Home
+            </div>
+          </Link>
+          <Link to="/upload">
+            <div className="sidebar-link">
+              <IconVideoCamera /> MyVideos
+            </div>
+          </Link>
+          {loggedIn ? (
+            <div
+              className="sidebar-link"
+              onClick={() => {
+                logout();
+                navigate("/sign-in");
+              }}
+            >
+              <IconLogout /> Sign out
+            </div>
+          ) : (
+            <div className="sidebar-link">
+              <Link to="/sign-up">
+                <IconLogin /> Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>
