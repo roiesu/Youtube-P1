@@ -8,3 +8,16 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+
+.img {
+  position: absolute; 
+  top: 10px;      
+  left: 10px;     
+  z-index: 1000;  
+}
+
+.img img {
+  width: 100px;  
+  height: auto; 
+}
