@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
-import Comments from "./comments/Comments";
+import Comments from "./watch_video_page_components/comments/Comments";
 
 function WatchVideoPage({ videos, currentUser }) {
   const [video, setVideo] = useState();
@@ -23,19 +23,19 @@ function WatchVideoPage({ videos, currentUser }) {
   }
 
   function like() {
-    let newLikes = [];
+    if (!currentUser) return;
+    const tempVideo = { ...video };
     if (likedVideo) {
-      newLikes = video.likes.filter((user) => user != currentUser.username);
+      tempVideo.likes = video.likes.filter((user) => user != currentUser.username);
     } else {
-      newLikes = [...video.likes];
-      newLikes.push(currentUser.username);
+      tempVideo.likes.push(currentUser.username);
     }
-    setVideo({ ...video, likes: newLikes });
+    video.likes = [...tempVideo.likes];
+    setVideo(tempVideo);
     setLikedVideo(!likedVideo);
   }
 
   useEffect(() => {
-    console.log("WatchVideo");
     // Finds the video by query params
     if (video) return;
     const query = location.search.match(/v=(.*)/);

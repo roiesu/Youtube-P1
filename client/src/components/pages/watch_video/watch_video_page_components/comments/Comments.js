@@ -1,5 +1,6 @@
 import React from "react";
-import { callWithEnter } from "../../../../utilities";
+import { callWithEnter } from "../../../../../utilities";
+import "./Comments.css";
 
 function Comments({ comments, addComment, commentInput }) {
   return (
