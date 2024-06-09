@@ -5,13 +5,16 @@ body {
 
 .sidebar {
     position: fixed;
-    top: 70px; /* Adjust the top position to leave space for the button */
+    top: 70px;
     right: 0;
     width: 200px;
     height: 100%;
     background-color: #202020;
     padding-top: 20px;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+    text-align: left;
+    
 }
 
 .sidebar-link {
@@ -48,3 +51,9 @@ body {
 .sidebar-toggle:hover {
     background-color: #333333;
 }
+
+.icon {
+    width: 30px; 
+    height: auto;
+    margin-left: 10px;
+  }

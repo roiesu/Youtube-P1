@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import "./App.css";
@@ -14,22 +18,27 @@ import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(usersList[0]);
   const [videos, setVideos] = useState(videoList);
-  useEffect(() => {
-    console.log("App");
-  }, []);
+  console.log(currentUser)
   return (
     <div className="App">
       <Router>
-        <Bar />
+        <div className="img">
+          <Link to="/">
+            <img src=" ../../../youtube.png" />
+          </Link>
+        </div>
+        <Bar logout={()=>setCurrentUser(null)} loggedIn={currentUser!=null}/>
         <Routes>
           {/* Pages anyone can see */}
           <Route exact path="/" element={<MainPage videos={videos} />} />
           <Route
             exact
             path="/watch/:v?"
-            element={<WatchVideoPage videos={videos} currentUser={currentUser} />}
+            element={
+              <WatchVideoPage videos={videos} currentUser={currentUser} />
+            }
           />
           {currentUser ? (
             // Pages only users can see
@@ -41,13 +50,19 @@ function App() {
               {/* Pages only non users can see */}
               <Route
                 element={
-                  <SignUp users={users} setCurrentUser={setCurrentUser} setUsers={setUsers} />
+                  <SignUp
+                    users={users}
+                    setCurrentUser={setCurrentUser}
+                    setUsers={setUsers}
+                  />
                 }
                 exact
                 path="/sign-up"
               />
               <Route
-                element={<SignIn users={users} setCurrentUser={setCurrentUser} />}
+                element={
+                  <SignIn users={users} setCurrentUser={setCurrentUser} />
+                }
                 exact
                 path="/sign-in"
               />
