@@ -21,7 +21,8 @@ function MainPage({ videos }) {
   return (
     <div>
       <h1>Main Page</h1>
-      <input
+      <input 
+      className="search-input"
         ref={searchInputRef}
         onKeyDown={(e) => {
           callWithEnter(e, search);
