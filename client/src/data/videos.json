@@ -7,12 +7,12 @@
     "likes": ["Nadav"],
     "views": 200,
     "length": 48,
-    "date_time": "2.6.2024, 18:28:25",
+    "date_time": "2024-06-02T15:28:25.000Z",
     "description": "Some guy is ghosted by the metargel in another course",
     "tags": ["eminem"],
     "comments": [
       {
-        "date_time": "5.6.2024, 18:37:59",
+        "date_time": "2024-06-02T18:28:25.000Z",
         "user": "Nadav",
         "text": "Wow i would have killed myself if i were you.\nVery ugly in the face."
       }
@@ -23,10 +23,10 @@
     "name": "Hooop to grow in the hands of the superior",
     "uploader": "admin",
     "src": "../videos/hop.mp4",
-    "likes": ["admin, Nadav"],
+    "likes": ["admin", "Nadav"],
     "views": 1000400,
     "length": 6,
-    "date_time": "2.6.2024, 19:16:00",
+    "date_time": "2024-06-02T19:50:25.000Z",
     "description": "Yes",
     "tags": ["bishbash"],
     "comments": []
@@ -41,7 +41,7 @@
     "length": 82,
     "description": "Yes",
     "tags": ["eminem"],
-    "date_time": "5.6.2024, 18:18:18",
+    "date_time": "2024-06-04T16:30:25.000Z",
     "comments": []
   },
   {
@@ -54,7 +54,7 @@
     "length": 42,
     "description": "Yes",
     "tags": ["eminem"],
-    "date_time": "5.6.2024, 18:18:18",
+    "date_time": "2024-06-04T13:30:25.000Z",
     "comments": []
   },
   {
@@ -67,7 +67,7 @@
     "length": 49,
     "description": "Yes",
     "tags": ["eminem"],
-    "date_time": "5.6.2024, 18:18:18",
+    "date_time": "2024-06-05T12:00:25.000Z",
     "comments": []
   },
   {

@@ -16,7 +16,9 @@ function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
-
+  useEffect(() => {
+    console.log("App");
+  }, []);
   return (
     <div className="App">
       <Router>
