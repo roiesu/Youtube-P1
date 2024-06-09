@@ -5,21 +5,16 @@ import Comments from "./comments/Comments";
 
 function WatchVideoPage({ videos, currentUser }) {
   const [video, setVideo] = useState();
+  const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
   const location = useLocation();
-  useEffect(() => {
-    const query = location.search.match(/v=(.*)/);
-    if (!query) return;
-    const found = videos.find((video) => video.id == query[1]);
-    setVideo(found);
-  }, [, videos]);
 
   function addComment() {
     if (!currentUser || commentInput.current.value == "") return;
     const newComment = {
       user: currentUser.username,
       text: commentInput.current.value,
-      date_time: new Date().toLocaleString(),
+      date_time: new Date(),
     };
     const tempVideo = { ...video };
     tempVideo.comments.push(newComment);
@@ -27,12 +22,46 @@ function WatchVideoPage({ videos, currentUser }) {
     commentInput.current.value = "";
   }
 
+  function like() {
+    let newLikes = [];
+    if (likedVideo) {
+      newLikes = video.likes.filter((user) => user != currentUser.username);
+    } else {
+      newLikes = [...video.likes];
+      newLikes.push(currentUser.username);
+    }
+    setVideo({ ...video, likes: newLikes });
+    setLikedVideo(!likedVideo);
+  }
+
+  useEffect(() => {
+    console.log("WatchVideo");
+    // Finds the video by query params
+    if (video) return;
+    const query = location.search.match(/v=(.*)/);
+    if (!query) return;
+    const found = videos.find((video) => video.id == query[1]);
+    found.views++;
+    setVideo(found);
+    if (!currentUser) return;
+
+    // Set if liked the video
+    const user = found.likes.find((user) => user === currentUser.username);
+    if (user) setLikedVideo(true);
+  }, [video]);
+
   return (
     <div className="video-watching-page page">
       <h1>WatchVideoPage</h1>
       {video ? (
         <div className="video-page-main-component">
-          <VideoBlock {...video} />
+          <VideoBlock
+            {...video}
+            likes={video.likes.length}
+            commentInput={commentInput}
+            like={like}
+            likedVideo={likedVideo}
+          />
           <Comments comments={video.comments} addComment={addComment} commentInput={commentInput} />
         </div>
       ) : (

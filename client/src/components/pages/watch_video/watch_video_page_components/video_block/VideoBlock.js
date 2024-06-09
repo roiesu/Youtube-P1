@@ -1,12 +1,31 @@
-import React, { useEffect, useRef } from "react";
-import VideoActionButton from "../VideoActionButton";
+import React, { useEffect, useRef, useState } from "react";
+import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
-function VideoBlock({ name, uploader, src, description, views, likes, date_time, tags }) {
-  // Auto play
+import { numberFormatter } from "../../../../../utilities";
+function VideoBlock({
+  name,
+  uploader,
+  src,
+  description,
+  views,
+  likes,
+  date_time,
+  tags,
+  commentInput,
+  like,
+  likedVideo,
+}) {
+  function share() {
+    navigator.clipboard.writeText(window.location.href);
+  }
   const videoRef = useRef();
-  useEffect(() => {
-    videoRef.current.play();
-  }, []);
+
+  // Auto play
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     videoRef.current.play();
+  //   }, 1000);
+  // }, []);
 
   return (
     <div className="video-block">
@@ -18,9 +37,15 @@ function VideoBlock({ name, uploader, src, description, views, likes, date_time,
         <div className="second-row row">
           <div className="uploader">Uploaded by {uploader}</div>
           <div className="actions">
-            <VideoActionButton name="Comment" />
-            <VideoActionButton name="Like" />
-            <VideoActionButton name="Share" />
+            <VideoActionButton
+              name="Comment"
+              content=""
+              callback={() => {
+                commentInput.current.focus();
+              }}
+            />
+            <VideoActionButton active={likedVideo} name="Like" content={likes} callback={like} />
+            <VideoActionButton name="Share" content="" callback={share} />
           </div>
         </div>
         <div className="description-div">
@@ -32,11 +57,11 @@ function VideoBlock({ name, uploader, src, description, views, likes, date_time,
               day: "numeric",
             })}
           </div>
-          <div className="views">Views: {views}</div>
+          <div className="views">Views: {numberFormatter.format(views)}</div>
           <div className="description">{description}</div>
           <div className="tags">
-            {tags.map((tag) => (
-              <a href="/" className="tag">
+            {tags.map((tag, index) => (
+              <a key={"tag" + index} href="/" className="tag">
                 #{tag}
               </a>
             ))}
