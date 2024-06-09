@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
-
+import "./WatchVideoPage.css";
 function WatchVideoPage({ videos, currentUser }) {
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
@@ -52,7 +52,6 @@ function WatchVideoPage({ videos, currentUser }) {
 
   return (
     <div className="video-watching-page page">
-      <h1>WatchVideoPage</h1>
       {video ? (
         <div className="video-page-main-component">
           <VideoBlock
