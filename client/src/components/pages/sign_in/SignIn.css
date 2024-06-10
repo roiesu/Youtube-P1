@@ -12,6 +12,9 @@
     transition: background-color 0.3s ease; 
   }
   
+  .submit:hover {
+    background-color: #f44336;
+  }
   .sign-in:hover {
     background-color: #f44336;
   }
