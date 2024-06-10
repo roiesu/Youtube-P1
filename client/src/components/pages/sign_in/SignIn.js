@@ -45,7 +45,7 @@ function SignIn(props) {
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
           />
-          <button className="sign-in" onClick={validateSignIn}>Sign In</button>
+          <button className='sign-in' onClick={validateSignIn}>Sign In</button>
         </div>
       </div>
     </div>
