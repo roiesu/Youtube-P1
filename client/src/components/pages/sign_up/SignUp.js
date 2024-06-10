@@ -78,10 +78,17 @@ function SignUp(props) {
     <div className="page signup-page">
       <div className="main-component">
         <div className="header-div">
-          {image ? <img className={"profile-pic"} src={image} /> : "No image uploaded"}
+          {image ? (
+            <img className={"profile-pic"} src={image} />
+          ) : (
+            "No image uploaded"
+          )}
         </div>
         <div className="input-div">
-          <PopUpMessage message={generalError} isActive={generalError != null} />
+          <PopUpMessage
+            message={generalError}
+            isActive={generalError != null}
+          />
 
           <ValidationInput
             name={inputs.username.name}
@@ -115,12 +122,17 @@ function SignUp(props) {
             value={nameInput}
             setValue={setNameInput}
           />
-          <input
-            type="file"
-            onChange={(e) => setImageInput(e.target.files[0])}
-            accept=".jpg,.png,.jpeg"
-          />
-          <button onClick={submit}>submit</button>
+          <label className="choose-file">
+            Choose File
+            <input
+              type="file"
+              onChange={(e) => setImageInput(e.target.files[0])}
+              accept=".jpg,.png,.jpeg"
+            />
+          </label>
+          <button className="submit" onClick={submit}>
+            submit
+          </button>
         </div>
       </div>
     </div>
