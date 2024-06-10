@@ -41,7 +41,13 @@
   font-weight: 600;
 }
 .comment-content {
-  height: 30px;
-  font-size: 14px;
-  overflow: auto;
+  font-size: 17px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+.comment-content.closed {
+  height: 42px;
+}
+.comment-content.open {
+  height: fit-content;
 }
