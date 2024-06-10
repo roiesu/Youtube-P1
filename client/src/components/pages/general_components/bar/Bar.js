@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import "../bar.css";
+import "./Bar.css";
 import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
 import IconVideoCamera from "../../../icons/IconVideoCamera";
 import IconLogout from "../../../icons/IconLogout";
