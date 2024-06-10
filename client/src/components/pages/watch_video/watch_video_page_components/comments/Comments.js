@@ -1,8 +1,9 @@
-import React from "react";
-import { callWithEnter, dateDifference } from "../../../../../utilities";
+import React, { useState } from "react";
+import { callWithEnter } from "../../../../../utilities";
 import "./Comments.css";
+import Comment from "./Comment";
 
-function Comments({ comments, addComment, commentInput }) {
+function Comments({ comments, addComment, deleteComment, editComment, commentInput, currentUser }) {
   return (
     <div className="comments">
       <div className="comments-title">
@@ -20,13 +21,13 @@ function Comments({ comments, addComment, commentInput }) {
       </button>
       <div className="comments-list">
         {comments.map((comment, index) => (
-          <div key={"c" + index} className="comment">
-            <div className="comment-header">
-              <span className="user">{comment.user}</span>
-              <span className="date">{dateDifference(comment.date_time)}</span>
-            </div>
-            <div className="comment-content">{comment.text}</div>
-          </div>
+          <Comment
+            {...comment}
+            key={"c" + index}
+            currentUser={currentUser}
+            deleteComment={deleteComment}
+            editComment={editComment}
+          />
         ))}
       </div>
     </div>
