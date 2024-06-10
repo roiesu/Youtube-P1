@@ -1,5 +1,5 @@
 .comments {
-  height: 400px;
+  min-height: 400px;
   width: 80%;
   margin: auto;
   margin-top: 20px;
@@ -7,15 +7,17 @@
 .comment {
   width: 100%;
   text-align: left;
+  margin: 10px 0;
 }
 .comments-list {
   display: flex;
   flex-direction: column-reverse;
   flex-wrap: nowrap;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 
-.comment-input {
+.comment-input,
+.edit-comment-input {
   width: 70%;
   font-size: 1.2rem;
   outline: none;
@@ -44,10 +46,29 @@
   font-size: 17px;
   overflow: hidden;
   word-wrap: break-word;
+  min-height: 42px;
 }
 .comment-content.closed {
   height: 42px;
 }
 .comment-content.open {
   height: fit-content;
+}
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.comment-actions > *:hover {
+  cursor: pointer;
+}
+.comment-expand {
+  font-size: 14px;
+  font-weight: bolder;
+  color: #333333;
+}
+.comment-expand:hover {
+  cursor: pointer;
 }

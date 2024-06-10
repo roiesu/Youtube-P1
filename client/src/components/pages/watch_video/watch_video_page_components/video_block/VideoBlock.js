@@ -57,7 +57,7 @@ function VideoBlock({
           <div className="description">{description}</div>
           <div className="tags">
             {tags.map((tag, index) => (
-              <a key={"tag" + index} href="/" className="tag">
+              <a key={"tag" + index} href="#" className="tag">
                 #{tag}
               </a>
             ))}

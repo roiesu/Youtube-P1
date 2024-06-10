@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { callWithEnter, dateDifference } from "../../../../../utilities";
+import IconSave from "../../../../icons/IconSave";
+import IconEdit from "../../../../icons/IconEdit";
+import IconTrash from "../../../../icons/IconTrash";
 
 function Comment({ user, text, date_time, edited, deleteComment, editComment, currentUser }) {
   const [editing, setEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(text);
   const [expanded, setExpanded] = useState(false);
+  function edit() {
+    if (editing) {
+      editComment(date_time, commentContent);
+      setEditing(false);
+    } else setEditing(true);
+  }
   return (
     <div className="comment">
       <div className="comment-header">
@@ -18,18 +27,10 @@ function Comment({ user, text, date_time, edited, deleteComment, editComment, cu
           {user == currentUser ? (
             <>
               <span className="delete-comment-button" onClick={() => deleteComment(date_time)}>
-                delete
+                <IconTrash />
               </span>{" "}
-              <span
-                className="edit-comment-button"
-                onClick={() => {
-                  if (editing) {
-                    editComment(date_time, commentContent);
-                    setEditing(false);
-                  } else setEditing(true);
-                }}
-              >
-                {editing ? "save" : "edit"}
+              <span className="edit-comment-button" onClick={edit}>
+                {editing ? <IconSave /> : <IconEdit />}
               </span>
             </>
           ) : (
@@ -39,12 +40,19 @@ function Comment({ user, text, date_time, edited, deleteComment, editComment, cu
       </div>
       <div className={expanded ? "comment-content open" : "comment-content closed"}>
         {editing ? (
-          <input onChange={(e) => setCommentContent(e.target.value)} value={commentContent} />
+          <input
+            onKeyDown={(e) => callWithEnter(e, edit)}
+            className="edit-comment-input"
+            onChange={(e) => setCommentContent(e.target.value)}
+            value={commentContent}
+          />
         ) : (
           text
         )}
       </div>
-      <span onClick={() => setExpanded(!expanded)}>{expanded ? "close" : "expand"}</span>
+      <span className="comment-expand" onClick={() => setExpanded(!expanded)}>
+        {expanded ? "close" : "expand"}
+      </span>
     </div>
   );
 }
