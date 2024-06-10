@@ -8,7 +8,7 @@
     "views": 200,
     "date_time": "2024-06-02T15:28:25.000Z",
     "description": "Some guy is ghosted by the metargel in another course",
-    "tags": ["eminem"],
+    "tags": ["eminem", "sad"],
     "comments": [
       {
         "date_time": "2024-06-02T18:28:25.000Z",
@@ -26,7 +26,7 @@
     "likes": ["admin", "Nadav"],
     "views": 1000400,
     "date_time": "2024-06-02T19:50:25.000Z",
-    "description": "Yes",
+    "description": "Of the superior",
     "tags": ["bishbash"],
     "comments": []
   },
@@ -37,8 +37,8 @@
     "src": "../videos/shlomi.mp4",
     "likes": [],
     "views": 190002,
-    "description": "Yes",
-    "tags": ["eminem"],
+    "description": "Its a pass its a goal",
+    "tags": ["shlomi", "sport"],
     "date_time": "2024-06-04T16:30:25.000Z",
     "comments": []
   },
@@ -47,10 +47,10 @@
     "name": "snake me snake",
     "uploader": "admin",
     "src": "../videos/eyal.mp4",
-    "likes": [],
+    "likes": ["admin"],
     "views": 1000400,
-    "description": "Yes",
-    "tags": ["eminem"],
+    "description": "Maybe snake me snake maybe tick me tick\nCover by the one and only Eyal Golan",
+    "tags": ["eyal golan", "nature", "animals"],
     "date_time": "2024-06-04T13:30:25.000Z",
     "comments": []
   },
@@ -61,22 +61,29 @@
     "src": "../videos/reuven.mp4",
     "likes": [],
     "views": 1000400,
-    "description": "Yes",
-    "tags": ["sport"],
+    "description": "Interview",
+    "tags": ["sport", "ilana dayan"],
     "date_time": "2024-06-05T12:00:25.000Z",
     "comments": []
   },
   {
     "id": 6,
     "name": "democratia",
-    "uploader": "admin",
+    "uploader": "Nadav",
     "src": "../videos/democratia.mp4",
     "likes": [],
     "views": 0,
     "description": "Yes",
-    "tags": ["small"],
+    "tags": ["small", "halash", "RakBibi"],
     "date_time": "2024-06-08T12:00:25.000Z",
-    "comments": []
+    "comments": [
+      {
+        "date_time": "2024-06-02T18:28:25.000Z",
+        "user": "admin",
+        "displayName": "Bish Bash",
+        "text": "Wadiya is a democracy"
+      }
+    ]
   },
   {
     "id": 7,
@@ -85,8 +92,8 @@
     "src": "../videos/eyalTheKing.mp4",
     "likes": [],
     "views": 1000400000000,
-    "description": "Yes",
-    "tags": ["king"],
+    "description": "Even more Eyal golan for Yuval",
+    "tags": ["king", "eyal golan"],
     "date_time": "2024-06-09T09:00:25.000Z",
     "comments": []
   },
@@ -96,9 +103,9 @@
     "uploader": "admin",
     "src": "../videos/lukaku.mp4",
     "likes": [],
-    "views": 13,
-    "description": "Yes",
-    "tags": ["fifa"],
+    "views": 18,
+    "description": "Ytgadal",
+    "tags": ["fifa", "sport", "judaism"],
     "date_time": "2024-06-07T13:40:00.000Z",
     "comments": []
   },
@@ -110,7 +117,7 @@
     "likes": [],
     "views": 10004005,
     "description": "Yes",
-    "tags": ["the_pigamas"],
+    "tags": ["the_pigamas", "vevo"],
     "date_time": "2024-06-07T17:00:30.000Z",
     "comments": []
   },
@@ -121,8 +128,8 @@
     "src": "../videos/TheSnail.mp4",
     "likes": [],
     "views": 100,
-    "description": "Yes",
-    "tags": ["snails"],
+    "description": "A nature documentary",
+    "tags": ["snails", "animals"],
     "date_time": "2024-06-07T12:30:25.000Z",
     "comments": []
   }
