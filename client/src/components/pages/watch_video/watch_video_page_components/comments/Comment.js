@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { callWithEnter, dateDifference } from "../../../../../utilities";
 
 function Comment({ user, text, date_time, edited, deleteComment, editComment, currentUser }) {
-  console.log(user, text);
   const [editing, setEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(text);
+  const [expanded, setExpanded] = useState(false);
   return (
     <div className="comment">
       <div className="comment-header">
@@ -37,13 +37,14 @@ function Comment({ user, text, date_time, edited, deleteComment, editComment, cu
           )}
         </div>
       </div>
-      <div className="comment-content">
+      <div className={expanded ? "comment-content open" : "comment-content closed"}>
         {editing ? (
           <input onChange={(e) => setCommentContent(e.target.value)} value={commentContent} />
         ) : (
           text
         )}
       </div>
+      <span onClick={() => setExpanded(!expanded)}>{expanded ? "close" : "expand"}</span>
     </div>
   );
 }
