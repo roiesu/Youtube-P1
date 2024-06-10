@@ -66,7 +66,6 @@
     "views": 1000400,
     "length": 49,
     "description": "Yes",
-    "tags": ["eminem"],
     "tags": ["sport"],
     "date_time": "2024-06-05T12:00:25.000Z",
     "comments": []
@@ -94,7 +93,6 @@
     "length": 31,
     "description": "Yes",
     "tags": ["king"],
-    "date_time": "7.6.2024, 17:30:00",
     "date_time": "2024-06-09T09:00:25.000Z",
     "comments": []
   },
@@ -108,7 +106,6 @@
     "length": 51,
     "description": "Yes",
     "tags": ["fifa"],
-    "date_time": "7.6.2024, 17:30:00",
     "date_time": "2024-06-07T13:40:00.000Z",
     "comments": []
   },
@@ -122,7 +119,6 @@
     "length": 12,
     "description": "Yes",
     "tags": ["the_pigamas"],
-    "date_time": "7.6.2024, 17:30:00",
     "date_time": "2024-06-07T17:00:30.000Z",
     "comments": []
   },
@@ -136,7 +132,6 @@
     "length": 111,
     "description": "Yes",
     "tags": ["snails"],
-    "date_time": "7.6.2024, 17:30:00",
     "date_time": "2024-06-07T12:30:25.000Z",
     "comments": []
   }
