@@ -6,7 +6,7 @@ body {
 .sidebar {
     position: fixed;
     top: 70px;
-    left: 10px;
+    left: 0;
     width: 200px;
     height: 100%;
     background-color: #202020;
