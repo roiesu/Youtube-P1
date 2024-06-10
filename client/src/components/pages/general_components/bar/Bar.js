@@ -4,61 +4,68 @@ import "./Bar.css";
 import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
 import IconVideoCamera from "../../../icons/IconVideoCamera";
 import IconLogout from "../../../icons/IconLogout";
-import IconLogin from "../../../icons/Iconlogin";
+import IconLogin from "../../../icons/IconLogin";
 
 function Bar({ logout, loggedIn }) {
   const location = useLocation();
   const [visible, setVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (!location.pathname.match("sign")) {
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
+    setVisible(!location.pathname.includes("sign"));
   }, [location]);
 
   const toggleSidebar = () => {
-    setVisible(!visible);
+    setIsOpen(!isOpen);
   };
 
   return (
-    <div className="sidebar-container">
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
-        {visible ? "Close" : "Open"}
-      </button>
-      {visible && (
-        <div className="sidebar">
-          <Link to="/">
-            <div className="sidebar-link">
-              <IconHouseDoorFill /> Home
-            </div>
-          </Link>
-          <Link to="/upload">
-            <div className="sidebar-link">
-              <IconVideoCamera /> MyVideos
-            </div>
-          </Link>
-          {loggedIn ? (
-            <div
-              className="sidebar-link"
-              onClick={() => {
-                logout();
-                navigate("/sign-in");
-              }}
-            >
-              <IconLogout /> Sign out
-            </div>
-          ) : (
-            <div className="sidebar-link">
-              <Link to="/sign-up">
-                <IconLogin /> Sign Up
-              </Link>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    visible && (
+      <div className="sidebar-container">
+        <button className="sidebar-toggle" onClick={toggleSidebar}>
+          {isOpen ? "Close" : "Open"}
+        </button>
+        {isOpen && (
+          <div className="sidebar">
+            <Link to="/">
+              <div className="sidebar-link">
+                <IconHouseDoorFill /> Home
+              </div>
+            </Link>
+            <Link to="/upload">
+              <div className="sidebar-link">
+                <IconVideoCamera /> My Videos
+              </div>
+            </Link>
+            {loggedIn ? (
+              <div
+                className="sidebar-link"
+                onClick={() => {
+                  logout();
+                  navigate("/sign-in");
+                }}
+              >
+                <IconLogout /> Sign out
+              </div>
+            ) : (
+              <>
+                <Link to="/sign-up">
+                  <div className="sidebar-link">
+                    <IconLogin /> Sign Up
+                  </div>
+                </Link>
+                <Link to="/sign-in">
+                  <div className="sidebar-link">
+                    <IconLogin /> Sign In
+                  </div>
+                </Link>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    )
   );
 }
 

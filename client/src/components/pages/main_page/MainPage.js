@@ -20,7 +20,7 @@ function MainPage({ videos }) {
 
   return (
     <div>
-      <h1>Main Page</h1>
+      <h1></h1>
       <input 
       className="search-input"
         ref={searchInputRef}
@@ -29,7 +29,7 @@ function MainPage({ videos }) {
         }}
         placeholder="Search Videos"
       />
-      <button onClick={search}>search</button>
+      <button className="search-button" onClick={search}>search</button>
       <div className="video-list">
         {filteredVideos.map((video) => (
           <VideoLink key={video.id} {...video} />
