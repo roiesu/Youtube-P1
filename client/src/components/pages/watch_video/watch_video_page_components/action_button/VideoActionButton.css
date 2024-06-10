@@ -5,6 +5,7 @@
   border-radius: 50px;
   border: #3150b8 solid 2px;
   transition: 0.3s;
+  margin: 0 10px;
 }
 .video-block .video-action-button:hover {
   cursor: pointer;

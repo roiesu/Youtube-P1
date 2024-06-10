@@ -41,7 +41,10 @@ function VideoBlock({
               name="Comment"
               content=""
               callback={() => {
-                commentInput.current.focus();
+                commentInput.current.scrollIntoView({ behavior: "smooth" });
+                setTimeout(() => {
+                  commentInput.current.focus();
+                }, [200]);
               }}
             />
             <VideoActionButton active={likedVideo} name="Like" content={likes} callback={like} />
