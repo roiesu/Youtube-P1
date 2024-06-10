@@ -14,12 +14,33 @@ function WatchVideoPage({ videos, currentUser }) {
     const newComment = {
       user: currentUser.username,
       text: commentInput.current.value,
-      date_time: new Date(),
+      date_time: new Date().toISOString(),
+      edited: false,
     };
     const tempVideo = { ...video };
     tempVideo.comments.push(newComment);
     setVideo(tempVideo);
     commentInput.current.value = "";
+  }
+
+  function deleteComment(commentDate) {
+    const tempVideo = { ...video };
+    tempVideo.comments = video.comments.filter(
+      (comment) => comment.date_time != commentDate || comment.user != currentUser.username
+    );
+    setVideo(tempVideo);
+    const found = videos.find((item) => item.id == video.id);
+    found.comments = tempVideo.comments;
+  }
+
+  function editComment(commentDate, newContent) {
+    const tempVideo = { ...video };
+    const found = tempVideo.comments.find(
+      (comment) => comment.user == currentUser.username && comment.date_time == commentDate
+    );
+    found.text = newContent;
+    found.edited = true;
+    setVideo(tempVideo);
   }
 
   function like() {
@@ -61,7 +82,14 @@ function WatchVideoPage({ videos, currentUser }) {
             like={like}
             likedVideo={likedVideo}
           />
-          <Comments comments={video.comments} addComment={addComment} commentInput={commentInput} />
+          <Comments
+            currentUser={currentUser.username}
+            comments={video.comments}
+            addComment={addComment}
+            deleteComment={deleteComment}
+            commentInput={commentInput}
+            editComment={editComment}
+          />
         </div>
       ) : (
         "Video not found"
