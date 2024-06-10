@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import VideoLink from "./main_page_components/VideoLink";
 import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
