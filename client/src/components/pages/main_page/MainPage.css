@@ -1,4 +1,3 @@
-
 .video-list {
   display: flex;
   flex-wrap: wrap;
@@ -40,7 +39,7 @@ a.video-link {
 .video-details {
   width: 100%;
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .video-details h1 {
@@ -57,7 +56,6 @@ a.video-link {
   padding: 1.5px;
   border-radius: 5px;
   letter-spacing: 0.8px;
-  
 }
 
 .video-card .video-name {
@@ -65,7 +63,6 @@ a.video-link {
   font-size: 21px;
   font-weight: 600;
   text-wrap: pretty;
-
 }
 
 .search-container {
@@ -109,4 +106,25 @@ a.video-link {
 .search-button:active {
   background-color: #d32f2f;
   transform: translateY(0);
+}
+
+.main-page-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+  padding: 20px 0px;
+}
+.profile-pic-small {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: solid 2.5px black;
+  margin-right: 10px;
+}
+.user-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

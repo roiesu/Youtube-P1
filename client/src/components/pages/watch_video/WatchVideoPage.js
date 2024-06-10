@@ -13,6 +13,7 @@ function WatchVideoPage({ videos, currentUser }) {
     if (!currentUser || commentInput.current.value == "") return;
     const newComment = {
       user: currentUser.username,
+      displayName: currentUser.name,
       text: commentInput.current.value,
       date_time: new Date().toISOString(),
       edited: false,
