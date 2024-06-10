@@ -83,7 +83,7 @@ function WatchVideoPage({ videos, currentUser }) {
             likedVideo={likedVideo}
           />
           <Comments
-            currentUser={currentUser.username}
+            currentUser={currentUser ? currentUser.username : null}
             comments={video.comments}
             addComment={addComment}
             deleteComment={deleteComment}
