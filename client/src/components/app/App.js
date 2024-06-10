@@ -11,6 +11,7 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
+import Page404 from "../pages/Page404";
 
 function App() {
   const [users, setUsers] = useState(usersList);
@@ -27,7 +28,7 @@ function App() {
         <Bar logout={() => setCurrentUser(null)} loggedIn={currentUser != null} />
         <Routes>
           {/* Pages anyone can see */}
-          <Route exact path="/" element={<MainPage videos={videos} />} />
+          <Route exact path="/" element={<MainPage videos={videos} currentUser={currentUser} />} />
           <Route
             exact
             path="/watch/:v?"
@@ -55,6 +56,7 @@ function App() {
               />
             </>
           )}
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>
     </div>
