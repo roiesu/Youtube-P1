@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import './SignIn.css'
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import "./SignIn.css";
 
 function SignIn(props) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
+  const navigate = useNavigate();
 
   function validateSignIn() {
-    const user = props.users.find(user => user.username === usernameInput);
+    const user = props.users.find((user) => user.username === usernameInput);
     if (user && user.username === usernameInput && user.password === passwordInput) {
       props.setCurrentUser(user);
       console.log("Successfully signed in");
+      navigate("/");
     } else {
-      setErrorMessage(true)
+      setErrorMessage(true);
       console.log("Invalid username or password");
     }
   }
@@ -22,9 +25,12 @@ function SignIn(props) {
       <div className="main-component">
         <div className="header-div">
           <h1>Sign In</h1>
+          <div>
+            First time? sign up <Link to="/sign-up">here!</Link>
+          </div>
         </div>
         <div className="input-div">
-        <label>username</label>
+          <label>username</label>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <input
             type="text"
@@ -46,4 +52,4 @@ function SignIn(props) {
   );
 }
 
-export default SignIn
+export default SignIn;

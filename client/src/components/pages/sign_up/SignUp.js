@@ -4,6 +4,7 @@ import ValidationInput from "./sign_up_components/validation_input/ValidationInp
 import inputs from "../../../data/inputs.json";
 import PopUpMessage from "./sign_up_components/popup_message/PopUpMessage";
 import { readImageIntoState } from "../../../utilities";
+import { useNavigate, Link } from "react-router-dom";
 
 function SignUp(props) {
   const [usernameInput, setUsernameInput] = useState("");
@@ -19,6 +20,8 @@ function SignUp(props) {
   const [usernameError, setUsernameError] = useState(false);
   const [verifyPasswordError, setVerifyPasswordError] = useState(false);
   const [generalError, setGeneralError] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (generalError != null) {
@@ -72,6 +75,7 @@ function SignUp(props) {
     user.image = image;
     addUser(user);
     props.setCurrentUser(user);
+    navigate("/");
   }
 
   return (
@@ -79,10 +83,12 @@ function SignUp(props) {
       <div className="main-component">
         <div className="header-div">
           {image ? <img className={"profile-pic"} src={image} /> : "No image uploaded"}
+          <div>
+            Already have an account? sign in <Link to="/sign-in">here!</Link>
+          </div>
         </div>
         <div className="input-div">
           <PopUpMessage message={generalError} isActive={generalError != null} />
-
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}
