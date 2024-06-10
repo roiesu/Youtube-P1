@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
-import { numberFormatter } from "../../../../../utilities";
+import { numberFormatter, printWithLineBreaks } from "../../../../../utilities";
 function VideoBlock({
   name,
   uploader,
@@ -54,10 +54,10 @@ function VideoBlock({
             })}
           </div>
           <div className="views">Views: {numberFormatter.format(views)}</div>
-          <div className="description">{description}</div>
+          <div className="description">{printWithLineBreaks(description)}</div>
           <div className="tags">
             {tags.map((tag, index) => (
-              <a key={"tag" + index} href="/" className="tag">
+              <a key={"tag" + index} href="#" className="tag">
                 #{tag}
               </a>
             ))}
