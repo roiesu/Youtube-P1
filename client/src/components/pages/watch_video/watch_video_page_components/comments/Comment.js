@@ -4,7 +4,16 @@ import IconSave from "../../../../icons/IconSave";
 import IconEdit from "../../../../icons/IconEdit";
 import IconTrash from "../../../../icons/IconTrash";
 
-function Comment({ user, text, date_time, edited, deleteComment, editComment, currentUser }) {
+function Comment({
+  user,
+  displayName,
+  text,
+  date_time,
+  edited,
+  deleteComment,
+  editComment,
+  currentUser,
+}) {
   const [editing, setEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(text);
   const [expanded, setExpanded] = useState(false);
@@ -18,7 +27,7 @@ function Comment({ user, text, date_time, edited, deleteComment, editComment, cu
     <div className="comment">
       <div className="comment-header">
         <div className="comment-details">
-          <span className="user">{user}</span>
+          <span className="user">{displayName}</span>
           <span className="date">
             {dateDifference(date_time)} {edited && " (edited)"}
           </span>

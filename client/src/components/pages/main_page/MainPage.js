@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import VideoLink from "./main_page_components/VideoLink";
 import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
+import { Link } from "react-router-dom";
 
-function MainPage({ videos }) {
+function MainPage({ videos, currentUser }) {
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState(videos);
 
@@ -19,17 +20,34 @@ function MainPage({ videos }) {
   }
 
   return (
-    <div>
-      <h1></h1>
-      <input 
-      className="search-input"
-        ref={searchInputRef}
-        onKeyDown={(e) => {
-          callWithEnter(e, search);
-        }}
-        placeholder="Search Videos"
-      />
-      <button className="search-button" onClick={search}>search</button>
+    <div className="main-page page">
+      <div className="main-page-header">
+        <div className="user-details">
+          {currentUser ? (
+            <>
+              <img className="profile-pic-small" src={currentUser.image} />
+              <span className="user-name">Welcome back {currentUser.name}</span>
+            </>
+          ) : (
+            <span className="user-name">
+              Welcome Guest. To sign up click <Link to={"/sign-up"}>Here</Link>
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="search-input-div">
+        <input
+          className="search-input"
+          ref={searchInputRef}
+          onKeyDown={(e) => {
+            callWithEnter(e, search);
+          }}
+          placeholder="Search Videos"
+        />
+        <button className="search-button" onClick={search}>
+          search
+        </button>
+      </div>
       <div className="video-list">
         {filteredVideos.map((video) => (
           <VideoLink key={video.id} {...video} />
