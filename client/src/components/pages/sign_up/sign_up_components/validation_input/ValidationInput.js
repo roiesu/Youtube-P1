@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PopUpMessage from "../popup_message/PopUpMessage";
 import "./ValidationInput.css";
+import IconQuestionCircle from "../../../../icons/IconQuestionCircle";
 
 function ValidationInput(props) {
   useEffect(() => {
@@ -20,7 +21,7 @@ function ValidationInput(props) {
             onMouseMove={() => props.showMessage(true)}
             onMouseLeave={() => props.showMessage(false)}
           >
-            ?
+            <IconQuestionCircle />
           </span>
         )}
       </div>
