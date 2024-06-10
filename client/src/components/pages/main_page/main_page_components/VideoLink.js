@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { secondsToTime, dateDifference, numberFormatter } from "../../../../utilities";
 
-function VideoLink({ name, uploader, date_time, length, views, id, src }) {
+function VideoLink({ name, uploader, date_time, views, id, src }) {
   const [playing, setPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
 
   return (
     <Link className="video-link" to={`/watch?v=${id}`}>
@@ -12,6 +13,9 @@ function VideoLink({ name, uploader, date_time, length, views, id, src }) {
           <video
             loop
             muted
+            onDurationChange={(e) => {
+              setDuration(Math.floor(e.target.duration));
+            }}
             onMouseOver={(e) => {
               if (playing) return;
               e.target.play().then(() => setPlaying(true));
@@ -24,7 +28,7 @@ function VideoLink({ name, uploader, date_time, length, views, id, src }) {
           >
             <source src={src} type="video/mp4" />
           </video>
-          <span className="video-length">{secondsToTime(length)}</span>
+          <span className="video-length">{secondsToTime(duration)}</span>
         </div>
         <div className="video-details">
           <div className="video-name">{name}</div>
