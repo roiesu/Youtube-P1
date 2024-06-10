@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { callWithEnter, dateDifference } from "../../../../../utilities";
+import { callWithEnter, dateDifference, printWithLineBreaks } from "../../../../../utilities";
 import IconSave from "../../../../icons/IconSave";
 import IconEdit from "../../../../icons/IconEdit";
 import IconTrash from "../../../../icons/IconTrash";
@@ -56,7 +56,7 @@ function Comment({
             value={commentContent}
           />
         ) : (
-          text
+          printWithLineBreaks(text)
         )}
       </div>
       <span className="comment-expand" onClick={() => setExpanded(!expanded)}>

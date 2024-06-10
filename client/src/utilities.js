@@ -54,4 +54,24 @@ function dateDifference(dateString) {
   diffTime = Math.floor(diffTime / 12);
   return `${diffTime} years ago`;
 }
-export { readImageIntoState, callWithEnter, secondsToTime, dateDifference, numberFormatter };
+
+function printWithLineBreaks(text) {
+  let x = text.split("\n").map(function (item, idx) {
+    return (
+      <span key={idx}>
+        {item}
+        <br />
+      </span>
+    );
+  });
+  console.log(x);
+  return x;
+}
+export {
+  readImageIntoState,
+  callWithEnter,
+  secondsToTime,
+  dateDifference,
+  numberFormatter,
+  printWithLineBreaks,
+};
