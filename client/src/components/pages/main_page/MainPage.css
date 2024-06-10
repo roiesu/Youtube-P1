@@ -1,3 +1,4 @@
+
 .video-list {
   display: flex;
   flex-wrap: wrap;
@@ -16,6 +17,7 @@
   flex-wrap: nowrap;
   align-items: center;
 }
+
 a.video-link {
   text-decoration: initial;
   color: initial;
@@ -28,6 +30,7 @@ a.video-link {
 .video-card .video-container {
   position: relative;
 }
+
 .video-card video {
   width: 340px;
   height: 180px;
@@ -36,6 +39,8 @@ a.video-link {
 
 .video-details {
   width: 100%;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .video-details h1 {
@@ -52,11 +57,56 @@ a.video-link {
   padding: 1.5px;
   border-radius: 5px;
   letter-spacing: 0.8px;
-}
-.video-card .video-name {
-  height: 45px;
-  font-size: 17px;
-  font-weight: 600;
-  text-wrap: pretty;
+  
 }
 
+.video-card .video-name {
+  height: 45px;
+  font-size: 21px;
+  font-weight: 600;
+  text-wrap: pretty;
+
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 300px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 18px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+.search-input:focus {
+  border-color: #f44336;
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+}
+
+.search-button {
+  padding: 15px 30px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f44336;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #e53935;
+  transform: translateY(-2px);
+}
+
+.search-button:active {
+  background-color: #d32f2f;
+  transform: translateY(0);
+}
