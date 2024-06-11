@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../data/inputs.json";
-import PopUpMessage from "./sign_up_components/popup_message/PopUpMessage";
+import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { readImageIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
+import { useTheme } from "../general_components/ThemeContext";
 
 function SignUp(props) {
+  const { theme } = useTheme();
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordValidationInput, setPasswordValidationInput] = useState("");
@@ -79,7 +81,7 @@ function SignUp(props) {
   }
 
   return (
-    <div className="page signup-page">
+    <div className={`page signup-page ${theme}`}>
       <div className="main-component">
         <div className="header-div">
           {image ? <img className={"profile-pic"} src={image} /> : "No image uploaded"}
@@ -88,7 +90,6 @@ function SignUp(props) {
           </div>
         </div>
         <div className="input-div">
-          <PopUpMessage message={generalError} isActive={generalError != null} />
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}
@@ -132,6 +133,7 @@ function SignUp(props) {
           <button className="submit" onClick={submit}>
             submit
           </button>
+          <PopUpMessage message={generalError} isActive={generalError != null} />
         </div>
       </div>
     </div>

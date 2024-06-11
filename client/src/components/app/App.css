@@ -4,20 +4,28 @@
   height: fit-content;
   min-height: 100vh;
 }
-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 
 .img {
-  position: absolute; 
-  top: 10px;      
-  right: 10px;     
-  z-index: 1000;  
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
 }
 
 .img img {
-  width: 100px;  
-  height: auto; 
+  width: 150px;
+  height: auto;
+}
+
+.page {
+  min-height: 100vh;
+  min-width: 100vw;
+  transition: 0.3s;
+  height: fit-content;
+}
+.page.light {
+  background-color: white;
+}
+.page.dark {
+  background-color: #131313;
 }

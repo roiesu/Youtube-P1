@@ -1,4 +1,6 @@
-.signup-page, .signin-page ,.mainpage-page {
+.signup-page,
+.signin-page,
+.mainpage-page {
   min-height: inherit;
   height: inherit;
   width: inherit;
@@ -21,62 +23,53 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
-  background: #ebebeb;
   padding: 15px;
   width: 60%;
   flex-direction: row;
   border-radius: 23px;
+}
+.light .main-component {
+  background: #ebebeb;
   box-shadow: #cdcdcd 1px 1px 5px 0px;
+  color: black;
+}
+.dark .main-component {
+  background: #222222;
+  box-shadow: #000000 1px 1px 5px 0px;
+  color: white;
 }
 .profile-pic {
   width: 100%;
   max-height: 100%;
 }
-
+.choose-file,
 .submit {
-  background-color: #f44336; 
-  border: none; 
-  color: white; 
-  padding: 15px 32px; 
-  text-align: center; 
-  text-decoration: none; 
-  display: inline-block; 
-  font-size: 16px;
-  border-radius: 25px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
-}
-
-.submit:hover {
   background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.choose-file {
-  background-color: #f44336; /* Red background color */
-  color: white; /* White text color */
-  padding: 15px 32px; /* Padding */
-  border: none; /* No border */
-  border-radius: 25px; /* Rounded corners */
-  cursor: pointer; /* Cursor style */
-  font-size: 16px; /* Font size */
-  margin-right: 10px; /* Add margin for spacing */
-  margin-left: 10px;
-  transition: background-color 0.3s ease; /* Smooth transition */
+.choose-file:hover,
+.submit:hover {
+  background-color: #d32f2f;
 }
-
-.choose-file:hover {
-  background-color: #d32f2f; /* Darker red on hover */
-}
-
 
 .choose-file input {
-  /* Hide default file input */
   position: absolute;
   top: 0;
   right: 0;
   margin: 0;
   padding: 0;
-  font-size: 20px; /* Larger font size */
+  font-size: 20px;
   cursor: pointer;
   opacity: 0;
 }

@@ -8,13 +8,20 @@
   display: flex;
   width: 320px;
   margin: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
+}
+.light .video-card {
+  border-color: #ddd;
+}
+.dark .video-card {
+  border-color: #050505;
+  color: white;
 }
 
 a.video-link {
@@ -59,13 +66,13 @@ a.video-link {
 }
 
 .video-card .video-name {
-  height: 45px;
+  height: 50px;
   font-size: 21px;
   font-weight: 600;
   text-wrap: pretty;
 }
 
-.search-container {
+.search-input-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,11 +82,21 @@ a.video-link {
 .search-input {
   width: 300px;
   padding: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 25px;
   font-size: 18px;
   outline: none;
   transition: all 0.3s ease-in-out;
+  background: none;
+}
+.light .search-input {
+  color: black;
+  border-color: #ccc;
+}
+
+.dark .search-input {
+  color: white;
+  border-color: #ccc;
 }
 .search-input:focus {
   border-color: #f44336;
@@ -130,19 +147,41 @@ a.video-link {
 }
 
 .user-name {
-  font-family: 'Arial', sans-serif; 
-  font-size: 24px; 
-  font-weight: bold; 
+  font-size: 24px;
+  font-weight: bold;
   color: #dddddd;
-  margin: 20px 0; 
-  padding: 10px 20px; 
-  background-color: #d32f2f;      
-  border: 1px solid #dddddd;      
-  border-radius: 8px;          
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  display: inline-block;         
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.change-theme-button {
+  display: flex;
+  font-size: 24px;
+  padding: 8px 9px;
+  width: fit-content;
+  transition: 0.2s;
+  border: 2px solid;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 24px;
+  transition: 0.2s;
+}
 
-
+.light .change-theme-button {
+  color: black;
+}
+.dark .change-theme-button {
+  color: white;
+}
+.change-theme-button:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}

@@ -1,5 +1,9 @@
 const reader = new FileReader();
-const numberFormatter = new Intl.NumberFormat({ maximumSignificantDiginits: 3 });
+const shortFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "short",
+});
+const longFormatter = new Intl.NumberFormat("en-US", { maximumSignificantDiginits: 3 });
 
 function readImageIntoState(imageFile, setState) {
   reader.onload = () => {
@@ -72,6 +76,7 @@ export {
   callWithEnter,
   secondsToTime,
   dateDifference,
-  numberFormatter,
+  shortFormatter,
+  longFormatter,
   printWithLineBreaks,
 };

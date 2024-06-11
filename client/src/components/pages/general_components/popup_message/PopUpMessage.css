@@ -1,0 +1,34 @@
+.popup-message {
+  width: 200px;
+  position: absolute;
+  z-index: 5;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 0px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  transition: 100ms;
+  padding: 5px;
+}
+.light .popup-message {
+  color: black;
+  background: wheat;
+  box-shadow: 1px 1px 3px 0px black;
+}
+.dark .popup-message {
+  color: white;
+  background: #131313;
+  box-shadow: 1px 1px 1px 0px gray;
+}
+.popup-message.hidden {
+  opacity: 0%;
+}
+.popup-message.visible {
+  opacity: 100%;
+}
+.message-anchor {
+  position: relative;
+}
+.video-block .video-action-button .popup-message {
+  bottom: 20px;
+  left: -90px;
+}
