@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Stan",
-    "uploader": "admin",
+    "uploader": "admin1",
     "src": "../videos/stan.mp4",
     "likes": ["Nadav"],
     "views": 200,

@@ -12,6 +12,7 @@ import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 import Page404 from "../pages/Page404";
+import MyViedo from "../pages/MyVideos/MyVideos.js";
 
 function App() {
   const [users, setUsers] = useState(usersList);
@@ -37,7 +38,8 @@ function App() {
           {currentUser ? (
             // Pages only users can see
             <>
-              <Route path="/upload" element={<UploadVideoPage />} />
+              <Route path="/MyVideos" element={<MyViedo currentUser={currentUser} videos={videos}/>} />
+              <Route path="/UploadVideosPage" element={<UploadVideoPage/>} />
             </>
           ) : (
             <>
@@ -60,6 +62,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+  
   );
 }
 
