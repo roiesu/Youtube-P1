@@ -11,13 +11,19 @@ body {
 }
 
 .img {
-  position: absolute; 
-  top: -25px;  
-  right: 10px;     
-  z-index: 1000;  
+  position: absolute;
+  top: -25px;
+  right: 10px;
+  z-index: 1000;
 }
 
 .img img {
   width: 150px;
   height: auto;
+}
+.page.light {
+  background-color: white;
+}
+.page.dark {
+  background-color: #131313;
 }
