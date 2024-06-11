@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
 import { longFormatter, printWithLineBreaks } from "../../../../../utilities";
+import ShareMenu from "../share_menu/ShareMenu";
+
 function VideoBlock({
   name,
   uploader,
@@ -17,6 +19,9 @@ function VideoBlock({
   likedVideo,
   loggedIn,
 }) {
+  const [shareMenuVisible, setShareMenuVisible] = useState(false);
+  const videoRef = useRef();
+
   function share() {
     navigator.clipboard.writeText(window.location.href);
   }
@@ -27,7 +32,7 @@ function VideoBlock({
       commentInput.current.focus();
     }, [200]);
   }
-
+  
   return (
     <div className="video-block">
       <video controls className="video">
@@ -60,11 +65,26 @@ function VideoBlock({
               canActivate={true}
               okMessage={"Video link copied to clipboard"}
             />
+            <VideoActionButton
+              active={likedVideo}
+              name="Like"
+              content={likes}
+              callback={like}
+            />
+            <VideoActionButton
+              name="Share"
+              content=""
+              callback={() => {
+                setShareMenuVisible(true);
+                navigator.clipboard.writeText(window.location.href);
+              }}
+            />
+
           </div>
         </div>
         <div className="description-div">
           <div className="date">
-            uploaded in{" "}
+            uploaded on{" "}
             {new Date(date_time).toLocaleDateString("en", {
               year: "numeric",
               month: "short",
@@ -82,6 +102,10 @@ function VideoBlock({
           </div>
         </div>
       </div>
+      <ShareMenu
+        visible={shareMenuVisible}
+        onClose={() => setShareMenuVisible(false)}
+      />
     </div>
   );
 }
