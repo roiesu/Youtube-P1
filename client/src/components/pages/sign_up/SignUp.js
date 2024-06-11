@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../data/inputs.json";
-import PopUpMessage from "./sign_up_components/popup_message/PopUpMessage";
+import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { readImageIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 
