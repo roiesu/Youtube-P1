@@ -23,12 +23,20 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
-  background: #ebebeb;
   padding: 15px;
   width: 60%;
   flex-direction: row;
   border-radius: 23px;
+}
+.light .main-component {
+  background: #ebebeb;
   box-shadow: #cdcdcd 1px 1px 5px 0px;
+  color: black;
+}
+.dark .main-component {
+  background: #222222;
+  box-shadow: #000000 1px 1px 5px 0px;
+  color: white;
 }
 .profile-pic {
   width: 100%;

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./SignIn.css";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
+import { useTheme } from "../general_components/ThemeContext";
 
 function SignIn(props) {
+  const { theme } = useTheme();
+
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
@@ -27,7 +30,7 @@ function SignIn(props) {
   }
 
   return (
-    <div className="page signin-page">
+    <div className={`page signin-page ${theme}`}>
       <div className="main-component">
         <div className="header-div">
           <h1>Sign In</h1>
