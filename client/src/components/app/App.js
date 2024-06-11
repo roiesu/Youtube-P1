@@ -11,7 +11,7 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
-import Page404 from "../pages/Page404";
+import Page404 from "../pages/page_404/Page404";
 
 function App() {
   const [users, setUsers] = useState(usersList);
