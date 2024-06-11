@@ -72,3 +72,9 @@
 .comment-expand:hover {
   cursor: pointer;
 }
+.comment-input-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+}

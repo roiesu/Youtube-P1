@@ -4,22 +4,22 @@
   align-items: flex-start;
   margin: 3px 0px;
 }
-label {
+.validation-input-div label {
   text-transform: capitalize;
   font-size: 1.25rem;
 }
-input.text-input {
+.validation-input-div input.text-input {
   border: none;
   background: none;
   border-bottom: 0.5px solid black;
   font-size: 1.1rem;
 }
 
-input.text-input:focus {
+.validation-input-div input.text-input:focus {
   outline: none;
 }
 
-.input-div-content {
+.validation-input-div .input-div-content {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -27,8 +27,20 @@ input.text-input:focus {
   justify-content: flex-start;
 }
 
-.input-div-header {
+.validation-input-div .input-div-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+.validation-input-div .reqs {
+  font-size: large;
+  transition: 0.3s;
+}
+.validation-input-div .reqs:hover {
+  cursor: pointer;
+  color: #4e4e4e;
+}
+.validation-input-div .popup-message {
+  left: -5px;
+  bottom: 20px;
 }
