@@ -16,6 +16,10 @@ function ShareMenu({ visible, onClose }) {
           <IconTwitter className="icon" />
           <IconFacebook className="icon" />
         </div>
+        <div className="input-div">
+          <input value={window.location.href} readOnly />
+          <button onClick={() => navigator.clipboard.writeText(window.location.href)}>copy</button>
+        </div>
       </div>
     </div>
   );
