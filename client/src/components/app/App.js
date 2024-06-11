@@ -13,11 +13,13 @@ import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 import Page404 from "../pages/Page404";
 import MyViedo from "../pages/MyVideos/MyVideos.js";
+import Page404 from "../pages/page_404/Page404";
 
 function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState(usersList[0]);
   const [videos, setVideos] = useState(videoList);
+
   return (
     <div className="App">
       <Router>
