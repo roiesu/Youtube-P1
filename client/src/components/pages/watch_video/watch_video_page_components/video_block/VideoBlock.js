@@ -32,7 +32,7 @@ function VideoBlock({
       commentInput.current.focus();
     }, [200]);
   }
-  
+
   return (
     <div className="video-block">
       <video controls className="video">
@@ -58,19 +58,13 @@ function VideoBlock({
               canActivate={loggedIn}
               badMessage={"You can't like a video if not signed in"}
             />
-            <VideoActionButton
+            {/* <VideoActionButton
               name="Share"
               content=""
               callback={share}
               canActivate={true}
               okMessage={"Video link copied to clipboard"}
-            />
-            <VideoActionButton
-              active={likedVideo}
-              name="Like"
-              content={likes}
-              callback={like}
-            />
+            /> */}
             <VideoActionButton
               name="Share"
               content=""
@@ -79,7 +73,6 @@ function VideoBlock({
                 navigator.clipboard.writeText(window.location.href);
               }}
             />
-
           </div>
         </div>
         <div className="description-div">
@@ -102,10 +95,7 @@ function VideoBlock({
           </div>
         </div>
       </div>
-      <ShareMenu
-        visible={shareMenuVisible}
-        onClose={() => setShareMenuVisible(false)}
-      />
+      <ShareMenu visible={shareMenuVisible} onClose={() => setShareMenuVisible(false)} />
     </div>
   );
 }
