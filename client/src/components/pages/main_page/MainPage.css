@@ -73,7 +73,7 @@ a.video-link {
   text-wrap: pretty;
 }
 
-.search-container {
+.search-input-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,16 +88,15 @@ a.video-link {
   font-size: 18px;
   outline: none;
   transition: all 0.3s ease-in-out;
+  background: none;
 }
 .light .search-input {
-  background-color: white;
   color: black;
   border-color: #ccc;
 }
 
 .dark .search-input {
   color: white;
-  background-color: #131313;
   border-color: #ccc;
 }
 .search-input:focus {
@@ -165,4 +164,30 @@ a.video-link {
 .user-name:hover {
   background-color: #e0e0e0;
   color: #000000;
+}
+
+.change-theme-button {
+  display: flex;
+  font-size: 24px;
+  padding: 8px 9px;
+  width: fit-content;
+  transition: 0.2s;
+  border: 2px solid;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 24px;
+  transition: 0.2s;
+}
+
+.light .change-theme-button {
+  color: black;
+}
+.dark .change-theme-button {
+  color: white;
+}
+.change-theme-button:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
 }

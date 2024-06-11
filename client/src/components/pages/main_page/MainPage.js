@@ -4,6 +4,8 @@ import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
+import IconSun from "../../icons/IconSun";
+import IconMoon from "../../icons/IconMoon";
 
 function MainPage({ videos, currentUser }) {
   const { theme, changeTheme } = useTheme();
@@ -39,7 +41,9 @@ function MainPage({ videos, currentUser }) {
         </div>
       </div>
       <div className="search-input-div">
-        <button onClick={changeTheme}>change theme</button>
+        <span className="change-theme-button" onClick={changeTheme}>
+          {theme == "light" ? <IconSun /> : <IconMoon />}
+        </span>
         <input
           className="search-input"
           ref={searchInputRef}
