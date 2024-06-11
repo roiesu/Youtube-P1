@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
 import { longFormatter, printWithLineBreaks } from "../../../../../utilities";
@@ -20,11 +20,6 @@ function VideoBlock({
   loggedIn,
 }) {
   const [shareMenuVisible, setShareMenuVisible] = useState(false);
-  const videoRef = useRef();
-
-  function share() {
-    navigator.clipboard.writeText(window.location.href);
-  }
 
   function scrollToComment() {
     commentInput.current.scrollIntoView({ behavior: "smooth" });
@@ -68,6 +63,7 @@ function VideoBlock({
             <VideoActionButton
               name="Share"
               content=""
+              canActivate={true}
               callback={() => {
                 setShareMenuVisible(true);
                 navigator.clipboard.writeText(window.location.href);
