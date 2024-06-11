@@ -8,13 +8,20 @@
   display: flex;
   width: 320px;
   margin: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
+}
+.light .video-card {
+  border-color: #ddd;
+}
+.dark .video-card {
+  border-color: #050505;
+  color: white;
 }
 
 a.video-link {
@@ -39,7 +46,8 @@ a.video-link {
 .video-details {
   width: 100%;
   text-align: center;
-  font-family: "Times New Roman", Times, serif;
+  font-family: math;
+  padding: 3px;
 }
 
 .video-details h1 {
@@ -59,7 +67,7 @@ a.video-link {
 }
 
 .video-card .video-name {
-  height: 45px;
+  height: 50px;
   font-size: 21px;
   font-weight: 600;
   text-wrap: pretty;
@@ -75,11 +83,22 @@ a.video-link {
 .search-input {
   width: 300px;
   padding: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 25px;
   font-size: 18px;
   outline: none;
   transition: all 0.3s ease-in-out;
+}
+.light .search-input {
+  background-color: white;
+  color: black;
+  border-color: #ccc;
+}
+
+.dark .search-input {
+  color: white;
+  background-color: #131313;
+  border-color: #ccc;
 }
 .search-input:focus {
   border-color: #f44336;
@@ -130,23 +149,20 @@ a.video-link {
 }
 
 .user-name {
-  font-family: 'Arial', sans-serif; 
-  font-size: 24px; 
-  font-weight: bold; 
+  font-size: 24px;
+  font-weight: bold;
   color: #dddddd;
-  margin: 20px 0; 
-  padding: 10px 20px; 
-  background-color: #d32f2f;      
-  border: 1px solid #dddddd;      
-  border-radius: 8px;          
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  display: inline-block;         
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .user-name:hover {
-  background-color: #e0e0e0;        
-  color: #000000;                
+  background-color: #e0e0e0;
+  color: #000000;
 }
-
-
