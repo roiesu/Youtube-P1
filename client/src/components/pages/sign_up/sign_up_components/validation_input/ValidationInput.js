@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PopUpMessage from "../popup_message/PopUpMessage";
+import PopUpMessage from "../../../general_components/popup_message/PopUpMessage";
 import "./ValidationInput.css";
 import IconQuestionCircle from "../../../../icons/IconQuestionCircle";
 
