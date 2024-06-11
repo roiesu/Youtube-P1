@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
-import { numberFormatter, printWithLineBreaks } from "../../../../../utilities";
+import { longFormatter, printWithLineBreaks } from "../../../../../utilities";
 function VideoBlock({
   name,
   uploader,
+  displayUploader,
   src,
   description,
   views,
@@ -14,34 +15,51 @@ function VideoBlock({
   commentInput,
   like,
   likedVideo,
+  loggedIn,
 }) {
   function share() {
     navigator.clipboard.writeText(window.location.href);
   }
-  const videoRef = useRef();
+
+  function scrollToComment() {
+    commentInput.current.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      commentInput.current.focus();
+    }, [200]);
+  }
 
   return (
     <div className="video-block">
-      <video controls className="video" ref={videoRef}>
+      <video controls className="video">
         <source src={src} type="video/mp4" />
       </video>
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="uploader">Uploaded by {uploader}</div>
+          <div className="uploader">Uploaded by {displayUploader}</div>
           <div className="actions">
             <VideoActionButton
               name="Comment"
               content=""
-              callback={() => {
-                commentInput.current.scrollIntoView({ behavior: "smooth" });
-                setTimeout(() => {
-                  commentInput.current.focus();
-                }, [200]);
-              }}
+              callback={scrollToComment}
+              canActivate={loggedIn}
+              badMessage={"You can't comment if not signed in"}
             />
-            <VideoActionButton active={likedVideo} name="Like" content={likes} callback={like} />
-            <VideoActionButton name="Share" content="" callback={share} />
+            <VideoActionButton
+              active={likedVideo}
+              name="Like"
+              content={likes}
+              callback={like}
+              canActivate={loggedIn}
+              badMessage={"You can't like a video if not signed in"}
+            />
+            <VideoActionButton
+              name="Share"
+              content=""
+              callback={share}
+              canActivate={true}
+              okMessage={"Video link copied to clipboard"}
+            />
           </div>
         </div>
         <div className="description-div">
@@ -53,7 +71,7 @@ function VideoBlock({
               day: "numeric",
             })}
           </div>
-          <div className="views">Views: {numberFormatter.format(views)}</div>
+          <div className="views">Views: {longFormatter.format(views)}</div>
           <div className="description">{printWithLineBreaks(description)}</div>
           <div className="tags">
             {tags.map((tag, index) => (
