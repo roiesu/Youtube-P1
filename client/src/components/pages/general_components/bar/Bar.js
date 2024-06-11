@@ -5,6 +5,7 @@ import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
 import IconVideoCamera from "../../../icons/IconVideoCamera";
 import IconLogout from "../../../icons/IconLogout";
 import IconLogin from "../../../icons/IconLogin";
+import IconHamburgerMenu from "../../../icons/IconHamburgerMenu";
 
 function Bar({ logout, loggedIn }) {
   const location = useLocation();
@@ -14,6 +15,7 @@ function Bar({ logout, loggedIn }) {
 
   useEffect(() => {
     setVisible(!location.pathname.includes("sign"));
+    setIsOpen(false);
   }, [location]);
 
   const toggleSidebar = () => {
@@ -24,7 +26,7 @@ function Bar({ logout, loggedIn }) {
     visible && (
       <div className="sidebar-container">
         <button className="sidebar-toggle" onClick={toggleSidebar}>
-          {isOpen ? "Close" : "Open"}
+          <IconHamburgerMenu />
         </button>
         {isOpen && (
           <div className="sidebar">

@@ -3,7 +3,9 @@ import { useLocation } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
 import "./WatchVideoPage.css";
+import { useTheme } from "../general_components/ThemeContext";
 function WatchVideoPage({ videos, currentUser }) {
+  const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
@@ -73,7 +75,7 @@ function WatchVideoPage({ videos, currentUser }) {
   }, [video]);
 
   return (
-    <div className="video-watching-page page">
+    <div className={`video-watching-page page ${theme}`}>
       {video ? (
         <div className="video-page-main-component">
           <VideoBlock
@@ -82,6 +84,7 @@ function WatchVideoPage({ videos, currentUser }) {
             commentInput={commentInput}
             like={like}
             likedVideo={likedVideo}
+            loggedIn={currentUser != null}
           />
           <Comments
             currentUser={currentUser ? currentUser.username : null}
