@@ -88,7 +88,6 @@ function SignUp(props) {
           </div>
         </div>
         <div className="input-div">
-          <PopUpMessage message={generalError} isActive={generalError != null} />
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}
@@ -132,6 +131,7 @@ function SignUp(props) {
           <button className="submit" onClick={submit}>
             submit
           </button>
+          <PopUpMessage message={generalError} isActive={generalError != null} />
         </div>
       </div>
     </div>
