@@ -1,0 +1,30 @@
+.page-404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f8f8f8;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .page-404 h1 {
+    font-size: 4em;
+    margin: 0;
+    color: #f44336;
+  }
+  
+  .page-404 p {
+    font-size: 1.5em;
+    margin: 20px 0;
+  }
+  
+  .page-404 .redirect-message {
+    font-size: 1em;
+    color: #666;
+  }
+  
