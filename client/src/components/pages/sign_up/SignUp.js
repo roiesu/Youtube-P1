@@ -5,8 +5,10 @@ import inputs from "../../../data/inputs.json";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { readImageIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
+import { useTheme } from "../general_components/ThemeContext";
 
 function SignUp(props) {
+  const { theme } = useTheme();
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordValidationInput, setPasswordValidationInput] = useState("");
@@ -79,7 +81,7 @@ function SignUp(props) {
   }
 
   return (
-    <div className="page signup-page">
+    <div className={`page signup-page ${theme}`}>
       <div className="main-component">
         <div className="header-div">
           {image ? <img className={"profile-pic"} src={image} /> : "No image uploaded"}
