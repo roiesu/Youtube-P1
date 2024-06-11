@@ -144,9 +144,5 @@ a.video-link {
   transition: background-color 0.3s ease, color 0.3s ease; 
 }
 
-.user-name:hover {
-  background-color: #e0e0e0;        
-  color: #000000;                
-}
 
 
