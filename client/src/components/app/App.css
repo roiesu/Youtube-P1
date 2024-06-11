@@ -5,11 +5,6 @@
   min-height: 100vh;
 }
 
-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 .img {
   position: absolute;
   top: -25px;
@@ -20,6 +15,13 @@ body {
 .img img {
   width: 150px;
   height: auto;
+}
+
+.page {
+  min-height: 100vh;
+  min-width: 100vw;
+  transition: 0.3s;
+  height: fit-content;
 }
 .page.light {
   background-color: white;
