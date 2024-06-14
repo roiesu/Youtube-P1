@@ -11,10 +11,17 @@
 .validation-input-div input.text-input {
   border: none;
   background: none;
-  border-bottom: 0.5px solid black;
+  border-bottom: 0.5px solid;
   font-size: 1.1rem;
 }
-
+.light .validation-input-div input.text-input {
+  border-color: black;
+  color: black;
+}
+.dark .validation-input-div input.text-input {
+  border-color: white;
+  color: white;
+}
 .validation-input-div input.text-input:focus {
   outline: none;
 }

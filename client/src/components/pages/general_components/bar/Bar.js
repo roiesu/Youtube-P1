@@ -15,6 +15,7 @@ function Bar({ logout, loggedIn }) {
 
   useEffect(() => {
     setVisible(!location.pathname.includes("sign"));
+    setIsOpen(false);
   }, [location]);
 
   const toggleSidebar = () => {
@@ -25,7 +26,7 @@ function Bar({ logout, loggedIn }) {
     visible && (
       <div className="sidebar-container">
         <button className="sidebar-toggle" onClick={toggleSidebar}>
-        <IconHamburgerMenu />
+          <IconHamburgerMenu />
         </button>
         {isOpen && (
           <div className="sidebar">
