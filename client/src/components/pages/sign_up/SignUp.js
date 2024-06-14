@@ -3,7 +3,7 @@ import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../data/inputs.json";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
-import { readImageIntoState } from "../../../utilities";
+import { readFileIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 
 function SignUp(props) {
@@ -33,7 +33,7 @@ function SignUp(props) {
 
   useEffect(() => {
     if (imageInput) {
-      readImageIntoState(imageInput, setImage);
+      readFileIntoState(imageInput, setImage);
     }
   }, [imageInput]);
 
@@ -88,6 +88,7 @@ function SignUp(props) {
           </div>
         </div>
         <div className="input-div">
+          <PopUpMessage message={generalError} isActive={generalError != null} />
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}
@@ -131,7 +132,6 @@ function SignUp(props) {
           <button className="submit" onClick={submit}>
             submit
           </button>
-          <PopUpMessage message={generalError} isActive={generalError != null} />
         </div>
       </div>
     </div>

@@ -5,11 +5,11 @@ const shortFormatter = new Intl.NumberFormat("en-US", {
 });
 const longFormatter = new Intl.NumberFormat("en-US", { maximumSignificantDiginits: 3 });
 
-function readImageIntoState(imageFile, setState) {
+function readFileIntoState(file, setState) {
   reader.onload = () => {
     setState(reader.result);
   };
-  reader.readAsDataURL(imageFile);
+  reader.readAsDataURL(file);
 }
 
 function callWithEnter(event, func) {
@@ -72,7 +72,7 @@ function printWithLineBreaks(text) {
   return x;
 }
 export {
-  readImageIntoState,
+  readFileIntoState,
   callWithEnter,
   secondsToTime,
   dateDifference,
