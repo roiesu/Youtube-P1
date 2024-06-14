@@ -3,8 +3,13 @@ import VideoLink from "./main_page_components/VideoLink";
 import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
+import { useTheme } from "../general_components/ThemeContext";
+import IconSun from "../../icons/IconSun";
+import IconMoon from "../../icons/IconMoon";
 
 function MainPage({ videos, currentUser }) {
+  const { theme, changeTheme } = useTheme();
+
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState(videos);
 
@@ -20,7 +25,7 @@ function MainPage({ videos, currentUser }) {
   }
 
   return (
-    <div className="main-page page">
+    <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
         <div className="user-details">
           {currentUser ? (
@@ -36,6 +41,9 @@ function MainPage({ videos, currentUser }) {
         </div>
       </div>
       <div className="search-input-div">
+        <span className="change-theme-button" onClick={changeTheme}>
+          {theme == "light" ? <IconSun /> : <IconMoon />}
+        </span>
         <input
           className="search-input"
           ref={searchInputRef}
