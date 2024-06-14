@@ -11,9 +11,9 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
-import Page404 from "../pages/Page404";
-import MyViedo from "../pages/MyVideos/MyVideos.js";
+import MyVideos from "../pages/MyVideos/MyVideos.js";
 import Page404 from "../pages/page_404/Page404";
+import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 
 function App() {
   const [users, setUsers] = useState(usersList);
@@ -40,8 +40,10 @@ function App() {
           {currentUser ? (
             // Pages only users can see
             <>
-              <Route path="/MyVideos" element={<MyViedo currentUser={currentUser} videos={videos}/>} />
-              <Route path="/UploadVideosPage" element={<UploadVideoPage/>} />
+              <Route path="/myvideos" element={<MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos}/>} />
+              <Route path="/UploadVideosPage" element={<UploadVideoPage setVideos={setVideos} videos={videos} currentUser={currentUser}/>} />
+              <Route path="/videoEdit/:v?" element={<VideoEdit videos={videos} currentUser={currentUser} />}
+          />
             </>
           ) : (
             <>

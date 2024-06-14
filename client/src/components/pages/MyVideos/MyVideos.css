@@ -1,0 +1,66 @@
+.video-list {
+    position: relative;
+    top: 100px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border-radius: 8px;
+    margin-bottom: 20px; 
+  }
+  
+  
+  .video-list > div {
+    margin-bottom: 15px;
+  }
+  
+  .video-list a {
+    text-decoration: none; 
+  }
+  
+  .video-list button {
+    background-color: #007BFF; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  
+  .video-list button:hover {
+      padding: 15px 30px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 25px;
+      background-color: #f44336;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .video-list button:hover {
+      background-color: #e53935;
+      transform: translateY(-2px);
+    }
+    
+    .video-list button:active {
+      background-color: #d32f2f;
+      transform: translateY(0);
+    }  
+  
+  .video-list > .upload-button {
+    display: block; 
+    width: 200px; 
+    margin: 20px auto; 
+    font-size: 16px;
+    font-weight: bold; 
+    background-color: #28a745; 
+    padding: 12px 0; 
+  }
+  
+  .video-list > .upload-button:hover {
+    background-color: #218838; 
+  }
+  
