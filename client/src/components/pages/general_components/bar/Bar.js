@@ -4,7 +4,7 @@ import "./Bar.css";
 import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
 import IconVideoCamera from "../../../icons/IconVideoCamera";
 import IconLogout from "../../../icons/IconLogout";
-import IconLogin from "../../../icons/Iconlogin";
+import IconLogin from "../../../icons/IconLogin"
 import IconHamburgerMenu from "../../../icons/IconHamburgerMenu";
 
 function Bar({ logout, loggedIn }) {

@@ -47,7 +47,8 @@ function App() {
               <>
               <Route path="/myvideos" element={<MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos}/>} />
               <Route path="/UploadVideosPage" element={<UploadVideoPage setVideos={setVideos} videos={videos} currentUser={currentUser}/>} />
-              <Route path="/videoEdit/:v?" element={<VideoEdit videos={videos} currentUser={currentUser} />}              </>
+              <Route path="/videoEdit/:v?" element={<VideoEdit videos={videos} currentUser={currentUser} />}/>
+              </>
             ) : (
               <>
                 {/* Pages only non users can see */}
