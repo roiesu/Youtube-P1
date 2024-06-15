@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,14 +13,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/usernameLabel"
+            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username_input"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:labelFor="@+id/usernameInput"
-            />
+            android:text="@string/username_input" />
+
         <EditText
             android:id="@+id/usernameInput"
             style="@style/form_input"
@@ -34,12 +50,12 @@
 
         <TextView
             android:id="@+id/passwordLabel"
+            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/password_input"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:labelFor="@+id/passwordInput"
-            />
+            android:text="@string/password_input" />
+
         <EditText
             android:id="@+id/passwordInput"
             style="@style/form_input"
@@ -52,12 +68,12 @@
 
         <TextView
             android:id="@+id/vPasswordLabel"
+            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/validate_password_input"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:labelFor="@+id/vPasswordInput"
-            />
+            android:text="@string/validate_password_input" />
+
         <EditText
             android:id="@+id/vPasswordInput"
             style="@style/form_input"
@@ -70,12 +86,12 @@
 
         <TextView
             android:id="@+id/nameLabel"
+            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name_input"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:labelFor="@+id/nameInput"
-            />
+            android:text="@string/name_input" />
+
         <EditText
             android:id="@+id/nameInput"
             style="@style/form_input"
@@ -84,21 +100,33 @@
             android:autofillHints="@string/name_input"
             android:inputType="text"
             android:selectAllOnFocus="true"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/imageInput"
+                style="@style/input_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pick Image" />
+            <Button
+                android:id="@+id/submit"
+                style="@style/input_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageInput"
+                android:layout_centerHorizontal="true"
+                android:text="@string/submit" />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/submit"
-            style="@style/input_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/submit" />
 
         <TextView
             android:id="@+id/test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TEST"/>
+            android:text="TEST" />
 
     </LinearLayout>
 

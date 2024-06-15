@@ -3,6 +3,7 @@
     <style name="input_button" parent ="android:Widget.Button">
         <item name="backgroundColor" >@color/main_red</item>
         <item name="color">@color/black</item>
+        <item name="android:layout_centerHorizontal">true</item>
     </style>
     <style name="form_input">
         <item name="color">@color/main_red</item>
