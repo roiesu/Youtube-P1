@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">android_client</string>
+    <string name="app_name">Bish Bash</string>
+    <string name="name_input">Name</string>
+    <string name="username_input">Username</string>
+    <string name="password_input">Password</string>
+    <string name="validate_password_input">Validate Password</string>
+    <string name="submit">submit</string>
 </resources>
