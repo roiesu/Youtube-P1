@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.R;
+import com.example.android_client.Utilities;
 import com.example.android_client.entities.Video;
 import com.example.android_client.entities.VideoPreview;
 
@@ -39,8 +40,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         VideoPreview video = videos.get(position);
         holder.videoTitle.setText(video.getName());
         holder.videoUploader.setText(video.getDisplayUploader());
-        holder.videoViews.setText(String.valueOf(video.getViews()));
-        holder.videoDate.setText(video.getDate().toString());
+        holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
+        holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoPreview.setImageBitmap(video.getThumbnail());
     }
 
