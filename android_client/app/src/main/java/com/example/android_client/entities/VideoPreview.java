@@ -1,5 +1,11 @@
 package com.example.android_client.entities;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.util.Log;
+
 import java.util.Date;
 
 public class VideoPreview {
@@ -8,16 +14,28 @@ public class VideoPreview {
     private String displayUploader;
     private Date date;
     private long views;
-    private String thumbnail;
-    public VideoPreview(int id,String name, String displayUploader, Date date, long views, String thumbnail){
+    private Bitmap thumbnail;
+    public VideoPreview(int id,String name, String displayUploader, Date date, long views, String src,Context context){
         this.id=id;
         this.name=name;
         this.displayUploader=displayUploader;
         this.date=date;
         this.views=views;
-        this.thumbnail=thumbnail;
+        this.thumbnail=createVideoThumb(context,src);
     }
+    private Bitmap createVideoThumb(Context context,String src) {
+        int videoResId = context.getResources().getIdentifier(src, "raw", context.getPackageName());
+        String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
+        try {
+            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(context, Uri.parse(uriString));
+            return mediaMetadataRetriever.getFrameAtTime();
+        } catch (Exception ex) {
+            Log.w("BishBash",ex.toString());
+        }
+        return null;
 
+    }
     public int getId() {
         return id;
     }
@@ -58,11 +76,11 @@ public class VideoPreview {
         this.views = views;
     }
 
-    public String getThumbnail() {
+    public Bitmap getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(Bitmap thumbnail) {
         this.thumbnail = thumbnail;
     }
 }
