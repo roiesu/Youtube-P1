@@ -116,6 +116,10 @@ public class Video {
         this.tags = tags;
     }
 
+    public VideoPreview toPreview(){
+        return new VideoPreview(id,name,displayUploader,date_time,views,src);
+    }
+
     public String getName() {
         return name;
     }
