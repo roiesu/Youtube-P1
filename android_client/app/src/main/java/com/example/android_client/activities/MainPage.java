@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainPage extends AppCompatActivity {
 
@@ -33,9 +34,7 @@ public class MainPage extends AppCompatActivity {
 
         String src= "android.resource://"+getPackageName()+"/"+R.raw.lukaku;
         // Load videos from JSON
-        ArrayList<Video> videos = new ArrayList<>();
-        Video v =new Video(1,"test","test","test", Uri.parse(src),new ArrayList<String>(),0,new Date(),"test",new ArrayList<String>(),new ArrayList<Comment>());
-        videos.add(v);
+        ArrayList<Video> videos = loadVideosFromJson();
         VideoAdapter adapter = new VideoAdapter(this, videos);
         videoList.setAdapter(adapter);
     }
@@ -44,24 +43,24 @@ public class MainPage extends AppCompatActivity {
         ArrayList<Video> videos = new ArrayList<>();
         try {
             // Open and read the json file
-            AssetManager am = getAssets();
             InputStream is = getAssets().open("videos.json");
 
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-
             // Converts the file to string
             String json = new String(buffer, "UTF-8");
-
-            // Creates new Gson
+            // Parse the json file
+            Log.w("Test",json);
             Gson gson = new Gson();
 
-            // Parse the json file
-            Type videoListType = new TypeToken<ArrayList<Video>>() {}.getType();
-            videos = gson.fromJson(json, videoListType);
-            Log.w("First",videos.get(0).getName());
+            Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
+            videos = gson.fromJson(json, listType);
+
+            Log.w("Test",videos.get(0).toString());
+
+
         } catch (IOException e) {
             Log.w("Exit",e);
             e.printStackTrace();

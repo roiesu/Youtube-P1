@@ -11,9 +11,9 @@ public class Video {
     private String name;
     private String uploader;
     private String displayUploader;
-    private Uri src;
+    private String src;
     private ArrayList<String> likes;
-    private int views;
+    private long views;
     private Date date_time;
     private String description;
     private ArrayList<String> tags;
@@ -23,7 +23,7 @@ public class Video {
 
     }
 
-    public Video(int id, String name, String uploader, String displayUploader, Uri src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
+    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, long views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this.id = id;
         this.name=name;
         this.uploader = uploader;
@@ -44,11 +44,11 @@ public class Video {
         this.comments = comments;
     }
 
-    public Uri getSrc() {
+    public String getSrc() {
         return src;
     }
 
-    public void setSrc(Uri src) {
+    public void setSrc(String src) {
         this.src = src;
     }
 
@@ -84,11 +84,11 @@ public class Video {
         this.likes = likes;
     }
 
-    public int getViews() {
+    public long getViews() {
         return views;
     }
 
-    public void setViews(int views) {
+    public void setViews(long views) {
         this.views = views;
     }
 
@@ -118,5 +118,8 @@ public class Video {
 
     public String getName() {
         return name;
+    }
+    public String toString(){
+        return getName();
     }
 }

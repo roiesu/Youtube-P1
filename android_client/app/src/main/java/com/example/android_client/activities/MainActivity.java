@@ -11,8 +11,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.android_client.R;
+import com.example.android_client.entities.User;
+import com.example.android_client.entities.Video;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private ArrayList<User> users;
+    private ArrayList<Video> videos;
+    private User currentUser;
     private TextView view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
