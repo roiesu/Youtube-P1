@@ -31,7 +31,8 @@ public class MainPage extends AppCompatActivity {
 
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
-
+        Log.w("Test1",getPackageName());
+        Log.w("Test1", String.valueOf(R.raw.lukaku));
         String src= "android.resource://"+getPackageName()+"/"+R.raw.lukaku;
         // Load videos from JSON
         ArrayList<Video> videos = loadVideosFromJson();
@@ -52,14 +53,10 @@ public class MainPage extends AppCompatActivity {
             // Converts the file to string
             String json = new String(buffer, "UTF-8");
             // Parse the json file
-            Log.w("Test",json);
             Gson gson = new Gson();
 
             Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
             videos = gson.fromJson(json, listType);
-
-            Log.w("Test",videos.get(0).toString());
-
 
         } catch (IOException e) {
             Log.w("Exit",e);
