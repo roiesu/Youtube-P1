@@ -53,13 +53,6 @@ function VideoBlock({
               canActivate={loggedIn}
               badMessage={"You can't like a video if not signed in"}
             />
-            {/* <VideoActionButton
-              name="Share"
-              content=""
-              callback={share}
-              canActivate={true}
-              okMessage={"Video link copied to clipboard"}
-            /> */}
             <VideoActionButton
               name="Share"
               content=""
