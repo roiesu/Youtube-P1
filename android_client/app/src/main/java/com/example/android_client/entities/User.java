@@ -1,5 +1,7 @@
 package com.example.android_client.entities;
 
+import androidx.annotation.Nullable;
+
 public class User {
     private String username;
     private String password;
@@ -43,5 +45,10 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return obj instanceof User&& ((User)obj).getUsername().equals(username);
     }
 }
