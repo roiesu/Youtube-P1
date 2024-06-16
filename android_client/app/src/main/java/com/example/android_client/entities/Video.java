@@ -1,5 +1,7 @@
 package com.example.android_client.entities;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,7 +11,7 @@ public class Video {
     private String name;
     private String uploader;
     private String displayUploader;
-    private String src;
+    private Uri src;
     private ArrayList<String> likes;
     private int views;
     private Date date_time;
@@ -21,7 +23,7 @@ public class Video {
 
     }
 
-    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
+    public Video(int id, String name, String uploader, String displayUploader, Uri src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this.id = id;
         this.name=name;
         this.uploader = uploader;
@@ -32,9 +34,8 @@ public class Video {
         date_time = dateTime;
         this.description = description;
         this.tags = tags;
+        this.comments=comments;
     }
-
-
     public ArrayList<Comment> getComments() {
         return comments;
     }
@@ -43,11 +44,11 @@ public class Video {
         this.comments = comments;
     }
 
-    public String getSrc() {
+    public Uri getSrc() {
         return src;
     }
 
-    public void setSrc(String src) {
+    public void setSrc(Uri src) {
         this.src = src;
     }
 

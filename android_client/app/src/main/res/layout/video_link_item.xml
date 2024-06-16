@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <VideoView
+        <ImageView
             android:id="@+id/videoPreview"
             android:layout_width="358dp"
             android:layout_height="250dp"
