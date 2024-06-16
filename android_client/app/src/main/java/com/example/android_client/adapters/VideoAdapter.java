@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +40,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(String.valueOf(video.getViews()));
         holder.videoDate.setText(video.getDate_time().toString());
-        holder.videoPreview.setImageBitmap(createVideoThumb(context,Uri.parse(video.getSrc())));
+        int videoResId = context.getResources().getIdentifier(video.getSrc(), "raw", context.getPackageName());
+        String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
+        holder.videoPreview.setImageBitmap(createVideoThumb(context,Uri.parse(uriString)));
     }
 
     public Bitmap createVideoThumb(Context context, Uri uri) {
+
         try {
             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
             mediaMetadataRetriever.setDataSource(context, uri);
             return mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            Log.w("BishBash",ex.toString());
+        }
         return null;
 
     }
