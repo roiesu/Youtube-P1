@@ -20,6 +20,7 @@ function VideoEdit({ videos, currentUser }) {
 
     const submit = () => {
         if(videoName!=""||description!=""){
+        if(videoName==""||description==""){
             return;
         }
         video.name=videoName;
@@ -27,6 +28,8 @@ function VideoEdit({ videos, currentUser }) {
         navigate("/myvideos");
         console.log("Submitted Video Name: ", videoName);
         console.log("Submitted Description: ", description);
+        navigate("/my-videos");
+
     };
 
     useEffect(() => {
@@ -46,6 +49,7 @@ function VideoEdit({ videos, currentUser }) {
 
         setIsUploader(currentUser && found.uploader === currentUser.username);
     }, [videos, currentUser, location.search]);
+    }, [location]);
 
     if (!video) {
         return <div>Loading video details...</div>; 
@@ -57,6 +61,7 @@ function VideoEdit({ videos, currentUser }) {
 
     return (
         <form className='video-details' onSubmit={submit}>
+        <div className='video-details'>
             <div className="name">
                 <input
                     type="text"
@@ -79,6 +84,8 @@ function VideoEdit({ videos, currentUser }) {
             </div>
             <button>Update Video</button>
         </form>
+            <button onClick={submit}>Update Video</button>
+        </div>
     );
 }
 
