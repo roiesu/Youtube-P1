@@ -6,6 +6,7 @@ import java.util.Date;
 public class Video {
 
     private int id;
+    private String name;
     private String uploader;
     private String displayUploader;
     private String src;
@@ -16,8 +17,9 @@ public class Video {
     private ArrayList<String> tags;
     private ArrayList<Comment> comments;
 
-    public Video(int id, String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
+    public Video(int id, String name,String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
         this.id = id;
+        this.name=name;
         this.uploader = uploader;
         this.displayUploader = displayUploader;
         this.src = src;
@@ -107,5 +109,9 @@ public class Video {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public String getName() {
+        return name;
     }
 }
