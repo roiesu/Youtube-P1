@@ -1,5 +1,6 @@
 package com.example.android_client.entities;
 
+import android.content.Context;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -116,8 +117,8 @@ public class Video {
         this.tags = tags;
     }
 
-    public VideoPreview toPreview(){
-        return new VideoPreview(id,name,displayUploader,date_time,views,src);
+    public VideoPreview toPreview(Context context){
+        return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
     }
 
     public String getName() {

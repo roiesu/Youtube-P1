@@ -41,23 +41,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(String.valueOf(video.getViews()));
         holder.videoDate.setText(video.getDate().toString());
-        int videoResId = context.getResources().getIdentifier(video.getThumbnail(), "raw", context.getPackageName());
-        String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
-        holder.videoPreview.setImageBitmap(createVideoThumb(context,Uri.parse(uriString)));
+        holder.videoPreview.setImageBitmap(video.getThumbnail());
     }
 
-    public Bitmap createVideoThumb(Context context, Uri uri) {
-
-        try {
-            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(context, uri);
-            return mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception ex) {
-            Log.w("BishBash",ex.toString());
-        }
-        return null;
-
-    }
     @Override
     public int getItemCount() {
         return videos.size();
