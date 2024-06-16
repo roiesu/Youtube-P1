@@ -23,7 +23,6 @@ public class Video {
         this.src = src;
         this.likes = likes;
         this.views = views;
-        date_time = dateTime;
         this.date_time = dateTime;
         this.description = description;
         this.tags = tags;

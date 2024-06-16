@@ -11,10 +11,8 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
-import MyVideos from "../pages/MyVideos/MyVideos.js";
 import MyVideos from "../pages/MyVideos/MyVideos.js"
 import Page404 from "../pages/page_404/Page404";
-import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 import VideoEdit from "../pages/VideoEdit/VideoEdit.js"
 import { ThemeContext } from "../pages/general_components/ThemeContext";
 
@@ -47,7 +45,6 @@ function App() {
             {currentUser ? (
               // Pages only users can see
               <>
-              <Route path="/myvideos" element={<MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos}/>} />
               <Route path="/my-videos" element={<MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos}/>} />
               <Route path="/UploadVideosPage" element={<UploadVideoPage setVideos={setVideos} videos={videos} currentUser={currentUser}/>} />
               <Route path="/videoEdit/:v?" element={<VideoEdit videos={videos} currentUser={currentUser} />}/>
