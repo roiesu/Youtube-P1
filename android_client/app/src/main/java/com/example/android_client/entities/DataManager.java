@@ -40,4 +40,14 @@ public class DataManager {
         }
         return instance;
     }
+    public static User findUser(String username){
+        for(User user: usersList){
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
+    public static void addUser(User user){
+        usersList.add(user);
+    }
 }
