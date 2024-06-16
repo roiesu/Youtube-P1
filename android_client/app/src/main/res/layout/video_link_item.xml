@@ -9,11 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <VideoView
             android:id="@+id/videoPreview"
-            android:layout_width="377dp"
-            android:layout_height="234dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_width="358dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true" />
         <TextView
             android:id="@+id/videoTitle"
             android:layout_width="match_parent"

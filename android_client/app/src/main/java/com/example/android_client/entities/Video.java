@@ -17,7 +17,11 @@ public class Video {
     private ArrayList<String> tags;
     private ArrayList<Comment> comments;
 
-    public Video(int id, String name,String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
+    public Video(){
+
+    }
+
+    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
         this.id = id;
         this.name=name;
         this.uploader = uploader;
