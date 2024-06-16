@@ -19,15 +19,11 @@ function VideoEdit({ videos, currentUser }) {
     };
 
     const submit = () => {
-        if(videoName!=""||description!=""){
         if(videoName==""||description==""){
             return;
         }
         video.name=videoName;
         video.description=description;
-        navigate("/myvideos");
-        console.log("Submitted Video Name: ", videoName);
-        console.log("Submitted Description: ", description);
         navigate("/my-videos");
 
     };
@@ -48,7 +44,6 @@ function VideoEdit({ videos, currentUser }) {
         setDescription(found.description);
 
         setIsUploader(currentUser && found.uploader === currentUser.username);
-    }, [videos, currentUser, location.search]);
     }, [location]);
 
     if (!video) {
@@ -60,7 +55,6 @@ function VideoEdit({ videos, currentUser }) {
     }
 
     return (
-        <form className='video-details' onSubmit={submit}>
         <div className='video-details'>
             <div className="name">
                 <input
@@ -71,8 +65,6 @@ function VideoEdit({ videos, currentUser }) {
                     value={videoName}
                     onChange={changeName} />
             </div>
-
-            <div className="description">
                 <input
                     type="text"
                     className="form-control"
@@ -81,9 +73,6 @@ function VideoEdit({ videos, currentUser }) {
                     value={description}
                     onChange={changeDescription}
                 />
-            </div>
-            <button>Update Video</button>
-        </form>
             <button onClick={submit}>Update Video</button>
         </div>
     );
