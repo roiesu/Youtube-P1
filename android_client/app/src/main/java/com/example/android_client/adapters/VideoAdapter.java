@@ -14,13 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.R;
 import com.example.android_client.entities.Video;
+import com.example.android_client.entities.VideoPreview;
+
 import java.util.ArrayList;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
     private Context context;
-    private ArrayList<Video> videos;
+    private ArrayList<VideoPreview> videos;
 
-    public VideoAdapter(Context context, ArrayList<Video> videos) {
+    public VideoAdapter(Context context, ArrayList<VideoPreview> videos) {
         this.context = context;
         this.videos = videos;
     }
@@ -34,13 +36,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Video video = videos.get(position);
-
+        VideoPreview video = videos.get(position);
         holder.videoTitle.setText(video.getName());
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(String.valueOf(video.getViews()));
-        holder.videoDate.setText(video.getDate_time().toString());
-        int videoResId = context.getResources().getIdentifier(video.getSrc(), "raw", context.getPackageName());
+        holder.videoDate.setText(video.getDate().toString());
+        int videoResId = context.getResources().getIdentifier(video.getThumbnail(), "raw", context.getPackageName());
         String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
         holder.videoPreview.setImageBitmap(createVideoThumb(context,Uri.parse(uriString)));
     }
