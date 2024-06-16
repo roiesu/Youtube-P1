@@ -39,7 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(String.valueOf(video.getViews()));
         holder.videoDate.setText(video.getDate_time().toString());
-        holder.videoPreview.setImageBitmap(createVideoThumb(context,video.getSrc()));
+        holder.videoPreview.setImageBitmap(createVideoThumb(context,Uri.parse(video.getSrc())));
     }
 
     public Bitmap createVideoThumb(Context context, Uri uri) {
