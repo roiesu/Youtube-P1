@@ -1,11 +1,14 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.R;
@@ -31,20 +34,30 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         Video video = videos.get(position);
-        holder.videoPreview.setVideoPath(video.getSrc());
+
         holder.videoTitle.setText(video.getName());
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(String.valueOf(video.getViews()));
         holder.videoDate.setText(video.getDate_time().toString());
+        holder.videoPreview.setImageBitmap(createVideoThumb(context,video.getSrc()));
     }
 
+    public Bitmap createVideoThumb(Context context, Uri uri) {
+        try {
+            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(context, uri);
+            return mediaMetadataRetriever.getFrameAtTime();
+        } catch (Exception ex) {}
+        return null;
+
+    }
     @Override
     public int getItemCount() {
         return videos.size();
     }
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
-        VideoView videoPreview;
+        ImageView videoPreview;
         TextView videoTitle;
         TextView videoUploader;
         TextView videoViews;
@@ -57,6 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoUploader = itemView.findViewById(R.id.videoUploader);
             videoViews = itemView.findViewById(R.id.videoViews);
             videoDate = itemView.findViewById(R.id.videoDate);
+
         }
     }
 }
