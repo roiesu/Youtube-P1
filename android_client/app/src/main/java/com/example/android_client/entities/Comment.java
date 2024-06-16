@@ -10,8 +10,10 @@ public class Comment {
 
     public Comment(Date dateTime, String user, String displayName, String text) {
         date_time = dateTime;
+        this.date_time = dateTime;
         this.user = user;
         display_name = displayName;
+        this.display_name = displayName;
         this.text = text;
     }
 
