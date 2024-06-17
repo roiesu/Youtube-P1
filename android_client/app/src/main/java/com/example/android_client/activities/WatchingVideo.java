@@ -1,7 +1,9 @@
 package com.example.android_client.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -39,7 +41,9 @@ public class WatchingVideo extends AppCompatActivity {
         ((TextView)findViewById(R.id.videoUploader)).setText(video.getDisplayUploader());
         commentsHeader= findViewById(R.id.commentsTitle);
         commentsHeader.setText(getCommentsTitle());
-        videoView= findViewById(R.id.videoView);
+        videoView=initVideo();
+        videoView.start();
+
 
         commentsList = findViewById(R.id.commentsList);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
@@ -52,6 +56,20 @@ public class WatchingVideo extends AppCompatActivity {
         if(count!=1)
             text+="s";
         return text;
+
+    }
+    private Uri getVideoURI(){
+        int videoResId = getResources().getIdentifier(video.getSrc(), "raw", getPackageName());
+        String uriString = "android.resource://" + getPackageName() + "/" + videoResId;
+        return Uri.parse(uriString);
+    }
+    private VideoView initVideo(){
+        VideoView temp =findViewById(R.id.videoView);
+        temp.setVideoURI(getVideoURI());
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(temp);
+        temp.setMediaController(mediaController);
+        return temp;
 
     }
 }
