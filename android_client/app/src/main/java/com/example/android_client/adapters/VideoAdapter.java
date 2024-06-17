@@ -44,6 +44,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
+        holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         holder.videoPreview.setImageBitmap(video.getThumbnail());
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
@@ -63,6 +64,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         TextView videoUploader;
         TextView videoViews;
         TextView videoDate;
+        TextView videoDuration;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +73,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoUploader = itemView.findViewById(R.id.videoUploader);
             videoViews = itemView.findViewById(R.id.videoViews);
             videoDate = itemView.findViewById(R.id.videoDate);
+            videoDuration = itemView.findViewById(R.id.videoDuration);
 
         }
     }

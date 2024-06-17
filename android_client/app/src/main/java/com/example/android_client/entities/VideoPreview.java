@@ -33,7 +33,7 @@ public class VideoPreview {
             MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
             mediaRetriever.setDataSource(context, Uri.parse(uriString));
             String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            Long seconds = Long.parseLong(time);
+            Long seconds = (long) Math.floor(Long.parseLong(time)/1000);
             return new Object []{mediaRetriever.getFrameAtTime(),seconds};
         } catch (Exception ex) {
             Log.w("Error",ex.toString());
@@ -87,5 +87,13 @@ public class VideoPreview {
 
     public void setThumbnail(Bitmap thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }
