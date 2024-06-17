@@ -5,4 +5,5 @@
     <string name="password_input">Password</string>
     <string name="validate_password_input">Validate Password</string>
     <string name="submit">submit</string>
+    <string name="logo_desc">App Logo</string>
 </resources>
