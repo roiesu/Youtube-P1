@@ -16,6 +16,10 @@ import com.example.android_client.entities.Video;
 import com.example.android_client.entities.VideoPreview;
 import java.util.ArrayList;
 
+import android.graphics.drawable.Drawable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+
 
 public class MainPage extends AppCompatActivity {
 
@@ -34,6 +38,14 @@ public class MainPage extends AppCompatActivity {
         }
         VideoAdapter adapter = new VideoAdapter(this, videos);
         videoList.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(),
+                DividerItemDecoration.VERTICAL);
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        if (dividerDrawable != null) {
+            dividerItemDecoration.setDrawable(dividerDrawable);
+            videoList.addItemDecoration(dividerItemDecoration);
+        }
     }
 
 }
