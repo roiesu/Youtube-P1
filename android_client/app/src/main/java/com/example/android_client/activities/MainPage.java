@@ -28,7 +28,7 @@ public class MainPage extends AppCompatActivity {
         videoList.setLayoutManager(new LinearLayoutManager(this));
         // Get previews
         ArrayList<VideoPreview> videos = new ArrayList<>();
-        for(Video video:DataManager.videoList){
+        for(Video video:DataManager.getVideoList()){
             videos.add(video.toPreview(this));
         }
         VideoAdapter adapter = new VideoAdapter(this, videos);

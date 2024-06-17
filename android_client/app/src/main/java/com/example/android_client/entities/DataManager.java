@@ -13,47 +13,76 @@ import java.util.ArrayList;
 
 
 public class DataManager {
-    private static Context context;
-    public static ArrayList<User> usersList;
-    public static ArrayList<Video> videoList;
+    private static ArrayList<User> usersList;
+    private static ArrayList<Video> videoList;
 
     public static User currentUser;
-
-    //Weird magic class stuff
     private static DataManager instance;
 
-    private DataManager() {}
+    private static boolean initialized;
 
-    public static void setUsersList(ArrayList<User> users){
-        usersList=users;
-    }
-    public static void setVideoList(ArrayList<Video> videos){
-        videoList=videos;
+    private DataManager() {
     }
 
-    public static void setCurrentUser(User newUser){
-        currentUser=newUser;
+    public static boolean isInitialized() {
+        return initialized;
     }
+
+    public static void setInitialized(boolean initialized) {
+        DataManager.initialized = initialized;
+    }
+    public static ArrayList<User> getUsersList() {
+        return usersList;
+    }
+
+    public static ArrayList<Video> getVideoList() {
+        return videoList;
+    }
+
+    public static void setUsersList(ArrayList<User> users) {
+        usersList = users;
+    }
+
+    public static void setVideoList(ArrayList<Video> videos) {
+        videoList = videos;
+    }
+
+    public static void setCurrentUser(User newUser) {
+        currentUser = newUser;
+    }
+
     public static synchronized DataManager getInstance() {
         if (instance == null) {
             instance = new DataManager();
         }
         return instance;
     }
-    public static User findUser(String username){
-        for(User user: usersList){
-            Log.w("Useranme",user.getUsername());
-            if(user.getUsername().equals(username))
+    public static void addUser(User user){
+        usersList.add(user);
+    }
+    public static User findUser(String username) {
+        for (User user : usersList) {
+            Log.w("Useranme", user.getUsername());
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
-    public static Video findVideoById(int id){
-        for(Video video:videoList){
-            if(video.getId()==id){
+
+    public static Video findVideoById(int id) {
+        for (Video video : videoList) {
+            if (video.getId() == id) {
                 return video;
             }
         }
         return null;
     }
+    // Debugging
+    public static void printUsers(){
+        for (User user:usersList){
+            Log.w("Username",user.getUsername());
+        }
+    }
+
+
 }
