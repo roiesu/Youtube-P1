@@ -35,7 +35,7 @@ function Bar({ logout, loggedIn }) {
                 <IconHouseDoorFill /> Home
               </div>
             </Link>
-            <Link to="/MyVideos">
+            <Link to="/my-videos">
               <div className="sidebar-link">
                 <IconVideoCamera /> My Videos
               </div>

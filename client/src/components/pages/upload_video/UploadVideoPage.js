@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './UploadVideo.css';
+import './UploadVideoPage.css';
 import inputs from '../../../data/inputs.json';
 import { readFileIntoState } from "../../../utilities"
 import PopUpMessage from '../general_components/popup_message/PopUpMessage';
@@ -65,7 +65,6 @@ function UploadVideo({videos, setVideos,currentUser}) {
         onChange={(e) => setDescription(e.target.value)}
       />
       {errors.description && <div className="error-message">{errors.description}</div>}
-
       <input
         type="file"
         className="input-field"

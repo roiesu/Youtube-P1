@@ -19,26 +19,24 @@ function MyVideos({ videos, currentUser, setVideos }) {
   }
 
   return (
-    <div className="video-list">
-              <Link to="/UploadVideosPage">
-        <button className="upload-video">Upload New Video</button>
+    <div className="container">
+      <Link to="/UploadVideosPage">
+        <button className="upload-button">Upload New Video</button>
       </Link>
       {userVideos.map((video) => (
-        <div key={video.id}>
+        <div className="video-item" key={video.id}>
           <VideoLink {...video} />
           <button
-            className="delete-video"
+            className="delete-button"
             onClick={() => deleteVideo(video.id)}
           >
             Delete Video
           </button>
           <Link to={`/VideoEdit?v=${video.id}`}>
-            <button className="edit-video">Edit Video</button>
-          </Link>{" "}
+            <button className="edit-button">Edit Video</button>
+          </Link>
         </div>
       ))}
-
-
     </div>
   );
 }
