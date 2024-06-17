@@ -1,6 +1,7 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.Video;
 import com.example.android_client.entities.VideoPreview;
 
@@ -43,6 +45,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoPreview.setImageBitmap(video.getThumbnail());
+        holder.videoPreview.setOnClickListener(l->{
+            Intent intent = new Intent(context, WatchingVideo.class);
+            intent.putExtra("videoId",video.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override

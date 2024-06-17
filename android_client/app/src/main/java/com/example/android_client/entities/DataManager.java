@@ -42,12 +42,18 @@ public class DataManager {
     }
     public static User findUser(String username){
         for(User user: usersList){
+            Log.w("Useranme",user.getUsername());
             if(user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
-    public static void addUser(User user){
-        usersList.add(user);
+    public static Video findVideoById(int id){
+        for(Video video:videoList){
+            if(video.getId()==id){
+                return video;
+            }
+        }
+        return null;
     }
 }
