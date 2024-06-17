@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-
+import './VideoEdit.css';  // Import the new CSS file
 
 function VideoEdit({ videos, currentUser }) {
     const [videoName, setVideoName] = useState('');
@@ -8,7 +8,7 @@ function VideoEdit({ videos, currentUser }) {
     const [video, setVideo] = useState(null); 
     const [isUploader, setIsUploader] = useState(false);
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const changeName = (event) => {
         setVideoName(event.target.value);
@@ -19,13 +19,12 @@ function VideoEdit({ videos, currentUser }) {
     };
 
     const submit = () => {
-        if(videoName==""||description==""){
+        if(videoName === "" || description === ""){
             return;
         }
-        video.name=videoName;
-        video.description=description;
+        video.name = videoName;
+        video.description = description;
         navigate("/my-videos");
-
     };
 
     useEffect(() => {
@@ -47,16 +46,17 @@ function VideoEdit({ videos, currentUser }) {
     }, [location]);
 
     if (!video) {
-        return <div>Loading video details...</div>; 
+        return <div className="loading-message">Loading video details...</div>; 
     }
 
     if (!isUploader) {
-        return <div>You do not have permission to edit this video.</div>;
+        return <div className="error-message">You do not have permission to edit this video.</div>;
     }
 
     return (
-        <div className='video-details'>
-            <div className="name">
+        <div className='video-edit-container'>
+            <h1>Edit Video</h1>
+            <div className="input-group">
                 <input
                     type="text"
                     className="form-control"
@@ -65,15 +65,16 @@ function VideoEdit({ videos, currentUser }) {
                     value={videoName}
                     onChange={changeName} />
             </div>
-                <input
-                    type="text"
+            <div className="input-group">
+                <textarea
                     className="form-control"
                     placeholder="Enter a new video description"
                     aria-label="description"
                     value={description}
                     onChange={changeDescription}
                 />
-            <button onClick={submit}>Update Video</button>
+            </div>
+            <button className="submit-button" onClick={submit}>Update Video</button>
         </div>
     );
 }
