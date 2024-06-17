@@ -1,23 +1,32 @@
 package com.example.android_client.entities;
 
+import android.content.Context;
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Video {
 
     private int id;
+    private String name;
     private String uploader;
     private String displayUploader;
     private String src;
     private ArrayList<String> likes;
-    private int views;
+    private long views;
     private Date date_time;
     private String description;
     private ArrayList<String> tags;
     private ArrayList<Comment> comments;
 
-    public Video(int id, String uploader, String displayUploader, String src, ArrayList<String> likes, int views, Date dateTime, String description, ArrayList<String> tags) {
+    public Video(){
+
+    }
+
+    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, long views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this.id = id;
+        this.name=name;
         this.uploader = uploader;
         this.displayUploader = displayUploader;
         this.src = src;
@@ -26,9 +35,8 @@ public class Video {
         this.date_time = dateTime;
         this.description = description;
         this.tags = tags;
+        this.comments=comments;
     }
-
-
     public ArrayList<Comment> getComments() {
         return comments;
     }
@@ -77,11 +85,11 @@ public class Video {
         this.likes = likes;
     }
 
-    public int getViews() {
+    public long getViews() {
         return views;
     }
 
-    public void setViews(int views) {
+    public void setViews(long views) {
         this.views = views;
     }
 
@@ -107,5 +115,16 @@ public class Video {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public VideoPreview toPreview(Context context){
+        return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
+    }
+
+    public String getName() {
+        return name;
+    }
+    public String toString(){
+        return getName();
     }
 }
