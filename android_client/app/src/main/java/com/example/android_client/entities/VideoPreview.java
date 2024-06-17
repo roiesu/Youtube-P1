@@ -14,6 +14,7 @@ public class VideoPreview {
     private String displayUploader;
     private Date date;
     private long views;
+    private long duration;
     private Bitmap thumbnail;
     public VideoPreview(int id,String name, String displayUploader, Date date, long views, String src,Context context){
         this.id=id;
@@ -21,17 +22,21 @@ public class VideoPreview {
         this.displayUploader=displayUploader;
         this.date=date;
         this.views=views;
-        this.thumbnail=createVideoThumb(context,src);
+        Object [] details = createVideoThumb(context,src);
+        this.thumbnail=(Bitmap) details[0];
+        this.duration=(long)details[1];
     }
-    private Bitmap createVideoThumb(Context context,String src) {
+    private Object[] createVideoThumb(Context context,String src) {
         int videoResId = context.getResources().getIdentifier(src, "raw", context.getPackageName());
         String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
         try {
-            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(context, Uri.parse(uriString));
-            return mediaMetadataRetriever.getFrameAtTime();
+            MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
+            mediaRetriever.setDataSource(context, Uri.parse(uriString));
+            String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            Long seconds = (long) Math.floor(Long.parseLong(time)/1000);
+            return new Object []{mediaRetriever.getFrameAtTime(),seconds};
         } catch (Exception ex) {
-            Log.w("BishBash",ex.toString());
+            Log.w("Error",ex.toString());
         }
         return null;
 
@@ -82,5 +87,13 @@ public class VideoPreview {
 
     public void setThumbnail(Bitmap thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

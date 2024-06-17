@@ -9,37 +9,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/videoPreview"
+
+        <RelativeLayout
+            android:id="@+id/imgContainer"
             android:layout_width="358dp"
             android:layout_height="250dp"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/videoPreview"
+                android:layout_width="358dp"
+                android:layout_height="250dp"
+                 />
+
+            <TextView
+                android:id="@+id/videoDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="00:00" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/videoTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/videoPreview"
-            android:text="Title"/>
+            android:layout_below="@+id/imgContainer"
+            android:text="Title" />
+
         <TextView
             android:id="@+id/videoUploader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videoTitle"
-            android:text="Uploader"/>
+            android:text="Uploader" />
+
         <TextView
             android:id="@+id/videoViews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videoTitle"
             android:layout_toRightOf="@id/videoUploader"
-            android:text="Views"/>
+            android:text="Views" />
+
         <TextView
             android:id="@+id/videoDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videoTitle"
             android:layout_toRightOf="@id/videoViews"
-            android:text="Date"/>
+            android:text="Date" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
