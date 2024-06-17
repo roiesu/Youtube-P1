@@ -24,12 +24,11 @@ public class MainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
-        ArrayList<User> videos2 = DataManager.getInstance().usersList;
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
         // Get previews
         ArrayList<VideoPreview> videos = new ArrayList<>();
-        for(Video video:DataManager.videoList){
+        for(Video video:DataManager.getVideoList()){
             videos.add(video.toPreview(this));
         }
         VideoAdapter adapter = new VideoAdapter(this, videos);
