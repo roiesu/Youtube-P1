@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }.getType();
             DataManager.setUsersList(loadDataFromJson("users.json", userListType));
             DataManager.setVideoList(loadDataFromJson("videos.json", videoListType));
+            DataManager.setCurrentUser(DataManager.getUsersList().get(0));
             DataManager.setInitialized(true);
         }
 
