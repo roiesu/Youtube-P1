@@ -24,18 +24,20 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<User> users;
-    private ArrayList<Video> videos;
-    private User currentUser;
     private TextView view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
-        Type videoListType = new TypeToken<ArrayList<Video>>(){}.getType();
-        DataManager.setUsersList(loadDataFromJson("users.json",userListType));
-        DataManager.setVideoList(loadDataFromJson("videos.json",videoListType));
+            super.onCreate(savedInstanceState);
+            EdgeToEdge.enable(this);
+        if(!DataManager.isInitialized()) {
+            Type userListType = new TypeToken<ArrayList<User>>() {
+            }.getType();
+            Type videoListType = new TypeToken<ArrayList<Video>>() {
+            }.getType();
+            DataManager.setUsersList(loadDataFromJson("users.json", userListType));
+            DataManager.setVideoList(loadDataFromJson("videos.json", videoListType));
+            DataManager.setInitialized(true);
+        }
 
         setContentView(R.layout.activity_main);
         view = findViewById(R.id.main_page);
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainPage.class);
             startActivity(intent);
         });
+        DataManager.printUsers();
     }
     private <T> ArrayList<T> loadDataFromJson(String fileName, Type type) {
         ArrayList<T> array = new ArrayList<>();

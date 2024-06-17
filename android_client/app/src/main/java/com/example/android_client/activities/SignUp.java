@@ -3,6 +3,7 @@ package com.example.android_client.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,7 @@ public class SignUp extends AppCompatActivity {
             return;
         }
         User newUser = new User(inputs[0].getInputText(), inputs[1].getInputText(), inputs[3].getInputText(), imageUri.toString());
-        DataManager.getInstance().usersList.add(newUser);
+        DataManager.addUser(newUser);
         DataManager.getInstance().setCurrentUser(newUser);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
