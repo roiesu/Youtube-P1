@@ -31,7 +31,7 @@ public class VideoPreview {
             mediaMetadataRetriever.setDataSource(context, Uri.parse(uriString));
             return mediaMetadataRetriever.getFrameAtTime();
         } catch (Exception ex) {
-            Log.w("BishBash",ex.toString());
+            Log.w("Error",ex.toString());
         }
         return null;
 

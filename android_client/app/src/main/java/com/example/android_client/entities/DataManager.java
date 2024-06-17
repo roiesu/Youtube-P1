@@ -1,14 +1,7 @@
 package com.example.android_client.entities;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,7 +10,7 @@ public class DataManager {
     private static ArrayList<User> usersList;
     private static ArrayList<Video> videoList;
 
-    public static User currentUser;
+    private static User currentUser;
     private static DataManager instance;
 
     private static boolean initialized;
@@ -63,7 +56,6 @@ public class DataManager {
     }
     public static User findUser(String username) {
         for (User user : usersList) {
-            Log.w("Useranme", user.getUsername());
             if (user.getUsername().equals(username))
                 return user;
         }
@@ -81,10 +73,11 @@ public class DataManager {
         }
         return null;
     }
-    public static void findVideoAndLike(int id,String username){
+    public static void likeVideo(int id, String username){
         for (Video video : videoList) {
             if (video.getId() == id) {
                 video.like(username);
+                return;
             }
         }
     }
@@ -92,6 +85,7 @@ public class DataManager {
         for (Video video : videoList) {
             if (video.getId() == id) {
                 video.addComment(username,displayUsername,text);
+                return;
             }
         }
     }
@@ -99,11 +93,12 @@ public class DataManager {
         for (Video video : videoList) {
             if (video.getId() == id) {
                 video.deleteComment(username,date);
+                return;
             }
         }
     }
 
-    public static void updateCommentInVideo(int id, String username, Date date, String newText){
+    public void updateCommentInVideo(int id, String username, Date date, String newText){
         for (Video video : videoList) {
             if (video.getId() == id) {
                 video.editComment(username,date,newText);
@@ -117,5 +112,7 @@ public class DataManager {
         }
     }
 
-
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 }
