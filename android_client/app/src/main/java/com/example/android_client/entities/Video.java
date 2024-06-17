@@ -118,13 +118,44 @@ public class Video {
         this.tags = tags;
     }
 
-    public VideoPreview toPreview(Context context){
-        return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
-    }
-
     public String getName() {
         return name;
     }
+
+    public VideoPreview toPreview(Context context){
+        return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
+    }
+    public void addView(){
+        this.views++;
+    }
+    public void like(String user){
+        for(int i=0;i<likes.size();i++){
+            if(likes.get(i).equals(user)){
+                likes.remove(i);
+                return;
+            }
+        }
+        likes.add(user);
+    }
+    public void addComment(String username,String displayUsername,String text){
+        Comment comment = new Comment(new Date(),username,displayUsername,text);
+        comments.add(comment);
+    }
+    public void editComment(String username,Date date,String newText){
+        for(Comment comment: comments){
+            if(comment.getDate_time().equals(date)&&comment.getUser().equals(username)){
+                comment.setText(newText);
+            }
+        }
+    }
+    public void deleteComment(String username,Date date){
+        for (int i=0;i<comments.size();i++){
+            if(comments.get(i).getDate_time().equals(date)&&comments.get(i).getUser().equals(username)){
+                comments.remove(i);
+            }
+        }
+    }
+
     public String toString(){
         return getName();
     }

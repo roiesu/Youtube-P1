@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class DataManager {
@@ -69,13 +70,45 @@ public class DataManager {
         return null;
     }
 
-    public static Video findVideoById(int id) {
+    public static Video findVideoById(int id,boolean addView) {
         for (Video video : videoList) {
             if (video.getId() == id) {
+                if(addView){
+                    video.addView();
+                }
                 return video;
             }
         }
         return null;
+    }
+    public static void findVideoAndLike(int id,String username){
+        for (Video video : videoList) {
+            if (video.getId() == id) {
+                video.like(username);
+            }
+        }
+    }
+    public static void commentVideo(int id,String username,String displayUsername,String text){
+        for (Video video : videoList) {
+            if (video.getId() == id) {
+                video.addComment(username,displayUsername,text);
+            }
+        }
+    }
+    public static void removeCommentFromVideo(int id, String username, Date date){
+        for (Video video : videoList) {
+            if (video.getId() == id) {
+                video.deleteComment(username,date);
+            }
+        }
+    }
+
+    public static void updateCommentInVideo(int id, String username, Date date, String newText){
+        for (Video video : videoList) {
+            if (video.getId() == id) {
+                video.editComment(username,date,newText);
+            }
+        }
     }
     // Debugging
     public static void printUsers(){

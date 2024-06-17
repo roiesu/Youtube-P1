@@ -28,7 +28,7 @@ public class WatchingVideo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         int id=intent.getIntExtra("videoId",0);
-        video = DataManager.findVideoById(id);
+        video = DataManager.findVideoById(id,true);
         if(video==null){
             setContentView(R.layout.video_not_found_layout);
             return;
