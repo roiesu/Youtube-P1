@@ -74,8 +74,7 @@ public class VideoUpload extends AppCompatActivity {
         Date dateTime = new Date();
         ArrayList<Comment> comments = new ArrayList<>();
 
-        Video newVideo = new Video(id, uploader, displayUploader, src, likes, views, dateTime, description, tags);
-        newVideo.setComments(comments);
+        Video newVideo = new Video(id,name, uploader, displayUploader, src, likes, views, dateTime, description, tags,comments);
 
         // TODO: Handle the video object
     }
