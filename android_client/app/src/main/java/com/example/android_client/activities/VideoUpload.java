@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android_client.R;
-import com.example.android_client.entities.User;
+import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.entities.Comment;
 
@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class VideoUpload extends AppCompatActivity {
-    private User currentUser;  // tmp
     private VideoView previewVideo;
     private Uri videoUri;
     private Button uploadVideoButton, submitVideoDetailsButton;
@@ -66,8 +65,8 @@ public class VideoUpload extends AppCompatActivity {
         String name = videoNameInput.getText().toString();
         String description = videoDescriptionInput.getText().toString();
         ArrayList<String> tags = new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(",")));
-        String uploader = currentUser.getUsername();
-        String displayUploader = currentUser.getName();
+        String uploader = DataManager.getCurrentUser().getUsername();
+        String displayUploader = DataManager.getCurrentUser().getName();
         String src = videoUri.toString();
         ArrayList<String> likes = new ArrayList<>();
         int views = 0;
