@@ -25,11 +25,8 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
         ArrayList<User> videos2 = DataManager.getInstance().usersList;
-        Log.w("Video",videos2.get(0).getName());
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
-        Log.w("Test1",getPackageName());
-        Log.w("Test1", String.valueOf(R.raw.lukaku));
         // Get previews
         ArrayList<VideoPreview> videos = new ArrayList<>();
         for(Video video:DataManager.videoList){
