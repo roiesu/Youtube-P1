@@ -23,7 +23,11 @@
         </activity>
         <activity android:name=".activities.SignUp" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.MainPage" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.WatchingVideo" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.WatchingVideo"/>
+        <activity android:name=".activities.MyVideos" />
+        <activity android:name=".activities.SignIn" />
+        <activity android:name=".activities.UploadVideo" />
+
     </application>
 
 </manifest>

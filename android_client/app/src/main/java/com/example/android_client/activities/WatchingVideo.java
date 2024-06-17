@@ -1,4 +1,7 @@
 package com.example.android_client.activities;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.android_client.R;
 
 import android.content.Intent;
 import android.net.Uri;
