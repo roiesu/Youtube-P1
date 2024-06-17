@@ -2,6 +2,7 @@ package com.example.android_client.entities;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
