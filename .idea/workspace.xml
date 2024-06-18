@@ -15,7 +15,17 @@
           <theme>@style/Theme.Android_client</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml">
+        <config>
+          <theme>@style/Theme.Android_client</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml">
+        <config>
+          <theme>@style/Theme.Android_client</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/my_video_item.xml">
         <config>
           <theme>@style/Theme.Android_client</theme>
         </config>
@@ -57,7 +67,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f33c6a07-f0ff-4cf0-b627-0fcc3d4df9e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/fragments/NavBarFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/fragments/NavBarFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/entities/NavBarFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/fragments/NavBarFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,8 +131,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -158,7 +171,7 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "fix-visibility-main-page",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/app/src/main/java",
     "last_opened_file_path": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/settings.gradle.kts",
