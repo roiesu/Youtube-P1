@@ -1,6 +1,7 @@
 package com.example.android_client.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainPage.class);
             startActivity(intent);
 
+        // ATTENTION: This was auto-generated to handle app links.
+//        Intent appLinkIntent = getIntent();
+//        String appLinkAction = appLinkIntent.getAction();
+//        Uri appLinkData = appLinkIntent.getData();
     }
     private <T> ArrayList<T> loadDataFromJson(String fileName, Type type) {
         ArrayList<T> array = new ArrayList<>();
