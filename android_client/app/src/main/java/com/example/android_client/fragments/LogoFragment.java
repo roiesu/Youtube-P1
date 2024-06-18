@@ -1,5 +1,6 @@
 package com.example.android_client.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,7 +25,10 @@ public class LogoFragment extends Fragment {
         logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MainPage.class));
+                Context context = getActivity();
+                if (!(context instanceof MainPage)) {
+                    startActivity(new Intent(getActivity(), MainPage.class));
+                }
             }
         });
 
