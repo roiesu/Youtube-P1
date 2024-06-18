@@ -6,4 +6,6 @@
     <string name="validate_password_input">Validate Password</string>
     <string name="submit">submit</string>
     <string name="logo_desc">App Logo</string>
+    <string name="video_name">Video Name</string>
+    <string name="video_description">Video Description</string>
 </resources>
