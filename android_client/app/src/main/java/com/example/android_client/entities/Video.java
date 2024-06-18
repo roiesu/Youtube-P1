@@ -142,13 +142,14 @@ public class Video {
         likes.add(user);
     }
     public void addComment(String username,String displayUsername,String text){
-        Comment comment = new Comment(new Date(),username,displayUsername,text);
+        Comment comment = new Comment(new Date(),username,displayUsername,text,false);
         comments.add(0,comment);
     }
     public void editComment(String username,Date date,String newText){
         for(Comment comment: comments){
             if(comment.getDate_time().equals(date)&&comment.getUser().equals(username)){
                 comment.setText(newText);
+                comment.setEdited(false);
             }
         }
     }
