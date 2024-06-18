@@ -15,7 +15,17 @@
           <theme>@style/Theme.Android_client</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml">
+        <config>
+          <theme>@style/Theme.Android_client</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml">
+        <config>
+          <theme>@style/Theme.Android_client</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/my_video_item.xml">
         <config>
           <theme>@style/Theme.Android_client</theme>
         </config>
@@ -57,22 +67,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f33c6a07-f0ff-4cf0-b627-0fcc3d4df9e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MyVideos.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MyVideos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/SignIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/UploadVideo.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/UploadVideo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/WatchingVideo.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/WatchingVideo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/entities/NavBarFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/fragments/NavBarFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/sign_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/sign_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/upload_video.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/upload_video.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/video_link_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/video_link_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,8 +131,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -166,13 +164,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Android App.app.executor": "Run",
+    "Android App.client_android.app.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main-page-functions",
+    "git-widget-placeholder": "fix-visibility-main-page",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/app/src/main/java",
     "last_opened_file_path": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/settings.gradle.kts",
@@ -187,7 +186,7 @@
       <recent name="C:\Users\roies\OneDrive\Desktop\cs\mitkadem\Youtube-P1\android_client\app\src\main\res\mipmap-hdpi" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.client_android.app">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="android_client.app.main" />
       <option name="DEPLOY" value="true" />
@@ -256,7 +255,7 @@
       </method>
     </configuration>
     <configuration name="client_android.app" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="client_android.app.main" />
+      <module name="android_client.app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
