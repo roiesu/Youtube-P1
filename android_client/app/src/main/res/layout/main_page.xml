@@ -8,63 +8,39 @@
     android:background="@android:color/white"
     tools:context=".activities.MainPage">
 
-    <ImageView
-        android:id="@+id/logoImageView"
+    <fragment
+        android:id="@+id/logoFragment"
+        android:name="com.example.android_client.fragments.LogoFragment"
         android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:src="@drawable/logo"
-    android:contentDescription="@string/logo_desc"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/headerTitle"
-    app:layout_constraintEnd_toStartOf="@id/guideline" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <!-- TextView for the header title -->
-    <TextView
-        android:id="@+id/headerTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Featured Videos"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/logoImageView"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:clipToPadding="false"
-        android:padding="8dp"
+        android:paddingBottom="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/headerTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoFragment"
+        app:layout_constraintBottom_toTopOf="@id/navBarFragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/video_link_item"/>
+        tools:listitem="@layout/video_link_item" />
 
     <fragment
         android:id="@+id/navBarFragment"
-        android:name="com.example.android_client.entities.NavBarFragment"
+        android:name="com.example.android_client.fragments.NavBarFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
