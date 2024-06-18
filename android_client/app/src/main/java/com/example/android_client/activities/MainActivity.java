@@ -30,44 +30,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             EdgeToEdge.enable(this);
-        if(!DataManager.isInitialized()) {
-            Type userListType = new TypeToken<ArrayList<User>>() {
-            }.getType();
-            Type videoListType = new TypeToken<ArrayList<Video>>() {
-            }.getType();
-            DataManager.setUsersList(loadDataFromJson("users.json", userListType));
-            DataManager.setVideoList(loadDataFromJson("videos.json", videoListType));
-            DataManager.setCurrentUser(DataManager.getUsersList().get(0));
-            DataManager.setInitialized(true);
-        }
+            DataManager.initializeData(this);
             Intent intent = new Intent(this, MainPage.class);
             startActivity(intent);
-
-        // ATTENTION: This was auto-generated to handle app links.
-//        Intent appLinkIntent = getIntent();
-//        String appLinkAction = appLinkIntent.getAction();
-//        Uri appLinkData = appLinkIntent.getData();
     }
-    private <T> ArrayList<T> loadDataFromJson(String fileName, Type type) {
-        ArrayList<T> array = new ArrayList<>();
-        try {
-            // Open and read the json file
-            InputStream is = getAssets().open(fileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            // Converts the file to string
-            String json = new String(buffer, "UTF-8");
-            // Parse the json file
-            Gson gson = new Gson();
 
-            array = gson.fromJson(json, type);
-            return array;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return array;
-    }
 }
