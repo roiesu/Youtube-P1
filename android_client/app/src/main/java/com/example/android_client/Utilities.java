@@ -53,11 +53,15 @@ public static String numberFormatter(long number){
     public static String secondsToTime(long seconds) {
         int minutes=(int)(seconds/60)%60;
         int hours=(int)(seconds/3600);
-        int newSeconds=(int)seconds%60;
+        seconds=seconds%60;
         if(hours==0){
-            return String.format("%02d:%02d",minutes,newSeconds);
+            return String.format("%02d:%02d",minutes,seconds);
         }
-        return String.format("%02d:%02d:%02d",hours, minutes,newSeconds);
+        return String.format("%02d:%02d:%02d",hours, minutes,seconds);
+    }
+    public static String formatDate(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, YYYY ");
+        return formatter.format(date);
     }
 
 }

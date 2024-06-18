@@ -38,7 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Comment comment = comments.get(position);
         holder.commentText.setText(comment.getText());
         holder.commentUser.setText(comment.getUser());
-        holder.commentDate.setText(""+comment.getDate_time());
+        holder.commentDate.setText(Utilities.dateDiff(comment.getDate_time()));
     }
 
     @Override

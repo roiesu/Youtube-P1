@@ -50,6 +50,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.getId());
             context.startActivity(intent);
+            video.addView();
+            this.notifyItemChanged(position);
         });
     }
 
