@@ -15,6 +15,11 @@
           <theme>@style/Theme.Android_client</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml">
+        <config>
+          <theme>@style/Theme.Android_client</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml">
         <config>
           <theme>@style/Theme.Android_client</theme>
@@ -119,8 +124,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -310,6 +315,7 @@
       </method>
     </configuration>
     <configuration name="client_android.app.androidTest" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="client_android.app.androidTest" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -453,5 +459,16 @@
       <updated>1718357366627</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
