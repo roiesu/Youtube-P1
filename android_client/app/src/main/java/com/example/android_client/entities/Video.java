@@ -122,10 +122,6 @@ public class Video {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public VideoPreview toPreview(Context context){
         return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
     }
