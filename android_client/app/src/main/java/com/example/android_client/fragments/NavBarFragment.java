@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.android_client.R;
 import com.example.android_client.activities.MainPage;
-import com.example.android_client.activities.MyVideos;
+import com.example.android_client.activities.MyVideosPage;
 import com.example.android_client.activities.SignIn;
 import com.example.android_client.activities.SignUp;
 
@@ -40,7 +40,7 @@ public class NavBarFragment extends Fragment {
         btnMyVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyVideos.class));
+                startActivity(new Intent(getActivity(), MyVideosPage.class));
             }
         });
 

@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/navBarFragment"
-        android:name="com.example.android_client.entities.NavBarFragment"
+        android:name="com.example.android_client.fragments.NavBarFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
