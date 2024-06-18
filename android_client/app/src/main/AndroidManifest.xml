@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
-                <data android:host="www.bish-bash.co.il" />
+                <data android:host="bish-bash.gov" />
             </intent-filter>
         </activity>
         <activity
@@ -47,11 +47,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
-                <data android:host="www.bish-bash.co.il" />
+                <data android:host="bish-bash.gov" />
                 <data android:pathPrefix="/watch" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignUp" android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.SignUp"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.MyVideosPage" />
         <activity android:name=".activities.SignIn" />
         <activity android:name=".activities.VideoUpload" />

@@ -7,12 +7,14 @@ public class Comment {
     private String user;
     private String display_name;
     private String text;
+    private boolean edited;
 
-    public Comment(Date dateTime, String user, String displayName, String text) {
+    public Comment(Date dateTime, String user, String displayName, String text,boolean edited) {
         this.date_time = dateTime;
         this.user = user;
         this.display_name = displayName;
         this.text = text;
+        this.edited=edited;
     }
 
     public Date getDate_time() {
@@ -45,5 +47,18 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void edit(String text){
+        this.text=text;
+        this.edited=true;
+    }
+
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
     }
 }
