@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -106,6 +107,19 @@ public class DataManager {
         }
     }
 
+    public static void updateVideo(int videoId, String newName, String newDescription) {
+        for (Video video : videoList) {
+            if (video.getId() == videoId) {
+                if (newName != null && !newName.isEmpty()) {
+                    video.setName(newName);
+                }
+                if (newDescription != null && !newDescription.isEmpty()) {
+                    video.setDescription(newDescription);
+                }
+            }
+        }
+    }
+
     public void updateCommentInVideo(int id, String username, Date date, String newText) {
         for (Video video : videoList) {
             if (video.getId() == id) {
@@ -137,4 +151,32 @@ public class DataManager {
     public static User getCurrentUser() {
         return currentUser;
     }
+    public static Video findVideoById(int id) {
+        for (Video video : videoList) {
+            if (video.getId() == id) {
+                return video;
+            }
+        }
+        return null;
+    }
+    
+    
+
+    public static List<Video> getUserVideos() {
+        return videoList;
+    }
+
+    public static void initializeVideos(List<Video> initialVideos) {
+        List<Video> videos = initialVideos;
+    }
+
+    public static void deleteVideoById(int videoId) {
+        Video video = findVideoById(videoId);
+        if (video != null) {
+            videoList.remove(video);
+            // Also delete the video from the server or persistent storage if necessary
+        }
+    }
+
+
 }
