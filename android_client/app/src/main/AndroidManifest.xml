@@ -34,13 +34,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SignUp"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".activities.MainPage"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.WatchingVideo"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -54,8 +52,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SignUp" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.MainPage"/>
-        <activity android:name=".activities.WatchingVideo" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.MyVideosPage" />
         <activity android:name=".activities.SignIn" />
         <activity android:name=".activities.VideoUpload" />
