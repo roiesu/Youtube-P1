@@ -24,14 +24,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 public class MainPage extends AppCompatActivity {
 
     private RecyclerView videoList;
+
+    private ArrayList<VideoPreview> videos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
-        // Get previews
-        ArrayList<VideoPreview> videos = new ArrayList<>();
+
+        videos= new ArrayList<>();
         for(Video video:DataManager.getVideoList()){
             videos.add(video.toPreview(this));
         }
@@ -46,5 +48,4 @@ public class MainPage extends AppCompatActivity {
             videoList.addItemDecoration(dividerItemDecoration);
         }
     }
-
 }

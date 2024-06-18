@@ -43,7 +43,7 @@ function UploadVideo({videos, setVideos,currentUser}) {
       comments:[]
     }
     setVideos([...videos,newVideo]);
-    navigate('/myvideos');
+    navigate('/my-videos');
   }
 
   return (

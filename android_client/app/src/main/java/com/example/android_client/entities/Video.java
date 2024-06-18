@@ -139,7 +139,7 @@ public class Video {
     }
     public void addComment(String username,String displayUsername,String text){
         Comment comment = new Comment(new Date(),username,displayUsername,text);
-        comments.add(comment);
+        comments.add(0,comment);
     }
     public void editComment(String username,Date date,String newText){
         for(Comment comment: comments){

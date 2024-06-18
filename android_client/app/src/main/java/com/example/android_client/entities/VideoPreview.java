@@ -96,4 +96,8 @@ public class VideoPreview {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
+    public void addView(){
+        this.views++;
+    }
 }

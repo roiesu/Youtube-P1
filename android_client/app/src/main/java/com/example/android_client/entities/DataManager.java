@@ -126,7 +126,6 @@ public class DataManager {
         Pattern regex= Pattern.compile(".*"+value+".*",Pattern.CASE_INSENSITIVE);
         for (Video video : videoList) {
             String keyValue = key==FILTER_UPLOADER_KEY ? video.getUploader() : key==FILTER_TITLE_KEY ? video.getName() : "";
-            Log.w("REGEX",keyValue);
             if (regex.matcher(keyValue).matches()) {
                 filteredVideos.add(video);
             }
