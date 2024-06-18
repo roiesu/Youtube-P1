@@ -1,6 +1,5 @@
 package com.example.android_client.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import com.example.android_client.activities.MainPage;
 import com.example.android_client.activities.MyVideos;
 import com.example.android_client.activities.SignIn;
 import com.example.android_client.activities.SignUp;
-import com.example.android_client.entities.DataManager;
 
 public class NavBarFragment extends Fragment {
 
@@ -35,53 +33,39 @@ public class NavBarFragment extends Fragment {
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity();
-                if (!(context instanceof MainPage)) {
-                    startActivity(new Intent(getActivity(), MainPage.class));
-                }
+                startActivity(new Intent(getActivity(), MainPage.class));
             }
         });
 
         btnMyVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() != null &&!(context instanceof MyVideos)) {
-                    startActivity(new Intent(getActivity(), MyVideos.class));
-                }
+                startActivity(new Intent(getActivity(), MyVideos.class));
             }
         });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Context context = getActivity();
-                    if (DataManager.getCurrentUser() != null && !(context instanceof SignIn)) {
-                        startActivity(new Intent(getActivity(), SignIn.class));
-                    }
-                }
+                startActivity(new Intent(getActivity(), SignIn.class));
+            }
         });
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() == null &&!(context instanceof SignIn)) {
-                    startActivity(new Intent(getActivity(), SignIn.class));
-                }
+                startActivity(new Intent(getActivity(), SignIn.class));
             }
         });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() == null && !(context instanceof SignUp)) {
-                    startActivity(new Intent(getActivity(), SignUp.class));
-                }
+                startActivity(new Intent(getActivity(), SignUp.class));
             }
         });
 
         return view;
     }
 }
+
