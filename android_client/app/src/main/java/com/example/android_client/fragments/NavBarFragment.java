@@ -1,4 +1,4 @@
-package com.example.android_client.entities;
+package com.example.android_client.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
