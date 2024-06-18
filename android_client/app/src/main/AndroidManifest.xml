@@ -20,13 +20,41 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:order="2">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="www.bish-bash.co.il" />
+            </intent-filter>
         </activity>
-        <activity android:name=".activities.SignUp" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.MainPage" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.WatchingVideo"/>
+        <activity
+            android:name=".activities.SignUp"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.MainPage"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.WatchingVideo"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="www.bish-bash.co.il" />
+                <data android:pathPrefix="/watch" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.MyVideos" />
         <activity android:name=".activities.SignIn" />
-        <activity android:name=".activities.UploadVideo" />
+        <activity android:name=".activities.VideoUpload" />
 
     </application>
 
