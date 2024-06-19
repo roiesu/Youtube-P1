@@ -1,12 +1,29 @@
 <resources>
     <string name="app_name">Bish Bash</string>
-    <string name="name_input">Name</string>
-    <string name="username_input">Username</string>
-    <string name="password_input">Password</string>
-    <string name="validate_password_input">Validate Password</string>
     <string name="submit">submit</string>
+    <string-array name="inputNames">
+        <item>Username</item>
+        <item>Password</item>
+        <item>Validate Password</item>
+        <item>Name</item>
+    </string-array>
+    <string-array name="inputRegex">
+        <item>^[\\w\\d!@#$%^&amp;*\\-_]{6,}$</item>
+        <item>^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!?#$%&amp;*+,\\-./@^_{}|~])[\\w\\d!?#$%&amp;*+,\\-./@^{}|~]{8,}$</item>
+        <item>.+</item>
+        <item>^[\\w\\d\\-_!@#$%^&amp;*]+( [\\w\\d\\-_!@#$%^&amp;*]+)*$</item>
+    </string-array>
+    <string-array name="inputRequierments">
+        <item>Username needs to be at least 6 letters long. Must contain only letters, numbers and special symbols.</item>
+        <item>Password needs to be at least 8 letters long, and must contain- a small letter, a capital letter, a number and a special symbol.</item>
+        <item>Password validation must be identical to the password</item>
+        <item>Name can contain letters, numbers, special letters and spaces.</item>
+    </string-array>
     <string name="logo_desc">App Logo</string>
-    <string name="video_name">Video Name</string>
-    <string name="video_description">Video Description</string>
+    <string name="move_to_signin">Log in</string>
+    <string name="move_to_signup">Create an account</string>
+    <string name="image_input">Pick Image</string>
     <string name="url">http://bish-bash.gov</string>
+    <string name="video_name">Video Title</string>
+    <string name="video_description">Video Description</string>
 </resources>
