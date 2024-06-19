@@ -19,32 +19,33 @@
 
     <TextView
         android:id="@+id/welcomeMessage"
-        android:layout_width="275dp"
-        android:layout_height="38dp"
+        android:layout_width="323dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/welcome_message_background"
         android:gravity="center_vertical"
         android:padding="8dp"
         android:text="Welcome!"
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.287"
+        app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toEndOf="@id/logoFragment"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/searchInput"
-        android:layout_width="173dp"
+        android:layout_width="219dp"
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/search_input_background"
         android:hint="Search..."
         android:padding="12dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +55,23 @@
         android:id="@+id/searchButton"
         android:layout_width="86dp"
         android:layout_height="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/search_button_background"
         android:text="Search"
         android:textColor="@android:color/white"
         android:textSize="25px"
+        app:layout_constraintEnd_toStartOf="@id/darkModeButton"
+        app:layout_constraintTop_toBottomOf="@id/welcomeMessage" />
+
+    <ImageButton
+        android:id="@+id/darkModeButton"
+        android:layout_width="39dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_dark_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeMessage" />
 
@@ -75,6 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchInput"
+        app:layout_constraintVertical_bias="0.468"
         tools:listitem="@layout/video_link_item" />
 
     <fragment
