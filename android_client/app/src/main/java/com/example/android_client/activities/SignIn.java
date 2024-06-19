@@ -23,6 +23,7 @@ public class SignIn extends AppCompatActivity {
     private RecyclerView inputList;
     private Button submit;
     private TextView errorView;
+    private Button change;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,11 @@ public class SignIn extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(l->{login();});
         errorView = findViewById(R.id.validationError);
+        change = findViewById(R.id.signup);
+        change.setOnClickListener(l->{
+            Intent intent = new Intent(l.getContext(),SignUp.class);
+            startActivity(intent);
+        });
     }
     private void login(){
         User user= DataManager.findUser(inputs.get(0).getInputText());

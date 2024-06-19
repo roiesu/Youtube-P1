@@ -31,41 +31,56 @@
             <ImageView
                 android:id="@+id/imagePreview"
                 android:layout_width="150dp"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:contentDescription="@string/image_input" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </LinearLayout>
         <TextView
             android:id="@+id/validationError"
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/input_validation"/>
+            tools:listitem="@layout/input_validation" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <Button
                 android:id="@+id/imageInput"
                 style="@style/input_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pick Image" />
-            <Button
-                android:id="@+id/submit"
-                style="@style/input_button"
+                android:text="@string/image_input" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageInput"
+                android:layout_below="@id/imageInput"
                 android:layout_centerHorizontal="true"
-                android:text="@string/submit" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/submit" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/signin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/move_to_signin" />
+            </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 
