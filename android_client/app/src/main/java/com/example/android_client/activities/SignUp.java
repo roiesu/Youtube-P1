@@ -40,6 +40,8 @@ public class SignUp extends AppCompatActivity {
     private Uri imageUri;
     private TextView errorView;
 
+    private Button change;
+
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
 
 
@@ -62,7 +64,11 @@ public class SignUp extends AppCompatActivity {
         previewImage = findViewById(R.id.imagePreview);
         uploadImageButton =findViewById(R.id.imageInput);
         errorView = findViewById(R.id.validationError);
-
+        change = findViewById(R.id.signin);
+        change.setOnClickListener(l->{
+            Intent intent = new Intent(l.getContext(),SignIn.class);
+            startActivity(intent);
+        });
         pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri != null) {
                 imageUri = uri;
