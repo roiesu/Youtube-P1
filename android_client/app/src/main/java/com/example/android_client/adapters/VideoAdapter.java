@@ -55,7 +55,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             this.notifyItemChanged(position);
         });
     }
-
+    public void setVideos(ArrayList<VideoPreview> newVideos){
+        this.videos=newVideos;
+    }
     @Override
     public int getItemCount() {
         return videos.size();
