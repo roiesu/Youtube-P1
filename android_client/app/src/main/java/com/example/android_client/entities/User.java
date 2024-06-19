@@ -1,5 +1,7 @@
 package com.example.android_client.entities;
 
+import android.net.Uri;
+
 import androidx.annotation.Nullable;
 
 public class User {
@@ -41,6 +43,9 @@ public class User {
 
     public String getImage() {
         return image;
+    }
+    public Uri getImageUri(){
+        return Uri.parse(this.image);
     }
 
     public void setImage(String image) {
