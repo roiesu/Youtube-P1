@@ -3,6 +3,7 @@ package com.example.android_client.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,14 @@ import com.example.android_client.activities.MyVideosPage;
 import com.example.android_client.activities.SignIn;
 import com.example.android_client.activities.SignUp;
 import com.example.android_client.entities.DataManager;
+import com.example.android_client.entities.User;
 
 public class NavBarFragment extends Fragment {
+    private ImageButton btnHome;
+    private ImageButton btnMyVideos;
+    private ImageButton btnLogout;
+    private ImageButton btnSignIn;
+    private ImageButton btnSignUp;
 
     public NavBarFragment() {
     }
@@ -27,65 +34,41 @@ public class NavBarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_nav_bar, container, false);
 
-        ImageButton btnHome = view.findViewById(R.id.btnHome);
-        ImageButton btnMyVideos = view.findViewById(R.id.btnMyVideos);
-        ImageButton btnLogout = view.findViewById(R.id.btnLogout);
-        ImageButton btnSignIn = view.findViewById(R.id.btnSignIn);
-        ImageButton btnSignUp = view.findViewById(R.id.btnSignUp);
+        btnHome = view.findViewById(R.id.btnHome);
+        btnMyVideos = view.findViewById(R.id.btnMyVideos);
+        btnLogout = view.findViewById(R.id.btnLogout);
+        btnSignIn = view.findViewById(R.id.btnSignIn);
+        btnSignUp = view.findViewById(R.id.btnSignUp);
 
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getActivity();
-                if (!(context instanceof MainPage)) {
-                    startActivity(new Intent(getActivity(), MainPage.class));
-                }
-            }
+        btnHome.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MainPage.class));
         });
-
-        btnMyVideos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() != null && !(context instanceof MyVideosPage)) {
-                    startActivity(new Intent(getActivity(), MyVideosPage.class));
-                }
-            }
+        btnMyVideos.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyVideosPage.class));
         });
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (DataManager.getCurrentUser() != null) {
-                    DataManager.setCurrentUser(null);
-                }
-                Context context = getActivity();
-                if (!(context instanceof SignIn)) {
-                    startActivity(new Intent(getActivity(), SignIn.class));
-                }
-            }
+        btnSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), SignIn.class));
         });
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() == null && !(context instanceof SignIn)) {
-                    startActivity(new Intent(getActivity(), SignIn.class));
-                }
-            }
+        btnSignUp.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), SignUp.class));
         });
-
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getActivity();
-                if (DataManager.getCurrentUser() == null && !(context instanceof SignUp)) {
-                    startActivity(new Intent(getActivity(), SignUp.class));
-                }
-            }
+        btnLogout.setOnClickListener(v -> {
+            DataManager.setCurrentUser(null);
+            startActivity(new Intent(getActivity(), SignIn.class));
         });
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (DataManager.getCurrentUser() == null) {
+            btnMyVideos.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.GONE);
+        } else {
+            btnSignIn.setVisibility(View.GONE);
+            btnSignUp.setVisibility(View.GONE);
+        }
+
     }
 }
