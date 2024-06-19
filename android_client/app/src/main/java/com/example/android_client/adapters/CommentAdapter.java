@@ -87,7 +87,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             AlertDialog dialog = createInputDialog(view.getContext(), commentPlace);
             if (menuItem.getItemId() == R.id.deleteCommentOption) {
                 comments.remove(commentPlace);
-                notifyDataSetChanged();
+                notifyItemRemoved(commentPlace);
             } else if (menuItem.getItemId() == R.id.editCommentOption) {
                 dialog.show();
             }
