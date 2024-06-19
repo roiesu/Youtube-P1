@@ -136,7 +136,7 @@ public class WatchingVideo extends AppCompatActivity {
         }
         video.addComment(currentUser.getUsername(), currentUser.getName(), content);
         commentInput.setText("");
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemInserted(0);
         commentsHeader.setText(adapter.getItemCount() + " Comments");
     }
 
