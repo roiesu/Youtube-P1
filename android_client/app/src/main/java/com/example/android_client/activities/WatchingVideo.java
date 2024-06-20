@@ -12,6 +12,7 @@ import com.example.android_client.R;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
@@ -58,6 +59,8 @@ public class WatchingVideo extends AppCompatActivity {
         if (video == null) {
            intent = new Intent(this, PageNotFound.class);
             startActivity(intent);
+            finish();
+            return;
         }
 
         setContentView(R.layout.watching_video);
