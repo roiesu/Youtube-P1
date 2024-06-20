@@ -1,5 +1,8 @@
 package com.example.android_client;
 
+import android.content.Context;
+import android.net.Uri;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -62,6 +65,11 @@ public static String numberFormatter(long number){
     public static String formatDate(Date date){
         SimpleDateFormat formatter = new SimpleDateFormat("MMM d, YYYY ");
         return formatter.format(date);
+    }
+    public static String getResourceUriString(Context context, String res,String dir) {
+        int videoResId = context.getResources().getIdentifier(res, dir, context.getPackageName());
+        String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
+        return uriString;
     }
 
 }

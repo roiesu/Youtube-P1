@@ -102,22 +102,16 @@ public class WatchingVideo extends AppCompatActivity {
         commentButton.setOnClickListener(l -> {
             commentVideo(adapter);
         });
-        AlertDialog shareDialog =createShareDialog(video.getId());
-        shareButton.setOnClickListener(l->{
+        AlertDialog shareDialog = createShareDialog(video.getId());
+        shareButton.setOnClickListener(l -> {
             shareDialog.show();
         });
 
     }
 
-    private Uri getVideoURI() {
-        int videoResId = getResources().getIdentifier(video.getSrc(), "raw", getPackageName());
-        String uriString = "android.resource://" + getPackageName() + "/" + videoResId;
-        return Uri.parse(uriString);
-    }
-
     private VideoView initVideo() {
         VideoView temp = findViewById(R.id.videoView);
-        temp.setVideoURI(getVideoURI());
+        temp.setVideoURI(Uri.parse(Utilities.getResourceUriString(this, video.getSrc(), "raw")));
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(temp);
         temp.setMediaController(mediaController);
@@ -140,8 +134,8 @@ public class WatchingVideo extends AppCompatActivity {
         commentsHeader.setText(adapter.getItemCount() + " Comments");
     }
 
-    private AlertDialog createShareDialog(int videoId){
-        String shareLink = getResources().getString(R.string.url)+"/watch/"+videoId;
+    private AlertDialog createShareDialog(int videoId) {
+        String shareLink = getResources().getString(R.string.url) + "/watch/" + videoId;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setPositiveButton("Copy to clipboard", (dialog, id1) -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

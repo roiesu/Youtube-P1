@@ -3,6 +3,7 @@ package com.example.android_client.entities;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.android_client.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -70,8 +71,11 @@ public class DataManager {
         }.getType();
         Type videoListType = new TypeToken<ArrayList<Video>>() {
         }.getType();
-        DataManager.setUsersList(loadDataFromJson("users.json", userListType,context));
-        DataManager.setVideoList(loadDataFromJson("videos.json", videoListType,context));
+        DataManager.setUsersList(loadDataFromJson("users.json", userListType, context));
+        DataManager.setVideoList(loadDataFromJson("videos.json", videoListType, context));
+        for (User user : usersList) {
+            user.setImage(Utilities.getResourceUriString(context, user.getImage(),"drawable"));
+        }
         DataManager.setCurrentUser(DataManager.getUsersList().get(0));
         DataManager.setInitialized(true);
     }
@@ -171,13 +175,6 @@ public class DataManager {
         }
     }
 
-    // Debugging
-    public static void printUsers() {
-        for (User user : usersList) {
-            Log.w("Username", user.getUsername());
-        }
-    }
-
     public static ArrayList<Video> filterVideosBy(int key, String value) {
         ArrayList<Video> filteredVideos = new ArrayList<>();
         Pattern regex = Pattern.compile(".*" + value + ".*", Pattern.CASE_INSENSITIVE);
@@ -206,10 +203,6 @@ public class DataManager {
 
     public static List<Video> getUserVideos() {
         return videoList;
-    }
-
-    public static void initializeVideos(List<Video> initialVideos) {
-        List<Video> videos = initialVideos;
     }
 
     public static void deleteVideoById(int videoId) {
