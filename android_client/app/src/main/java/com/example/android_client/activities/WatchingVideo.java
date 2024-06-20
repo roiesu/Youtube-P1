@@ -3,6 +3,7 @@ package com.example.android_client.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +60,7 @@ public class WatchingVideo extends AppCompatActivity {
         }
         video = DataManager.findVideoById(id, true);
         if (video == null) {
-           intent = new Intent(this, PageNotFound.class);
+            intent = new Intent(this, PageNotFound.class);
             startActivity(intent);
             finish();
             return;
@@ -83,10 +86,16 @@ public class WatchingVideo extends AppCompatActivity {
             ((TextView) view).setText(video.getLikes().size() + "");
         });
         videoView = initVideo();
+
         commentsList = findViewById(R.id.commentsList);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
         CommentAdapter adapter = new CommentAdapter(this, video.getComments());
         commentsList.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        dividerItemDecoration.setDrawable(dividerDrawable);
+        commentsList.addItemDecoration(dividerItemDecoration);
 
         commentsHeader = findViewById(R.id.commentsTitle);
         commentsHeader.setText(adapter.getItemCount() + " Comments");
@@ -100,16 +109,19 @@ public class WatchingVideo extends AppCompatActivity {
         });
 
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         videoView.pause();
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         videoView.start();
     }
+
     private VideoView initVideo() {
         VideoView temp = findViewById(R.id.videoView);
         temp.setVideoURI(Uri.parse(Utilities.getResourceUriString(this, video.getSrc(), "raw")));

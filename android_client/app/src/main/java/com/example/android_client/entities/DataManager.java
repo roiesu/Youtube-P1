@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 
 
 public class DataManager {
-    public static int FILTER_UPLOADER_KEY = 1;
-    public static int FILTER_TITLE_KEY = 2;
+    public static final int FILTER_UPLOADER_KEY = 1;
+    public static final int FILTER_TITLE_KEY = 2;
     private static ArrayList<User> usersList;
     private static ArrayList<Video> videoList;
     private static User currentUser;
