@@ -108,8 +108,16 @@ public class SignUp extends AppCompatActivity {
         User newUser = new User(inputs.get(0).getInputText(),inputs.get(1).getInputText(),inputs.get(3).getInputText(), imageUri.toString());
         DataManager.addUser(newUser);
         DataManager.getInstance().setCurrentUser(newUser);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainPage.class);
         startActivity(intent);
+    }
+
+    public void onRestart(){
+        super.onRestart();
+        if(DataManager.getCurrentUser()!=null){
+            Intent intent= new Intent(this, PageNotFound.class);
+            startActivity(intent);
+        }
     }
 
 

@@ -3,7 +3,6 @@ package com.example.android_client.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,9 +12,6 @@ import com.example.android_client.R;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
@@ -23,19 +19,14 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
-import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
-
-import java.util.ArrayList;
 
 public class WatchingVideo extends AppCompatActivity {
     private Video video;
@@ -65,8 +56,8 @@ public class WatchingVideo extends AppCompatActivity {
         }
         video = DataManager.findVideoById(id, true);
         if (video == null) {
-            setContentView(R.layout.video_not_found_layout);
-            return;
+           intent = new Intent(this, PageNotFound.class);
+            startActivity(intent);
         }
 
         setContentView(R.layout.watching_video);
@@ -89,8 +80,6 @@ public class WatchingVideo extends AppCompatActivity {
             ((TextView) view).setText(video.getLikes().size() + "");
         });
         videoView = initVideo();
-        videoView.start();
-
         commentsList = findViewById(R.id.commentsList);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
         CommentAdapter adapter = new CommentAdapter(this, video.getComments());
@@ -108,7 +97,16 @@ public class WatchingVideo extends AppCompatActivity {
         });
 
     }
-
+    @Override
+    public void onPause(){
+        super.onPause();
+        videoView.pause();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        videoView.start();
+    }
     private VideoView initVideo() {
         VideoView temp = findViewById(R.id.videoView);
         temp.setVideoURI(Uri.parse(Utilities.getResourceUriString(this, video.getSrc(), "raw")));
