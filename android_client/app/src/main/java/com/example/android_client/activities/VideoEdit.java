@@ -51,8 +51,7 @@ public class VideoEdit extends AppCompatActivity {
     public void onRestart() {
         super.onRestart();
         if (DataManager.getCurrentUser() == null) {
-            Intent intent = new Intent(this, PageNotFound.class);
-            startActivity(intent);
+            finish();
         }
     }
 }
