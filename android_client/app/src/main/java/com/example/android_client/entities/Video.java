@@ -42,26 +42,27 @@ public class Video {
         this.tags = tags;
         this.comments = comments;
     }
-    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, long views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments,Context context) {
+
+    public Video(int id, String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
         this.id = id;
         this.name = name;
-        this.uploader = uploader;
-        this.displayUploader = displayUploader;
+        this.uploader = uploader.getUsername();
+        this.displayUploader = uploader.getName();
         this.src = src;
-        this.likes = likes;
-        this.views = views;
-        this.date_time = dateTime;
+        this.likes = new ArrayList<>();
+        this.views = 0;
+        this.date_time = new Date();
         this.description = description;
         this.tags = tags;
-        this.comments = comments;
+        this.comments = new ArrayList<>();
         createVideoDetails(context);
     }
+
     public void createVideoDetails(Context context) {
-        int videoResId = context.getResources().getIdentifier(src, "raw", context.getPackageName());
-        String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
         try {
             MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
-            mediaRetriever.setDataSource(context, Uri.parse(uriString));
+            Log.w("SRC",getSrc());
+            mediaRetriever.setDataSource(context, Uri.parse(getSrc()));
             String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
             this.setDuration(seconds);
@@ -70,6 +71,7 @@ public class Video {
             Log.w("Error", ex.toString());
         }
     }
+
     public ArrayList<Comment> getComments() {
         return comments;
     }

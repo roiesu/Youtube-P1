@@ -42,9 +42,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
     public void onBindViewHolder(VideoViewHolder holder, int position) {
         Video video = videos.get(position);
         holder.videoName.setText(video.getName());
-
-        new LoadImageTask(holder.videoThumbnail).execute(video.getSrc());
-
+        holder.videoThumbnail.setImageBitmap(video.getThumbnail());
         holder.editButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, VideoEdit.class);
             intent.putExtra("VIDEO_ID", video.getId());
@@ -85,34 +83,6 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
             videoName = itemView.findViewById(R.id.videoName);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
-        }
-    }
-
-    private static class LoadImageTask extends AsyncTask<String, Void, Bitmap> {
-        private ImageView imageView;
-
-        public LoadImageTask(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap bitmap = null;
-            try {
-                InputStream input = new URL(url).openStream();
-                bitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
-            }
         }
     }
 }

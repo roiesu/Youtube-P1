@@ -85,7 +85,7 @@ public class WatchingVideo extends AppCompatActivity {
             DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
             ((TextView) view).setText(video.getLikes().size() + "");
         });
-        videoView = initVideo();
+        initVideo();
 
         commentsList = findViewById(R.id.commentsList);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
@@ -122,13 +122,12 @@ public class WatchingVideo extends AppCompatActivity {
         videoView.start();
     }
 
-    private VideoView initVideo() {
-        VideoView temp = findViewById(R.id.videoView);
-        temp.setVideoURI(Uri.parse(Utilities.getResourceUriString(this, video.getSrc(), "raw")));
+    private void initVideo() {
+
+        videoView.setVideoURI(Uri.parse(video.getSrc()));
         MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(temp);
-        temp.setMediaController(mediaController);
-        return temp;
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
     }
 
     private void commentVideo(CommentAdapter adapter) {
