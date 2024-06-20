@@ -1,6 +1,9 @@
 package com.example.android_client.entities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.android_client.Utilities;
@@ -74,7 +77,10 @@ public class DataManager {
         DataManager.setUsersList(loadDataFromJson("users.json", userListType, context));
         DataManager.setVideoList(loadDataFromJson("videos.json", videoListType, context));
         for (User user : usersList) {
-            user.setImage(Utilities.getResourceUriString(context, user.getImage(),"drawable"));
+            user.setImage(Utilities.getResourceUriString(context, user.getImage(), "drawable"));
+        }
+        for (Video video : videoList) {
+            video.createVideoDetails(context);
         }
         DataManager.setCurrentUser(DataManager.getUsersList().get(0));
         DataManager.setInitialized(true);
