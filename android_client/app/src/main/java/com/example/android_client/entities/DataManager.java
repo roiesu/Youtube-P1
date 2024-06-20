@@ -80,6 +80,7 @@ public class DataManager {
             user.setImage(Utilities.getResourceUriString(context, user.getImage(), "drawable"));
         }
         for (Video video : videoList) {
+            video.setSrc(Utilities.getResourceUriString(context, video.getSrc(), "raw"));
             video.createVideoDetails(context);
         }
         DataManager.setCurrentUser(DataManager.getUsersList().get(0));
@@ -217,6 +218,13 @@ public class DataManager {
             videoList.remove(video);
             // Also delete the video from the server or persistent storage if necessary
         }
+    }
+
+    public static Video createVideo(String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
+        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
+        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
+        getVideoList().add(newVideo);
+        return newVideo;
     }
 
 

@@ -28,7 +28,6 @@ public class VideoUpload extends AppCompatActivity {
     private Uri videoUri;
     private Button uploadVideoButton, submitVideoDetailsButton;
     private EditText videoNameInput, videoDescriptionInput, videoTagsInput;
-
     private ActivityResultCallback<Uri> videoCallback = uri -> {
         if (uri != null) {
             videoUri = uri;
@@ -58,6 +57,7 @@ public class VideoUpload extends AppCompatActivity {
         submitVideoDetailsButton.setOnClickListener(view -> {
             if (videoUri != null) {
                 createVideoObject();
+                finish();
             }
         });
     }
@@ -70,20 +70,10 @@ public class VideoUpload extends AppCompatActivity {
     }
 
     private void createVideoObject() {
-        int id = 1; // tmp
         String name = videoNameInput.getText().toString();
         String description = videoDescriptionInput.getText().toString();
         ArrayList<String> tags = new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(",")));
-        String uploader = DataManager.getCurrentUser().getUsername();
-        String displayUploader = DataManager.getCurrentUser().getName();
         String src = videoUri.toString();
-        ArrayList<String> likes = new ArrayList<>();
-        int views = 0;
-        Date dateTime = new Date();
-        ArrayList<Comment> comments = new ArrayList<>();
-
-        Video newVideo = new Video(id, name, uploader, displayUploader, src, likes, views, dateTime, description, tags, comments);
-
-        // TODO: Handle the video object
+        DataManager.createVideo(name, DataManager.getCurrentUser(), src, description, tags, this);
     }
 }
