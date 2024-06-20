@@ -159,10 +159,6 @@ public class Video {
         this.name = name;
     }
 
-    public VideoPreview toPreview(Context context) {
-        return new VideoPreview(id, name, displayUploader, date_time, views, src, context);
-    }
-
     public void addView() {
         this.views++;
     }

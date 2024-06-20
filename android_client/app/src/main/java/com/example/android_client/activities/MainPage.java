@@ -1,7 +1,5 @@
 package com.example.android_client.activities;
 
-import android.content.res.AssetManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,10 +13,7 @@ import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
-import com.example.android_client.entities.VideoPreview;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.graphics.drawable.Drawable;
@@ -35,7 +30,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 public class MainPage extends AppCompatActivity {
 
     private RecyclerView videoList;
-    private ArrayList<VideoPreview> videos;
+    private ArrayList<Video> videos;
     private TextView welcomeMessage;
     private SearchView searchInput;
     private Switch changThemeSwitch;
@@ -58,9 +53,6 @@ public class MainPage extends AppCompatActivity {
         VideoAdapter adapter = new VideoAdapter(this, videos);
         videoList.setAdapter(adapter);
         searchInput = findViewById(R.id.searchBar);
-        searchInput.setOnSearchClickListener(l -> {
-            Log.w("CLICK", "CLICK");
-        });
         searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -109,10 +101,6 @@ public class MainPage extends AppCompatActivity {
 
     private void getVideos(String query) {
         ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
-        ArrayList<VideoPreview> previewedVideos = new ArrayList<>();
-        for (Video video : filtered) {
-            previewedVideos.add(video.toPreview(this));
-        }
-        this.videos = previewedVideos;
+        this.videos = filtered;
     }
 }
