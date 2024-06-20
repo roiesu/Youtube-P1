@@ -100,6 +100,7 @@ public class MainPage extends AppCompatActivity {
         if (currentUser != null) {
             welcomeMessage.setText("Welcome, " + currentUser.getName() + "!");
             displayImage.setImageURI(currentUser.getImageUri());
+            imageContainer.setVisibility(View.VISIBLE);
         } else {
             welcomeMessage.setText("Hello Guest! Please sign in");
             imageContainer.setVisibility(View.GONE);
