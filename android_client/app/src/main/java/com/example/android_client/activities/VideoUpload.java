@@ -1,5 +1,6 @@
 package com.example.android_client.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -60,6 +61,15 @@ public class VideoUpload extends AppCompatActivity {
             }
         });
     }
+
+    public void onRestart() {
+        super.onRestart();
+        if (DataManager.getCurrentUser() == null) {
+            Intent intent = new Intent(this, PageNotFound.class);
+            startActivity(intent);
+        }
+    }
+
     private void createVideoObject() {
         int id = 1; // tmp
         String name = videoNameInput.getText().toString();
@@ -73,7 +83,7 @@ public class VideoUpload extends AppCompatActivity {
         Date dateTime = new Date();
         ArrayList<Comment> comments = new ArrayList<>();
 
-        Video newVideo = new Video(id,name, uploader, displayUploader, src, likes, views, dateTime, description, tags,comments);
+        Video newVideo = new Video(id, name, uploader, displayUploader, src, likes, views, dateTime, description, tags, comments);
 
         // TODO: Handle the video object
     }

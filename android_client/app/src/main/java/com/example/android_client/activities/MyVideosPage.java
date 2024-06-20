@@ -56,6 +56,13 @@ public class MyVideosPage extends AppCompatActivity {
             }
         });
     }
+    public void onRestart(){
+        super.onRestart();
+        if(DataManager.getCurrentUser()==null){
+            Intent intent= new Intent(this, PageNotFound.class);
+            startActivity(intent);
+        }
+    }
 
     private void loadVideos() {
         List<Video> videos = DataManager.filterVideosBy(1, DataManager.getCurrentUser().getUsername());

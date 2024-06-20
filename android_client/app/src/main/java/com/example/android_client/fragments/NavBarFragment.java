@@ -65,9 +65,13 @@ public class NavBarFragment extends Fragment {
         if (DataManager.getCurrentUser() == null) {
             btnMyVideos.setVisibility(View.GONE);
             btnLogout.setVisibility(View.GONE);
+            btnSignUp.setVisibility(View.VISIBLE);
+            btnSignIn.setVisibility(View.VISIBLE);
         } else {
             btnSignIn.setVisibility(View.GONE);
             btnSignUp.setVisibility(View.GONE);
+            btnMyVideos.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.VISIBLE);
         }
 
     }

@@ -46,6 +46,8 @@ public class MainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
+        DataManager.initializeData(this);
+
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
         changThemeSwitch = findViewById(R.id.darkModeSwitch);
@@ -87,7 +89,6 @@ public class MainPage extends AppCompatActivity {
             videoList.addItemDecoration(dividerItemDecoration);
         }
     }
-
     @Override
     protected void onStart() {
         super.onStart();

@@ -5,11 +5,18 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "stan",
-    "likes": ["Nadav"],
+    "thumbnail": "",
+    "length": 0,
+    "likes": [
+      "Nadav"
+    ],
     "views": 200,
     "date_time": "2024-06-02T15:28:25.000Z",
     "description": "Some guy is ghosted by the metargel in another course",
-    "tags": ["eminem", "sad"],
+    "tags": [
+      "eminem",
+      "sad"
+    ],
     "comments": [
       {
         "date_time": "2024-06-02T18:28:25.000Z",
@@ -25,11 +32,18 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "hop",
-    "likes": ["admin", "Nadav"],
+    "thumbnail": "",
+    "length": 0,
+    "likes": [
+      "admin",
+      "Nadav"
+    ],
     "views": 1000400,
     "date_time": "2024-06-02T19:50:25.000Z",
     "description": "Of the superior",
-    "tags": ["bishbash"],
+    "tags": [
+      "bishbash"
+    ],
     "comments": []
   },
   {
@@ -38,10 +52,15 @@
     "uploader": "Nadav",
     "displayUploader": "Nadav Rottman Moses",
     "src": "shlomi",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 190002,
     "description": "Yes of course i give you good price",
-    "tags": ["shlomi", "sport"],
+    "tags": [
+      "shlomi",
+      "sport"
+    ],
     "date_time": "2024-06-04T16:30:25.000Z",
     "comments": []
   },
@@ -51,10 +70,18 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "eyal",
-    "likes": ["admin"],
+    "thumbnail": "",
+    "length": 0,
+    "likes": [
+      "admin"
+    ],
     "views": 1000400,
     "description": "Maybe snake me snake maybe tick me tick\nCover by the one and only Eyal Golan",
-    "tags": ["eyal golan", "nature", "animals"],
+    "tags": [
+      "eyal golan",
+      "nature",
+      "animals"
+    ],
     "date_time": "2024-06-04T13:30:25.000Z",
     "comments": []
   },
@@ -64,10 +91,15 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "reuven",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 1000400,
     "description": "Interview",
-    "tags": ["sport", "ilana dayan"],
+    "tags": [
+      "sport",
+      "ilana dayan"
+    ],
     "date_time": "2024-06-05T12:00:25.000Z",
     "comments": []
   },
@@ -77,10 +109,16 @@
     "uploader": "Nadav",
     "displayUploader": "Nadav Rottman Moses",
     "src": "democratia",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 0,
     "description": "Yes",
-    "tags": ["small", "halash", "RakBibi"],
+    "tags": [
+      "small",
+      "halash",
+      "RakBibi"
+    ],
     "date_time": "2024-06-08T12:00:25.000Z",
     "comments": [
       {
@@ -97,10 +135,15 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "eyal_the_king",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 1000400000000,
     "description": "Even more Eyal golan for Yuval",
-    "tags": ["king", "eyal golan"],
+    "tags": [
+      "king",
+      "eyal golan"
+    ],
     "date_time": "2024-06-09T09:00:25.000Z",
     "comments": []
   },
@@ -110,10 +153,16 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "lukaku",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 18,
     "description": "Ytgadal",
-    "tags": ["fifa", "sport", "judaism"],
+    "tags": [
+      "fifa",
+      "sport",
+      "judaism"
+    ],
     "date_time": "2024-06-07T13:40:00.000Z",
     "comments": []
   },
@@ -123,10 +172,15 @@
     "displayUploader": "Moshik",
     "uploader": "admin",
     "src": "ninini",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 10004005,
     "description": "Yes",
-    "tags": ["the_pigamas", "vevo"],
+    "tags": [
+      "the_pigamas",
+      "vevo"
+    ],
     "date_time": "2024-06-07T17:00:30.000Z",
     "comments": []
   },
@@ -136,11 +190,33 @@
     "uploader": "admin",
     "displayUploader": "Moshik",
     "src": "the_snail",
+    "thumbnail": "",
+    "length": 0,
     "likes": [],
     "views": 100,
     "description": "A nature documentary",
-    "tags": ["snails", "animals"],
+    "tags": [
+      "snails",
+      "animals"
+    ],
     "date_time": "2024-06-07T12:30:25.000Z",
+    "comments": []
+  },
+  {
+    "id": 11,
+    "name": "The Dolphin and I",
+    "uploader": "Nadav",
+    "displayUploader": "Nadav Rottman Moses",
+    "src": "dolphin_and_i",
+    "thumbnail": "",
+    "length": 0,
+    "likes": ["admin"],
+    "views": 20000,
+    "description": "A real song from our friend Nadav.\nYou can find the song here:\nhttps://www.youtube.com/watch?v=RGiapGtRvho&ab_channel=OceaNadav\nShow him some love.",
+    "tags": [
+      "animals","eilat"
+    ],
+    "date_time": "2024-06-20T16:13:00.000Z",
     "comments": []
   }
 ]
