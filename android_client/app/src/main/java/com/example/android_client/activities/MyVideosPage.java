@@ -25,9 +25,6 @@ public class MyVideosPage extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Button uploadVideoButton;
-
-    public static final int UPLOAD_VIDEO = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,19 +45,15 @@ public class MyVideosPage extends AppCompatActivity {
 
         uploadVideoButton.setOnClickListener(v -> {
             Intent intent = new Intent(MyVideosPage.this, VideoUpload.class);
-            startActivityForResult(intent, UPLOAD_VIDEO);
+            startActivity(intent);
         });
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == UPLOAD_VIDEO) {
-                Log.w("DATATATATA", data.getDataString());
-                getIntent().setData(data.getData());
-            }
-        }
+        int position = data.getIntExtra("videoPosition", 0);
+        recyclerView.getAdapter().notifyItemChanged(position);
 
     }
 

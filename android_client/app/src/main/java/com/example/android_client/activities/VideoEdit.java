@@ -37,8 +37,7 @@ public class VideoEdit extends AppCompatActivity {
         if (video != null) {
             editVideoName.setText(video.getName());
             editVideoDescription.setText(video.getDescription());
-        }
-        else{
+        } else {
             Intent intent = new Intent(this, PageNotFound.class);
             startActivity(intent);
         }
@@ -47,7 +46,7 @@ public class VideoEdit extends AppCompatActivity {
             String newName = editVideoName.getText().toString();
             String newDescription = editVideoDescription.getText().toString();
             DataManager.updateVideo(videoId, newName, newDescription);
-            finish();
+            startActivity(new Intent(this, MyVideosPage.class));
         });
     }
 
