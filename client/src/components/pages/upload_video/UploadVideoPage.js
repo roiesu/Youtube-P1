@@ -21,7 +21,7 @@ function UploadVideo({ videos, setVideos, currentUser }) {
   }, [videoFile]);
 
   function validateInput(input) {
-    return input != "";
+    return input != "" && input != null;
   }
 
   function handleSubmit() {
