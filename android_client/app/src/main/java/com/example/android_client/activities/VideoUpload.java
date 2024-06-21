@@ -61,10 +61,21 @@ public class VideoUpload extends AppCompatActivity {
         });
     }
     private void createVideoObject() {
-        int id = 1; // tmp
         String name = videoNameInput.getText().toString();
         String description = videoDescriptionInput.getText().toString();
         ArrayList<String> tags = new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(",")));
+
+        // cheking the name, description and video
+        if (videoUri == null || name.isEmpty() || description.isEmpty() ) {
+            Toast.makeText(this, "Please fill name, description and select a video", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // reating new ID
+        List<Video> videoList = DataManager.getVideoList();
+        VideoAdapter videoAdapter = new VideoAdapter(videoList);
+        Video lastVideo = videoAdapter.getLastAddedVideo();
+        int id  = (lastVideo != null) ? lastVideo.getId() + 1 : 1;
+
         String uploader = DataManager.getCurrentUser().getUsername();
         String displayUploader = DataManager.getCurrentUser().getName();
         String src = videoUri.toString();
@@ -73,8 +84,19 @@ public class VideoUpload extends AppCompatActivity {
         Date dateTime = new Date();
         ArrayList<Comment> comments = new ArrayList<>();
 
-        Video newVideo = new Video(id,name, uploader, displayUploader, src, likes, views, dateTime, description, tags,comments);
+        Video newVideo = new Video(id,name, uploader, displayUploader, src, likes, views,
+                dateTime, description, tags,comments);
+        // Video newVideo = new Video(videoId, videoName, uploader, uploadDate, views, videoUri.toString());
+        DataManager.addVideo(newVideo);
 
-        // TODO: Handle the video object
+        Toast.makeText(this, "Video uploaded successfully with ID: " + newId,
+                Toast.LENGTH_SHORT).show();
+        // Clear inputs
+        videoNameInput.setText("");
+        videoDescriptionInput.setText("");
+        videoTagsInput.setText("");
+        previewVideo.setVideoURI(null);
     }
+
+}
 }
