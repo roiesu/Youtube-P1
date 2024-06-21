@@ -18,7 +18,8 @@ import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
-import com.example.android_client.entities.VideoPreview;
+
+import java.util.ArrayList;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -37,7 +38,7 @@ public class MainPage extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private RecyclerView videoList;
-    private ArrayList<VideoPreview> videos;
+    private ArrayList<Video> videos;
     private TextView welcomeMessage;
     private SearchView searchInput;
     private ImageView displayImage;
@@ -77,6 +78,7 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
+        DataManager.initializeData(this);
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
         welcomeMessage = findViewById(R.id.welcomeMessage);
@@ -86,8 +88,6 @@ public class MainPage extends AppCompatActivity {
         VideoAdapter adapter = new VideoAdapter(this, videos);
         videoList.setAdapter(adapter);
         searchInput = findViewById(R.id.searchBar);
-
-        searchInput.setOnSearchClickListener(l -> Log.w("CLICK", "CLICK"));
         searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -116,7 +116,6 @@ public class MainPage extends AppCompatActivity {
         }
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -128,6 +127,7 @@ public class MainPage extends AppCompatActivity {
         if (currentUser != null) {
             welcomeMessage.setText("Welcome, " + currentUser.getName() + "!");
             displayImage.setImageURI(currentUser.getImageUri());
+            imageContainer.setVisibility(View.VISIBLE);
         } else {
             welcomeMessage.setText("Hello Guest! Please sign in");
             imageContainer.setVisibility(View.GONE);
@@ -136,10 +136,6 @@ public class MainPage extends AppCompatActivity {
 
     private void getVideos(String query) {
         ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
-        ArrayList<VideoPreview> previewedVideos = new ArrayList<>();
-        for (Video video : filtered) {
-            previewedVideos.add(video.toPreview(this));
-        }
-        this.videos = previewedVideos;
+        this.videos = filtered;
     }
 }

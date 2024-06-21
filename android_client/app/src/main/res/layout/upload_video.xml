@@ -16,14 +16,13 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/logoFragment"
-        app:layout_constraintBottom_toTopOf="@id/navBarFragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoFragment">
 
         <VideoView
             android:id="@+id/videoPreview"
@@ -35,45 +34,36 @@
             android:id="@+id/videoNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter video name"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:hint="Enter video name" />
 
         <EditText
             android:id="@+id/videoDescriptionInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter video description"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:hint="Enter video description" />
 
         <EditText
             android:id="@+id/videoTagsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter tags (comma-separated)"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:hint="Enter tags (comma-separated)" />
 
         <Button
             android:id="@+id/videoInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload Video"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Choose video" />
 
         <Button
             android:id="@+id/submitVideoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit Video Details"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Submit Video Details" />
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/navBarFragment"
-        android:name="com.example.android_client.fragments.NavBarFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
