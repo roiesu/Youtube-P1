@@ -4,5 +4,13 @@
         <item name="colorPrimary">@color/main_red</item>
     </style>
 
+    <style name="screens">
+        <item name="android:background">@color/off_white</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:background">@color/off_white</item>
+    </style>
+
     <style name="Theme.Android_client" parent="Base.Theme.Android_client" />
 </resources>
