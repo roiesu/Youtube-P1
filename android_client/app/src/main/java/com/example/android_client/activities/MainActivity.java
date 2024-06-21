@@ -25,14 +25,30 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView view;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        private TextView view;
+        private RecyclerView videoRecyclerView;
+        private VideoAdapter videoAdapter;
+
+        @Override
+        protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            EdgeToEdge.enable(this);
-            DataManager.initializeData(this);
-            Intent intent = new Intent(this, MainPage.class);
-            startActivity(intent);
+            setContentView(R.layout.activity_main);
+
+            videoRecyclerView = findViewById(R.id.videoRecyclerView);
+            videoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            videoAdapter = new VideoAdapter(DataManager.getVideoList());
+            videoRecyclerView.setAdapter(videoAdapter);
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            // Update the adapter with the latest video list
+            videoAdapter.updateVideos(DataManager.getVideoList());
+            videoAdapter.notifyDataSetChanged();
+        }
     }
+
 
 }

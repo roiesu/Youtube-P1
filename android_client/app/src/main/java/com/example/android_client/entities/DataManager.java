@@ -209,8 +209,11 @@ public class DataManager {
         Video video = findVideoById(videoId);
         if (video != null) {
             videoList.remove(video);
-            // Also delete the video from the server or persistent storage if necessary
         }
+    }
+
+    public static void addVideo(Video video) {
+        videoList.add(video);
     }
 
 

@@ -22,64 +22,71 @@ import com.example.android_client.entities.VideoPreview;
 import java.util.ArrayList;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
-    private Context context;
-    private ArrayList<VideoPreview> videos;
+    public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
+        private List<Video> videos;
 
-    public VideoAdapter(Context context, ArrayList<VideoPreview> videos) {
-        super();
-        this.context = context;
-        this.videos = videos;
-    }
+        public VideoAdapter(List<Video> videos) {
+            this.videos = videos;
+        }
 
-    @NonNull
-    @Override
-    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.video_link_item, parent, false);
-        return new VideoViewHolder(view);
-    }
+        public void updateVideos(List<Video> newVideos) {
+            this.videos = newVideos;
+        }
 
-    @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        VideoPreview video = videos.get(position);
-        holder.videoTitle.setText(video.getName());
-        holder.videoUploader.setText(video.getDisplayUploader());
-        holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
-        holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
-        holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
-        holder.videoPreview.setImageBitmap(video.getThumbnail());
-        holder.videoPreview.setOnClickListener(l->{
-            Intent intent = new Intent(context, WatchingVideo.class);
-            intent.putExtra("videoId",video.getId());
-            context.startActivity(intent);
-            video.addView();
-            this.notifyItemChanged(position);
-        });
-    }
-    public void setVideos(ArrayList<VideoPreview> newVideos){
-        this.videos=newVideos;
-    }
-    @Override
-    public int getItemCount() {
-        return videos.size();
-    }
+        public Video getLastAddedVideo() {
+            if (videos != null && !videos.isEmpty()) {
+                return videos.get(videos.size() - 1);
+            }
+            return null;
+        }
 
-    public static class VideoViewHolder extends RecyclerView.ViewHolder {
-        ImageView videoPreview;
-        TextView videoTitle;
-        TextView videoUploader;
-        TextView videoViews;
-        TextView videoDate;
-        TextView videoDuration;
+        @Override
+        public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_item, parent, false);
+            return new VideoViewHolder(view);
+        }
 
-        public VideoViewHolder(@NonNull View itemView) {
-            super(itemView);
-            videoPreview = itemView.findViewById(R.id.videoPreview);
-            videoTitle = itemView.findViewById(R.id.videoTitle);
-            videoUploader = itemView.findViewById(R.id.videoUploader);
-            videoViews = itemView.findViewById(R.id.videoViews);
-            videoDate = itemView.findViewById(R.id.videoDate);
-            videoDuration = itemView.findViewById(R.id.videoDuration);
+        @Override
+        public void onBindViewHolder(VideoViewHolder holder, int position) {
+            Video video = videos.get(position);
+            // Bind video data to the view holder
+            holder.videoTitle.setText(video.getName());
+            holder.videoUploader.setText(video.getUploader());
+            holder.videoViews.setText(String.valueOf(video.getViews()));
+            holder.videoDate.setText(video.getUploadDate().toString());
+            holder.videoDuration.setText(String.valueOf(video.getDuration()));
+            // Assuming you have a method to get a thumbnail
+            holder.videoPreview.setImageBitmap(video.getThumbnail());
+            holder.videoPreview.setOnClickListener(v -> {
+                Intent intent = new Intent(holder.itemView.getContext(), WatchingVideo.class);
+                intent.putExtra("videoId", video.getId());
+                holder.itemView.getContext().startActivity(intent);
+                video.addView();
+                this.notifyItemChanged(position);
+            });
+        }
 
+        @Override
+        public int getItemCount() {
+            return videos.size();
+        }
+
+        public static class VideoViewHolder extends RecyclerView.ViewHolder {
+            ImageView videoPreview;
+            TextView videoTitle;
+            TextView videoUploader;
+            TextView videoViews;
+            TextView videoDate;
+            TextView videoDuration;
+
+            public VideoViewHolder(View itemView) {
+                super(itemView);
+                videoPreview = itemView.findViewById(R.id.videoPreview);
+                videoTitle = itemView.findViewById(R.id.videoTitle);
+                videoUploader = itemView.findViewById(R.id.videoUploader);
+                videoViews = itemView.findViewById(R.id.videoViews);
+                videoDate = itemView.findViewById(R.id.videoDate);
+                videoDuration = itemView.findViewById(R.id.videoDuration);
+            }
         }
     }
-}
