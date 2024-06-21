@@ -1,9 +1,13 @@
 package com.example.android_client.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android_client.R;
@@ -34,6 +38,10 @@ public class VideoEdit extends AppCompatActivity {
             editVideoName.setText(video.getName());
             editVideoDescription.setText(video.getDescription());
         }
+        else{
+            Intent intent = new Intent(this, PageNotFound.class);
+            startActivity(intent);
+        }
 
         updateButton.setOnClickListener(v -> {
             String newName = editVideoName.getText().toString();
@@ -42,4 +50,13 @@ public class VideoEdit extends AppCompatActivity {
             finish();
         });
     }
+
+    public void onRestart() {
+        super.onRestart();
+        if (DataManager.getCurrentUser() == null) {
+            finish();
+        }
+    }
+
+
 }

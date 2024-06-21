@@ -2,10 +2,6 @@ package com.example.android_client.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +13,14 @@ import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.Video;
-import com.example.android_client.entities.VideoPreview;
 
 import java.util.ArrayList;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
     private Context context;
-    private ArrayList<VideoPreview> videos;
+    private ArrayList<Video> videos;
 
-    public VideoAdapter(Context context, ArrayList<VideoPreview> videos) {
+    public VideoAdapter(Context context, ArrayList<Video> videos) {
         super();
         this.context = context;
         this.videos = videos;
@@ -40,22 +35,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        VideoPreview video = videos.get(position);
+        Video video = videos.get(position);
         holder.videoTitle.setText(video.getName());
         holder.videoUploader.setText(video.getDisplayUploader());
         holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
-        holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
+        holder.videoDate.setText(Utilities.dateDiff(video.getDate_time()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         holder.videoPreview.setImageBitmap(video.getThumbnail());
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.getId());
             context.startActivity(intent);
-            video.addView();
             this.notifyItemChanged(position);
         });
     }
-    public void setVideos(ArrayList<VideoPreview> newVideos){
+    public void setVideos(ArrayList<Video> newVideos){
         this.videos=newVideos;
     }
     @Override
