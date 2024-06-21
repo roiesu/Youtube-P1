@@ -73,16 +73,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f33c6a07-f0ff-4cf0-b627-0fcc3d4df9e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_log_out.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_sign_in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_sign_up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_video.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/welcome_message_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/welcome_message_background.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/bottom_nav_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/bottom_nav_bar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,25 +169,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "Android App.client_android.app.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/app/src/main/java",
-    "last_opened_file_path": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/exe5",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;Android App.client_android.app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dark-mode&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/app/src/main/java&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/roies/OneDrive/Desktop/cs/mitkadem/exe5&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\roies\OneDrive\Desktop\cs\mitkadem\Youtube-P1\android_client\app\src\main\res\drawable" />
