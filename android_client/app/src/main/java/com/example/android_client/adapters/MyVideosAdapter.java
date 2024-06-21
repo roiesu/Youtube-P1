@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
+import com.example.android_client.activities.MyVideosPage;
 import com.example.android_client.activities.VideoEdit;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;

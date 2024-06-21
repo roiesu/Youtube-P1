@@ -1,10 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Base.Theme.Android_client" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/main_red</item>
     </style>
 
     <style name="screens">
         <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="icons">
+        <item name="android:background">@color/off_white</item>
     </style>
 
     <style name="Theme.Android_client" parent="Base.Theme.Android_client" />
