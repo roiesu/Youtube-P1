@@ -38,11 +38,12 @@ public class WatchingVideo extends AppCompatActivity {
     private RecyclerView commentsList;
     private TextView commentsHeader;
 
-    private Button likeButton;
+    private com.google.android.material.button.MaterialButton likeButton;
     private Button commentButton;
     private Button shareButton;
     private EditText commentInput;
     private User currentUser;
+    private boolean likedVideo;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +85,10 @@ public class WatchingVideo extends AppCompatActivity {
             }
             DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
             ((TextView) view).setText(video.getLikes().size() + "");
+            likedVideo = !likedVideo;
+            changeLikeIcon();
         });
-
+        isLiked();
         initVideo();
 
         commentsList = findViewById(R.id.commentsList);
@@ -137,7 +140,6 @@ public class WatchingVideo extends AppCompatActivity {
 
     private void commentVideo(CommentAdapter adapter) {
         if (currentUser == null) {
-            // Notify user
             return;
         }
         String content = commentInput.getText().toString();
@@ -169,5 +171,26 @@ public class WatchingVideo extends AppCompatActivity {
             }
         }).setTitle("Share video");
         return dialogBuilder.create();
+    }
+
+    private void isLiked() {
+        if (currentUser != null) {
+            for (String username : video.getLikes()) {
+                if (username.equals(currentUser.getUsername())) {
+                    likedVideo = true;
+                    changeLikeIcon();
+                    return;
+                }
+            }
+        }
+        likedVideo = false;
+    }
+
+    private void changeLikeIcon() {
+        if (likedVideo) {
+            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_filled_like, getTheme()));
+        } else {
+            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_like, getTheme()));
+        }
     }
 }
