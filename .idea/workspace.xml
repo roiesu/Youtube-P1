@@ -73,12 +73,16 @@
   <component name="ChangeListManager">
     <list default="true" id="f33c6a07-f0ff-4cf0-b627-0fcc3d4df9e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/java/com/example/android_client/activities/MainPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_log_out.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_sign_in.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_sign_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/ic_video.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/welcome_message_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/drawable/welcome_message_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/bottom_nav_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/bottom_nav_bar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/fragment_logo.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/main_page.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/my_videos.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values-night/themes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android_client/app/src/main/res/layout/watching_video.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,6 +173,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "Android App.client_android.app.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/Youtube-P1/android_client/app/src/main/java",
+    "last_opened_file_path": "C:/Users/roies/OneDrive/Desktop/cs/mitkadem/exe5",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2"
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Android App.app.executor&quot;: &quot;Run&quot;,
@@ -258,9 +280,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="client_android.app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="client_android.app.main" />
@@ -325,9 +345,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="client_android.app.androidTest" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="client_android.app.androidTest" />
@@ -392,9 +410,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="client_android.app.unitTest" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="client_android.app.unitTest" />
@@ -459,9 +475,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

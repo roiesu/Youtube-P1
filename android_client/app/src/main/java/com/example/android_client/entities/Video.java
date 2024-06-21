@@ -1,7 +1,10 @@
 package com.example.android_client.entities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -14,6 +17,8 @@ public class Video {
     private String uploader;
     private String displayUploader;
     private String src;
+    private Bitmap thumbnail;
+    private long duration;
     private ArrayList<String> likes;
     private long views;
     private Date date_time;
@@ -21,13 +26,13 @@ public class Video {
     private ArrayList<String> tags;
     private ArrayList<Comment> comments;
 
-    public Video(){
+    public Video() {
 
     }
 
     public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, long views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this.id = id;
-        this.name=name;
+        this.name = name;
         this.uploader = uploader;
         this.displayUploader = displayUploader;
         this.src = src;
@@ -36,8 +41,38 @@ public class Video {
         this.date_time = dateTime;
         this.description = description;
         this.tags = tags;
-        this.comments=comments;
+        this.comments = comments;
     }
+
+    public Video(int id, String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
+        this.id = id;
+        this.name = name;
+        this.uploader = uploader.getUsername();
+        this.displayUploader = uploader.getName();
+        this.src = src;
+        this.likes = new ArrayList<>();
+        this.views = 0;
+        this.date_time = new Date();
+        this.description = description;
+        this.tags = tags;
+        this.comments = new ArrayList<>();
+        createVideoDetails(context);
+    }
+
+    public void createVideoDetails(Context context) {
+        try {
+            MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
+            mediaRetriever.setDataSource(context, Uri.parse(getSrc()));
+            String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
+            this.setDuration(seconds);
+            this.setThumbnail(mediaRetriever.getFrameAtTime());
+            mediaRetriever.release();
+        } catch (Exception ex) {
+            Log.w("Error", ex.toString());
+        }
+    }
+
     public ArrayList<Comment> getComments() {
         return comments;
     }
@@ -77,6 +112,7 @@ public class Video {
     public void setDisplayUploader(String displayUploader) {
         this.displayUploader = displayUploader;
     }
+
 
     public ArrayList<String> getLikes() {
         return likes;
@@ -126,42 +162,59 @@ public class Video {
         this.name = name;
     }
 
-    public VideoPreview toPreview(Context context){
-        return new VideoPreview(id,name,displayUploader,date_time,views,src,context);
-    }
-    public void addView(){
+    public void addView() {
         this.views++;
     }
-    public void like(String user){
-        for(int i=0;i<likes.size();i++){
-            if(likes.get(i).equals(user)){
+
+    public void like(String user) {
+        for (int i = 0; i < likes.size(); i++) {
+            if (likes.get(i).equals(user)) {
                 likes.remove(i);
                 return;
             }
         }
         likes.add(user);
     }
-    public void addComment(String username,String displayUsername,String text){
-        Comment comment = new Comment(new Date(),username,displayUsername,text,false);
-        comments.add(0,comment);
+
+    public void addComment(String username, String displayUsername, String text) {
+        Comment comment = new Comment(new Date(), username, displayUsername, text, false);
+        comments.add(0, comment);
     }
-    public void editComment(String username,Date date,String newText){
-        for(Comment comment: comments){
-            if(comment.getDate_time().equals(date)&&comment.getUser().equals(username)){
+
+    public void editComment(String username, Date date, String newText) {
+        for (Comment comment : comments) {
+            if (comment.getDate_time().equals(date) && comment.getUser().equals(username)) {
                 comment.setText(newText);
                 comment.setEdited(false);
             }
         }
     }
-    public void deleteComment(String username,Date date){
-        for (int i=0;i<comments.size();i++){
-            if(comments.get(i).getDate_time().equals(date)&&comments.get(i).getUser().equals(username)){
+
+    public void deleteComment(String username, Date date) {
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getDate_time().equals(date) && comments.get(i).getUser().equals(username)) {
                 comments.remove(i);
             }
         }
     }
 
-    public String toString(){
+    public String toString() {
         return getName();
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

@@ -1,6 +1,9 @@
 package com.example.android_client.entities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.android_client.Utilities;
@@ -17,8 +20,8 @@ import java.util.regex.Pattern;
 
 
 public class DataManager {
-    public static int FILTER_UPLOADER_KEY = 1;
-    public static int FILTER_TITLE_KEY = 2;
+    public static final int FILTER_UPLOADER_KEY = 1;
+    public static final int FILTER_TITLE_KEY = 2;
     private static ArrayList<User> usersList;
     private static ArrayList<Video> videoList;
     private static User currentUser;
@@ -74,7 +77,11 @@ public class DataManager {
         DataManager.setUsersList(loadDataFromJson("users.json", userListType, context));
         DataManager.setVideoList(loadDataFromJson("videos.json", videoListType, context));
         for (User user : usersList) {
-            user.setImage(Utilities.getResourceUriString(context, user.getImage(),"drawable"));
+            user.setImage(Utilities.getResourceUriString(context, user.getImage(), "drawable"));
+        }
+        for (Video video : videoList) {
+            video.setSrc(Utilities.getResourceUriString(context, video.getSrc(), "raw"));
+            video.createVideoDetails(context);
         }
         DataManager.setCurrentUser(DataManager.getUsersList().get(0));
         DataManager.setInitialized(true);
@@ -211,6 +218,13 @@ public class DataManager {
             videoList.remove(video);
             // Also delete the video from the server or persistent storage if necessary
         }
+    }
+
+    public static Video createVideo(String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
+        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
+        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
+        getVideoList().add(newVideo);
+        return newVideo;
     }
 
 
