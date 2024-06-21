@@ -2,6 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android_client">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="MANAGE_MEDIA"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,9 +23,13 @@
         tools:targetApi="31">
 
         <activity
-            android:windowSoftInputMode="adjustResize"
-            android:name=".activities.MainActivity"
-            android:exported="true">
+            android:name=".activities.PageNotFound"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".activities.MainPage"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,12 +47,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainPage"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".activities.WatchingVideo"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 

@@ -58,4 +58,10 @@ public class SignIn extends AppCompatActivity {
         Intent intent = new Intent(this,MainPage.class);
         startActivity(intent);
     }
+    public void onRestart(){
+        super.onRestart();
+        if(DataManager.getCurrentUser()!=null){
+            finish();
+        }
+    }
 }
