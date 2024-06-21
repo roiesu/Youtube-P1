@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -61,12 +62,12 @@ public class Video {
     public void createVideoDetails(Context context) {
         try {
             MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
-            Log.w("SRC",getSrc());
             mediaRetriever.setDataSource(context, Uri.parse(getSrc()));
             String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
             this.setDuration(seconds);
-            this.setThumbnail(mediaRetriever.getFrameAtTime(0));
+            this.setThumbnail(mediaRetriever.getFrameAtTime());
+            mediaRetriever.release();
         } catch (Exception ex) {
             Log.w("Error", ex.toString());
         }
