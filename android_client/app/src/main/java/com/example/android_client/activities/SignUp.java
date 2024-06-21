@@ -1,20 +1,25 @@
 package com.example.android_client.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +30,6 @@ import com.example.android_client.entities.InputValidation;
 import com.example.android_client.entities.User;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity {
 
@@ -41,9 +44,10 @@ public class SignUp extends AppCompatActivity {
     private TextView errorView;
 
     private Button change;
+    private ActivityResultLauncher<Intent> galleryResultLauncher;
+    private ActivityResultLauncher<Intent> cameraResultLauncher;
 
-    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
-
+    private final int REQUEST_CAMERA_CODE = 200;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,28 +56,22 @@ public class SignUp extends AppCompatActivity {
         inputs = new ArrayList<>();
         inputList = findViewById(R.id.recyclerView);
         inputList.setLayoutManager(new LinearLayoutManager(this));
-        String [] inputNames =getResources().getStringArray(R.array.inputNames);
-        String [] inputRegex =getResources().getStringArray(R.array.inputRegex);
-        String [] inputReqs =getResources().getStringArray(R.array.inputRequierments);
-        for(int i=0;i<4;i++){
-            inputs.add(new InputValidation(inputNames[i],inputRegex[i],inputReqs[i]));
+        String[] inputNames = getResources().getStringArray(R.array.inputNames);
+        String[] inputRegex = getResources().getStringArray(R.array.inputRegex);
+        String[] inputReqs = getResources().getStringArray(R.array.inputRequierments);
+        for (int i = 0; i < 4; i++) {
+            inputs.add(new InputValidation(inputNames[i], inputRegex[i], inputReqs[i]));
         }
-        InputValidationAdapter adapter= new InputValidationAdapter(this,inputs,true);
+        InputValidationAdapter adapter = new InputValidationAdapter(this, inputs, true);
         inputList.setAdapter(adapter);
         submit = findViewById(R.id.submit);
         previewImage = findViewById(R.id.imagePreview);
-        uploadImageButton =findViewById(R.id.imageInput);
+        uploadImageButton = findViewById(R.id.imageInput);
         errorView = findViewById(R.id.validationError);
         change = findViewById(R.id.signin);
-        change.setOnClickListener(l->{
-            Intent intent = new Intent(l.getContext(),SignIn.class);
+        change.setOnClickListener(l -> {
+            Intent intent = new Intent(l.getContext(), SignIn.class);
             startActivity(intent);
-        });
-        pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-            if (uri != null) {
-                imageUri = uri;
-                previewImage.setImageURI(imageUri);
-            }
         });
         submit.setOnClickListener(view -> {
             register();
@@ -81,16 +79,54 @@ public class SignUp extends AppCompatActivity {
         uploadImageButton.setOnClickListener(view -> {
             pickImage();
         });
+        galleryResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Intent data = result.getData();
+                        imageUri = data.getData();
+                        previewImage.setImageURI(imageUri);
+                    }
+                });
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Bundle extras = result.getData().getExtras();
+                        Bitmap bitmap = (Bitmap) extras.get("data");
+                        imageUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null));
+                        previewImage.setImageURI(imageUri);
+                    }
+                });
 
     }
+
     public void pickImage() {
-        pickMedia.launch(new PickVisualMediaRequest.Builder()
-                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                .build());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Pick image source:");
+        dialogBuilder.setItems(new CharSequence[]{"Camera", "Gallery"}, (dialog, button) -> {
+            switch (button) {
+                case 0: {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_CODE);
+                    } else {
+                        useCamera();
+                    }
+                    break;
+                }
+                case 1: {
+                    galleryResultLauncher.launch(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
+                    break;
+                }
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
+
+
     private void register() {
-        for(InputValidation input:inputs){
-            if(!input.match()){
+        for (InputValidation input : inputs) {
+            if (!input.match()) {
                 errorView.setText(input.getReqs());
                 return;
             }
@@ -105,16 +141,33 @@ public class SignUp extends AppCompatActivity {
             errorView.setText("User with that useranme already taken");
             return;
         }
-        User newUser = new User(inputs.get(0).getInputText(),inputs.get(1).getInputText(),inputs.get(3).getInputText(), imageUri.toString());
+        User newUser = new User(inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageUri.toString());
         DataManager.addUser(newUser);
         DataManager.getInstance().setCurrentUser(newUser);
         Intent intent = new Intent(this, MainPage.class);
         startActivity(intent);
     }
 
-    public void onRestart(){
+    public void useCamera() {
+        cameraResultLauncher.launch(new Intent(MediaStore.ACTION_IMAGE_CAPTURE));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                useCamera();
+            } else {
+                Toast toast = Toast.makeText(this, R.string.camera_permission_denied, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+    }
+
+    public void onRestart() {
         super.onRestart();
-        if(DataManager.getCurrentUser()!=null){
+        if (DataManager.getCurrentUser() != null) {
             finish();
         }
     }
