@@ -1,18 +1,16 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f0f2f5;
-  margin: 0;
-  padding: 0;
-}
-
 .container {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
+  border-radius: 10px;
+  padding: 50px;
+}
+.dark .container {
+  background-color: #131313;
+}
+.light .container {
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  margin-top: 50px;
 }
 
 .upload-button {
@@ -20,7 +18,6 @@ body {
   width: 200px;
   margin: 20px auto;
   padding: 15px 0;
-  background-color: #28a745;
   color: #ffffff;
   font-size: 18px;
   font-weight: bold;
@@ -29,6 +26,12 @@ body {
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.dark .upload-button {
+  background-color: #0a4818;
+}
+.light .upload-button {
+  background-color: #28a745;
 }
 
 .upload-button:hover {
@@ -47,10 +50,17 @@ body {
   align-items: center;
   margin-bottom: 20px;
   padding: 15px;
-  border: 1px solid #e0e0e0;
   border-radius: 10px;
-  background-color: #fafafa;
   transition: box-shadow 0.3s ease;
+}
+
+.dark .video-item {
+  background-color: #202020;
+  border: 1px solid #3e3e3e;
+}
+.light .video-item {
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
 }
 
 .video-item:hover {

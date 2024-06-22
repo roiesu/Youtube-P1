@@ -66,9 +66,10 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@id/navBarFragment"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBar"
-        app:layout_constraintVertical_bias="0.468"
+        app:layout_constraintVertical_bias="0.375"
         tools:listitem="@layout/video_link_item" />
 
     <fragment
@@ -82,7 +83,7 @@
 
     <SearchView
         android:id="@+id/searchBar"
-        android:layout_width="279dp"
+        android:layout_width="218dp"
         android:layout_height="48dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
@@ -91,10 +92,11 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/darkModeSwitch"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="25dp"
+        android:text="@string/dark_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toEndOf="@+id/searchBar"
