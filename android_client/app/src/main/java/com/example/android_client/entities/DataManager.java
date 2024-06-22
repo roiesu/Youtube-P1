@@ -83,7 +83,6 @@ public class DataManager {
             video.setSrc(Utilities.getResourceUriString(context, video.getSrc(), "raw"));
             video.createVideoDetails(context);
         }
-        DataManager.setCurrentUser(DataManager.getUsersList().get(0));
         DataManager.setInitialized(true);
     }
 

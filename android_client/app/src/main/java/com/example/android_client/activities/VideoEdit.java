@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,10 @@ public class VideoEdit extends AppCompatActivity {
         updateButton.setOnClickListener(v -> {
             String newName = editVideoName.getText().toString();
             String newDescription = editVideoDescription.getText().toString();
+            if (newName.equals("") || newDescription.equals("")) {
+                Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show();
+                return;
+            }
             DataManager.updateVideo(videoId, newName, newDescription);
             startActivity(new Intent(this, MyVideosPage.class));
         });

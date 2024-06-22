@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.android_client.R;
@@ -39,6 +40,12 @@ public class NavBarFragment extends Fragment {
         btnLogout = view.findViewById(R.id.btnLogout);
         btnSignIn = view.findViewById(R.id.btnSignIn);
         btnSignUp = view.findViewById(R.id.btnSignUp);
+        TooltipCompat.setTooltipText(btnHome,"Home page");
+        TooltipCompat.setTooltipText(btnMyVideos,"My videos");
+        TooltipCompat.setTooltipText(btnLogout,"Logout");
+        TooltipCompat.setTooltipText(btnSignIn,"Sign in");
+        TooltipCompat.setTooltipText(btnSignUp,"Sign up");
+
 
         btnHome.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MainPage.class));

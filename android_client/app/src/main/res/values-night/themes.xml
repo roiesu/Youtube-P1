@@ -9,7 +9,7 @@
     </style>
 
     <style name="icons">
-        <item name="android:background">@color/off_white</item>
+        <item name="android:tint">@color/off_white</item>
     </style>
 
     <style name="Theme.Android_client" parent="Base.Theme.Android_client" />

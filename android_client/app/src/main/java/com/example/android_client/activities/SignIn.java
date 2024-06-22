@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +23,6 @@ public class SignIn extends AppCompatActivity {
     private ArrayList<InputValidation> inputs;
     private RecyclerView inputList;
     private Button submit;
-    private TextView errorView;
     private Button change;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class SignIn extends AppCompatActivity {
         inputList.setAdapter(adapter);
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(l->{login();});
-        errorView = findViewById(R.id.validationError);
         change = findViewById(R.id.signup);
         change.setOnClickListener(l->{
             Intent intent = new Intent(l.getContext(),SignUp.class);
@@ -51,7 +50,7 @@ public class SignIn extends AppCompatActivity {
     private void login(){
         User user= DataManager.findUser(inputs.get(0).getInputText());
         if(user==null||!user.getPassword().equals(inputs.get(1).getInputText())){
-            errorView.setText("Uset not found");
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             return;
         }
         DataManager.setCurrentUser(user);
