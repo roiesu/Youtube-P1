@@ -14,8 +14,8 @@
         <item>^[\\w\\d\\-_!@#$%^&amp;*]+( [\\w\\d\\-_!@#$%^&amp;*]+)*$</item>
     </string-array>
     <string-array name="inputRequierments">
-        <item>Username needs to be at least 6 letters long. Must contain only letters, numbers and special symbols.</item>
-        <item>Password needs to be at least 8 letters long, and must contain- a small letter, a capital letter, a number and a special symbol.</item>
+        <item>Username at least 6 letters long, Contains only letters, numbers and special symbols.</item>
+        <item>Password t least 8 letters long, Must contain: a small and a capital letter, a number and a symbol.</item>
         <item>Password validation must be identical to the password</item>
         <item>Name can contain letters, numbers, special letters and spaces.</item>
     </string-array>
