@@ -1,5 +1,6 @@
 package com.example.android_client.activities;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -45,6 +46,7 @@ public class WatchingVideo extends AppCompatActivity {
     private User currentUser;
     private boolean likedVideo;
 
+    @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
@@ -69,8 +71,8 @@ public class WatchingVideo extends AppCompatActivity {
 
         setContentView(R.layout.watching_video);
         ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
-        ((TextView) findViewById(R.id.videoViews)).setText("" + video.getViews());
-        ((TextView) findViewById(R.id.videoDate)).setText(Utilities.formatDate(video.getDate_time()));
+        ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews())+" Views");
+        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate_time()));
         ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
         ((TextView) findViewById(R.id.videoUploader)).setText(video.getDisplayUploader());
         currentUser = DataManager.getCurrentUser();

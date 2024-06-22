@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -60,8 +61,11 @@ public class VideoUpload extends AppCompatActivity {
                     .build());
         });
         submitVideoDetailsButton.setOnClickListener(view -> {
+            if (videoUri == null || videoNameInput.getText().toString().equals("") || videoDescriptionInput.getText().toString().equals("")) {
+                Toast.makeText(this, "Video, Name and Description are required", Toast.LENGTH_SHORT).show();
+                return;
+            }
             createVideoObject();
-            startActivity(new Intent(this, MyVideosPage.class));
         });
     }
 
@@ -91,6 +95,8 @@ public class VideoUpload extends AppCompatActivity {
         String description = videoDescriptionInput.getText().toString();
         ArrayList<String> tags = new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(",")));
         String src = videoUri.toString();
-        Video video = DataManager.createVideo(name, DataManager.getCurrentUser(), src, description, tags, this);
+        DataManager.createVideo(name, DataManager.getCurrentUser(), src, description, tags, this);
+        startActivity(new Intent(this, MyVideosPage.class));
+
     }
 }
