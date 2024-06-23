@@ -8,6 +8,10 @@
         <item name="android:background">@color/off_white</item>
     </style>
 
+    <style name="icons">
+        <item name="android:tint">@color/black</item>
+    </style>
+
     <style name="textColor">
         <item name="android:background">@color/off_white</item>
     </style>

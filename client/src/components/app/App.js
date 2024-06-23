@@ -11,14 +11,14 @@ import videoList from "../../data/videos.json";
 import Bar from "../pages/general_components/bar/Bar";
 import WatchVideoPage from "../pages/watch_video/WatchVideoPage";
 import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
-import MyVideos from "../pages/MyVideos/MyVideos.js"
+import MyVideos from "../pages/MyVideos/MyVideos.js";
 import Page404 from "../pages/page_404/Page404";
-import VideoEdit from "../pages/VideoEdit/VideoEdit.js"
+import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 import { ThemeContext } from "../pages/general_components/ThemeContext";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState(usersList[0]);
+  const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
   return (
     <ThemeContext>
@@ -45,9 +45,26 @@ function App() {
             {currentUser ? (
               // Pages only users can see
               <>
-              <Route path="/my-videos" element={<MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos}/>} />
-              <Route path="/UploadVideosPage" element={<UploadVideoPage setVideos={setVideos} videos={videos} currentUser={currentUser}/>} />
-              <Route path="/videoEdit/:v?" element={<VideoEdit videos={videos} currentUser={currentUser} />}/>
+                <Route
+                  path="/my-videos"
+                  element={
+                    <MyVideos currentUser={currentUser} videos={videos} setVideos={setVideos} />
+                  }
+                />
+                <Route
+                  path="/upload"
+                  element={
+                    <UploadVideoPage
+                      setVideos={setVideos}
+                      videos={videos}
+                      currentUser={currentUser}
+                    />
+                  }
+                />
+                <Route
+                  path="/edit/:v?"
+                  element={<VideoEdit videos={videos} currentUser={currentUser} />}
+                />
               </>
             ) : (
               <>

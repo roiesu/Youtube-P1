@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 import com.example.android_client.R;
 import com.example.android_client.activities.MainPage;
@@ -22,6 +24,7 @@ public class LogoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_logo, container, false);
 
         ImageView logoImageView = view.findViewById(R.id.logoImageView);
+        TooltipCompat.setTooltipText(logoImageView,"Go to home page");
         logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

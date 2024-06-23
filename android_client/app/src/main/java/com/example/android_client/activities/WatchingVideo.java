@@ -1,5 +1,6 @@
 package com.example.android_client.activities;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -38,12 +39,14 @@ public class WatchingVideo extends AppCompatActivity {
     private RecyclerView commentsList;
     private TextView commentsHeader;
 
-    private Button likeButton;
+    private com.google.android.material.button.MaterialButton likeButton;
     private Button commentButton;
     private Button shareButton;
     private EditText commentInput;
     private User currentUser;
+    private boolean likedVideo;
 
+    @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
@@ -68,8 +71,8 @@ public class WatchingVideo extends AppCompatActivity {
 
         setContentView(R.layout.watching_video);
         ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
-        ((TextView) findViewById(R.id.videoViews)).setText("" + video.getViews());
-        ((TextView) findViewById(R.id.videoDate)).setText(Utilities.formatDate(video.getDate_time()));
+        ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews())+" Views");
+        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate_time()));
         ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
         ((TextView) findViewById(R.id.videoUploader)).setText(video.getDisplayUploader());
         currentUser = DataManager.getCurrentUser();
@@ -84,8 +87,10 @@ public class WatchingVideo extends AppCompatActivity {
             }
             DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
             ((TextView) view).setText(video.getLikes().size() + "");
+            likedVideo = !likedVideo;
+            changeLikeIcon();
         });
-
+        isLiked();
         initVideo();
 
         commentsList = findViewById(R.id.commentsList);
@@ -137,7 +142,6 @@ public class WatchingVideo extends AppCompatActivity {
 
     private void commentVideo(CommentAdapter adapter) {
         if (currentUser == null) {
-            // Notify user
             return;
         }
         String content = commentInput.getText().toString();
@@ -169,5 +173,26 @@ public class WatchingVideo extends AppCompatActivity {
             }
         }).setTitle("Share video");
         return dialogBuilder.create();
+    }
+
+    private void isLiked() {
+        if (currentUser != null) {
+            for (String username : video.getLikes()) {
+                if (username.equals(currentUser.getUsername())) {
+                    likedVideo = true;
+                    changeLikeIcon();
+                    return;
+                }
+            }
+        }
+        likedVideo = false;
+    }
+
+    private void changeLikeIcon() {
+        if (likedVideo) {
+            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_filled_like, getTheme()));
+        } else {
+            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_like, getTheme()));
+        }
     }
 }
