@@ -1,4 +1,5 @@
 Jira link: https://roiesu3.atlassian.net/jira/software/projects/BIS/boards/2/timeline
+
 Github link: https://github.com/roiesu/Youtube-P1
 
 # Important note
@@ -18,7 +19,7 @@ To run the react project, first you need to go to the "client" directory. When r
 
 For the android, you need to either open the android emulator or install the application in your mobile device, and press the start button in the android studio work frame.
 
-## Workflow
+# Workflow
 
 First we started by creating a scrum sprint for the react part, where we created the basic tasks needed for the entire react part.
 We split the job equally so both of us worked on the initial part of the project.
