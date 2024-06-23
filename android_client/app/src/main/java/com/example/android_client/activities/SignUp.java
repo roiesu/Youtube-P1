@@ -41,8 +41,6 @@ public class SignUp extends AppCompatActivity {
 
     private ImageView previewImage;
     private Uri imageUri;
-    private TextView errorView;
-
     private Button change;
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> cameraResultLauncher;
@@ -67,7 +65,6 @@ public class SignUp extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         previewImage = findViewById(R.id.imagePreview);
         uploadImageButton = findViewById(R.id.imageInput);
-        errorView = findViewById(R.id.validationError);
         change = findViewById(R.id.signin);
         change.setOnClickListener(l -> {
             Intent intent = new Intent(l.getContext(), SignIn.class);
@@ -125,20 +122,25 @@ public class SignUp extends AppCompatActivity {
 
 
     private void register() {
+        Toast toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
         for (InputValidation input : inputs) {
             if (!input.match()) {
-                errorView.setText(input.getReqs());
+                toast.setText(input.getReqs());
+                toast.show();
                 return;
             }
         }
         if (!inputs.get(1).getInputText().equals(inputs.get(2).getInputText())) {
-            errorView.setText(inputs.get(2).getReqs());
+            toast.setText(inputs.get(2).getReqs());
+            toast.show();
             return;
         } else if (imageUri == null) {
-            errorView.setText("No image chosen");
+            toast.setText("No image chosen");
+            toast.show();
             return;
         } else if (DataManager.findUser(inputs.get(0).getInputText()) != null) {
-            errorView.setText("User with that useranme already taken");
+            toast.setText("User with that useranme already taken");
+            toast.show();
             return;
         }
         User newUser = new User(inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageUri.toString());
