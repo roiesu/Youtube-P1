@@ -4,6 +4,7 @@ const router = require("./routes/router");
 const mongoose = require("mongoose");
 
 const app = express();
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api", router);
 
