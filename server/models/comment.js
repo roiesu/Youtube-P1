@@ -6,6 +6,7 @@ const CommentSchema = new mongoose.Schema({
   video: { type: ObjectId, required: true },
   text: { type: String, required: true },
   date: { type: Date, default: Date.now() },
+  edited: { type: Boolean, default: false },
 });
 
 const Comment = mongoose.model("Comment", CommentSchema);
