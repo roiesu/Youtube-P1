@@ -5,16 +5,19 @@ function write64FileWithCopies(dest, data) {
   let file = fs.existsSync(dest);
   if (file) {
     let i = 0;
-    let [start, end] = dest.split(/\.(?=[^\.]+$)/);
+    let startName = fileName;
     while (file) {
-      file = fs.existsSync(`${start} (${++i}).${end}`);
+      file = fs.existsSync(`${startName} (${++i})`);
     }
-    fileName = `${start} (${i}).${end}`;
+    fileName = `${startName} (${i})`;
   }
 
-  let base64File = data.replace(/^.*;base64,/, "");
-  fs.writeFileSync(fileName, base64File, { encoding: "base64" });
-  return fileName;
+  let [header, base64File] = data.split(/;base64,/);
+  let [fileType, fileSuffix] = header.replace(/data:/, "").split("/");
+  fs.writeFileSync(`./public/${fileType}/${fileName}.${fileSuffix}`, base64File, {
+    encoding: "base64",
+  });
+  return fileName + "." + fileSuffix;
 }
 
 module.exports = { write64FileWithCopies };
