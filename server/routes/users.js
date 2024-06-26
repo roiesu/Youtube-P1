@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+const { getVideo, updateVideo, deleteVideo, addVideo } = require("../controllers/videos");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -17,4 +18,9 @@ router.post("/new", async (req, res) => {
   await user.save();
   res.send("User " + name + " created");
 });
+
+router.get("/:id/videos/:pid", getVideo);
+router.patch("/:id/videos/:pid", updateVideo);
+router.delete("/:id/videos/:pid", deleteVideo);
+router.post("/:id/videos", addVideo);
 module.exports = router;
