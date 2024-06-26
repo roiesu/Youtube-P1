@@ -7,7 +7,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/test", async (req, res) => {
-  const all = await User.find({});
-  
+  let userDetails = { name: "YES", username: "YESw2", password: "AYWA" };
+  const user = new User(userDetails);
+  await user.save();
+  res.send("OK");
 });
 module.exports = router;
