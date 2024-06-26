@@ -60,7 +60,7 @@ async function addVideo(req, res) {
     return res.status(400).send("Name and video are required");
   }
   try {
-    let fileName = write64FileWithCopies(`./public/videos/${name}.mp4`, src);
+    let fileName = write64FileWithCopies(name, src);
     const video = new Video({ name, uploader: id, description, tags, src: fileName });
     await video.save();
     await User.findByIdAndUpdate(id, { $push: { videos: video.id } });
@@ -70,5 +70,47 @@ async function addVideo(req, res) {
   }
   return res.status(400).send("Couldn't upload video");
 }
+async function likeVideo(req, res) {
+  const { id, pid } = req.params;
+  try {
+    const video = await Video.findOneAndUpdate(
+      { _id: pid, uploader: id },
+      { $addToSet: { likes: id } }
+    );
+    if (video) {
+      return res.status(201).send("OK");
+    } else {
+      return res.status(404).send("Video not found");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+  return res.status(400).send("Couldn't like video");
+}
+async function dislikeVideo(req, res) {
+  const { id, pid } = req.params;
+  try {
+    const video = await Video.findOneAndUpdate(
+      { _id: pid, uploader: id },
+      { $pull: { likes: id } }
+    );
+    if (video) {
+      return res.status(201).send("OK");
+    } else {
+      return res.status(404).send("Video not found");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+  return res.status(400).send("Couldn't remove like from video");
+}
 
-module.exports = { getVideos, getVideo, deleteVideo, updateVideo, addVideo };
+module.exports = {
+  getVideos,
+  getVideo,
+  deleteVideo,
+  updateVideo,
+  addVideo,
+  likeVideo,
+  dislikeVideo,
+};
