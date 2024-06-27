@@ -19,4 +19,7 @@ function write64FileWithCopies(dest, data) {
   return fileName + "." + fileSuffix;
 }
 
-module.exports = { write64FileWithCopies };
+function deletePublicFile(type, name) {
+  fs.unlinkSync(`./public/${type}/${name}`);
+}
+module.exports = { write64FileWithCopies, deletePublicFile };
