@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const Video = require("../models/video");
-const { write64FileWithCopies } = require("../utils");
+const { write64FileWithCopies, deletePublicFile } = require("../utils");
 async function getVideos(req, res) {
   let videos = [];
   try {
@@ -28,7 +28,45 @@ async function getVideo(req, res) {
   }
   return res.status(404).send("No video found");
 }
-async function deleteVideo(req, res) {}
+async function deleteVideo(req, res) {
+  const { id, pid } = req.params;
+  try {
+    const video = await Video.findOneAndDelete({ _id: pid, uploader: id });
+    if (video) {
+      // Removing likes
+      video.likes.forEach(async (userId) => {
+        try {
+          await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
+        } catch (err) {
+          console.log(err.message);
+        }
+      });
+
+      // Removing comments
+      video.comments.forEach(async (commentId) => {
+        try {
+          const comment = await Comment.findByIdAndDelete(commentId);
+          await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
+        } catch (err) {
+          console.log(err.message);
+        }
+      });
+      // Remove from user videos
+      try {
+        await User.findByIdAndUpdate(id, { $pull: { videos: pid } });
+      } catch (err) {
+        console.log(err.message);
+      }
+      // Deleting video file
+      deletePublicFile("video", video.src);
+      return res.status(200).send("Video deleted");
+    }
+    return res.status(404).send("Video not found");
+  } catch (err) {
+    console.log(err.message);
+  }
+  return res.status(400).send("Couldn't delete video");
+}
 
 async function updateVideo(req, res) {
   const { id, pid } = req.params;
