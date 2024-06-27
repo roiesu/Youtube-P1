@@ -1,8 +1,7 @@
 const express = require("express");
+const { getVideos } = require("../controllers/videos");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("videos");
-});
+router.get("/", getVideos);
 
 module.exports = router;

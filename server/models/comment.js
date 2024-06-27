@@ -5,7 +5,7 @@ const CommentSchema = new mongoose.Schema({
   user: { type: ObjectId, required: true },
   video: { type: ObjectId, required: true },
   text: { type: String, required: true },
-  date: { type: Date, default: Date.now() },
+  date: { type: Date, default: Date.now },
   edited: { type: Boolean, default: false },
 });
 

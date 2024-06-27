@@ -1,5 +1,13 @@
 const express = require("express");
 const User = require("../models/user");
+const {
+  getVideo,
+  updateVideo,
+  deleteVideo,
+  addVideo,
+  likeVideo,
+  dislikeVideo,
+} = require("../controllers/videos");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -17,4 +25,14 @@ router.post("/new", async (req, res) => {
   await user.save();
   res.send("User " + name + " created");
 });
+
+// Crud for videos
+router.get("/:id/videos/:pid", getVideo);
+router.patch("/:id/videos/:pid", updateVideo);
+router.delete("/:id/videos/:pid", deleteVideo);
+router.post("/:id/videos", addVideo);
+
+// Like and dislike
+router.put("/:id/videos/:pid/like", likeVideo);
+router.delete("/:id/videos/:pid/like", dislikeVideo);
 module.exports = router;
