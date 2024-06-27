@@ -32,11 +32,7 @@ function App() {
           <Bar logout={() => setCurrentUser(null)} loggedIn={currentUser != null} />
           <Routes>
             {/* Pages anyone can see */}
-            <Route
-              exact
-              path="/"
-              element={<MainPage videos={videos} currentUser={currentUser} />}
-            />
+            <Route exact path="/" element={<MainPage currentUser={currentUser} />} />
             <Route
               exact
               path="/watch/:v?"
