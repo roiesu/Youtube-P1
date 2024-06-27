@@ -1,9 +1,12 @@
 const User = require("../models/user");
 const Video = require("../models/video");
 const { write64FileWithCopies, deletePublicFile } = require("../utils");
+
 async function getVideos(req, res) {
+  const name = req.query.name || "";
   try {
-    let videos = await Video.find({})
+    const filterValues = { name: { $regex: name, $options: "i" } };
+    let videos = await Video.find(filterValues)
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
       .limit(10);
