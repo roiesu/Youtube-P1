@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { secondsToTime, dateDifference, shortFormatter } from "../../../../utilities";
+import {
+  secondsToTime,
+  dateDifference,
+  shortFormatter,
+  getMediaFromServer,
+} from "../../../../utilities";
 
-function VideoLink({ name, uploader, displayUploader, date_time, views, id, src }) {
+function VideoLink({ name, uploader, uploaderName, uploaderImage, date, views, id, src }) {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
 
@@ -26,16 +31,16 @@ function VideoLink({ name, uploader, displayUploader, date_time, views, id, src 
               setPlaying(false);
             }}
           >
-            <source src={src} type="video/mp4" />
+            <source src={getMediaFromServer("video", src)} type="video/mp4" />
           </video>
           <span className="video-length">{secondsToTime(duration)}</span>
         </div>
         <div className="video-details">
           <div className="video-name">{name}</div>
           <div className="minor-details">
-            <div>Uploaded by {displayUploader}</div>
+            <div>Uploaded by {uploaderName}</div>
             <div>
-              {dateDifference(date_time)} - {shortFormatter.format(views)} views
+              {dateDifference(date)} - {shortFormatter.format(views)} views
             </div>
           </div>
         </div>

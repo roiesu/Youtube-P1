@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import VideoLink from "./main_page_components/VideoLink";
 import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
@@ -9,18 +10,23 @@ import IconMoon from "../../icons/IconMoon";
 
 function MainPage({ videos, currentUser }) {
   const { theme, changeTheme } = useTheme();
-
   const searchInputRef = useRef(null);
-  const [filteredVideos, setFilteredVideos] = useState(videos);
+  const [filteredVideos, setFilteredVideos] = useState([]);
+  async function getVideos() {
+    try {
+      const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
+
+      const response = await axios.get(`/api/videos?name=${searchValue}`);
+      console.log(response.data);
+      setFilteredVideos(response.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+  useEffect(getVideos, []);
 
   function search() {
-    if (searchInputRef.current.value === "") {
-      setFilteredVideos(videos);
-      return;
-    }
-    const reg = new RegExp(searchInputRef.current.value, "i");
-    const tempFiltered = videos.filter((video) => video.name.match(reg));
-    setFilteredVideos(tempFiltered);
+    getVideos();
     searchInputRef.current.value = "";
   }
 
