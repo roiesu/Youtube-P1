@@ -2,15 +2,28 @@ const User = require("../models/user");
 const Video = require("../models/video");
 const { write64FileWithCopies, deletePublicFile } = require("../utils");
 async function getVideos(req, res) {
-  let videos = [];
   try {
-    videos = await Video.find({})
-      .select(["_id", "uploader", "views", "src", "date"])
+    let videos = await Video.find({})
+      .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
       .limit(10);
-  } catch (err) {}
-  return res.status(200).send(videos);
+    videos = await Promise.all(
+      videos.map(async (video) => {
+        const user = await User.findById(video.uploader).select(["name", "image"]);
+        return {
+          ...video.toJSON(),
+          uploaderName: user.name,
+          uploaderImage: user.image,
+        };
+      })
+    );
+    return res.status(200).send(videos);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.status(200).send([]);
 }
+
 async function getVideo(req, res) {
   const { id, pid } = req.params;
   let video;
@@ -21,13 +34,17 @@ async function getVideo(req, res) {
       { new: true }
     );
     if (video) {
-      return res.status(200).send(video);
+      const user = await User.findById(id).select(["name", "image"]);
+      return res
+        .status(200)
+        .send({ ...video.toJSON(), uploaderName: user.name, uploaderImage: user.image });
     }
   } catch (err) {
     console.log(err.message);
   }
   return res.status(404).send("No video found");
 }
+
 async function deleteVideo(req, res) {
   const { id, pid } = req.params;
   try {
@@ -91,6 +108,7 @@ async function updateVideo(req, res) {
   }
   return res.status(400).send("Invalid");
 }
+
 async function addVideo(req, res) {
   const { id } = req.params;
   const { name, description, tags, src } = req.body;
@@ -108,6 +126,7 @@ async function addVideo(req, res) {
   }
   return res.status(400).send("Couldn't upload video");
 }
+
 async function likeVideo(req, res) {
   const { id, pid } = req.params;
   try {
@@ -126,6 +145,7 @@ async function likeVideo(req, res) {
   }
   return res.status(400).send("Couldn't like video");
 }
+
 async function dislikeVideo(req, res) {
   const { id, pid } = req.params;
   try {
