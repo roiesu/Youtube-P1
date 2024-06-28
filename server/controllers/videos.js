@@ -54,23 +54,27 @@ async function deleteVideo(req, res) {
     const video = await Video.findOneAndDelete({ _id: pid, uploader: id });
     if (video) {
       // Removing likes
-      video.likes.forEach(async (userId) => {
-        try {
-          await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
-        } catch (err) {
-          console.log(err.message);
-        }
-      });
+      await Promise.all(
+        video.likes.map(async (userId) => {
+          try {
+            await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
+          } catch (err) {
+            console.log(err.message);
+          }
+        })
+      );
 
       // Removing comments
-      video.comments.forEach(async (commentId) => {
-        try {
-          const comment = await Comment.findByIdAndDelete(commentId);
-          await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
-        } catch (err) {
-          console.log(err.message);
-        }
-      });
+      await Promise.all(
+        video.comments.forEach(async (commentId) => {
+          try {
+            const comment = await Comment.findByIdAndDelete(commentId);
+            await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
+          } catch (err) {
+            console.log(err.message);
+          }
+        })
+      );
       // Remove from user videos
       try {
         await User.findByIdAndUpdate(id, { $pull: { videos: pid } });
