@@ -18,7 +18,7 @@ import { ThemeContext } from "../pages/general_components/ThemeContext";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(usersList[0]);
   const [videos, setVideos] = useState(videoList);
   return (
     <ThemeContext>
@@ -32,11 +32,7 @@ function App() {
           <Bar logout={() => setCurrentUser(null)} loggedIn={currentUser != null} />
           <Routes>
             {/* Pages anyone can see */}
-            <Route
-              exact
-              path="/"
-              element={<MainPage videos={videos} currentUser={currentUser} />}
-            />
+            <Route exact path="/" element={<MainPage currentUser={currentUser} />} />
             <Route
               exact
               path="/watch/:v?"

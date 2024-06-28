@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
-import { longFormatter, printWithLineBreaks } from "../../../../../utilities";
+import { longFormatter, printWithLineBreaks, getMediaFromServer } from "../../../../../utilities";
 import ShareMenu from "../share_menu/ShareMenu";
 
 function VideoBlock({
   name,
-  uploader,
-  displayUploader,
+  uploaderName,
   src,
   description,
   views,
   likes,
-  date_time,
+  date,
   tags,
   commentInput,
   like,
@@ -31,12 +30,12 @@ function VideoBlock({
   return (
     <div className="video-block">
       <video controls className="video">
-        <source src={src} type="video/mp4" />
+        <source src={getMediaFromServer("video", src)} type="video/mp4" />
       </video>
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="uploader">Uploaded by {displayUploader}</div>
+          <div className="uploader">Uploaded by {uploaderName}</div>
           <div className="actions">
             <VideoActionButton
               name="Comment"
@@ -67,7 +66,7 @@ function VideoBlock({
         <div className="description-div">
           <div className="date">
             uploaded on{" "}
-            {new Date(date_time).toLocaleDateString("en", {
+            {new Date(date).toLocaleDateString("en", {
               year: "numeric",
               month: "short",
               day: "numeric",
