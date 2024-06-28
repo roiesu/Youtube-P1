@@ -36,7 +36,7 @@ function MainPage({ videos, currentUser }) {
         <div className="user-details">
           {currentUser ? (
             <>
-              <img className="profile-pic-small" src={currentUser.image} />
+              <img className="profile-pic" src={currentUser.image} />
               <span className="user-name">Welcome back {currentUser.name}</span>
             </>
           ) : (
