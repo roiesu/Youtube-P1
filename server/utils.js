@@ -22,4 +22,5 @@ function write64FileWithCopies(dest, data) {
 function deletePublicFile(type, name) {
   fs.unlinkSync(`./public/${type}/${name}`);
 }
+
 module.exports = { write64FileWithCopies, deletePublicFile };

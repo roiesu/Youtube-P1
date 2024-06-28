@@ -8,14 +8,14 @@ import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ videos, currentUser }) {
+function MainPage({ currentUser }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState([]);
+
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
-
       const response = await axios.get(`/api/videos?name=${searchValue}`);
       console.log(response.data);
       setFilteredVideos(response.data);
@@ -23,7 +23,9 @@ function MainPage({ videos, currentUser }) {
       console.log(err.response);
     }
   }
-  useEffect(getVideos, []);
+  useEffect(() => {
+    getVideos();
+  }, []);
 
   function search() {
     getVideos();
@@ -64,7 +66,7 @@ function MainPage({ videos, currentUser }) {
       </div>
       <div className="video-list">
         {filteredVideos.map((video) => (
-          <VideoLink key={video.id} {...video} />
+          <VideoLink key={video._id} {...video} />
         ))}
       </div>
     </div>
