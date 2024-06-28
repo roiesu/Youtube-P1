@@ -3,10 +3,11 @@ const router = express.Router();
 const videos = require("./videos");
 const users = require("./users");
 const comments = require("./comments");
+const authenticateToken = require('./auth');
 
-router.use("/videos", videos);
-router.use("/users", users);
-router.use("/comments", comments);
+router.use('/videos', authenticateToken, videos);
+router.use('/users', users); 
+router.use('/comments', authenticateToken, comments);
 
 router.get("/", (req, res) => {
   res.send("router");

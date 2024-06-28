@@ -19,3 +19,4 @@ app.listen(8080, () => {
     })
     .catch((err) => console.error("Database connection error:", err));
 });
+
