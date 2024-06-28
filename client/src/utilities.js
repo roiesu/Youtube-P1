@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const reader = new FileReader();
 const shortFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
@@ -69,8 +71,20 @@ function printWithLineBreaks(text) {
       </span>
     );
   });
-  console.log(x);
   return x;
+}
+
+function getMediaFromServer(type, name) {
+  return `http://localhost:8080/media/${type}/${name}`;
+}
+function getQuery(url) {
+  const queryArray = url.replace(/^.*\?/, "").split("&");
+  let queryObj = {};
+  queryArray.map((query) => {
+    const [key, value] = query.split("=");
+    queryObj[key] = value;
+  });
+  return queryObj;
 }
 export {
   readFileIntoState,
@@ -80,4 +94,6 @@ export {
   shortFormatter,
   longFormatter,
   printWithLineBreaks,
+  getMediaFromServer,
+  getQuery,
 };

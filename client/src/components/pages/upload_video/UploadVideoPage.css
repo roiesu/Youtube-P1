@@ -45,7 +45,7 @@ h1 {
   width: 100%;
 }
 
-video {
+.video-upload-container video {
   display: block;
   margin: 20px auto;
   max-width: 100%;
