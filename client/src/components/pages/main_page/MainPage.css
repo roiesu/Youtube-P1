@@ -58,8 +58,8 @@ a.video-link {
   background-color: rgba(10, 10, 10, 0.6);
   color: white;
   position: absolute;
-  bottom: 25px;
-  right: 5px;
+  bottom: 9px;
+  right: 14px;
   padding: 2px;
   border-radius: 5px;
   letter-spacing: 0.8px;
@@ -151,7 +151,14 @@ a.video-link {
   justify-content: center;
   align-items: center;
 }
-
+.video-card .user-details {
+  align-items: flex-start;
+  align-self: flex-start;
+}
+.minor-details a {
+  display: flex;
+  flex-direction: column;
+}
 .user-name {
   font-size: 24px;
   font-weight: bold;

@@ -77,7 +77,15 @@ function printWithLineBreaks(text) {
 function getMediaFromServer(type, name) {
   return `http://localhost:8080/media/${type}/${name}`;
 }
-
+function getQuery(url) {
+  const queryArray = url.replace(/^.*\?/, "").split("&");
+  let queryObj = {};
+  queryArray.map((query) => {
+    const [key, value] = query.split("=");
+    queryObj[key] = value;
+  });
+  return queryObj;
+}
 export {
   readFileIntoState,
   callWithEnter,
@@ -87,4 +95,5 @@ export {
   longFormatter,
   printWithLineBreaks,
   getMediaFromServer,
+  getQuery,
 };

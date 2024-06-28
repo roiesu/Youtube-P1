@@ -4,6 +4,8 @@ import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
+import axios from "axios";
+import { getQuery } from "../../../utilities";
 function WatchVideoPage({ videos, currentUser }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
@@ -60,18 +62,25 @@ function WatchVideoPage({ videos, currentUser }) {
   }
 
   useEffect(() => {
-    // Finds the video by query params
-    if (video) return;
-    const query = location.search.match(/v=(.*)/);
-    if (!query) return;
-    const found = videos.find((video) => video.id == query[1]);
-    found.views++;
-    setVideo(found);
-    if (!currentUser) return;
-
-    // Set if liked the video
-    const user = found.likes.find((user) => user === currentUser.username);
-    if (user) setLikedVideo(true);
+    async function getVideo() {
+      // Finds the video by query params
+      if (video) return;
+      const { v, chanel } = getQuery(location.search);
+      if (!v || !chanel) return;
+      try {
+        const found = await axios.get(`/api/users/${chanel}/videos/${v}`);
+        if (!found) {
+          return;
+        }
+        console.log(found.data);
+        setVideo(found.data);
+        if (!currentUser) return;
+        // Set if liked the video
+        const user = found.likes.find((user) => user === currentUser.username);
+        if (user) setLikedVideo(true);
+      } catch (err) {}
+    }
+    getVideo();
   }, [video]);
 
   return (

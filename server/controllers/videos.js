@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Video = require("../models/video");
+const Comment = require("../models/comment");
 const { write64FileWithCopies, deletePublicFile } = require("../utils");
 
 async function getVideos(req, res) {
@@ -38,9 +39,22 @@ async function getVideo(req, res) {
     );
     if (video) {
       const user = await User.findById(id).select(["name", "image"]);
+      const comments = await Promise.all(
+        video.comments.map(async (commentId) => {
+          const comment = await Comment.findById(commentId).select([
+            "_id",
+            "text",
+            "user",
+            "date",
+            "edited",
+          ]);
+          const user = await User.findById(comment.user).select(["name", "image"]);
+          return { ...comment.toJSON(), userName: user.name, userImage: user.image };
+        })
+      );
       return res
         .status(200)
-        .send({ ...video.toJSON(), uploaderName: user.name, uploaderImage: user.image });
+        .send({ ...video.toJSON(), comments, uploaderName: user.name, uploaderImage: user.image });
     }
   } catch (err) {
     console.log(err.message);
