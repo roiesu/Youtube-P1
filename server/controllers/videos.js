@@ -119,10 +119,15 @@ async function addVideo(req, res) {
     return res.status(400).send("Name and video are required");
   }
   try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
     let fileName = write64FileWithCopies(name, src);
     const video = new Video({ name, uploader: id, description, tags, src: fileName });
     await video.save();
-    await User.findByIdAndUpdate(id, { $push: { videos: video.id } });
+    user.videos.push(video);
+    await user.save();
     return res.status(201).send("OK");
   } catch (err) {
     console.log(err.message);
