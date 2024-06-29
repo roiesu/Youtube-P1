@@ -12,7 +12,8 @@ const {
   deleteVideo,
   addVideo,
   likeVideo,
-  dislikeVideo
+  dislikeVideo,
+  getVideosByUserId
 } = require("../controllers/videos");
 const router = express.Router();
 
@@ -35,6 +36,9 @@ router.patch("/:id", updateUserById);
 
 // delet user by ID
 router.delete("/:id", deleteUserById);
+
+// get videos by user ID
+router.get("/:id/videos", getVideosByUserId);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", getVideo);

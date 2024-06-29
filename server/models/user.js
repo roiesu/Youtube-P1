@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   image: { type: String, required: true },
   comments: { type: [ObjectId], default: [] },
-  videos: { type: [ObjectId], default: [] },
+  // videos: { type: [ObjectId], default: [] }, 
+  videos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
   likes: { type: [ObjectId], default: [] },
 });
 

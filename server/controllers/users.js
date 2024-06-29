@@ -28,16 +28,19 @@ async function addUser(req, res) {
 
 async function loginUser(req, res) {
   const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).send("Username and password are required!");
+  if (!username)  {
+    return res.status(400).send("Username is required!");
+  }
+  if (!password){
+    return res.status(400).send("password is required!");
   }
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).send("Invalid username or password!");
+      return res.status(404).send("Invalid username!");
     }
     if (user.password !== password) {
-      return res.status(400).send("Invalid username or password!");
+      return res.status(404).send("Invalid password!");
     }
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
@@ -67,10 +70,10 @@ async function getUserById(req, res) {
 
   async function updateUserById(req, res) {
     const { id } = req.params;
-    const { username, password, image } = req.body;
+    const { name, password, image } = req.body;
   
     const updateFields = {};
-    if (username) updateFields.username = username;
+    if (name) updateFields.name = name;
     if (password) updateFields.password = password;
     if (image) updateFields.image = image;
   
