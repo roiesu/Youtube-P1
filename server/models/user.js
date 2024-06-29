@@ -6,9 +6,9 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   image: { type: String, required: true },
-  comments: { type: [ObjectId], default: [] },
-  videos: { type: [ObjectId], default: [] },
-  likes: { type: [ObjectId], default: [] },
+  comments: [{ type: ObjectId, ref: "Comment" }],
+  videos: [{ type: ObjectId, ref: "Video" }],
+  likes: [{ type: ObjectId, ref: "Video" }],
 });
 
 const User = mongoose.model("User", UserSchema);

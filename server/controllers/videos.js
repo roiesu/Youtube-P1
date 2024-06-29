@@ -10,17 +10,8 @@ async function getVideos(req, res) {
     let videos = await Video.find(filterValues)
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
-      .limit(10);
-    videos = await Promise.all(
-      videos.map(async (video) => {
-        const user = await User.findById(video.uploader).select(["name", "image"]);
-        return {
-          ...video.toJSON(),
-          uploaderName: user.name,
-          uploaderImage: user.image,
-        };
-      })
-    );
+      .limit(10)
+      .populate("uploader", ["name", "image"]);
     return res.status(200).send(videos);
   } catch (err) {
     console.log(err);
@@ -36,25 +27,16 @@ async function getVideo(req, res) {
       { _id: pid, uploader: id },
       { $inc: { views: 1 } },
       { new: true }
-    );
+    )
+      .populate("uploader", ["name", "image"])
+      .populate({
+        path: "comments",
+        select: { video: false },
+        populate: { path: "user", select: ["name", "image"] },
+      });
+
     if (video) {
-      const user = await User.findById(id).select(["name", "image"]);
-      const comments = await Promise.all(
-        video.comments.map(async (commentId) => {
-          const comment = await Comment.findById(commentId).select([
-            "_id",
-            "text",
-            "user",
-            "date",
-            "edited",
-          ]);
-          const user = await User.findById(comment.user).select(["name", "image"]);
-          return { ...comment.toJSON(), userName: user.name, userImage: user.image };
-        })
-      );
-      return res
-        .status(200)
-        .send({ ...video.toJSON(), comments, uploaderName: user.name, uploaderImage: user.image });
+      return res.status(200).send(video);
     }
   } catch (err) {
     console.log(err.message);
