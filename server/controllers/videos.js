@@ -138,7 +138,6 @@ async function likeVideo(req, res) {
       { $addToSet: { likes: id } }
     );
     if (video) {
-      await User.findByIdAndUpdate(id, { $addToSet: { likes: pid } });
       return res.status(201).send("OK");
     } else {
       return res.status(404).send("Video not found");
@@ -157,7 +156,6 @@ async function dislikeVideo(req, res) {
       { $pull: { likes: id } }
     );
     if (video) {
-      await User.findByIdAndUpdate(id, { $pull: { likes: pid } });
       return res.status(201).send("OK");
     } else {
       return res.status(404).send("Video not found");
