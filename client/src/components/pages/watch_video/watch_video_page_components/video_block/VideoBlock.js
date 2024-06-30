@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
-import { longFormatter, printWithLineBreaks, getMediaFromServer } from "../../../../../utilities";
+import { longFormatter, getMediaFromServer } from "../../../../../utilities";
 import ShareMenu from "../share_menu/ShareMenu";
 
 function VideoBlock({
@@ -76,7 +76,7 @@ function VideoBlock({
             })}
           </div>
           <div className="views">Views: {longFormatter.format(views)}</div>
-          <div className="description">{printWithLineBreaks(description)}</div>
+          <div className="description">{description}</div>
           <div className="tags">
             {tags.map((tag, index) => (
               <a key={"tag" + index} href="#" className="tag">

@@ -3,7 +3,6 @@ import {
   callWithEnter,
   dateDifference,
   getMediaFromServer,
-  printWithLineBreaks,
 } from "../../../../../utilities";
 import IconSave from "../../../../icons/IconSave";
 import IconEdit from "../../../../icons/IconEdit";
@@ -56,7 +55,7 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
               value={commentContent}
             />
           ) : (
-            printWithLineBreaks(text)
+            text
           )}
         </div>
         <span className="comment-expand" onClick={() => setExpanded(!expanded)}>
