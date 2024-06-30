@@ -17,7 +17,6 @@ function MainPage({ currentUser }) {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
-      console.log(response.data);
       setFilteredVideos(response.data);
     } catch (err) {
       console.log(err.response);

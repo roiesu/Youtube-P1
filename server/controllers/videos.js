@@ -125,9 +125,9 @@ async function addVideo(req, res) {
     }
     let fileName = write64FileWithCopies(name, src);
     const video = new Video({ name, uploader: id, description, tags, src: fileName });
-    await video.save();
-    user.videos.push(video);
-    await user.save();
+    video.save();
+    user.videos.push(video._id);
+    user.save();
     return res.status(201).send("OK");
   } catch (err) {
     console.log(err.message);
