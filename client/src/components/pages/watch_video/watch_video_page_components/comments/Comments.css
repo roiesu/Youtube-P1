@@ -10,6 +10,9 @@
   margin: 10px 0;
   display: flex;
 }
+.comment-right {
+  width: 100%;
+}
 .comments-list {
   display: flex;
   flex-direction: column-reverse;
@@ -62,6 +65,8 @@
 .comment-content {
   font-size: 17px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: break-spaces;
   word-wrap: break-word;
   min-height: 42px;
 }

@@ -55,6 +55,9 @@
   line-height: 1.6;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+.description-div .description {
+  white-space: break-spaces;
+}
 .light .description-div {
   border-color: #ffd700;
   color: #333333;
