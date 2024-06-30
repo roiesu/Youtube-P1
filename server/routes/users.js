@@ -17,15 +17,9 @@ const {
 } = require("../controllers/videos");
 const router = express.Router();
 
-router.post("/new", addUser);
-
-router.post("/tokens", loginUser);
-
 // add user
-router.post("/new", addUser);
+router.post("/", addUser);
 
-// user login
-router.post("/tokens", loginUser);
 
 // get user 
 router.get("/:id", getUserById);
