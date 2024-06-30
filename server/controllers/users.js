@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const {write64FileWithCopies} = require('../utils');
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; 
 
@@ -12,7 +13,8 @@ async function addUser(req, res) {
     return res.status(400).send("Username, password, name, and image are required!");
   }
   try {
-    const user = new User({ username, password, name, image });
+    const imagePath = write64FileWithCopies("p"+username,image);
+    const user = new User({ username, password, name, imagePath });
      // user -> database
     await user.save();
 
@@ -50,7 +52,6 @@ async function loginUser(req, res) {
     console.log(err.message); 
     return res.status(500).send("Couldn't log in this user!"); 
   }
-
 }
 
 
