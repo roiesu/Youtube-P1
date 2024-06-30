@@ -77,9 +77,7 @@
   text-overflow: ellipsis;
   height: 60px;
 }
-/* .comment-content.closed {
-  height: 42px;
-} */
+
 .comment-content.open {
   height: fit-content;
 }
