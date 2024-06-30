@@ -38,6 +38,7 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 40%;
+  align-items: flex-start;
   flex-wrap: nowrap;
 }
 

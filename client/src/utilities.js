@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const reader = new FileReader();
 const shortFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
