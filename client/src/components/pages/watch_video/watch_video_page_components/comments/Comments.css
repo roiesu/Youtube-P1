@@ -65,14 +65,21 @@
 .comment-content {
   font-size: 17px;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: break-spaces;
   word-wrap: break-word;
-  min-height: 42px;
+  min-height: 60px;
 }
 .comment-content.closed {
-  height: 42px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 60px;
 }
+/* .comment-content.closed {
+  height: 42px;
+} */
 .comment-content.open {
   height: fit-content;
 }

@@ -70,6 +70,7 @@ a.video-link {
   font-size: 21px;
   font-weight: 600;
   text-wrap: pretty;
+  overflow: hidden;
 }
 
 .search-input-div {
