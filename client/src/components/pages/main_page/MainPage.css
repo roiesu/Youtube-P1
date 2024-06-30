@@ -15,6 +15,7 @@
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
+  text-align: left;
 }
 .light .video-card {
   border-color: #ddd;
@@ -44,8 +45,7 @@ a.video-link {
 }
 
 .video-details {
-  width: 100%;
-  text-align: center;
+  width: 90%;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -152,8 +152,13 @@ a.video-link {
   align-items: center;
 }
 .video-card .user-details {
-  align-items: flex-start;
   align-self: flex-start;
+}
+.minor-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80px;
 }
 .minor-details a {
   display: flex;
@@ -175,10 +180,8 @@ a.video-link {
 
 .change-theme-button {
   display: flex;
-  font-size: 24px;
   padding: 8px 9px;
   width: fit-content;
-  transition: 0.2s;
   border: 2px solid;
   border-radius: 50%;
   justify-content: center;

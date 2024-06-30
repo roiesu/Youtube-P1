@@ -35,7 +35,10 @@ function VideoBlock({
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="uploader">Uploaded by {uploader.name}</div>
+          <div className="user-details">
+            <img className="profile-pic" src={getMediaFromServer("image", uploader.image)} />{" "}
+            <div>{uploader.name}</div>
+          </div>
           <div className="actions">
             <VideoActionButton
               name="Comment"
