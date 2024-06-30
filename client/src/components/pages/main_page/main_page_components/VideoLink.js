@@ -7,14 +7,14 @@ import {
   getMediaFromServer,
 } from "../../../../utilities";
 
-function VideoLink({ name, uploader, uploaderName, uploaderImage, date, views, _id, src }) {
+function VideoLink({ name, uploader, uploaderImage, date, views, _id, src }) {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
 
   return (
     <div className="video-card">
       <div className="video-container">
-        <Link className="video-link" to={`/watch?v=${_id}&chanel=${uploader}`}>
+        <Link className="video-link" to={`/watch?v=${_id}&chanel=${uploader._id}`}>
           <video
             loop
             muted
@@ -42,8 +42,11 @@ function VideoLink({ name, uploader, uploaderName, uploaderImage, date, views, _
         <div className="minor-details">
           <Link to="/">
             <div className="user-details">
-              <img className="profile-pic small" src={getMediaFromServer("image", uploaderImage)} />
-              <div>{uploaderName}</div>
+              <img
+                className="profile-pic small"
+                src={getMediaFromServer("image", uploader.image)}
+              />
+              <div>{uploader.name}</div>
             </div>
           </Link>
           <div>

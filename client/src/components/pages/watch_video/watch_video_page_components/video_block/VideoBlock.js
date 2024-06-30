@@ -6,7 +6,7 @@ import ShareMenu from "../share_menu/ShareMenu";
 
 function VideoBlock({
   name,
-  uploaderName,
+  uploader,
   src,
   description,
   views,
@@ -35,7 +35,7 @@ function VideoBlock({
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="uploader">Uploaded by {uploaderName}</div>
+          <div className="uploader">Uploaded by {uploader.name}</div>
           <div className="actions">
             <VideoActionButton
               name="Comment"

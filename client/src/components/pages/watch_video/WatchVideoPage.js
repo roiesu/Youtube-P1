@@ -72,7 +72,6 @@ function WatchVideoPage({ videos, currentUser }) {
         if (!found) {
           return;
         }
-        console.log(found.data);
         setVideo(found.data);
         if (!currentUser) return;
         // Set if liked the video
