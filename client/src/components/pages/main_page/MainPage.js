@@ -12,18 +12,30 @@ function MainPage({ currentUser }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState([]);
+  const [userDetails, setUserDetails] = useState();
 
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
+      console.log(response.data);
       setFilteredVideos(response.data);
     } catch (err) {
       console.log(err.response);
     }
   }
+  async function getUserDetails() {
+    if (!currentUser) {
+      return;
+    }
+    try {
+      const response = await axios.get("/api/users/" + currentUser);
+      setUserDetails(response.data);
+    } catch (err) {}
+  }
   useEffect(() => {
     getVideos();
+    getUserDetails();
   }, []);
 
   function search() {

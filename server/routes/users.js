@@ -1,11 +1,5 @@
 const express = require("express");
-const {
-  addUser,
-  loginUser,
-  getUserById,
-  updateUserById,
-  deleteUserById
-} = require("../controllers/users"); 
+const { addUser, getUser, updateUser, deleteUser } = require("../controllers/users");
 const {
   getVideo,
   updateVideo,
@@ -13,30 +7,17 @@ const {
   addVideo,
   likeVideo,
   dislikeVideo,
-  getVideosByUserId
+  getVideosByUserId,
 } = require("../controllers/videos");
-const {
-  getComment,
-  addComment,
-  deleteComment,
-  editComment
-} = require("../controllers/comments");
-const Video = require("../models/video");
+const { getComment, addComment, deleteComment, editComment } = require("../controllers/comments");
 const router = express.Router();
 
-// add user
+// CRUD for users
 router.post("/", addUser);
 
-
-// get user 
-router.get("/:id", getUserById);
-
-// update user 
-router.put("/:id", updateUserById);
-router.patch("/:id", updateUserById);
-
-// delete user by ID
-router.delete("/:id", deleteUserById);
+router.get("/:id", getUser);
+router.patch("/:id", updateUser);
+router.delete("/:id", deleteUser);
 
 // get videos by user ID
 router.get("/:id/videos", getVideosByUserId);
