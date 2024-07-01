@@ -12,20 +12,24 @@ function WatchVideoPage({ videos, currentUser }) {
   const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
   const location = useLocation();
+  const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
 
-  function addComment() {
+  async function addComment() {
     if (!currentUser || commentInput.current.value == "") return;
-    const newComment = {
-      user: currentUser.username,
-      displayName: currentUser.name,
-      text: commentInput.current.value,
-      date_time: new Date().toISOString(),
-      edited: false,
-    };
-    const tempVideo = { ...video };
-    tempVideo.comments.push(newComment);
-    setVideo(tempVideo);
-    commentInput.current.value = "";
+
+    try {
+      const response = await axios.post(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments`,
+        { text: commentInput.current.value },
+        { headers: AuthHeader }
+      );
+      const tempVideo = { ...video };
+      tempVideo.comments.push(response.data);
+      setVideo(tempVideo);
+      commentInput.current.value = "";
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function deleteComment(commentDate) {
@@ -54,18 +58,10 @@ function WatchVideoPage({ videos, currentUser }) {
     let addition = 1;
     try {
       if (likedVideo) {
-        await axios.delete(url, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        });
+        await axios.delete(url, { headers: AuthHeader });
         addition = -1;
       } else {
-        await axios.put(
-          url,
-          { data: "" },
-          {
-            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-          }
-        );
+        await axios.put(url, { data: "" }, { headers: AuthHeader });
       }
       setLikedVideo(!likedVideo);
       video.likes += addition;
@@ -111,7 +107,7 @@ function WatchVideoPage({ videos, currentUser }) {
             loggedIn={currentUser != null}
           />
           <Comments
-            currentUser={currentUser ? currentUser.username : null}
+            currentUser={currentUser}
             comments={video.comments}
             addComment={addComment}
             deleteComment={deleteComment}
