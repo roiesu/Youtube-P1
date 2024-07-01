@@ -173,6 +173,21 @@ async function dislikeVideo(req, res) {
   return res.status(400).send("Couldn't remove like from video");
 }
 
+// my viedos
+async function getVideosByUserId(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id).populate('videos');
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    return res.status(200).send(user.videos);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send(" Erroe displaying user's videos");
+  }
+}
+
 module.exports = {
   getVideos,
   getVideo,
@@ -181,4 +196,5 @@ module.exports = {
   addVideo,
   likeVideo,
   dislikeVideo,
+  getVideosByUserId,
 };
