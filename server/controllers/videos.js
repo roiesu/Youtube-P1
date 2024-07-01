@@ -28,12 +28,14 @@ async function getVideo(req, res) {
       "image",
       "-_id",
     ]);
+
+    console.log(video);
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
     }
     video.views++;
     await video.save();
-    video.populate({
+    await video.populate({
       path: "comments",
       select: { video: false },
       populate: { path: "user", select: ["name", "image", "username", "-_id"] },
@@ -56,35 +58,35 @@ async function deleteVideo(req, res) {
       return res.sendStatus(404);
     }
     const video = user.videos[0];
-    // Removing likes
-    await Promise.all(
-      video.likes.map(async (userId) => {
-        try {
-          await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
-        } catch (err) {
-          console.log(err.message);
-        }
-      })
-    );
+    // // Removing likes
+    // await Promise.all(
+    //   video.likes.map(async (userId) => {
+    //     try {
+    //       await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
+    //     } catch (err) {
+    //       console.log(err.message);
+    //     }
+    //   })
+    // );
 
-    // Removing comments
-    await Promise.all(
-      video.comments.map(async (commentId) => {
-        try {
-          const comment = await Comment.findByIdAndDelete(commentId);
-          await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
-        } catch (err) {
-          console.log(err.message);
-        }
-      })
-    );
+    // // Removing comments
+    // await Promise.all(
+    //   video.comments.map(async (commentId) => {
+    //     try {
+    //       const comment = await Comment.findByIdAndDelete(commentId);
+    //       await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
+    //     } catch (err) {
+    //       console.log(err.message);
+    //     }
+    //   })
+    // );
 
-    // Deleting video file
-    deletePublicFile("video", video.src);
+    // // Deleting video file
+    // deletePublicFile("video", video.src);
 
-    // Remove from user videos
+    // // Remove from user videos
     await video.deleteOne();
-    await user.updateOne({ $pull: { videos: video._id } });
+    // await user.updateOne({ $pull: { videos: video._id } });
     return res.status(200).send("Video deleted");
   } catch (err) {
     console.log(err);
