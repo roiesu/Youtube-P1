@@ -10,7 +10,7 @@ const {
   getVideosByUserId,
 } = require("../controllers/videos");
 const { getComment, addComment, deleteComment, editComment } = require("../controllers/comments");
-const { authenticateTokenIfGot } = require("../middleware/auth");
+const { authenticateTokenIfGot, authenticateToken } = require("../middleware/auth");
 const router = express.Router();
 
 // CRUD for users
@@ -30,8 +30,8 @@ router.delete("/:id/videos/:pid", deleteVideo);
 router.post("/:id/videos", addVideo);
 
 // Like and dislike
-router.put("/:id/videos/:pid/like", likeVideo);
-router.delete("/:id/videos/:pid/like", dislikeVideo);
+router.put("/:id/videos/:pid/like", authenticateToken, likeVideo);
+router.delete("/:id/videos/:pid/like", authenticateToken, dislikeVideo);
 
 // CRUD for comment
 router.get("/:id/videos/:pid/comments/:cid", getComment);

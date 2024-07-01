@@ -48,17 +48,30 @@ function WatchVideoPage({ videos, currentUser }) {
     setVideo(tempVideo);
   }
 
-  function like() {
+  async function like() {
     if (!currentUser) return;
-    const tempVideo = { ...video };
-    if (likedVideo) {
-      tempVideo.likes = video.likes.filter((user) => user != currentUser.username);
-    } else {
-      tempVideo.likes.push(currentUser.username);
+    const url = `/api/users/${video.uploader.username}/videos/${video._id}/like`;
+    let addition = 1;
+    try {
+      if (likedVideo) {
+        await axios.delete(url, {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        });
+        addition = -1;
+      } else {
+        await axios.put(
+          url,
+          { data: "" },
+          {
+            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+          }
+        );
+      }
+      setLikedVideo(!likedVideo);
+      video.likes += addition;
+    } catch (err) {
+      console.log(err);
     }
-    video.likes = [...tempVideo.likes];
-    setVideo(tempVideo);
-    setLikedVideo(!likedVideo);
   }
 
   useEffect(() => {
@@ -70,7 +83,7 @@ function WatchVideoPage({ videos, currentUser }) {
       try {
         const headers = {};
         const token = localStorage.getItem("token");
-        if (token) headers.Authorization = "Bearer " + localStorage.getItem("token");
+        if (token) headers.Authorization = "Bearer " + token;
         const found = await axios.get(`/api/users/${chanel}/videos/${v}`, {
           headers,
         });
@@ -78,10 +91,8 @@ function WatchVideoPage({ videos, currentUser }) {
           return;
         }
         setVideo(found.data);
-        if (!currentUser) return;
-        // Set if liked the video
-        const user = found.likes.find((user) => user === currentUser.username);
-        if (user) setLikedVideo(true);
+        setLikedVideo(found.data.likedVideo);
+        console.log(found.data.likedVideo);
       } catch (err) {}
     }
     getVideo();
@@ -93,7 +104,7 @@ function WatchVideoPage({ videos, currentUser }) {
         <div className="video-page-main-component">
           <VideoBlock
             {...video}
-            likes={video.likes.length}
+            likes={video.likes}
             commentInput={commentInput}
             like={like}
             likedVideo={likedVideo}
