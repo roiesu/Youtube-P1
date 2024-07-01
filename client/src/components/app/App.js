@@ -20,6 +20,10 @@ function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
+  function logout() {
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+  }
   return (
     <ThemeContext>
       <div className="App">
@@ -29,7 +33,7 @@ function App() {
               <img src=" ../../../logo.png" />
             </Link>
           </div>
-          <Bar logout={() => setCurrentUser(null)} loggedIn={currentUser != null} />
+          <Bar logout={logout} loggedIn={currentUser != null} />
           <Routes>
             {/* Pages anyone can see */}
             <Route exact path="/" element={<MainPage currentUser={currentUser} />} />
