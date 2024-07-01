@@ -29,7 +29,7 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
             </span>
           </div>
           <div className="comment-actions">
-            {user == currentUser ? (
+            {user.username == currentUser ? (
               <>
                 <span className="delete-comment-button" onClick={() => deleteComment(date)}>
                   <IconTrash />
@@ -37,9 +37,13 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
                 <span className="edit-comment-button" onClick={edit}>
                   {editing ? <IconSave /> : <IconEdit />}
                 </span>
-                <span className="edit-comment-button" onClick={() => setEditing(false)}>
-                  <IconClose />
-                </span>
+                {editing ? (
+                  <span className="edit-comment-button" onClick={() => setEditing(false)}>
+                    <IconClose />
+                  </span>
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               ""

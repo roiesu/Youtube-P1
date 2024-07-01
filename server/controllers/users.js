@@ -93,10 +93,11 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.findOneAndDelete({ username: id });
+    const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
     }
+    await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
     console.log(err.message);
