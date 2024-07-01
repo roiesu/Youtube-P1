@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const reader = new FileReader();
 const shortFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
@@ -62,18 +60,6 @@ function dateDifference(dateString) {
   return `${diffTime} years ago`;
 }
 
-function printWithLineBreaks(text) {
-  let x = text.split("\n").map(function (item, idx) {
-    return (
-      <span key={idx}>
-        {item}
-        <br />
-      </span>
-    );
-  });
-  return x;
-}
-
 function getMediaFromServer(type, name) {
   return `http://localhost:8080/media/${type}/${name}`;
 }
@@ -93,7 +79,6 @@ export {
   dateDifference,
   shortFormatter,
   longFormatter,
-  printWithLineBreaks,
   getMediaFromServer,
   getQuery,
 };

@@ -29,4 +29,8 @@
 .page.dark {
   background-color: #131313;
 }
-
+a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
