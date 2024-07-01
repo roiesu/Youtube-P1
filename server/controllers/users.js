@@ -4,7 +4,6 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { write64FileWithCopies } = require("../utils");
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
 
 //new user and JWT token
 async function addUser(req, res) {
@@ -46,8 +45,7 @@ async function loginUser(req, res) {
     if (user.password !== password) {
       return res.status(404).send("Invalid password!");
     }
-
-    const token = jwt.sign({ id: user._id }, "roie", { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).send({ message: "Login successful!", token });
   } catch (err) {
     console.log(err.message);

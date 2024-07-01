@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Video = require("../models/video");
 const Comment = require("../models/comment");
-const { write64FileWithCopies, deletePublicFile } = require("../utils");
+const { write64FileWithCopies } = require("../utils");
 
 async function getVideos(req, res) {
   const name = req.query.name || "";
@@ -29,7 +29,6 @@ async function getVideo(req, res) {
       "-_id",
     ]);
 
-    console.log(video);
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
     }
@@ -40,10 +39,16 @@ async function getVideo(req, res) {
       select: { video: false },
       populate: { path: "user", select: ["name", "image", "username", "-_id"] },
     });
-    return res.status(200).send(video);
+    let likedVideo = false;
+    console.log(req.user);
+    if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
+      likedVideo = true;
+    }
+    return res.status(200).send({ ...video.toJSON(), likedVideo });
   } catch (err) {
     console.log(err.message);
   }
+  console.log("After return");
   return res.sendStatus(404);
 }
 
