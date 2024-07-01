@@ -7,14 +7,14 @@ import {
   getMediaFromServer,
 } from "../../../../utilities";
 
-function VideoLink({ name, uploader, uploaderImage, date, views, _id, src }) {
+function VideoLink({ name, uploader, date, views, _id, src }) {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
 
   return (
     <div className="video-card">
       <div className="video-container">
-        <Link className="video-link" to={`/watch?v=${_id}&chanel=${uploader._id}`}>
+        <Link className="video-link" to={`/watch?chanel=${uploader.username}&v=${_id}`}>
           <video
             loop
             muted
