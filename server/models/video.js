@@ -13,5 +13,14 @@ const VideoSchema = new mongoose.Schema({
   comments: [{ type: ObjectId, ref: "Comment" }],
 });
 
+VideoSchema.pre("remove", async function (next) {
+  try {
+    await Comment.deleteMany({ video: this._id });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 const Video = mongoose.model("Video", VideoSchema);
 module.exports = Video;

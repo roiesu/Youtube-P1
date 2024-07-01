@@ -10,6 +10,5 @@ const UserSchema = new mongoose.Schema({
   videos: [{ type: ObjectId, ref: "Video" }],
   likes: [{ type: ObjectId, ref: "Video" }],
 });
-
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
