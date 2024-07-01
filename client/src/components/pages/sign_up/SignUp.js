@@ -84,7 +84,7 @@ function SignUp(props) {
     <div className={`page signup-page ${theme}`}>
       <div className="main-component">
         <div className="header-div">
-          {image ? <img className={"profile-pic"} src={image} /> : "No image uploaded"}
+          {image ? <img className={"preview-picture"} src={image} /> : "No image uploaded"}
           <div>
             Already have an account? sign in <Link to="/sign-in">here!</Link>
           </div>

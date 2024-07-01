@@ -3,14 +3,14 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const VideoSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  uploader: { type: ObjectId, required: true },
+  uploader: { type: ObjectId, required: true, ref: "User" },
   src: { type: String, required: true },
-  likes: { type: [ObjectId], default: [] },
+  likes: [{ type: ObjectId, ref: "User" }],
   views: { type: Number, default: 0 },
   date: { type: Date, default: Date.now },
   description: { type: String, default: "" },
   tags: { type: [String], default: [] },
-  comments: { type: [ObjectId], default: [] },
+  comments: [{ type: ObjectId, ref: "Comment" }],
 });
 
 const Video = mongoose.model("Video", VideoSchema);

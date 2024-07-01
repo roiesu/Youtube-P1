@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import VideoLink from "./main_page_components/VideoLink";
 import { callWithEnter } from "../../../utilities";
 import "./MainPage.css";
@@ -7,20 +8,26 @@ import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ videos, currentUser }) {
+function MainPage({ currentUser }) {
   const { theme, changeTheme } = useTheme();
-
   const searchInputRef = useRef(null);
-  const [filteredVideos, setFilteredVideos] = useState(videos);
+  const [filteredVideos, setFilteredVideos] = useState([]);
+
+  async function getVideos() {
+    try {
+      const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
+      const response = await axios.get(`/api/videos?name=${searchValue}`);
+      setFilteredVideos(response.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+  useEffect(() => {
+    getVideos();
+  }, []);
 
   function search() {
-    if (searchInputRef.current.value === "") {
-      setFilteredVideos(videos);
-      return;
-    }
-    const reg = new RegExp(searchInputRef.current.value, "i");
-    const tempFiltered = videos.filter((video) => video.name.match(reg));
-    setFilteredVideos(tempFiltered);
+    getVideos();
     searchInputRef.current.value = "";
   }
 
@@ -30,7 +37,7 @@ function MainPage({ videos, currentUser }) {
         <div className="user-details">
           {currentUser ? (
             <>
-              <img className="profile-pic-small" src={currentUser.image} />
+              <img className="profile-pic" src={currentUser.image} />
               <span className="user-name">Welcome back {currentUser.name}</span>
             </>
           ) : (
@@ -58,7 +65,7 @@ function MainPage({ videos, currentUser }) {
       </div>
       <div className="video-list">
         {filteredVideos.map((video) => (
-          <VideoLink key={video.id} {...video} />
+          <VideoLink key={video._id} {...video} />
         ))}
       </div>
     </div>
