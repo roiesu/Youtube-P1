@@ -15,6 +15,13 @@ const {
   dislikeVideo,
   getVideosByUserId
 } = require("../controllers/videos");
+const {
+  getComment,
+  addComment,
+  deleteComment,
+  editComment
+} = require("../controllers/comments");
+const Video = require("../models/video");
 const router = express.Router();
 
 // add user
@@ -43,5 +50,11 @@ router.post("/:id/videos", addVideo);
 // Like and dislike
 router.put("/:id/videos/:pid/like", likeVideo);
 router.delete("/:id/videos/:pid/like", dislikeVideo);
+
+// CRUD for comment
+router.get("/:id/videos/:pid/comments/:cid", getComment);
+router.patch("/:id/videos/:pid/comments/:cid", editComment);
+router.delete("/:id/videos/:pid/comments/:cid", deleteComment);
+router.post("/:id/videos/:pid/comments", addComment);
 
 module.exports = router;

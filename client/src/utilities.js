@@ -60,17 +60,17 @@ function dateDifference(dateString) {
   return `${diffTime} years ago`;
 }
 
-function printWithLineBreaks(text) {
-  let x = text.split("\n").map(function (item, idx) {
-    return (
-      <span key={idx}>
-        {item}
-        <br />
-      </span>
-    );
+function getMediaFromServer(type, name) {
+  return `http://localhost:8080/media/${type}/${name}`;
+}
+function getQuery(url) {
+  const queryArray = url.replace(/^.*\?/, "").split("&");
+  let queryObj = {};
+  queryArray.map((query) => {
+    const [key, value] = query.split("=");
+    queryObj[key] = value;
   });
-  console.log(x);
-  return x;
+  return queryObj;
 }
 export {
   readFileIntoState,
@@ -79,5 +79,6 @@ export {
   dateDifference,
   shortFormatter,
   longFormatter,
-  printWithLineBreaks,
+  getMediaFromServer,
+  getQuery,
 };

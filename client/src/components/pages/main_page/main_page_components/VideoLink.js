@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { secondsToTime, dateDifference, shortFormatter } from "../../../../utilities";
+import {
+  secondsToTime,
+  dateDifference,
+  shortFormatter,
+  getMediaFromServer,
+} from "../../../../utilities";
 
-function VideoLink({ name, uploader, displayUploader, date_time, views, id, src }) {
+function VideoLink({ name, uploader, uploaderImage, date, views, _id, src }) {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
 
   return (
-    <Link className="video-link" to={`/watch?v=${id}`}>
-      <div className="video-card">
-        <div className="video-container">
+    <div className="video-card">
+      <div className="video-container">
+        <Link className="video-link" to={`/watch?v=${_id}&chanel=${uploader._id}`}>
           <video
             loop
             muted
@@ -26,21 +31,30 @@ function VideoLink({ name, uploader, displayUploader, date_time, views, id, src 
               setPlaying(false);
             }}
           >
-            <source src={src} type="video/mp4" />
+            <source src={getMediaFromServer("video", src)} type="video/mp4" />
           </video>
-          <span className="video-length">{secondsToTime(duration)}</span>
-        </div>
-        <div className="video-details">
-          <div className="video-name">{name}</div>
-          <div className="minor-details">
-            <div>Uploaded by {displayUploader}</div>
-            <div>
-              {dateDifference(date_time)} - {shortFormatter.format(views)} views
+        </Link>
+
+        <span className="video-length">{secondsToTime(duration)}</span>
+      </div>
+      <div className="video-details">
+        <div className="video-name">{name}</div>
+        <div className="minor-details">
+          <Link to="/">
+            <div className="user-details">
+              <img
+                className="profile-pic small"
+                src={getMediaFromServer("image", uploader.image)}
+              />
+              <div>{uploader.name}</div>
             </div>
+          </Link>
+          <div>
+            {dateDifference(date)} - {shortFormatter.format(views)} views
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
