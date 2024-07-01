@@ -14,6 +14,7 @@ const router = express.Router();
 
 // CRUD for users
 router.post("/", addUser);
+
 router.get("/:id", getUser);
 router.patch("/:id", updateUser);
 router.delete("/:id", deleteUser);
