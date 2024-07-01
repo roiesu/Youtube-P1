@@ -45,10 +45,6 @@ function SignUp(props) {
     return inputValue.match(reg) != null;
   }
 
-  function addUser(user) {
-    props.setUsers([...props.users, user]);
-  }
-
   async function submit() {
     if (!isValid(inputs.username.regexValidationString, usernameInput)) {
       setUsernameError(true);
@@ -66,11 +62,6 @@ function SignUp(props) {
       setGeneralError("No profile picture selected");
       return;
     }
-    const exists = props.users.find((user) => user.username === usernameInput);
-    if (exists) {
-      setGeneralError("User with that username already exists");
-      return;
-    }
     const user = {
       username: usernameInput,
       password: passwordInput,
@@ -82,7 +73,7 @@ function SignUp(props) {
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem("token", token);
-        props.setCurrentUser(user);
+        props.setCurrentUser(usernameInput);
         navigate("/");
       }
     } catch (error) {
@@ -91,13 +82,12 @@ function SignUp(props) {
           setGeneralError("Invalid input");
         } else if (error.response.status === 409) {
           setGeneralError("User with that username already exists");
-      } else {
-        setGeneralError("Couldn't create this user");
+        } else {
+          setGeneralError("Couldn't create this user");
+        }
       }
     }
   }
-}
-  
 
   return (
     <div className={`page signup-page ${theme}`}>
