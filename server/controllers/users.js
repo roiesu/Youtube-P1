@@ -13,13 +13,13 @@ async function addUser(req, res) {
     return res.status(400).send("Username, password, name, and image are required!");
   }
   try {
-    const imagePath = write64FileWithCopies("p"+username,image);
-    const user = new User({ username, password, name, imagePath });
+    const imagePath = write64FileWithCopies(username +"-profile-pic",image);
+    const user = new User({ username, password, name, image: imagePath });
      // user -> database
     await user.save();
 
     // jwt token for the new user
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, "roie", { expiresIn: '1h' });
 
     return res.status(201).send({ message: `User ${name} created!`, token });
   } catch (err) {
@@ -45,7 +45,7 @@ async function loginUser(req, res) {
       return res.status(404).send("Invalid password!");
     }
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, "roie", { expiresIn: '1h' });
 
     return res.status(200).send({ message: "Login successful!", token });
   } catch (err) {

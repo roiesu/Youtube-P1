@@ -18,7 +18,7 @@ import { ThemeContext } from "../pages/general_components/ThemeContext";
 
 function App() {
   const [users, setUsers] = useState(usersList);
-  const [currentUser, setCurrentUser] = useState(usersList[0]);
+  const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
   return (
     <ThemeContext>

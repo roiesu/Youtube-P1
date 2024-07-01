@@ -35,7 +35,7 @@ router.get("/:id", getUserById);
 router.put("/:id", updateUserById);
 router.patch("/:id", updateUserById);
 
-// delet user by ID
+// delete user by ID
 router.delete("/:id", deleteUserById);
 
 // get videos by user ID
