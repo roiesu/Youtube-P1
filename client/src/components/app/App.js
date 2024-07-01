@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -24,6 +24,9 @@ function App() {
     localStorage.removeItem("token");
     setCurrentUser(null);
   }
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
   return (
     <ThemeContext>
       <div className="App">

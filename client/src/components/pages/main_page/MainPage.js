@@ -24,7 +24,6 @@ function MainPage({ currentUser }) {
     }
   }
   async function getUserDetails() {
-    console.log(currentUser);
     if (!currentUser) {
       return;
     }

@@ -40,15 +40,13 @@ async function getVideo(req, res) {
       populate: { path: "user", select: ["name", "image", "username", "-_id"] },
     });
     let likedVideo = false;
-    console.log(req.user);
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
       likedVideo = true;
     }
-    return res.status(200).send({ ...video.toJSON(), likedVideo });
+    return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
   } catch (err) {
     console.log(err.message);
   }
-  console.log("After return");
   return res.sendStatus(404);
 }
 
@@ -152,15 +150,14 @@ async function addVideo(req, res) {
 async function likeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findById(pid).populate("uploader");
+    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
     if (video && video.uploader.username === id) {
-      video.uploader.likes.addToSet(pid);
-      video.likes.addToSet(video.uploader._id);
-      await video.uploader.save();
+      await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
+      video.likes.addToSet(req.user);
       await video.save();
       return res.sendStatus(201);
     } else {
-      return res.status(404).send("Video not found");
+      return res.sendStatus(404);
     }
   } catch (err) {
     console.log(err.message);
@@ -171,15 +168,14 @@ async function likeVideo(req, res) {
 async function dislikeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findOneAndUpdate(
-      { _id: pid, uploader: id },
-      { $pull: { likes: id } }
-    );
-    if (video) {
-      await User.findByIdAndUpdate(id, { $pull: { likes: pid } });
-      return res.status(201).send("OK");
+    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
+    if (video && video.uploader.username === id) {
+      await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
+      video.likes.pull(req.user);
+      await video.save();
+      return res.sendStatus(201);
     } else {
-      return res.status(404).send("Video not found");
+      return res.sendStatus(404);
     }
   } catch (err) {
     console.log(err.message);

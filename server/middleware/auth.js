@@ -5,7 +5,6 @@ function authenticateTokenIfGot(req, res, next) {
   if (token) {
     try {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(verified);
       req.user = verified.id;
     } catch (err) {
       return res.status(400).send("Invalid Token");
