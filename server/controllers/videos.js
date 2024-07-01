@@ -37,7 +37,7 @@ async function getVideo(req, res) {
     await video.populate({
       path: "comments",
       select: { video: false },
-      populate: { path: "user", select: ["name", "image", "username", "-_id"] },
+      populate: { path: "user", select: ["-password", "-_id"] },
     });
     let likedVideo = false;
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
@@ -145,8 +145,6 @@ async function addVideo(req, res) {
   return res.status(400).send("Couldn't upload video");
 }
 
-/////////////////////////
-/// UPDATE AFTER FIXING TOKEN
 async function likeVideo(req, res) {
   const { id, pid } = req.params;
   try {
@@ -182,8 +180,6 @@ async function dislikeVideo(req, res) {
   }
   return res.status(400).send("Couldn't remove like from video");
 }
-/////////////////////////
-/// UPDATE AFTER FIXING TOKEN
 
 // my viedos
 async function getVideosByUserId(req, res) {
