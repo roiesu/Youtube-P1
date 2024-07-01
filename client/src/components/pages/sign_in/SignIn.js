@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./SignIn.css";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
+import axios from "axios";
 
 function SignIn(props) {
   const { theme } = useTheme();
@@ -19,13 +20,35 @@ function SignIn(props) {
       }, 4000);
   }, [errorMessage]);
 
-  function validateSignIn() {
-    const user = props.users.find((user) => user.username === usernameInput);
-    if (user && user.username === usernameInput && user.password === passwordInput) {
-      props.setCurrentUser(user);
-      navigate("/");
-    } else {
-      setErrorMessage(true);
+  async function validateSignIn() {
+    if (!usernameInput || !passwordInput) {
+      setErrorMessage("Username and password are required!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/tokens", {
+        username: usernameInput,
+        password: passwordInput,
+      });
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+        props.setCurrentUser(usernameInput);
+        navigate("/");
+        }
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage("Invalid username or password");
+        } else {
+          setErrorMessage("An unexpected error occurred");
+        }
+      } else {
+        setErrorMessage("An unexpected error occurred");
+      }
     }
   }
 

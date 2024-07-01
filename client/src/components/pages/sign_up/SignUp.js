@@ -6,6 +6,7 @@ import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { readFileIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
+import axios from "axios";
 
 function SignUp(props) {
   const { theme } = useTheme();
@@ -48,7 +49,7 @@ function SignUp(props) {
     props.setUsers([...props.users, user]);
   }
 
-  function submit() {
+  async function submit() {
     if (!isValid(inputs.username.regexValidationString, usernameInput)) {
       setUsernameError(true);
       return;
@@ -70,15 +71,33 @@ function SignUp(props) {
       setGeneralError("User with that username already exists");
       return;
     }
-    const user = {};
-    user[inputs.username.name] = usernameInput;
-    user[inputs.password.name] = passwordInput;
-    user[inputs.name.name] = nameInput;
-    user.image = image;
-    addUser(user);
-    props.setCurrentUser(user);
-    navigate("/");
+    const user = {
+      username: usernameInput,
+      password: passwordInput,
+      name: nameInput,
+      image: image,
+    };
+    try {
+      const response = await axios.post("/api/users", user);
+      if (response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+        props.setCurrentUser(user);
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          setGeneralError("Invalid input");
+        } else if (error.response.status === 409) {
+          setGeneralError("User with that username already exists");
+      } else {
+        setGeneralError("Couldn't create this user");
+      }
+    }
   }
+}
+  
 
   return (
     <div className={`page signup-page ${theme}`}>
