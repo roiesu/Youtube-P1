@@ -45,7 +45,7 @@ async function addComment(req, res) {
     video.comments.push(comment._id);
     await video.save();
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
-    await comment.populate("user", ["name", "image", "username"]);
+    await comment.populate("user", ["name", "image", "username", "-_id"]);
     return res.status(201).send(comment);
   } catch (err) {
     console.log(err.message);
@@ -78,14 +78,15 @@ async function editComment(req, res) {
 async function deleteComment(req, res) {
   const { id, pid, cid } = req.params;
   try {
-    const comment = await Comment.findOne({ _id: cid, user: id, video: pid });
-    if (!comment) {
-      return res.status(404).send("Comment not found");
+    const comment = await Comment.findOne({ _id: cid, video: pid }).populate("user", [
+      "username",
+      "-_id",
+    ]);
+    if (!comment || comment.user.username != id) {
+      return res.sendStatus(404);
     }
-    await Video.findByIdAndUpdate(comment.video, { $pull: { comments: comment.id } });
-    await User.findByIdAndUpdate(comment.user, { $pull: { comments: comment.id } });
-    await Comment.findByIdAndDelete({ _id: cid, user: id, video: pid });
-    return res.status(200).send("OK");
+    await comment.deleteOne();
+    return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
   }
