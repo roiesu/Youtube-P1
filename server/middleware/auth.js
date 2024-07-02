@@ -7,7 +7,7 @@ function authenticateTokenIfGot(req, res, next) {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
       req.user = verified.id;
     } catch (err) {
-      return res.status(400).send("Invalid Token");
+      return res.status(403).send("Invalid Token");
     }
   }
   next();
@@ -23,7 +23,7 @@ function authenticateToken(req, res, next) {
     req.user = verified.id;
     next();
   } catch (err) {
-    return res.status(400).send("Invalid Token");
+    return res.status(403).send("Invalid Token");
   }
 }
 
