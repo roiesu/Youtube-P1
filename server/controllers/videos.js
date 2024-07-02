@@ -78,6 +78,9 @@ async function deleteVideo(req, res) {
 
 async function updateVideo(req, res) {
   const { id, pid } = req.params;
+  if (id != req.user) {
+    return res.sendStatus(401);
+  }
   let updateObj = {};
   if (req.body.name) {
     updateObj.name = req.body.name;
@@ -88,6 +91,7 @@ async function updateVideo(req, res) {
   if (req.body.tags) {
     updateObj.tags = req.body.tags;
   }
+
   try {
     const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
     if (video && video.uploader.username === id) {

@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { write64FileWithCopies } = require("../utils");
+const { write64FileWithCopies, override64File } = require("../utils");
 
 async function addUser(req, res) {
   const { username, password, name, image } = req.body;
@@ -66,20 +66,23 @@ async function getUser(req, res) {
 async function updateUser(req, res) {
   const { id } = req.params;
   const { name, password, image } = req.body;
-
+  if (id != req.user) {
+    return res.sendStatus(401);
+  }
   const updateFields = {};
   if (name) updateFields.name = name;
   if (password) updateFields.password = password;
   if (image) updateFields.image = image;
 
   try {
-    const user = await User.findOneAndUpdate({ username: id }, updateFields, { new: true }).select(
-      "-password"
-    );
+    const user = await User.findOneAndUpdate({ username: id }, updateFields);
     if (!user) {
       return res.status(404).send("User not found");
     }
-    return res.status(200).send({ message: `User ${id} updated!`, user });
+    if (req.body.image) {
+      override64File("image", user.image, req.body.image);
+    }
+    return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
     return res.status(500).send("Error updating user details");
