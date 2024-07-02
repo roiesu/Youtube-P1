@@ -18,7 +18,7 @@ router.post("/", addUser);
 
 router.get("/:id", getUser);
 router.patch("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.delete("/:id", authenticateToken, deleteUser);
 
 // get videos by user ID
 router.get("/:id/videos", getVideosByUserId);
