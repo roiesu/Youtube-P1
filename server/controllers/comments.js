@@ -60,19 +60,25 @@ async function editComment(req, res) {
     return res.status(400).send("Invalid input");
   }
   try {
-    const comment = await Comment.findOneAndUpdate(
-      { _id: cid, user: id, video: pid },
-      { $set: { text, edited: true } },
-      { new: true }
-    );
-    if (!comment) {
-      return res.status(404).send("Comment not found");
+    const comment = await Comment.findOne({ _id: cid, video: pid })
+      .populate({
+        path: "video",
+        select: ["_id", "uploader"],
+        populate: { path: "uploader", select: ["username"] },
+      })
+      .populate("user", ["_id"]);
+    if (!comment || comment.video.uploader.username != id) {
+      return res.sendStatus(404);
+    } else if (comment.user._id != req.user) {
+      return res.sendStatus(401);
     }
-    return res.status(201).send("OK");
+    await comment.updateOne({ $set: { text, edited: true } });
+    await comment.save();
+    return res.sendStatus(201);
   } catch (err) {
     console.log(err.message);
   }
-  return res.status(400).send("Invalid");
+  return res.status(400).send("Couldn't edit comment");
 }
 
 async function deleteComment(req, res) {

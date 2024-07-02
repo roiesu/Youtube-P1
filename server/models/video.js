@@ -16,7 +16,7 @@ const VideoSchema = new mongoose.Schema({
   comments: [{ type: ObjectId, ref: "Comment" }],
 });
 
-VideoSchema.pre("deleteOne", { document: true, query: false }, async (next, document) => {
+VideoSchema.post("deleteOne", { document: true, query: false }, async (document, next) => {
   try {
     // Remove likes
     for (like of document.likes) {
