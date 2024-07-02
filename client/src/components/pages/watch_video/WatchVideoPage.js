@@ -12,20 +12,24 @@ function WatchVideoPage({ videos, currentUser }) {
   const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
   const location = useLocation();
+  const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
 
-  function addComment() {
+  async function addComment() {
     if (!currentUser || commentInput.current.value == "") return;
-    const newComment = {
-      user: currentUser.username,
-      displayName: currentUser.name,
-      text: commentInput.current.value,
-      date_time: new Date().toISOString(),
-      edited: false,
-    };
-    const tempVideo = { ...video };
-    tempVideo.comments.push(newComment);
-    setVideo(tempVideo);
-    commentInput.current.value = "";
+
+    try {
+      const response = await axios.post(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments`,
+        { text: commentInput.current.value },
+        { headers: AuthHeader }
+      );
+      const tempVideo = { ...video };
+      tempVideo.comments.push(response.data);
+      setVideo(tempVideo);
+      commentInput.current.value = "";
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function deleteComment(commentDate) {
@@ -48,17 +52,22 @@ function WatchVideoPage({ videos, currentUser }) {
     setVideo(tempVideo);
   }
 
-  function like() {
+  async function like() {
     if (!currentUser) return;
-    const tempVideo = { ...video };
-    if (likedVideo) {
-      tempVideo.likes = video.likes.filter((user) => user != currentUser.username);
-    } else {
-      tempVideo.likes.push(currentUser.username);
+    const url = `/api/users/${video.uploader.username}/videos/${video._id}/like`;
+    let addition = 1;
+    try {
+      if (likedVideo) {
+        await axios.delete(url, { headers: AuthHeader });
+        addition = -1;
+      } else {
+        await axios.put(url, { data: "" }, { headers: AuthHeader });
+      }
+      setLikedVideo(!likedVideo);
+      video.likes += addition;
+    } catch (err) {
+      console.log(err);
     }
-    video.likes = [...tempVideo.likes];
-    setVideo(tempVideo);
-    setLikedVideo(!likedVideo);
   }
 
   useEffect(() => {
@@ -68,15 +77,18 @@ function WatchVideoPage({ videos, currentUser }) {
       const { v, chanel } = getQuery(location.search);
       if (!v || !chanel) return;
       try {
-        const found = await axios.get(`/api/users/${chanel}/videos/${v}`);
+        const headers = {};
+        const token = localStorage.getItem("token");
+        if (token) headers.Authorization = "Bearer " + token;
+        const found = await axios.get(`/api/users/${chanel}/videos/${v}`, {
+          headers,
+        });
         if (!found) {
           return;
         }
         setVideo(found.data);
-        if (!currentUser) return;
-        // Set if liked the video
-        const user = found.likes.find((user) => user === currentUser.username);
-        if (user) setLikedVideo(true);
+        setLikedVideo(found.data.likedVideo);
+        console.log(found.data.likedVideo);
       } catch (err) {}
     }
     getVideo();
@@ -88,14 +100,14 @@ function WatchVideoPage({ videos, currentUser }) {
         <div className="video-page-main-component">
           <VideoBlock
             {...video}
-            likes={video.likes.length}
+            likes={video.likes}
             commentInput={commentInput}
             like={like}
             likedVideo={likedVideo}
             loggedIn={currentUser != null}
           />
           <Comments
-            currentUser={currentUser ? currentUser.username : null}
+            currentUser={currentUser}
             comments={video.comments}
             addComment={addComment}
             deleteComment={deleteComment}

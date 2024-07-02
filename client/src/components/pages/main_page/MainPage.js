@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import VideoLink from "./main_page_components/VideoLink";
-import { callWithEnter } from "../../../utilities";
+import { callWithEnter, getMediaFromServer } from "../../../utilities";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
@@ -18,7 +18,6 @@ function MainPage({ currentUser }) {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
-      console.log(response.data);
       setFilteredVideos(response.data);
     } catch (err) {
       console.log(err.response);
@@ -35,8 +34,10 @@ function MainPage({ currentUser }) {
   }
   useEffect(() => {
     getVideos();
-    getUserDetails();
   }, []);
+  useEffect(() => {
+    getUserDetails();
+  }, [currentUser]);
 
   function search() {
     getVideos();
@@ -47,10 +48,10 @@ function MainPage({ currentUser }) {
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
         <div className="user-details">
-          {currentUser ? (
+          {userDetails ? (
             <>
-              <img className="profile-pic" src={currentUser.image} />
-              <span className="user-name">Welcome back {currentUser.name}</span>
+              <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
+              <span className="user-name">Welcome back {userDetails.name}</span>
             </>
           ) : (
             <span className="user-name">

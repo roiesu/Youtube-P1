@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Video = require("../models/video");
 const Comment = require("../models/comment");
-const { write64FileWithCopies, deletePublicFile } = require("../utils");
+const { write64FileWithCopies } = require("../utils");
 
 async function getVideos(req, res) {
   const name = req.query.name || "";
@@ -29,7 +29,6 @@ async function getVideo(req, res) {
       "-_id",
     ]);
 
-    console.log(video);
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
     }
@@ -38,9 +37,13 @@ async function getVideo(req, res) {
     await video.populate({
       path: "comments",
       select: { video: false },
-      populate: { path: "user", select: ["name", "image", "username", "-_id"] },
+      populate: { path: "user", select: ["-password", "-_id"] },
     });
-    return res.status(200).send(video);
+    let likedVideo = false;
+    if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
+      likedVideo = true;
+    }
+    return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
   } catch (err) {
     console.log(err.message);
   }
@@ -142,20 +145,17 @@ async function addVideo(req, res) {
   return res.status(400).send("Couldn't upload video");
 }
 
-/////////////////////////
-/// UPDATE AFTER FIXING TOKEN
 async function likeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findById(pid).populate("uploader");
+    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
     if (video && video.uploader.username === id) {
-      video.uploader.likes.addToSet(pid);
-      video.likes.addToSet(video.uploader._id);
-      await video.uploader.save();
+      await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
+      video.likes.addToSet(req.user);
       await video.save();
       return res.sendStatus(201);
     } else {
-      return res.status(404).send("Video not found");
+      return res.sendStatus(404);
     }
   } catch (err) {
     console.log(err.message);
@@ -166,23 +166,20 @@ async function likeVideo(req, res) {
 async function dislikeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findOneAndUpdate(
-      { _id: pid, uploader: id },
-      { $pull: { likes: id } }
-    );
-    if (video) {
-      await User.findByIdAndUpdate(id, { $pull: { likes: pid } });
-      return res.status(201).send("OK");
+    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
+    if (video && video.uploader.username === id) {
+      await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
+      video.likes.pull(req.user);
+      await video.save();
+      return res.sendStatus(201);
     } else {
-      return res.status(404).send("Video not found");
+      return res.sendStatus(404);
     }
   } catch (err) {
     console.log(err.message);
   }
   return res.status(400).send("Couldn't remove like from video");
 }
-/////////////////////////
-/// UPDATE AFTER FIXING TOKEN
 
 // my viedos
 async function getVideosByUserId(req, res) {
