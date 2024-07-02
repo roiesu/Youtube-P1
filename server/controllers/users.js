@@ -4,7 +4,6 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { write64FileWithCopies } = require("../utils");
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
 
 //new user and JWT token
 async function addUser(req, res) {
@@ -22,7 +21,6 @@ async function addUser(req, res) {
       return res.status(400).send("Image is not URI");
     }
     const user = new User({ username, password, name, image: imagePath });
-    // user -> database
     await user.save();
     return res.sendStatus(200);
   } catch (err) {
@@ -47,8 +45,7 @@ async function loginUser(req, res) {
     if (user.password !== password) {
       return res.status(404).send("Invalid password!");
     }
-    
-    const token = jwt.sign({ id: user._id }, "roie", { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).send({ message: "Login successful!", token });
   } catch (err) {
     console.log(err.message);
@@ -96,10 +93,11 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.findOneAndDelete({ username: id });
+    const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
     }
+    await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
     console.log(err.message);

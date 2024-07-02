@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import {
-  callWithEnter,
-  dateDifference,
-  getMediaFromServer,
-} from "../../../../../utilities";
+import { callWithEnter, dateDifference, getMediaFromServer } from "../../../../../utilities";
 import IconSave from "../../../../icons/IconSave";
 import IconEdit from "../../../../icons/IconEdit";
 import IconTrash from "../../../../icons/IconTrash";
+import IconClose from "../../../../icons/IconClose";
 
 function Comment({ _id, user, text, date, edited, deleteComment, editComment, currentUser }) {
   const [editing, setEditing] = useState(false);
@@ -32,14 +29,21 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
             </span>
           </div>
           <div className="comment-actions">
-            {user == currentUser ? (
+            {user.username == currentUser ? (
               <>
                 <span className="delete-comment-button" onClick={() => deleteComment(date)}>
                   <IconTrash />
-                </span>{" "}
+                </span>
                 <span className="edit-comment-button" onClick={edit}>
                   {editing ? <IconSave /> : <IconEdit />}
                 </span>
+                {editing ? (
+                  <span className="edit-comment-button" onClick={() => setEditing(false)}>
+                    <IconClose />
+                  </span>
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               ""

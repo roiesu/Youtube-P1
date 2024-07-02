@@ -7,7 +7,6 @@ const longFormatter = new Intl.NumberFormat("en-US", { maximumSignificantDiginit
 
 function readFileIntoState(file, setState) {
   reader.onload = () => {
-    console.log(reader.result);
     setState(reader.result);
   };
   reader.readAsDataURL(file);

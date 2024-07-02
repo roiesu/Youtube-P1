@@ -3,6 +3,8 @@ import VideoActionButton from "../action_button/VideoActionButton";
 import "./VideoBlock.css";
 import { longFormatter, getMediaFromServer } from "../../../../../utilities";
 import ShareMenu from "../share_menu/ShareMenu";
+import IconLikeFilled from "../../../../icons/IconLikeFilled";
+import IconLikeEmpty from "../../../../icons/IconLikeEmpty";
 
 function VideoBlock({
   name,
@@ -49,7 +51,7 @@ function VideoBlock({
             />
             <VideoActionButton
               active={likedVideo}
-              name="Like"
+              name={likedVideo ? <IconLikeFilled /> : <IconLikeEmpty />}
               content={likes}
               callback={like}
               canActivate={loggedIn}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -20,6 +20,13 @@ function App() {
   const [users, setUsers] = useState(usersList);
   const [currentUser, setCurrentUser] = useState();
   const [videos, setVideos] = useState(videoList);
+  function logout() {
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+  }
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
   return (
     <ThemeContext>
       <div className="App">
@@ -29,7 +36,7 @@ function App() {
               <img src=" ../../../logo.png" />
             </Link>
           </div>
-          <Bar logout={() => setCurrentUser(null)} loggedIn={currentUser != null} />
+          <Bar logout={logout} loggedIn={currentUser != null} />
           <Routes>
             {/* Pages anyone can see */}
             <Route exact path="/" element={<MainPage currentUser={currentUser} />} />
