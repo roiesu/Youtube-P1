@@ -23,6 +23,7 @@ UserSchema.pre("deleteOne", { document: true }, async (next, document) => {
   for (videoId of document.videos) {
     await Video.findById(videoId).deleteOne();
   }
+  next();
 });
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

@@ -181,18 +181,20 @@ async function dislikeVideo(req, res) {
   return res.status(400).send("Couldn't remove like from video");
 }
 
-// my viedos
+// my videos
 async function getVideosByUserId(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.findById(id).populate("videos");
+    const user = await User.findOne({ username: id })
+      .select(["-_id", "-_password"])
+      .populate({ path: "videos", fields: ["name", "views", "date", "src"] });
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.sendStatus(404);
     }
     return res.status(200).send(user.videos);
   } catch (err) {
     console.log(err.message);
-    return res.status(500).send(" Erroe displaying user's videos");
+    return res.status(500).send(" Error displaying user's videos");
   }
 }
 
