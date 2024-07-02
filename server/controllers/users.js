@@ -105,10 +105,28 @@ async function deleteUser(req, res) {
   }
 }
 
+// channel page
+async function getVideosByUserId(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ username: id })
+      .select("-password")
+      .populate({ path: "videos", select: ["name", "views", "date", "src"] });
+    if (!user) {
+      return res.sendStatus(404);
+    }
+    return res.status(200).send(user.videos);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Error displaying user's videos");
+  }
+}
+
 module.exports = {
   addUser,
   loginUser,
   getUser,
   updateUser,
   deleteUser,
+  getVideosByUserId,
 };

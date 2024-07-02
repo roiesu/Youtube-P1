@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; 
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import { getQuery } from "../../../utilities";
+
 function WatchVideoPage({ videos, currentUser }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
 
   async function addComment() {
@@ -94,32 +96,46 @@ function WatchVideoPage({ videos, currentUser }) {
     getVideo();
   }, [video]);
 
+  // user click
+  const handleUserClick = (username) => {
+    navigate(`/users/${username}/channel`);
+  };
+  
   return (
     <div className={`video-watching-page page ${theme}`}>
-      {video ? (
-        <div className="video-page-main-component">
-          <VideoBlock
-            {...video}
-            likes={video.likes}
-            commentInput={commentInput}
-            like={like}
-            likedVideo={likedVideo}
-            loggedIn={currentUser != null}
-          />
-          <Comments
-            currentUser={currentUser}
-            comments={video.comments}
-            addComment={addComment}
-            deleteComment={deleteComment}
-            commentInput={commentInput}
-            editComment={editComment}
-          />
-        </div>
-      ) : (
-        "Video not found"
-      )}
-    </div>
-  );
+    {video ? (
+      <div className="video-page-main-component">
+        <VideoBlock
+          {...video}
+          likes={video.likes}
+          commentInput={commentInput}
+          like={like}
+          likedVideo={likedVideo}
+          loggedIn={currentUser != null}
+        />
+        <p>
+          Uploaded by:{" "}
+          <span
+            onClick={() => handleUserClick(video.uploader.username)}
+            style={{ cursor: "pointer", color: "blue" }}
+          >
+            {video.uploader.username}
+          </span>
+        </p>
+        <Comments
+          currentUser={currentUser}
+          comments={video.comments}
+          addComment={addComment}
+          deleteComment={deleteComment}
+          commentInput={commentInput}
+          editComment={editComment}
+        />
+      </div>
+    ) : (
+      "Video not found"
+    )}
+  </div>
+);
 }
 
 export default WatchVideoPage;
