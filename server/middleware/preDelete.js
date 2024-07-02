@@ -38,4 +38,5 @@ async function preDeleteVideo(next, document) {
     next(err);
   }
 }
+
 module.exports = { preDeleteVideo, preDeleteComment };

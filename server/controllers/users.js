@@ -66,22 +66,24 @@ async function getUser(req, res) {
 async function updateUser(req, res) {
   const { id } = req.params;
   const { name, password, image } = req.body;
-  if (id != req.user) {
-    return res.sendStatus(401);
-  }
+
   const updateFields = {};
   if (name) updateFields.name = name;
   if (password) updateFields.password = password;
   if (image) updateFields.image = image;
 
   try {
-    const user = await User.findOneAndUpdate({ username: id }, updateFields);
+    const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.sendStatus(401);
     }
     if (req.body.image) {
       override64File("image", user.image, req.body.image);
     }
+    await user.updateOne(updateFields);
+    await save();
     return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
@@ -95,7 +97,20 @@ async function deleteUser(req, res) {
     const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.sendStatus(401);
     }
+    await user
+      .populate({
+        path: "comments",
+        select: ["_id", "user", "video"],
+        populate: [
+          { path: "user", select: ["_id"] },
+          { path: "video", select: ["_id"] },
+        ],
+      })
+      .populate("likes", ["_id"]);
+
     await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
