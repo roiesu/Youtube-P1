@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Video = require("./video");
+const preDeleteUser = require("../middleware/preDeleteUser");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = new mongoose.Schema({
@@ -12,18 +13,6 @@ const UserSchema = new mongoose.Schema({
   likes: [{ type: ObjectId, ref: "Video" }],
 });
 
-UserSchema.post("deleteOne", { document: true }, async (document, next) => {
-  for (videoId of document.likes) {
-    await Video.findById(videoId).updateOne({ $pull: { likes: document._id } });
-  }
-  for (commentId of document.comments) {
-    await Comment.findById(commentId).deleteOne();
-  }
-
-  for (videoId of document.videos) {
-    await Video.findById(videoId).deleteOne();
-  }
-  next();
-});
+UserSchema.post("deleteOne", { document: true }, preDeleteUser);
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
