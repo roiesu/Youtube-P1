@@ -21,7 +21,8 @@ router.patch("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
 // get videos by user ID
-router.get("/:id/videos", getVideosByUserId);
+router.get("/:id/channel", getVideosByUserId);
+
 router.post("/:id/videos", addVideo);
 
 // CRUD for videos

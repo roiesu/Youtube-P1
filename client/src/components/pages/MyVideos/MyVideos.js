@@ -19,6 +19,7 @@ function MyVideos({ videos, currentUser, setVideos }) {
     setVideos(tempVideos);
   }
 
+
   return (
     <div className={`page my-videos-page ${theme}`}>
       <div className="container">
