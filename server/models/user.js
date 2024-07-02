@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   likes: [{ type: ObjectId, ref: "Video" }],
 });
 
-UserSchema.pre("deleteOne", { document: true }, async (next, document) => {
+UserSchema.post("deleteOne", { document: true }, async (document, next) => {
   for (videoId of document.likes) {
     await Video.findById(videoId).updateOne({ $pull: { likes: document._id } });
   }
