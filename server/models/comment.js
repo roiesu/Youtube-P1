@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
-
+const { preDeleteComment } = require("../middleware/preDelete");
 const CommentSchema = new mongoose.Schema({
   user: { type: ObjectId, required: true, ref: "User" },
   video: { type: ObjectId, required: true, ref: "Video" },
@@ -9,16 +9,6 @@ const CommentSchema = new mongoose.Schema({
   edited: { type: Boolean, default: false },
 });
 
-CommentSchema.post("deleteOne", { document: true, query: false }, async (document, next) => {
-  try {
-    await document.video.updateOne({ $pull: { comments: document._id } });
-    await document.user.updateOne({ $pull: { comments: document._id } });
-    await document.user.save();
-    await document.video.save();
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+CommentSchema.pre("deleteOne", { document: true, query: false }, preDeleteComment);
 const Comment = mongoose.model("Comment", CommentSchema);
 module.exports = Comment;
