@@ -32,14 +32,20 @@ function WatchVideoPage({ videos, currentUser }) {
     }
   }
 
-  function deleteComment(commentDate) {
-    const tempVideo = { ...video };
-    tempVideo.comments = video.comments.filter(
-      (comment) => comment.date_time != commentDate || comment.user != currentUser.username
-    );
-    setVideo(tempVideo);
-    const found = videos.find((item) => item.id == video.id);
-    found.comments = tempVideo.comments;
+  async function deleteComment(commentId) {
+    try {
+      const response = await axios.delete(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments/${commentId}`,
+        { headers: AuthHeader }
+      );
+      if (response.status === 201) {
+        const tempVideo = { ...video };
+        tempVideo.comments = tempVideo.comments.filter((comment) => comment._id != commentId);
+        setVideo(tempVideo);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function editComment(commentDate, newContent) {

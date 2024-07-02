@@ -78,17 +78,22 @@ async function editComment(req, res) {
 async function deleteComment(req, res) {
   const { id, pid, cid } = req.params;
   try {
-    const comment = await Comment.findOne({ _id: cid, video: pid }).populate("user", [
-      "username",
-      "-_id",
-    ]);
-    if (!comment || comment.user.username != id) {
+    const comment = await Comment.findOne({ _id: cid, video: pid })
+      .populate({
+        path: "video",
+        select: ["_id", "uploader"],
+        populate: { path: "uploader", select: ["username"] },
+      })
+      .populate("user", ["_id"]);
+    if (!comment || comment.video.uploader.username != id) {
       return res.sendStatus(404);
+    } else if (comment.user._id != req.user) {
+      return res.sendStatus(401);
     }
     await comment.deleteOne();
-    return res.sendStatus(200);
+    return res.sendStatus(201);
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
   return res.status(400).send("Couldn't delete comment");
 }

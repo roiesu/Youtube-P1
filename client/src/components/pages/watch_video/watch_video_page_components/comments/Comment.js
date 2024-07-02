@@ -31,7 +31,7 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
           <div className="comment-actions">
             {user.username == currentUser ? (
               <>
-                <span className="delete-comment-button" onClick={() => deleteComment(date)}>
+                <span className="delete-comment-button" onClick={() => deleteComment(_id)}>
                   <IconTrash />
                 </span>
                 <span className="edit-comment-button" onClick={edit}>
