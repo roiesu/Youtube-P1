@@ -1,9 +1,6 @@
-const express = require("express");
-const mongoose = require("mongoose");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { write64FileWithCopies } = require("../utils");
-const router = express.Router();
 
 //new user and JWT token
 async function addUser(req, res) {

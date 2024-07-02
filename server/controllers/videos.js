@@ -1,6 +1,5 @@
 const User = require("../models/user");
 const Video = require("../models/video");
-const Comment = require("../models/comment");
 const { write64FileWithCopies } = require("../utils");
 
 async function getVideos(req, res) {
@@ -36,7 +35,6 @@ async function getVideo(req, res) {
     await video.save();
     await video.populate({
       path: "comments",
-      select: { video: false },
       populate: { path: "user", select: ["-password", "-_id"] },
     });
     let likedVideo = false;
