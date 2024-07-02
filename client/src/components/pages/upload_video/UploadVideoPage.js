@@ -14,6 +14,7 @@ function UploadVideo({ videos, setVideos, currentUser }) {
   const [tags, setTags] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
@@ -21,12 +22,21 @@ function UploadVideo({ videos, setVideos, currentUser }) {
     }
   }, [videoFile]);
 
+  useEffect(() => {
+    if (errorMessage != null) {
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, [5000]);
+    }
+  }, [errorMessage]);
+
   function validateInput(input) {
     return input != "" && input != null;
   }
 
   async function handleSubmit() {
     if (!validateInput(title) || !validateInput(videoFile) || !validateInput(description)) {
+      setErrorMessage("Name, Description and a video file are required");
       return;
     }
     let tagsToSend = [];
@@ -48,13 +58,13 @@ function UploadVideo({ videos, setVideos, currentUser }) {
       }
     } catch (err) {
       if (err.status === 404) {
-        console.log("User not found");
+        setErrorMessage("User not found");
       } else if (err.status === 400) {
-        console.log(err.message);
+        setErrorMessage(err.message);
       } else if (err.status === 401) {
-        console.log("Token needed");
+        setErrorMessage("Token needed");
       } else if (err.status === 403) {
-        console.log("Invalid token");
+        setErrorMessage("Invalid token");
       }
     }
   }
@@ -62,6 +72,7 @@ function UploadVideo({ videos, setVideos, currentUser }) {
   return (
     <div className={`page upload-video-page ${theme}`}>
       <div className="video-upload-container">
+        <PopUpMessage message={errorMessage} isActive={errorMessage != null} />
         <h1>Upload Video</h1>
         <input
           type="text"
