@@ -51,43 +51,24 @@ async function getVideo(req, res) {
 async function deleteVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const user = await User.findOne({ username: id }).populate({
-      path: "videos",
-      match: { _id: pid },
-    });
-    if (!user || user.videos.length !== 1) {
+    const video = await Video.findById(pid)
+      .populate("uploader", ["username"])
+      .populate("likes", ["_id"])
+      .populate({
+        path: "comments",
+        select: ["_id", "user", "video"],
+        populate: [
+          { path: "user", select: ["_id"] },
+          { path: "video", select: ["_id"] },
+        ],
+      });
+    console.log(video.comments);
+    if (!video || video.uploader.username != id) {
       return res.sendStatus(404);
+    } else if (video.uploader._id != req.user) {
+      return res.sendStatus(401);
     }
-    const video = user.videos[0];
-    // // Removing likes
-    // await Promise.all(
-    //   video.likes.map(async (userId) => {
-    //     try {
-    //       await User.findByIdAndUpdate(userId, { $pull: { likes: pid } });
-    //     } catch (err) {
-    //       console.log(err.message);
-    //     }
-    //   })
-    // );
-
-    // // Removing comments
-    // await Promise.all(
-    //   video.comments.map(async (commentId) => {
-    //     try {
-    //       const comment = await Comment.findByIdAndDelete(commentId);
-    //       await User.findByIdAndUpdate(comment.user, { $pull: { comments: commentId } });
-    //     } catch (err) {
-    //       console.log(err.message);
-    //     }
-    //   })
-    // );
-
-    // // Deleting video file
-    // deletePublicFile("video", video.src);
-
-    // // Remove from user videos
     await video.deleteOne();
-    // await user.updateOne({ $pull: { videos: video._id } });
     return res.status(200).send("Video deleted");
   } catch (err) {
     console.log(err);
