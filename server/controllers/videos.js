@@ -111,13 +111,15 @@ async function addVideo(req, res) {
     const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.status(401).send("Invalid user");
     }
     let fileName = write64FileWithCopies(name, src);
     const video = new Video({ name, uploader: user._id, description, tags, src: fileName });
     video.save();
     user.videos.push(video._id);
     user.save();
-    return res.status(201).send("OK");
+    return res.sendStatus(201);
   } catch (err) {
     console.log(err.message);
   }
