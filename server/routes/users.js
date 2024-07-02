@@ -22,12 +22,12 @@ router.delete("/:id", deleteUser);
 
 // get videos by user ID
 router.get("/:id/videos", getVideosByUserId);
+router.post("/:id/videos", addVideo);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", authenticateTokenIfGot, getVideo);
 router.patch("/:id/videos/:pid", updateVideo);
 router.delete("/:id/videos/:pid", deleteVideo);
-router.post("/:id/videos", addVideo);
 
 // Like and dislike
 router.put("/:id/videos/:pid/like", authenticateToken, likeVideo);
