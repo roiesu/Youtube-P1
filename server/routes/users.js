@@ -17,7 +17,7 @@ const router = express.Router();
 router.post("/", addUser);
 
 router.get("/:id", getUser);
-router.patch("/:id", updateUser);
+router.patch("/:id", authenticateToken, updateUser);
 router.delete("/:id", authenticateToken, deleteUser);
 
 // get videos by user ID
