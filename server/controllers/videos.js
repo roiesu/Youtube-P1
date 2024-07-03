@@ -183,17 +183,54 @@ async function dislikeVideo(req, res) {
 async function getVideosByUserId(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.findOne({ username: id })
-      .select(["-_id", "-_password"])
-      .populate({
-        path: "videos",
-        select: ["name", "uploader", "views", "src", "date"],
-        populate: { path: "uploader", select: ["username", "name", "image", "-_id"] },
-      });
-    if (!user) {
+    const users = await User.aggregate([
+      { $match: { username: id } },
+      { $project: { _id: 0, password: 0 } },
+      {
+        $lookup: {
+          from: "videos",
+          localField: "videos",
+          foreignField: "_id",
+          as: "videos",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+                uploader: 1,
+                views: 1,
+                src: 1,
+                date: 1,
+                likesCount: { $size: "$likes" },
+                commentsCount: { $size: "$comments" },
+              },
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "uploader",
+                foreignField: "_id",
+                as: "uploader",
+                pipeline: [
+                  {
+                    $project: {
+                      username: 1,
+                      name: 1,
+                      image: 1,
+                      _id: 0,
+                    },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$uploader" },
+          ],
+        },
+      },
+    ]);
+    if (users.length === 0) {
       return res.sendStatus(404);
     }
-    return res.status(200).send(user.videos);
+    return res.status(200).send(users[0].videos);
   } catch (err) {
     console.log(err.message);
     return res.status(500).send(" Error displaying user's videos");

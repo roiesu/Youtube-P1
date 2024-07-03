@@ -5,12 +5,12 @@ const { write64FileWithCopies, override64File } = require("../utils");
 async function addUser(req, res) {
   const { username, password, name, image } = req.body;
   if (!username || !password || !name || !image) {
-    return res.status(400).send("Username, password, name, and image are required!");
+    return res.status(400).send("All fields are required");
   }
   try {
     const found = await User.findOne({ username });
     if (found) {
-      return res.sendStatus(409);
+      return res.status(409).send("Username already exists");
     }
     const imagePath = write64FileWithCopies(username + "-profile-pic", image);
     if (!imagePath) {
@@ -21,7 +21,7 @@ async function addUser(req, res) {
     return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
-    return res.sendStatus(400);
+    return res.status(400).send(err.message);
   }
 }
 
@@ -70,7 +70,6 @@ async function updateUser(req, res) {
   const updateFields = {};
   if (name) updateFields.name = name;
   if (password) updateFields.password = password;
-  if (image) updateFields.image = image;
 
   try {
     const user = await User.findOne({ username: id });
@@ -79,11 +78,11 @@ async function updateUser(req, res) {
     } else if (user._id != req.user) {
       return res.sendStatus(401);
     }
-    if (req.body.image) {
-      override64File("image", user.image, req.body.image);
+    if (image) {
+      override64File("image", user.image, image);
     }
-    await user.updateOne(updateFields);
-    await save();
+    await user.updateOne(updateFields, { runValidators: true });
+    await user.save();
     return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
@@ -121,6 +120,7 @@ async function deleteUser(req, res) {
 
 // channel page
 async function getVideosByUserId(req, res) {
+  console.log("here");
   const { id } = req.params;
   try {
     const user = await User.findOne({ username: id })
