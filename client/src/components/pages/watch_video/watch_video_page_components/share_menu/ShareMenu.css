@@ -65,12 +65,14 @@
   .input-div {
     margin-top: 20px;
     display: flex;
+    width: fit-content;
     justify-content: center;
     align-items: center;
 }
 
 .input-div input {
     position: absolute;
+    width: fit-content;
     left: -9999px; 
 }
 
@@ -81,8 +83,9 @@
   border: none;
   border-radius: 25px; 
   cursor: pointer;
+  width: fit-content;
   margin-top: 10px;
-  margin-left: 120px;
+  margin-left: 110px;
 
 }
 
