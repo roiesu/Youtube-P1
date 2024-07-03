@@ -14,6 +14,7 @@ import UploadVideoPage from "../pages/upload_video/UploadVideoPage";
 import MyVideos from "../pages/MyVideos/MyVideos.js";
 import Page404 from "../pages/page_404/Page404";
 import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
+import EditUser from "../pages/edit_user/EditUser.js";
 import { ThemeContext } from "../pages/general_components/ThemeContext";
 
 function App() {
@@ -67,6 +68,11 @@ function App() {
                 <Route
                   path="/edit/:v?"
                   element={<VideoEdit videos={videos} currentUser={currentUser} />}
+                />
+                <Route
+                path="/edit-user"
+                element={
+                  <EditUser currentUser= {currentUser} />}
                 />
               </>
             ) : (

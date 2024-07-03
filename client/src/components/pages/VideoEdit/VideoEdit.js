@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
+import axios from "axios";
+import { getQuery } from "../../../utilities";
 
-function VideoEdit({ videos, currentUser }) {
+function VideoEdit({ currentUser}) {
   const { theme } = useTheme();
 
   const [videoName, setVideoName] = useState("");
@@ -11,6 +13,7 @@ function VideoEdit({ videos, currentUser }) {
   const [video, setVideo] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const changeName = (event) => {
     setVideoName(event.target.value);
@@ -20,32 +23,74 @@ function VideoEdit({ videos, currentUser }) {
     setDescription(event.target.value);
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (videoName === "" || description === "") {
+      setErrorMessage("Both name and description are required");
       return;
     }
-    video.name = videoName;
-    video.description = description;
-    navigate("/my-videos");
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `/api/users/${currentUser}/videos/${video._id}?restrict=1`,
+        {
+          name: videoName,
+          description: description,
+        },
+        { headers: { Authorization: "Bearer " + token } }
+      );
+      if (response.status === 201) {
+        navigate("/my-videos");
+      } 
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage("Video not found");
+        } else if (error.response.status === 500) {
+          setErrorMessage("Internal server error");
+        } else {
+          setErrorMessage("An unexpected error occurred");
+        }
+      } else {
+        setErrorMessage("An unexpected error occurred");
+      }
+    }
   };
 
   useEffect(() => {
-    const query = new URLSearchParams(location.search).get("v");
-    if (!query) return;
-
-    const found = videos.find((v) => v.id.toString() === query);
-    if (!found || found.uploader != currentUser.username) {
-      setVideo(null);
-      return;
+    async function getVideo() {
+      if (video) return;
+      const { v, chanel } = getQuery(location.search);
+      if (!v || !chanel) return;
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`/api/users/${chanel}/videos/${v}`, {
+          headers: { Authorization: "Bearer " + token },
+        });
+        const found = response.data;
+        setVideo(found);
+        setVideoName(found.name);
+        setDescription(found.description);
+      } catch (err) {
+        if (err.response) {
+          if (err.response.status === 404) {
+            setErrorMessage("Video not found");
+          } else if (err.response.status === 500) {
+            setErrorMessage("Internal server error");
+          } else {
+            setErrorMessage("An unexpected error occurred");
+          }
+        } else {
+          setErrorMessage("An unexpected error occurred");
+        }
+      }
     }
-
-    setVideo(found);
-    setVideoName(found.name);
-    setDescription(found.description);
-  }, [location]);
+    getVideo();
+  }, [currentUser]);
 
   return (
     <div className={`page video-upload-page ${theme}`}>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       {video ? (
         <div className="video-upload-container">
           <h1>Edit Video</h1>
@@ -73,7 +118,7 @@ function VideoEdit({ videos, currentUser }) {
           </button>
         </div>
       ) : (
-        "Video not found"
+        !errorMessage && <p>Loading...</p>
       )}
     </div>
   );

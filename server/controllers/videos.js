@@ -20,14 +20,22 @@ async function getVideos(req, res) {
 
 async function getVideo(req, res) {
   const { id, pid } = req.params;
+  const restrict = req.query.restrict || false;
   try {
-    const video = await Video.findById(pid).populate("uploader", [
-      "name",
-      "username",
-      "image",
-      "-_id",
-    ]);
-
+    let video;
+    if(restrict == false){
+      video = await Video.findById(pid).populate("uploader", [
+        "name",
+        "username",
+        "image",
+        "-_id",
+      ]);
+    } else {
+      video = await Video.findById(pid).select(["name", "description", "tags"])
+      .populate("uploader", ["username"]);
+      console.log(restrict);
+    }
+    
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
     }
@@ -37,10 +45,20 @@ async function getVideo(req, res) {
       path: "comments",
       populate: { path: "user", select: ["-password", "-_id"] },
     });
+
     let likedVideo = false;
-    if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
-      likedVideo = true;
-    }
+    if (restrict != false) {
+      video.views++;
+      await video.save();
+      await video.populate({
+        path: "comments",
+        select: { video: false },
+        populate: { path: "user", select: ["-password", "-_id"] },
+      })
+      if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
+        likedVideo = true;
+      }
+  }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
   } catch (err) {
     console.log(err.message);
@@ -168,11 +186,12 @@ async function dislikeVideo(req, res) {
 
 // my videos
 async function getVideosByUserId(req, res) {
+  console.log("here");
   const { id } = req.params;
   try {
     const user = await User.findOne({ username: id })
       .select(["-_id", "-_password"])
-      .populate({ path: "videos", fields: ["name", "views", "date", "src"] });
+      .populate({ path: "videos", select: ["name", "views", "date", "src"] });
     if (!user) {
       return res.sendStatus(404);
     }
