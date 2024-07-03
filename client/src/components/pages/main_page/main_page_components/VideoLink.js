@@ -27,7 +27,7 @@ function VideoLink({ name, uploader, date, views, _id, src }) {
       <div className="video-details">
         <div className="video-name">{name}</div>
         <div className="minor-details">
-          <Link to="/">
+          <Link to={`/channel/${uploader.username}`}>
             <div className="user-details">
               <img
                 className="profile-pic small"

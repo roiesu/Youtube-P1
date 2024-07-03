@@ -16,10 +16,6 @@ function MainPage({ currentUser }) {
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
 
-  const handleUserClick = (username) => {
-    navigate(`/channel/${username}`);
-  };
-
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
@@ -58,17 +54,10 @@ function MainPage({ currentUser }) {
         <div className="user-details">
           {userDetails ? (
             <>
-              <img
-                className="profile-pic"
-                src={getMediaFromServer("image", userDetails.image)}
-                onClick={() => handleUserClick(userDetails.username)} // profile pic clickable
-              />
-              <span
-                className="user-name"
-                onClick={() => handleUserClick(userDetails.username)} // username clickable
-              >
-                Welcome back {userDetails.name}
-              </span>
+              <Link to={`/channel/${currentUser}`}>
+                <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
+              </Link>
+              <span className="user-name">Welcome back {userDetails.name}</span>
             </>
           ) : (
             <span className="user-name">
