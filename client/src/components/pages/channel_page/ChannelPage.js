@@ -42,7 +42,7 @@ const ChannelPage = () => {
                 src={getMediaFromServer("image", user.image)}
                 alt={user.name}
               />
-              <h1 className="user-name">{user.name}</h1>
+              <h1 className="user-name">{user.name}{"'s chnnel"}</h1>
             </div>
           </div>
           <div className="video-list">
