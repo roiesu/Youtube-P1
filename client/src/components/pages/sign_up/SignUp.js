@@ -3,7 +3,7 @@ import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../settings/inputs.json";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
-import { readFileIntoState } from "../../../utilities";
+import { readFileIntoState, callWithEnter } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
@@ -82,7 +82,7 @@ function SignUp(props) {
             Already have an account? sign in <Link to="/sign-in">here!</Link>
           </div>
         </div>
-        <div className="input-div">
+        <div className="input-div" onKeyDown={(e) => callWithEnter(e, submit)}>
           <PopUpMessage message={generalError} isActive={generalError != null} />
           <ValidationInput
             name={inputs.username.name}
