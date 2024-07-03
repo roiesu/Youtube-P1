@@ -5,14 +5,21 @@ import { callWithEnter, getMediaFromServer } from "../../../utilities";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
+import { useNavigate } from 'react-router-dom';
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
+
 function MainPage({ currentUser }) {
+  const navigate = useNavigate(); 
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
+
+  const handleUserClick = (username) => {
+    navigate(`/users/${username}/channel`);
+  };
 
   async function getVideos() {
     try {
@@ -52,8 +59,19 @@ function MainPage({ currentUser }) {
         <div className="user-details">
           {userDetails ? (
             <>
-              <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
-              <span className="user-name">Welcome back {userDetails.name}</span>
+              <img
+                className="profile-pic"
+                src={getMediaFromServer("image", userDetails.image)}
+                onClick={() => handleUserClick(userDetails.username)} // profile pic clickable
+                style={{ cursor: 'pointer' }} 
+              />
+              <span
+                className="user-name"
+                onClick={() => handleUserClick(userDetails.username)} // username clickable
+                style={{ cursor: 'pointer' }} 
+              >
+                Welcome back {userDetails.name}
+              </span>
             </>
           ) : (
             <span className="user-name">

@@ -16,6 +16,7 @@ import Page404 from "../pages/page_404/Page404";
 import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 import EditUser from "../pages/edit_user/EditUser.js";
 import { ThemeContext } from "../pages/general_components/ThemeContext";
+import ChannelPage from "../pages/channel_page/channel_page.js";
 
 function App() {
   const [users, setUsers] = useState(usersList);
@@ -89,6 +90,11 @@ function App() {
                   element={<SignIn users={users} setCurrentUser={setCurrentUser} />}
                   exact
                   path="/sign-in"
+                />
+                <Route
+                  exact
+                  path="/users/:id/videos"
+                  element={<ChannelPage />}
                 />
               </>
             )}
