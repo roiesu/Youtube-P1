@@ -32,7 +32,7 @@ function VideoEdit({ currentUser}) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.patch(
-        `/api/users/${currentUser}/videos/${video._id}?restrict=1`,
+        `/api/users/${currentUser}/videos/${video._id}`,
         {
           name: videoName,
           description: description,
