@@ -120,20 +120,19 @@ async function deleteUser(req, res) {
     } else if (user._id != req.user) {
       return res.sendStatus(401);
     }
-    await user
-      .populate({
-        path: "comments",
-        select: ["_id", "user", "video"],
-        populate: [
-          { path: "user", select: ["_id"] },
-          { path: "video", select: ["_id"] },
-        ],
-      })
-      .populate("likes", ["_id"]);
-
+    await user.populate({
+      path: "comments",
+      select: ["_id", "user", "video"],
+      populate: [
+        { path: "user", select: ["_id"] },
+        { path: "video", select: ["_id"] },
+      ],
+    });
+    await user.populate({ path: "likes", select: ["_id"] });
     await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
+    console.log(err);
     return res.status(500).send("Error deleting user");
   }
 }

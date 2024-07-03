@@ -5,7 +5,7 @@ import "../upload_video/UploadVideoPage.css";
 import { getMediaFromServer, readFileIntoState } from "../../../utilities";
 import axios from "axios";
 
-function EditUser({ currentUser }) {
+function EditUser({ currentUser, logout }) {
   const { theme } = useTheme();
   const [user, setUser] = useState({});
   const [previewImage, setPreviewImage] = useState();
@@ -31,9 +31,18 @@ function EditUser({ currentUser }) {
     const answer = prompt("Enter password to confirm deletion");
     if (answer != user.password) {
       return;
-    } else {
-      console.log("Confirmed");
-      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(`/api/users/${user.username}`, {
+        headers: { Authorization: "Bearer " + token },
+      });
+      if (response.status === 200) {
+        navigate("/");
+        logout();
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   const editUser = async () => {
