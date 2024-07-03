@@ -27,8 +27,16 @@ function EditUser({ currentUser }) {
     setImage(true);
     readFileIntoState(event.target.files[0], setPreviewImage);
   };
-
-  const submit = async () => {
+  const deleteUser = async () => {
+    const answer = prompt("Enter password to confirm deletion");
+    if (answer != user.password) {
+      return;
+    } else {
+      console.log("Confirmed");
+      return;
+    }
+  };
+  const editUser = async () => {
     const body = {};
     if (name && name != user.name) {
       body.name = name;
@@ -58,7 +66,7 @@ function EditUser({ currentUser }) {
         } else if (error.response.status === 500) {
           setErrorMessage("Internal server error");
         } else {
-          setErrorMessage("An unexpected error occurred");
+          setErrorMessage(error.response.message);
         }
       } else {
         setErrorMessage("An unexpected error occurred");
@@ -71,7 +79,7 @@ function EditUser({ currentUser }) {
       if (!currentUser) return;
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/users/${currentUser}`, {
+        const response = await axios.get(`/api/users/details/${currentUser}`, {
           headers: { Authorization: "Bearer " + token },
         });
         const found = response.data;
@@ -116,13 +124,17 @@ function EditUser({ currentUser }) {
             className="input-field"
             placeholder="Enter new password"
             aria-label="password"
+            defaultValue={user.password}
             onChange={changePassword}
           />
           <input type="file" className="input-field" accept="image/*" onChange={changeImage} />
+          <button className="submit-button" onClick={editUser}>
+            Update User
+          </button>
+          <button className="delete-button" onClick={deleteUser}>
+            Delete User
+          </button>
         </div>
-        <button className="submit-button" onClick={submit}>
-          Update User
-        </button>
       </div>
     </div>
   );
