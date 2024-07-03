@@ -23,19 +23,15 @@ async function getVideo(req, res) {
   const restrict = req.query.restrict || false;
   try {
     let video;
-    if(restrict == false){
-      video = await Video.findById(pid).populate("uploader", [
-        "name",
-        "username",
-        "image",
-        "-_id",
-      ]);
+    if (restrict == false) {
+      video = await Video.findById(pid).populate("uploader", ["name", "username", "image", "-_id"]);
     } else {
-      video = await Video.findById(pid).select(["name", "description", "tags"])
-      .populate("uploader", ["username"]);
+      video = await Video.findById(pid)
+        .select(["name", "description", "tags"])
+        .populate("uploader", ["username"]);
       console.log(restrict);
     }
-    
+
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
     }
@@ -54,11 +50,11 @@ async function getVideo(req, res) {
         path: "comments",
         select: { video: false },
         populate: { path: "user", select: ["-password", "-_id"] },
-      })
+      });
       if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
         likedVideo = true;
       }
-  }
+    }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
   } catch (err) {
     console.log(err.message);
@@ -96,9 +92,6 @@ async function deleteVideo(req, res) {
 
 async function updateVideo(req, res) {
   const { id, pid } = req.params;
-  if (id != req.user) {
-    return res.sendStatus(401);
-  }
   let updateObj = {};
   if (req.body.name) {
     updateObj.name = req.body.name;
@@ -111,8 +104,10 @@ async function updateVideo(req, res) {
   }
 
   try {
-    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
-    if (video && video.uploader.username === id) {
+    const video = await Video.findById(pid).populate("uploader", ["username"]);
+    if (video.uploader._id != req.user) {
+      return res.sendStatus(401);
+    } else if (video && video.uploader.username === id) {
       await video.updateOne(updateObj);
       return res.sendStatus(201);
     }
@@ -186,7 +181,6 @@ async function dislikeVideo(req, res) {
 
 // my videos
 async function getVideosByUserId(req, res) {
-  console.log("here");
   const { id } = req.params;
   try {
     const user = await User.findOne({ username: id })
