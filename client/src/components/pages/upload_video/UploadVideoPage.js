@@ -6,7 +6,7 @@ import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 
-function UploadVideo({ videos, setVideos, currentUser }) {
+function UploadVideo({ currentUser }) {
   const { theme } = useTheme();
 
   const [title, setTitle] = useState("");
