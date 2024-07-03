@@ -5,13 +5,31 @@
   border-radius: 10px;
   padding: 50px;
 }
+.my-videos-page.dark {
+  color: white;
+}
+.my-videos-page.light {
+  color: black;
+}
 .my-videos-page .container table {
   width: 100%;
+}
+.my-videos-page .container table td.video-container {
+  height: 150px;
+  width: 150px;
 }
 .my-videos-page .container table tr {
   border-bottom: black solid 2px;
 }
-
+.my-videos-page .container > .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px 0;
+}
+.my-videos-page .container > .buttons > a {
+  padding: 0 10px;
+}
 .dark .my-videos-page .container {
   background-color: #131313;
 }
@@ -74,15 +92,16 @@
 .video-actions {
   font-size: 22px;
 }
-.video-actions > * {
+.video-actions svg {
   transition: 0.2s;
 }
-.video-actions > *:hover {
+.video-actions svg:hover {
   cursor: pointer;
   transform: translateY(-2px);
 }
 .my-video-item video {
-  width: 150px;
+  width: 100%;
+  height: 100%;
 }
 
 .delete-button,

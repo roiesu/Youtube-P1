@@ -63,12 +63,14 @@ function MyVideos({ currentUser }) {
   return (
     <div className={`page my-videos-page ${theme}`}>
       <div className="container">
-        <Link to="/video/upload">
-          <button className="upload-button">Upload New Video</button>
-        </Link>
-        <Link to="/user/edit">
-          <button className="edit-user-button">Edit User Details</button>
-        </Link>
+        <div className="buttons">
+          <Link to="/video/upload">
+            <span className="upload-button">Upload New Video</span>
+          </Link>
+          <Link to="/user/edit">
+            <span className="edit-user-button">Edit User Details</span>
+          </Link>
+        </div>
         <table>
           <tr>
             <th>Video thumbnail</th>

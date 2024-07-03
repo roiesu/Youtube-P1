@@ -19,7 +19,7 @@ function MyVideoItem({
 
   return (
     <tr className="my-video-item">
-      <td>
+      <td className="video-container">
         <Link to={`/watch?v=${_id}&channel=${uploader.username}`}>
           <video
             onDurationChange={(e) => {
