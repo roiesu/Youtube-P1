@@ -57,7 +57,7 @@ function EditUser({ currentUser }) {
         headers: { Authorization: "Bearer " + token },
       });
       if (response.status === 200) {
-        navigate("/");
+        navigate("/my-videos");
       }
     } catch (error) {
       if (error.response) {
