@@ -11,7 +11,7 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
   const [expanded, setExpanded] = useState(false);
   function edit() {
     if (editing) {
-      editComment(date, commentContent);
+      editComment(_id, commentContent);
       setEditing(false);
     } else setEditing(true);
   }
@@ -31,14 +31,20 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
           <div className="comment-actions">
             {user.username == currentUser ? (
               <>
-                <span className="delete-comment-button" onClick={() => deleteComment(date)}>
+                <span className="delete-comment-button" onClick={() => deleteComment(_id)}>
                   <IconTrash />
                 </span>
                 <span className="edit-comment-button" onClick={edit}>
                   {editing ? <IconSave /> : <IconEdit />}
                 </span>
                 {editing ? (
-                  <span className="edit-comment-button" onClick={() => setEditing(false)}>
+                  <span
+                    className="edit-comment-button"
+                    onClick={() => {
+                      setEditing(false);
+                      setCommentContent(text);
+                    }}
+                  >
                     <IconClose />
                   </span>
                 ) : (

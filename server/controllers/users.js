@@ -1,11 +1,7 @@
-const express = require("express");
-const mongoose = require("mongoose");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { write64FileWithCopies } = require("../utils");
-const router = express.Router();
+const { write64FileWithCopies, override64File } = require("../utils");
 
-//new user and JWT token
 async function addUser(req, res) {
   const { username, password, name, image } = req.body;
   if (!username || !password || !name || !image) {
@@ -46,7 +42,7 @@ async function loginUser(req, res) {
       return res.status(404).send("Invalid password!");
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    return res.status(200).send({ message: "Login successful!", token });
+    return res.status(200).send(token);
   } catch (err) {
     console.log(err.message);
     return res.status(500).send("Couldn't log in this user!");
@@ -77,13 +73,18 @@ async function updateUser(req, res) {
   if (image) updateFields.image = image;
 
   try {
-    const user = await User.findOneAndUpdate({ username: id }, updateFields, { new: true }).select(
-      "-password"
-    );
+    const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.sendStatus(401);
     }
-    return res.status(200).send({ message: `User ${id} updated!`, user });
+    if (req.body.image) {
+      override64File("image", user.image, req.body.image);
+    }
+    await user.updateOne(updateFields);
+    await save();
+    return res.sendStatus(200);
   } catch (err) {
     console.log(err.message);
     return res.status(500).send("Error updating user details");
@@ -96,7 +97,20 @@ async function deleteUser(req, res) {
     const user = await User.findOne({ username: id });
     if (!user) {
       return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.sendStatus(401);
     }
+    await user
+      .populate({
+        path: "comments",
+        select: ["_id", "user", "video"],
+        populate: [
+          { path: "user", select: ["_id"] },
+          { path: "video", select: ["_id"] },
+        ],
+      })
+      .populate("likes", ["_id"]);
+
     await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
