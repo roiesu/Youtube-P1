@@ -6,7 +6,7 @@ async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
     const filterValues = { name: { $regex: name, $options: "i" } };
-    let videos = await Video.find(filterValues)
+    const videos = await Video.find(filterValues)
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
       // .limit(10)
