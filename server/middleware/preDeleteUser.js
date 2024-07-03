@@ -14,7 +14,9 @@ async function preDeleteUser(next, document) {
     console.log("videos");
     for (videoId of document.videos) {
       const video = await Video.findById(videoId).populate("uploader", ["videos"]);
-      await video.deleteOne();
+      if (video) {
+        await video.deleteOne();
+      }
     }
     deletePublicFile("image", document.image);
     next();
