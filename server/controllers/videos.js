@@ -53,13 +53,6 @@ async function getVideo(req, res) {
     });
 
     let likedVideo = false;
-    video.views++;
-    await video.save();
-    await video.populate({
-      path: "comments",
-      select: { video: false },
-      populate: { path: "user", select: ["-password", "-_id"] },
-    });
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
       likedVideo = true;
     }

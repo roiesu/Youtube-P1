@@ -27,6 +27,6 @@ const UserSchema = new mongoose.Schema({
   likes: [{ type: ObjectId, ref: "Video" }],
 });
 
-UserSchema.post("deleteOne", { document: true }, preDeleteUser);
+UserSchema.pre("deleteOne", { document: true }, preDeleteUser);
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
