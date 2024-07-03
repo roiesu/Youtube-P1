@@ -2,7 +2,6 @@ const { deletePublicFile } = require("../utils");
 
 async function preDeleteComment(next, document) {
   try {
-    console.log(document);
     if (document.video) {
       await document.video.updateOne({ $pull: { comments: document._id } });
       await document.video.save();

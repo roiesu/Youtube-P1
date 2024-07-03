@@ -44,9 +44,9 @@ function App() {
               // Pages only users can see
               <>
                 <Route path="/my-videos" element={<MyVideos currentUser={currentUser} />} />
-                <Route path="/upload" element={<UploadVideoPage currentUser={currentUser} />} />
-                <Route path="/edit/:v?" element={<VideoEdit currentUser={currentUser} />} />
-                <Route path="/edit-user" element={<EditUser currentUser={currentUser} />} />
+                <Route path="/video/upload" element={<UploadVideoPage currentUser={currentUser} />} />
+                <Route path="/video/edit/:v?channel?" element={<VideoEdit currentUser={currentUser} />} />
+                <Route path="/user/edit" element={<EditUser currentUser={currentUser} />} />
               </>
             ) : (
               <>

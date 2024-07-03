@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
-import inputs from "../../../data/inputs.json";
+import inputs from "../../../settings/inputs.json";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { readFileIntoState } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
@@ -17,11 +17,6 @@ function SignUp(props) {
   const [imageInput, setImageInput] = useState();
 
   const [image, setImage] = useState();
-
-  const [nameError, setNameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [usernameError, setUsernameError] = useState(false);
-  const [verifyPasswordError, setVerifyPasswordError] = useState(false);
   const [generalError, setGeneralError] = useState();
 
   const navigate = useNavigate();
@@ -40,26 +35,15 @@ function SignUp(props) {
     }
   }, [imageInput]);
 
-  function isValid(regex, inputValue) {
-    let reg = new RegExp(regex);
-    return inputValue.match(reg) != null;
-  }
-
   async function submit() {
-    if (!isValid(inputs.username.regexValidationString, usernameInput)) {
-      setUsernameError(true);
-      return;
-    } else if (!isValid(inputs.password.regexValidationString, passwordInput)) {
-      setPasswordError(true);
-      return;
-    } else if (passwordValidationInput != passwordInput) {
-      setVerifyPasswordError(true);
-      return;
-    } else if (!isValid(inputs.name.regexValidationString, nameInput)) {
-      setNameError(true);
+    if (!usernameInput || !passwordInput || !passwordValidationInput || !nameInput) {
+      setGeneralError("All fields are required");
       return;
     } else if (!imageInput) {
       setGeneralError("No profile picture selected");
+      return;
+    } else if (passwordValidationInput != passwordInput) {
+      setGeneralError("Password validation must be equal to password");
       return;
     }
     const user = {
@@ -81,13 +65,9 @@ function SignUp(props) {
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 400) {
-          setGeneralError("Invalid input");
-        } else if (error.response.status === 409) {
-          setGeneralError("User with that username already exists");
-        } else {
-          setGeneralError("Couldn't create this user");
-        }
+        setGeneralError(error.response.data);
+      } else {
+        setGeneralError("Couldn't create user");
       }
     }
   }
@@ -106,33 +86,21 @@ function SignUp(props) {
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}
-            value={usernameInput}
-            error={usernameError}
-            showMessage={setUsernameError}
             setValue={setUsernameInput}
           />
           <ValidationInput
             name={inputs.password.name}
             reqs={inputs.password.reqs}
-            value={passwordInput}
-            error={passwordError}
-            showMessage={setPasswordError}
             setValue={setPasswordInput}
           />
           <ValidationInput
             name={inputs.validate_password.name}
             reqs={inputs.validate_password.reqs}
-            error={verifyPasswordError}
-            showMessage={setVerifyPasswordError}
-            value={passwordValidationInput}
             setValue={setPasswordValidationInput}
           />
           <ValidationInput
             name={inputs.name.name}
             reqs={inputs.name.reqs}
-            error={nameError}
-            showMessage={setNameError}
-            value={nameInput}
             setValue={setNameInput}
           />
           <label className="choose-file">

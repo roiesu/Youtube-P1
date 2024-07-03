@@ -45,6 +45,11 @@ h1 {
   width: 100%;
 }
 
+.preview-img-container {
+  margin: 20px auto;
+  height: 200px;
+  display: block;
+}
 .video-upload-container video {
   display: block;
   margin: 20px auto;

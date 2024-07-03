@@ -90,13 +90,13 @@ function WatchVideoPage({ currentUser }) {
     async function getVideo() {
       // Finds the video by query params
       if (video) return;
-      const { v, chanel } = getQuery(location.search);
-      if (!v || !chanel) return;
+      const { v, channel } = getQuery(location.search);
+      if (!v || !channel) return;
       try {
         const headers = {};
         const token = localStorage.getItem("token");
         if (token) headers.Authorization = "Bearer " + token;
-        const found = await axios.get(`/api/users/${chanel}/videos/${v}`, {
+        const found = await axios.get(`/api/users/${channel}/videos/${v}`, {
           headers,
         });
         if (!found) {
