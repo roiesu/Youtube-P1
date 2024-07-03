@@ -13,7 +13,7 @@ function WatchVideoPage({ videos, currentUser }) {
   const commentInput = useRef(null);
   const location = useLocation();
   const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
-
+  
   async function addComment() {
     if (!currentUser || commentInput.current.value == "") return;
 
@@ -32,24 +32,39 @@ function WatchVideoPage({ videos, currentUser }) {
     }
   }
 
-  function deleteComment(commentDate) {
-    const tempVideo = { ...video };
-    tempVideo.comments = video.comments.filter(
-      (comment) => comment.date_time != commentDate || comment.user != currentUser.username
-    );
-    setVideo(tempVideo);
-    const found = videos.find((item) => item.id == video.id);
-    found.comments = tempVideo.comments;
+  async function deleteComment(commentId) {
+    try {
+      const response = await axios.delete(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments/${commentId}`,
+        { headers: AuthHeader }
+      );
+      if (response.status === 201) {
+        const tempVideo = { ...video };
+        tempVideo.comments = tempVideo.comments.filter((comment) => comment._id != commentId);
+        setVideo(tempVideo);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function editComment(commentDate, newContent) {
-    const tempVideo = { ...video };
-    const found = tempVideo.comments.find(
-      (comment) => comment.user == currentUser.username && comment.date_time == commentDate
-    );
-    found.text = newContent;
-    found.edited = true;
-    setVideo(tempVideo);
+  async function editComment(commentId, newContent) {
+    try {
+      const response = await axios.patch(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments/${commentId}`,
+        { text: newContent },
+        { headers: AuthHeader }
+      );
+      if (response.status === 201) {
+        const tempVideo = { ...video };
+        const found = tempVideo.comments.find((comment) => comment._id == commentId);
+        found.text = newContent;
+        found.edited = true;
+        setVideo(tempVideo);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function like() {

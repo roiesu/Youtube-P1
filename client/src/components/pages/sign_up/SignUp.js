@@ -71,8 +71,11 @@ function SignUp(props) {
     try {
       const response = await axios.post("/api/users", user);
       if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem("token", token);
+        const loginResponse = await axios.post(`/api/tokens`, {
+          username: usernameInput,
+          password: passwordInput,
+        });
+        localStorage.setItem("token", loginResponse.data);
         props.setCurrentUser(usernameInput);
         navigate("/");
       }

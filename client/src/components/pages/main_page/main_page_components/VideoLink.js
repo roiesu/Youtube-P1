@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   secondsToTime,
@@ -8,27 +8,14 @@ import {
 } from "../../../../utilities";
 
 function VideoLink({ name, uploader, date, views, _id, src }) {
-  const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
-
   return (
     <div className="video-card">
       <div className="video-container">
         <Link className="video-link" to={`/watch?chanel=${uploader.username}&v=${_id}`}>
           <video
-            loop
-            muted
             onDurationChange={(e) => {
               setDuration(Math.floor(e.target.duration));
-            }}
-            onMouseOver={(e) => {
-              if (playing) return;
-              e.target.play().then(() => setPlaying(true));
-            }}
-            onMouseOut={(e) => {
-              if (!playing) return;
-              e.target.pause();
-              setPlaying(false);
             }}
           >
             <source src={getMediaFromServer("video", src)} type="video/mp4" />
