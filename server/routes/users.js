@@ -14,6 +14,7 @@ const {
   likeVideo,
   dislikeVideo,
   getVideosByUserId,
+  getMinimalVideoDetails,
 } = require("../controllers/videos");
 const { getComment, addComment, deleteComment, editComment } = require("../controllers/comments");
 const { authenticateTokenIfGot, authenticateToken } = require("../middleware/auth");
@@ -30,6 +31,7 @@ router.get("/:id/videos", getVideosByUserId);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", authenticateTokenIfGot, getVideo);
+router.get("/:id/videos/:pid/details", getMinimalVideoDetails);
 router.patch("/:id/videos/:pid", authenticateToken, updateVideo);
 router.delete("/:id/videos/:pid", authenticateToken, deleteVideo);
 router.post("/:id/videos", authenticateToken, addVideo);

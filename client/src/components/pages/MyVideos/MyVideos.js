@@ -76,23 +76,27 @@ function MyVideos({ currentUser }) {
           </Link>
         </div>
         <table>
-          <tr>
-            <th>Video thumbnail</th>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Uploading date</th>
-            <th>Views</th>
-            <th>Likes</th>
-            <th>Comments</th>
-            <th></th>
-          </tr>
-          {userVideos.map((video) => (
-            <MyVideoItem
-              key={video._id}
-              {...video}
-              deleteVideo={() => deleteVideo(video._id, video.name)}
-            />
-          ))}
+          <thead>
+            <tr>
+              <th>Video thumbnail</th>
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Uploading date</th>
+              <th>Views</th>
+              <th>Likes</th>
+              <th>Comments</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {userVideos.map((video) => (
+              <MyVideoItem
+                key={video._id}
+                {...video}
+                deleteVideo={() => deleteVideo(video._id, video.name)}
+              />
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

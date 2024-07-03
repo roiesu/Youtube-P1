@@ -17,20 +17,30 @@ async function getVideos(req, res) {
   }
   return res.status(200).send([]);
 }
+async function getMinimalVideoDetails(req, res) {
+  const { id, pid } = req.params;
 
+  try {
+    const video = await Video.findById(pid)
+      .select(["name", "description", "tags"])
+      .populate("uploader", ["username", "_-id"]);
+    if (!video || video.uploader.username != id) {
+      return res.status(404).send("Video not found");
+    }
+    return res.status(200).send(video);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+}
 async function getVideo(req, res) {
   const { id, pid } = req.params;
-  const restrict = req.query.restrict || false;
   try {
-    let video;
-    if (restrict == false) {
-      video = await Video.findById(pid).populate("uploader", ["name", "username", "image", "-_id"]);
-    } else {
-      video = await Video.findById(pid)
-        .select(["name", "description", "tags"])
-        .populate("uploader", ["username"]);
-      console.log(restrict);
-    }
+    const video = await Video.findById(pid).populate("uploader", [
+      "name",
+      "username",
+      "image",
+      "-_id",
+    ]);
 
     if (!video || video.uploader.username !== id) {
       return res.sendStatus(404);
@@ -43,17 +53,15 @@ async function getVideo(req, res) {
     });
 
     let likedVideo = false;
-    if (restrict != false) {
-      video.views++;
-      await video.save();
-      await video.populate({
-        path: "comments",
-        select: { video: false },
-        populate: { path: "user", select: ["-password", "-_id"] },
-      });
-      if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
-        likedVideo = true;
-      }
+    video.views++;
+    await video.save();
+    await video.populate({
+      path: "comments",
+      select: { video: false },
+      populate: { path: "user", select: ["-password", "-_id"] },
+    });
+    if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
+      likedVideo = true;
     }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
   } catch (err) {
@@ -245,4 +253,5 @@ module.exports = {
   likeVideo,
   dislikeVideo,
   getVideosByUserId,
+  getMinimalVideoDetails,
 };
