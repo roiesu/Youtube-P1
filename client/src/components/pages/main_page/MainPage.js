@@ -45,7 +45,7 @@ function MainPage({ currentUser }) {
   }, []);
   useEffect(() => {
     getUserDetails();
-  }, [currentUser]);
+  }, [, currentUser]);
 
   function search() {
     getVideos();
