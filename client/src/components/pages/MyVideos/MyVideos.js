@@ -35,7 +35,11 @@ function MyVideos({ currentUser }) {
     displayUserVideos();
   }, [currentUser]);
 
-  async function deleteVideo(videoId) {
+  async function deleteVideo(videoId, videoName) {
+    const answer = prompt(`Type '${videoName}' to confirm deletion`);
+    if (answer != videoName) {
+      return;
+    }
     try {
       const token = localStorage.getItem("token");
       const response = await axios.delete(`/api/users/${currentUser}/videos/${videoId}`, {
@@ -83,7 +87,11 @@ function MyVideos({ currentUser }) {
             <th></th>
           </tr>
           {userVideos.map((video) => (
-            <MyVideoItem key={video._id} {...video} deleteVideo={() => deleteVideo(video._id)} />
+            <MyVideoItem
+              key={video._id}
+              {...video}
+              deleteVideo={() => deleteVideo(video._id, video.name)}
+            />
           ))}
         </table>
       </div>

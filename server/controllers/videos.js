@@ -76,7 +76,6 @@ async function deleteVideo(req, res) {
           { path: "video", select: ["_id"] },
         ],
       });
-    console.log(video.comments);
     if (!video || video.uploader.username != id) {
       return res.sendStatus(404);
     } else if (video.uploader._id != req.user) {
@@ -133,14 +132,14 @@ async function addVideo(req, res) {
     }
     let fileName = write64FileWithCopies(name, src);
     const video = new Video({ name, uploader: user._id, description, tags, src: fileName });
-    video.save();
+    await video.save();
     user.videos.push(video._id);
-    user.save();
+    await user.save();
     return res.sendStatus(201);
   } catch (err) {
     console.log(err.message);
+    return res.status(err.status).send(err.message);
   }
-  return res.status(400).send("Couldn't upload video");
 }
 
 async function likeVideo(req, res) {

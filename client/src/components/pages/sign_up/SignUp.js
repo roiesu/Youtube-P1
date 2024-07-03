@@ -64,6 +64,7 @@ function SignUp(props) {
         navigate("/");
       }
     } catch (error) {
+      console.log(error);
       if (error.response) {
         setGeneralError(error.response.data);
       } else {

@@ -19,13 +19,13 @@ async function addUser(req, res) {
     }
 
     const user = new User({ username, password, name, image: imagePath });
+
     await user.save();
     return res.sendStatus(200);
   } catch (err) {
     if (imagePath) {
       deletePublicFile("image", imagePath);
     }
-    console.log(err.message);
     return res.status(400).send(err.message);
   }
 }
@@ -124,7 +124,6 @@ async function deleteUser(req, res) {
 
 // channel page
 async function getVideosByUserId(req, res) {
-  console.log("here");
   const { id } = req.params;
   try {
     const user = await User.findOne({ username: id })

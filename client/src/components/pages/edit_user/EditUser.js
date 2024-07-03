@@ -48,7 +48,6 @@ function EditUser({ currentUser }) {
       const response = await axios.patch(`/api/users/${currentUser}`, body, {
         headers: { Authorization: "Bearer " + token },
       });
-      console.log(response);
       if (response.status === 200) {
         navigate("/");
       }
