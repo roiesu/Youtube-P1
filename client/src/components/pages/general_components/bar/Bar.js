@@ -4,7 +4,6 @@ import "./Bar.css";
 import IconHouseDoorFill from "../../../icons/IconHouseDoorFill";
 import IconVideoCamera from "../../../icons/IconVideoCamera";
 import IconLogout from "../../../icons/IconLogout";
-// import IconLogin from "../../../icons/IconLogin";
 import IconLogin from "../../../icons/Iconlogin";
 import IconHamburgerMenu from "../../../icons/IconHamburgerMenu";
 
@@ -36,21 +35,24 @@ function Bar({ logout, loggedIn }) {
                 <IconHouseDoorFill /> Home
               </div>
             </Link>
-            <Link to="/my-videos">
-              <div className="sidebar-link">
-                <IconVideoCamera /> My Videos
-              </div>
-            </Link>
+
             {loggedIn ? (
-              <div
-                className="sidebar-link"
-                onClick={() => {
-                  logout();
-                  navigate("/sign-in");
-                }}
-              >
-                <IconLogout /> Sign out
-              </div>
+              <>
+                <Link to="/my-videos">
+                  <div className="sidebar-link">
+                    <IconVideoCamera /> My Videos
+                  </div>
+                </Link>
+                <div
+                  className="sidebar-link"
+                  onClick={() => {
+                    logout();
+                    navigate("/sign-in");
+                  }}
+                >
+                  <IconLogout /> Sign out
+                </div>
+              </>
             ) : (
               <>
                 <Link to="/sign-up">
