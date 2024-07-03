@@ -28,7 +28,9 @@ function MainPage({ currentUser }) {
       return;
     }
     try {
-      const response = await axios.get("/api/users/" + currentUser);
+      const response = await axios.get("/api/users/" + currentUser, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      });
       setUserDetails(response.data);
     } catch (err) {}
   }

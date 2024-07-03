@@ -22,9 +22,17 @@ function write64FileWithCopies(dest, data) {
     return null;
   }
 }
-
+function override64File(fileType, name, data) {
+  try {
+    let base64File = data.split(/;base64,/)[1];
+    fs.writeFileSync(`./public/${type}/${name}`, base64File, { encoding: "base64" });
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 function deletePublicFile(type, name) {
   fs.unlinkSync(`./public/${type}/${name}`);
 }
 
-module.exports = { write64FileWithCopies, deletePublicFile };
+module.exports = { write64FileWithCopies, deletePublicFile, override64File };
