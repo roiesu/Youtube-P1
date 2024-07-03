@@ -68,6 +68,22 @@ async function getUser(req, res) {
   }
 }
 
+// For user details editing and removing
+async function getFullUserDetails(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ username: id }).select(["-comments", "-likes", "-videos"]);
+    if (!user) {
+      return res.status(404).send("User not found");
+    } else if (user._id != req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    return res.status(200).send(user);
+  } catch (err) {
+    return res.status(err.status).send(err.message);
+  }
+}
+
 async function updateUser(req, res) {
   const { id } = req.params;
   const { name, password, image } = req.body;
@@ -146,4 +162,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getVideosByUserId,
+  getFullUserDetails,
 };

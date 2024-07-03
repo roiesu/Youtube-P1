@@ -1,5 +1,11 @@
 const express = require("express");
-const { addUser, getUser, updateUser, deleteUser } = require("../controllers/users");
+const {
+  addUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  getFullUserDetails,
+} = require("../controllers/users");
 const {
   getVideo,
   updateVideo,
@@ -17,6 +23,7 @@ const router = express.Router();
 router.post("/", addUser);
 
 router.get("/:id", getUser);
+router.get("/details/:id", authenticateToken, getFullUserDetails);
 router.patch("/:id", authenticateToken, updateUser);
 router.delete("/:id", authenticateToken, deleteUser);
 router.get("/:id/videos", getVideosByUserId);

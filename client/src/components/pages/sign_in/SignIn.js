@@ -4,6 +4,7 @@ import "./SignIn.css";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
+import { callWithEnter } from "../../../utilities";
 
 function SignIn(props) {
   const { theme } = useTheme();
@@ -67,6 +68,7 @@ function SignIn(props) {
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             <input
               className="text-input"
+              onClick={(e) => callWithEnter(e, validateSignIn)}
               type="text"
               name="username"
               value={usernameInput}
@@ -76,6 +78,7 @@ function SignIn(props) {
           <div className="validation-input-div">
             <label>password</label>
             <input
+              onClick={(e) => callWithEnter(e, validateSignIn)}
               className="text-input"
               type="password"
               name="password"
