@@ -5,7 +5,7 @@ import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import MyVideoItem from "./MyVideoItem";
 
-function MyVideos({ videos, currentUser, setVideos }) {
+function MyVideos({ currentUser }) {
   const { theme } = useTheme();
   const [userVideos, setUserVideos] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,13 +40,12 @@ function MyVideos({ videos, currentUser, setVideos }) {
     try {
       console.log(videoId);
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`/api/users/${currentUser}/videos/${videoId}`,
-        {headers: {Authorization: "Bearer" + token }}
-      );
+      const response = await axios.delete(`/api/users/${currentUser}/videos/${videoId}`, {
+        headers: { Authorization: "Bearer" + token },
+      });
       if (response.status === 200) {
         const tempVideos = userVideos.filter((video) => video.id !== videoId);
         setUserVideos(tempVideos);
-        setVideos(tempVideos);
       }
     } catch (error) {
       if (error.response) {
@@ -58,11 +57,10 @@ function MyVideos({ videos, currentUser, setVideos }) {
           setErrorMessage("An unexpected error occurred");
         }
       } else {
-          setErrorMessage("An unexpected error occurred");
+        setErrorMessage("An unexpected error occurred");
       }
     }
   }
-
 
   return (
     <div className={`page my-videos-page ${theme}`}>
@@ -71,8 +69,8 @@ function MyVideos({ videos, currentUser, setVideos }) {
           <button className="upload-button">Upload New Video</button>
         </Link>
         <Link to="/edit-user">
-            <button className="edit-user-button">Edit User Details</button>
-          </Link>
+          <button className="edit-user-button">Edit User Details</button>
+        </Link>
         {userVideos.map((video) => (
           <div className="video-item" key={video._id}>
             <MyVideoItem {...video} />

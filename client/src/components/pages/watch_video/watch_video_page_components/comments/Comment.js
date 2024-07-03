@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { callWithEnter, dateDifference, getMediaFromServer } from "../../../../../utilities";
 import IconSave from "../../../../icons/IconSave";
 import IconEdit from "../../../../icons/IconEdit";
@@ -18,12 +19,16 @@ function Comment({ _id, user, text, date, edited, deleteComment, editComment, cu
   return (
     <div className="comment">
       <div className="comment-left">
-        <img className="profile-pic small" src={getMediaFromServer("image", user.image)} />
+        <Link to={`/channel/${user.username}`}>
+          <img className="profile-pic small" src={getMediaFromServer("image", user.image)} />
+        </Link>
       </div>
       <div className="comment-right">
         <div className="comment-header">
           <div className="comment-details">
-            <span className="user">{user.name}</span>
+            <Link to={`/channel/${user.username}`} className="user">
+              {user.name}
+            </Link>
             <span className="date">
               {dateDifference(date)} {edited && " (edited)"}
             </span>
