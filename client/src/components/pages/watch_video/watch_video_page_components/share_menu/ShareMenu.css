@@ -12,14 +12,14 @@
   }
   
   .share-menu {
-    background: white;
+    background-color:white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 300px;
     text-align: center;
-  }
+}
   
   .close-button {
     position: absolute;
@@ -43,9 +43,52 @@
     justify-content: space-around;
     margin-top: 20px;
   }
-  
-  .icon {
-    width: 40px;
-    height: 40px;
+
+  .icon_Twitter {
+    width: 50px;
+    height: 50px;
+    color: rgb(0, 170, 255);
   }
+
+  .icon_Whatsapp {
+    width: 50px;
+    height: 50px;
+    color: #8bdc13;
+
+  }
+
+  .icon_Facebook {
+    width: 50px;
+    height: 50px;
+    color: blue;
+  }
+  .input-div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-div input {
+    position: absolute;
+    left: -9999px; 
+}
+
+.input-div button {
+  padding: 10px 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 25px; 
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 120px;
+
+}
+
+.input-div button:hover {
+  background-color: red;
+  transform: translateY(-2px);
+
+}
   
