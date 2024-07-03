@@ -118,7 +118,6 @@ async function deleteUser(req, res) {
     await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send("Error deleting user");
   }
 }
