@@ -5,6 +5,7 @@ import { longFormatter, getMediaFromServer } from "../../../../../utilities";
 import ShareMenu from "../share_menu/ShareMenu";
 import IconLikeFilled from "../../../../icons/IconLikeFilled";
 import IconLikeEmpty from "../../../../icons/IconLikeEmpty";
+import { Link } from "react-router-dom";
 
 function VideoBlock({
   name,
@@ -37,10 +38,10 @@ function VideoBlock({
       <div className="video-tools">
         <div className="first-row row">{name}</div>
         <div className="second-row row">
-          <div className="user-details">
-            <img className="profile-pic" src={getMediaFromServer("image", uploader.image)} />{" "}
+          <Link className="user-details" to={`/channel/${uploader.username}`}>
+            <img className="profile-pic" src={getMediaFromServer("image", uploader.image)} />
             <div>{uploader.name}</div>
-          </div>
+          </Link>
           <div className="actions">
             <VideoActionButton
               name="Comment"
