@@ -33,12 +33,11 @@ function SignIn(props) {
       });
 
       if (response.status === 200) {
-        const { token } = response.data;
+        const token = response.data;
         localStorage.setItem("token", token);
         props.setCurrentUser(usernameInput);
         navigate("/");
-        }
-
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
