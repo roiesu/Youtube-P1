@@ -1,25 +1,30 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { write64FileWithCopies, override64File } = require("../utils");
+const { write64FileWithCopies, override64File, deletePublicFile } = require("../utils");
 
 async function addUser(req, res) {
   const { username, password, name, image } = req.body;
   if (!username || !password || !name || !image) {
     return res.status(400).send("All fields are required");
   }
+  let imagePath;
   try {
     const found = await User.findOne({ username });
     if (found) {
       return res.status(409).send("Username already exists");
     }
-    const imagePath = write64FileWithCopies(username + "-profile-pic", image);
+    imagePath = write64FileWithCopies(username + "-profile-pic", image);
     if (!imagePath) {
       return res.status(400).send("Image is not URI");
     }
+
     const user = new User({ username, password, name, image: imagePath });
     await user.save();
     return res.sendStatus(200);
   } catch (err) {
+    if (imagePath) {
+      deletePublicFile("image", imagePath);
+    }
     console.log(err.message);
     return res.status(400).send(err.message);
   }
