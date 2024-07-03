@@ -55,20 +55,18 @@ function MainPage({ currentUser }) {
   return (
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
-        <div className="user-details">
+      <div className="user-details">
           {userDetails ? (
             <>
-              <img
-                className="profile-pic"
-                src={getMediaFromServer("image", userDetails.image)}
-                onClick={() => handleUserClick(userDetails.username)} // profile pic clickable
-              />
-              <span
-                className="user-name"
-                onClick={() => handleUserClick(userDetails.username)} // username clickable
-              >
+              <Link to={`/channel/${userDetails.username}`}>
+                <img
+                  className="profile-pic"
+                  src={getMediaFromServer("image", userDetails.image)}
+                />
+              </Link>
+              <Link to={`/channel/${userDetails.username}`} className="user-name">
                 Welcome back {userDetails.name}
-              </span>
+              </Link>
             </>
           ) : (
             <span className="user-name">
