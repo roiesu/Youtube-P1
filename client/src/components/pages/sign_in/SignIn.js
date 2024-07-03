@@ -61,14 +61,12 @@ function SignIn(props) {
             First time? sign up <Link to="/sign-up">here!</Link>
           </div>
         </div>
-        <div className="input-div">
+        <div className="input-div" onKeyDown={(e) => callWithEnter(e, validateSignIn)}>
           <div className="validation-input-div">
             <PopUpMessage message="Username or password are incorrect" isActive={errorMessage} />
             <label>username</label>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <input
               className="text-input"
-              onClick={(e) => callWithEnter(e, validateSignIn)}
               type="text"
               name="username"
               value={usernameInput}
@@ -78,7 +76,6 @@ function SignIn(props) {
           <div className="validation-input-div">
             <label>password</label>
             <input
-              onClick={(e) => callWithEnter(e, validateSignIn)}
               className="text-input"
               type="password"
               name="password"
