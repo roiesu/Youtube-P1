@@ -100,7 +100,7 @@ function WatchVideoPage({ videos, currentUser }) {
   const handleUserClick = (username) => {
     navigate(`/users/${username}/channel`);
   };
-  
+
   return (
     <div className={`video-watching-page page ${theme}`}>
     {video ? (
