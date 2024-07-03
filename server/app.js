@@ -12,12 +12,11 @@ app.use("/api", router);
 
 app.listen(8080, () => {
   mongoose
-    .connect("mongodb+srv://orenb99:org05101971@bishbash.3blxfdz.mongodb.net/", {
-      dbName: "BishBash",
+    .connect(process.env.MONGODB_CONNECTION_URL, {
+      dbName: process.env.MONGODB_DATABASE,
     })
     .then(() => {
       console.log("connected");
     })
     .catch((err) => console.error("Database connection error:", err));
 });
-
