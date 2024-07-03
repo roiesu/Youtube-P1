@@ -104,7 +104,6 @@ function WatchVideoPage({ currentUser }) {
         }
         setVideo(found.data);
         setLikedVideo(found.data.likedVideo);
-        console.log(found.data.likedVideo);
       } catch (err) {}
     }
     getVideo();

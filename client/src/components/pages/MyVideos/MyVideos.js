@@ -81,7 +81,7 @@ function MyVideos({ currentUser }) {
             <th></th>
           </tr>
           {userVideos.map((video) => (
-            <MyVideoItem {...video} deleteVideo={() => deleteVideo(video._id)} />
+            <MyVideoItem key={video._id} {...video} deleteVideo={() => deleteVideo(video._id)} />
           ))}
         </table>
       </div>
