@@ -13,7 +13,7 @@ function MyVideos({ currentUser }) {
   useEffect(() => {
     async function displayUserVideos() {
       try {
-        const response = await axios.get(`/api/users/${currentUser}/videos`);
+        const response = await axios.get(`/api/users/${currentUser}/videos/details`);
         if (response.status === 200) {
           setUserVideos(response.data);
         }

@@ -1,7 +1,6 @@
 const { deletePublicFile } = require("../utils");
 
 async function preDeleteComment(next, document) {
-  console.log("comment");
   try {
     if (document.video) {
       await document.video.updateOne({ $pull: { comments: document._id } });
@@ -19,7 +18,6 @@ async function preDeleteComment(next, document) {
 }
 
 async function preDeleteVideo(next, document) {
-  console.log(document);
   try {
     // Remove likes
     for (user of document.likes) {
