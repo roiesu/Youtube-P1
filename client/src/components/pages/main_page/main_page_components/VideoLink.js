@@ -12,7 +12,7 @@ function VideoLink({ name, uploader, date, views, _id, src }) {
   return (
     <div className="video-card">
       <div className="video-container">
-        <Link className="video-link" to={`/watch?chanel=${uploader.username}&v=${_id}`}>
+        <Link className="video-link" to={`/watch?channel=${uploader.username}&v=${_id}`}>
           <video
             onDurationChange={(e) => {
               setDuration(Math.floor(e.target.duration));
@@ -27,7 +27,7 @@ function VideoLink({ name, uploader, date, views, _id, src }) {
       <div className="video-details">
         <div className="video-name">{name}</div>
         <div className="minor-details">
-          <Link to="/">
+          <Link to={`/channel/${uploader.username}`}>
             <div className="user-details">
               <img
                 className="profile-pic small"
