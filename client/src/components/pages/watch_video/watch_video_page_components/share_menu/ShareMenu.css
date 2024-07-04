@@ -62,6 +62,7 @@
     height: 50px;
     color: blue;
   }
+  
   .input-div {
     margin-top: 20px;
     display: flex;
@@ -76,7 +77,7 @@
   color: white;
   border: none;
   cursor: pointer;
-  width:auto;
+  width:fit-content;
   text-align: center;
   margin-top: 10px;
   margin-left: 60px;
