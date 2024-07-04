@@ -5,6 +5,7 @@ const {
   updateUser,
   deleteUser,
   getFullUserDetails,
+  getVideosByUserId,
 } = require("../controllers/users");
 const {
   getVideo,
@@ -13,7 +14,7 @@ const {
   addVideo,
   likeVideo,
   dislikeVideo,
-  getVideosByUserId,
+  getVideosDetailsByUserId,
   getMinimalVideoDetails,
 } = require("../controllers/videos");
 const { getComment, addComment, deleteComment, editComment } = require("../controllers/comments");
@@ -28,6 +29,7 @@ router.get("/details/:id", authenticateToken, getFullUserDetails);
 router.patch("/:id", authenticateToken, updateUser);
 router.delete("/:id", authenticateToken, deleteUser);
 router.get("/:id/videos", getVideosByUserId);
+router.get("/:id/videos/details", getVideosDetailsByUserId);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", authenticateTokenIfGot, getVideo);
