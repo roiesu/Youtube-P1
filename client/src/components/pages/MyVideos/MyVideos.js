@@ -13,9 +13,7 @@ function MyVideos({ currentUser, showToast, handleExpiredToken }) {
   useEffect(() => {
     async function displayUserVideos() {
       try {
-        const response = await axios.get(`/api/users/${currentUser}/videos/details`, {
-          headers: { Authorization: localStorage.getItem("token") },
-        });
+        const response = await axios.get(`/api/users/${currentUser}/videos/details`);
         if (response.status === 200) {
           setUserVideos(response.data);
         }
