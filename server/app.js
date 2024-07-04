@@ -16,7 +16,7 @@ app.listen(8080, () => {
       dbName: process.env.MONGODB_DATABASE,
     })
     .then(() => {
-      console.log("connected");
+      console.log("connected to database");
     })
     .catch((err) => console.error("Database connection error:", err));
 });

@@ -1,28 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import VideoLink from "./main_page_components/VideoLink";
-import { callWithEnter, getMediaFromServer } from "../../../utilities";
+import { callWithEnter, getMediaFromServer, simpleErrorCatcher } from "../../../utilities";
 import "./MainPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
-import { useNavigate } from "react-router-dom";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ currentUser }) {
-  const navigate = useNavigate();
+function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
-  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [topVideos, setTopVideos] = useState([]);
+  const [restVideos, setRestVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
-
+  const navigate = useNavigate();
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
-      setFilteredVideos(response.data);
+      setTopVideos(response.data.topVideos);
+      setRestVideos(response.data.restVideos);
     } catch (err) {
-      console.log(err.response);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
   async function getUserDetails() {
@@ -34,7 +34,9 @@ function MainPage({ currentUser }) {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       });
       setUserDetails(response.data);
-    } catch (err) {}
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
   }
   useEffect(() => {
     getVideos();
@@ -51,7 +53,7 @@ function MainPage({ currentUser }) {
   return (
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
-      <div className="user-details">
+        <div className="user-details">
           {userDetails ? (
             <>
               <Link to={`/channel/${currentUser}`}>
@@ -82,8 +84,13 @@ function MainPage({ currentUser }) {
           search
         </button>
       </div>
-      <div className="video-list">
-        {filteredVideos.map((video) => (
+      <div className="video-list top">
+        {topVideos.map((video) => (
+          <VideoLink key={video._id} {...video} />
+        ))}
+      </div>
+      <div className="video-list rest">
+        {restVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
         ))}
       </div>

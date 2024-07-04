@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./MyVideos.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import MyVideoItem from "./MyVideoItem";
+import { simpleErrorCatcher } from "../../../utilities";
 
-function MyVideos({ currentUser }) {
+function MyVideos({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [userVideos, setUserVideos] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function displayUserVideos() {
       try {
@@ -17,21 +17,10 @@ function MyVideos({ currentUser }) {
         if (response.status === 200) {
           setUserVideos(response.data);
         }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 404) {
-            setErrorMessage("User not found");
-          } else if (error.response.status === 500) {
-            setErrorMessage("Internal server error");
-          } else {
-            setErrorMessage("An unexpected error occurred");
-          }
-        } else {
-          setErrorMessage("An unexpected error occurred");
-        }
+      } catch (err) {
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
-
     displayUserVideos();
   }, [currentUser]);
 
@@ -49,18 +38,8 @@ function MyVideos({ currentUser }) {
         const tempVideos = userVideos.filter((video) => video._id !== videoId);
         setUserVideos(tempVideos);
       }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          setErrorMessage("Video not found");
-        } else if (error.response.status === 500) {
-          setErrorMessage("Internal server error");
-        } else {
-          setErrorMessage("An unexpected error occurred");
-        }
-      } else {
-        setErrorMessage("An unexpected error occurred");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
