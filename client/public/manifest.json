@@ -1,6 +1,7 @@
 {
   "short_name": "Bish Bash",
-  "name": "The new video player app not related to youtube",
+  "name": "Bish Bash",
+  "description": "The new video player app not related to youtube",
   "icons": [
     {
       "src": "logo.png",
