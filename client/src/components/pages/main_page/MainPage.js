@@ -51,7 +51,7 @@ function MainPage({ currentUser }) {
   return (
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
-        <div className="user-details">
+      <div className="user-details">
           {userDetails ? (
             <>
               <Link to={`/channel/${currentUser}`}>

@@ -14,13 +14,13 @@ function ShareMenu({ visible, onClose }) {
           X
         </button>
         <div className="icons">
-          <IconWhatsapp className="icon" />
-          <IconTwitter className="icon" />
-          <IconFacebook className="icon" />
+          <IconWhatsapp className="icon_Whatsapp" />
+          <IconTwitter className="icon_Twitter" />
+          <IconFacebook className="icon_Facebook" />
         </div>
         <div className="input-div">
           <input value={window.location.href} readOnly />
-          <button onClick={() => navigator.clipboard.writeText(window.location.href)}>copy</button>
+          <button onClick={() => navigator.clipboard.writeText(window.location.href)}>copy link</button>
         </div>
       </div>
     </div>

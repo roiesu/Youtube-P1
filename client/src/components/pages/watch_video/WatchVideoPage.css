@@ -4,7 +4,10 @@
   width: 100%;
   background-color: inherit;
   margin: auto;
-  padding-top: 100px;
+  padding-top: 180px;
+}
+.video-page-main-Comments {
+  background-color: gray;
 }
 .dark .video-page-main-component {
   color: white;
