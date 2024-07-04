@@ -16,10 +16,6 @@ function MainPage({ currentUser }) {
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
 
-  const handleUserClick = (username) => {
-    navigate(`/channel/${username}`);
-  };
-
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
@@ -45,7 +41,7 @@ function MainPage({ currentUser }) {
   }, []);
   useEffect(() => {
     getUserDetails();
-  }, [currentUser]);
+  }, [, currentUser]);
 
   function search() {
     getVideos();
@@ -58,15 +54,10 @@ function MainPage({ currentUser }) {
       <div className="user-details">
           {userDetails ? (
             <>
-              <Link to={`/channel/${userDetails.username}`}>
-                <img
-                  className="profile-pic"
-                  src={getMediaFromServer("image", userDetails.image)}
-                />
+              <Link to={`/channel/${currentUser}`}>
+                <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
               </Link>
-              <Link to={`/channel/${userDetails.username}`} className="user-name">
-                Welcome back {userDetails.name}
-              </Link>
+              <span className="user-name">Welcome back {userDetails.name}</span>
             </>
           ) : (
             <span className="user-name">

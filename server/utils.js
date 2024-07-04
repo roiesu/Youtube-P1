@@ -25,7 +25,7 @@ function write64FileWithCopies(dest, data) {
 function override64File(fileType, name, data) {
   try {
     let base64File = data.split(/;base64,/)[1];
-    fs.writeFileSync(`./public/${type}/${name}`, base64File, { encoding: "base64" });
+    fs.writeFileSync(`./public/${fileType}/${name}`, base64File, { encoding: "base64" });
   } catch (err) {
     console.log(err);
     return null;
