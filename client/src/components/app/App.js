@@ -15,9 +15,24 @@ import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 import EditUser from "../pages/edit_user/EditUser.js";
 import { ThemeContext } from "../pages/general_components/ThemeContext";
 import ChannelPage from "../pages/channel_page/ChannelPage.js";
+import Toast from "../pages/general_components/toast/Toast.js";
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
+  const [toastMessage, setToastMessage] = useState();
+  const [toastShowing, setToastShowing] = useState("hide");
+  let toastTimeout;
+  function showToast(message) {
+    if (toastShowing == "show") {
+      clearTimeout(toastTimeout);
+    }
+    setToastMessage(message);
+    setToastShowing("show");
+    toastTimeout = setTimeout(() => {
+      setToastShowing("hide");
+    }, 3500);
+  }
+
   function logout() {
     localStorage.removeItem("token");
     setCurrentUser(null);
@@ -37,36 +52,58 @@ function App() {
           <Bar logout={logout} loggedIn={currentUser != null} />
           <Routes>
             {/* Pages anyone can see */}
-            <Route exact path="/" element={<MainPage currentUser={currentUser} />} />
-            <Route exact path="/watch/:v?" element={<WatchVideoPage currentUser={currentUser} />} />
-            <Route exact path="/channel/:id" element={<ChannelPage />} />
+            <Route
+              exact
+              path="/"
+              element={<MainPage currentUser={currentUser} showToast={showToast} />}
+            />
+            <Route
+              exact
+              path="/watch/:v?"
+              element={<WatchVideoPage currentUser={currentUser} showToast={showToast} />}
+            />
+            <Route exact path="/channel/:id" element={<ChannelPage showToast={showToast} />} />
             {currentUser ? (
               // Pages only users can see
               <>
-                <Route path="/my-videos" element={<MyVideos currentUser={currentUser} />} />
+                <Route
+                  path="/my-videos"
+                  element={<MyVideos currentUser={currentUser} showToast={showToast} />}
+                />
                 <Route
                   path="/video/upload"
-                  element={<UploadVideoPage currentUser={currentUser} />}
+                  element={<UploadVideoPage currentUser={currentUser} showToast={showToast} />}
                 />
                 <Route
                   path="/video/edit/:v?channel?"
-                  element={<VideoEdit currentUser={currentUser} />}
+                  element={<VideoEdit currentUser={currentUser} showToast={showToast} />}
                 />
                 <Route
                   path="/user/edit"
-                  element={<EditUser logout={logout} currentUser={currentUser} />}
+                  element={
+                    <EditUser logout={logout} currentUser={currentUser} showToast={showToast} />
+                  }
                 />
               </>
             ) : (
               <>
                 {/* Pages only non users can see */}
-                <Route element={<SignUp setCurrentUser={setCurrentUser} />} exact path="/sign-up" />
-                <Route element={<SignIn setCurrentUser={setCurrentUser} />} exact path="/sign-in" />
+                <Route
+                  element={<SignUp setCurrentUser={setCurrentUser} showToast={showToast} />}
+                  exact
+                  path="/sign-up"
+                />
+                <Route
+                  element={<SignIn setCurrentUser={setCurrentUser} showToast={showToast} />}
+                  exact
+                  path="/sign-in"
+                />
               </>
             )}
             <Route path="*" element={<Page404 />} />
           </Routes>
         </Router>
+        {toastMessage ? <Toast message={toastMessage} active={toastShowing} /> : ""}
       </div>
     </ThemeContext>
   );

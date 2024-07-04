@@ -6,24 +6,16 @@ import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import { callWithEnter } from "../../../utilities";
 
-function SignIn(props) {
+function SignIn({ setCurrentUser, showToast }) {
   const { theme } = useTheme();
 
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (errorMessage)
-      setTimeout(() => {
-        setErrorMessage(false);
-      }, 4000);
-  }, [errorMessage]);
 
   async function validateSignIn() {
     if (!usernameInput || !passwordInput) {
-      setErrorMessage("Username and password are required!");
+      showToast("Username and password are required!");
       return;
     }
 
@@ -36,18 +28,18 @@ function SignIn(props) {
       if (response.status === 200) {
         const token = response.data;
         localStorage.setItem("token", token);
-        props.setCurrentUser(usernameInput);
+        setCurrentUser(usernameInput);
         navigate("/");
       }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          setErrorMessage("Invalid username or password");
+          showToast("Invalid username or password");
         } else {
-          setErrorMessage("An unexpected error occurred");
+          showToast("An unexpected error occurred");
         }
       } else {
-        setErrorMessage("An unexpected error occurred");
+        showToast("An unexpected error occurred");
       }
     }
   }
@@ -63,7 +55,6 @@ function SignIn(props) {
         </div>
         <div className="input-div" onKeyDown={(e) => callWithEnter(e, validateSignIn)}>
           <div className="validation-input-div">
-            <PopUpMessage message="Username or password are incorrect" isActive={errorMessage} />
             <label>username</label>
             <input
               className="text-input"

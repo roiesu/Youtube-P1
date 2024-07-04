@@ -5,10 +5,9 @@ import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import MyVideoItem from "./MyVideoItem";
 
-function MyVideos({ currentUser }) {
+function MyVideos({ currentUser, showToast }) {
   const { theme } = useTheme();
   const [userVideos, setUserVideos] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     async function displayUserVideos() {
@@ -20,14 +19,14 @@ function MyVideos({ currentUser }) {
       } catch (error) {
         if (error.response) {
           if (error.response.status === 404) {
-            setErrorMessage("User not found");
+            showToast("User not found");
           } else if (error.response.status === 500) {
-            setErrorMessage("Internal server error");
+            showToast("Internal server error");
           } else {
-            setErrorMessage("An unexpected error occurred");
+            showToast("An unexpected error occurred");
           }
         } else {
-          setErrorMessage("An unexpected error occurred");
+          showToast("An unexpected error occurred");
         }
       }
     }
@@ -52,14 +51,14 @@ function MyVideos({ currentUser }) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          setErrorMessage("Video not found");
+          showToast("Video not found");
         } else if (error.response.status === 500) {
-          setErrorMessage("Internal server error");
+          showToast("Internal server error");
         } else {
-          setErrorMessage("An unexpected error occurred");
+          showToast("An unexpected error occurred");
         }
       } else {
-        setErrorMessage("An unexpected error occurred");
+        showToast("An unexpected error occurred");
       }
     }
   }
