@@ -9,6 +9,7 @@ app.use(express.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
 app.use("/media", express.static("./public"));
 app.use("/api", router);
+app.use("/", express.static("./build"));
 
 app.listen(8080, () => {
   mongoose
