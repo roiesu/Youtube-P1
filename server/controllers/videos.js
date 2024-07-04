@@ -145,6 +145,9 @@ async function addVideo(req, res) {
       return res.status(401).send("Invalid user");
     }
     let fileName = write64FileWithCopies(name, src);
+    if (!fileName) {
+      return res.status(400).send("Invalid video file");
+    }
     const video = new Video({ name, uploader: user._id, description, tags, src: fileName });
     await video.save();
     user.videos.push(video._id);

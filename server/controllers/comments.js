@@ -11,7 +11,9 @@ async function addComment(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (!video || video.uploader.username !== id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Video not found");
+    } else if (video.uploader._id != req.user) {
+      return res.sendStatus(401);
     }
     const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();
@@ -20,8 +22,12 @@ async function addComment(req, res) {
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
     await comment.populate("user", ["name", "image", "username", "-_id"]);
     return res.status(201).send(comment);
-  } catch (err) {}
-  return res.status(400).send("Couldn't add comment");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Video not found");
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 async function editComment(req, res) {
@@ -39,15 +45,19 @@ async function editComment(req, res) {
       })
       .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
     await comment.updateOne({ $set: { text, edited: true } });
     await comment.save();
     return res.sendStatus(201);
-  } catch (err) {}
-  return res.status(400).send("Couldn't edit comment");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 async function deleteComment(req, res) {
@@ -61,14 +71,18 @@ async function deleteComment(req, res) {
       })
       .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
     await comment.deleteOne();
     return res.sendStatus(201);
-  } catch (err) {}
-  return res.status(400).send("Couldn't delete comment");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 module.exports = {
