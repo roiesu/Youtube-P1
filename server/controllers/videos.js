@@ -12,9 +12,7 @@ async function getVideos(req, res) {
       // .limit(10)
       .populate("uploader", ["name", "image", "username", "-_id"]);
     return res.status(200).send(videos);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
   return res.status(200).send([]);
 }
 async function getMinimalVideoDetails(req, res) {
@@ -57,9 +55,7 @@ async function getVideo(req, res) {
       likedVideo = true;
     }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.sendStatus(404);
 }
 
@@ -84,9 +80,7 @@ async function deleteVideo(req, res) {
     }
     await video.deleteOne();
     return res.status(200).send("Video deleted");
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
   return res.status(400).send("Couldn't delete video");
 }
 
@@ -112,9 +106,7 @@ async function updateVideo(req, res) {
       return res.sendStatus(201);
     }
     return res.sendStatus(404);
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Invalid");
 }
 
@@ -138,7 +130,6 @@ async function addVideo(req, res) {
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err.message);
     return res.status(err.status).send(err.message);
   }
 }
@@ -155,9 +146,7 @@ async function likeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Couldn't like video");
 }
 
@@ -173,9 +162,7 @@ async function dislikeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Couldn't remove like from video");
 }
 
@@ -232,7 +219,6 @@ async function getVideosDetailsByUserId(req, res) {
     }
     return res.status(200).send(users[0].videos);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send(" Error displaying user's videos");
   }
 }

@@ -72,7 +72,6 @@ function getQuery(url) {
   return queryObj;
 }
 function simpleErrorCatcher(error, handleTokenExpired, navigate, showToast) {
-  console.log(error.response);
   if (error.response) {
     if (handleTokenExpired && error.response.status === 403) {
       handleTokenExpired(navigate);
