@@ -4,7 +4,6 @@ import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
 import { getQuery } from "../../../utilities";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 
 function VideoEdit({ currentUser, showToast }) {
   const { theme } = useTheme();
