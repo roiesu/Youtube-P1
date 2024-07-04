@@ -70,11 +70,18 @@
     align-items: center;
 }
 
-.input-div input {
-    position: absolute;
-    width: fit-content;
-    left: -9999px; 
+.input-div input{
+  padding: 5px 5px;
+  background-color: gray;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width:auto;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 60px;
 }
+
 
 .input-div button {
   padding: 10px 10px;
@@ -85,7 +92,7 @@
   cursor: pointer;
   width: fit-content;
   margin-top: 10px;
-  margin-left: 110px;
+  margin-left: 60px;
 
 }
 
