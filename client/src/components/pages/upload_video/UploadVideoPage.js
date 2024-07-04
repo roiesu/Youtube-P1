@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
-import { readFileIntoState } from "../../../utilities";
+import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 
-function UploadVideo({ currentUser, showToast }) {
+function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
 
   const [title, setTitle] = useState("");
@@ -47,15 +47,7 @@ function UploadVideo({ currentUser, showToast }) {
         navigate("/my-videos");
       }
     } catch (err) {
-      if (err.status === 404) {
-        showToast("User not found");
-      } else if (err.status === 400) {
-        showToast(err.message);
-      } else if (err.status === 401) {
-        showToast("Token needed");
-      } else if (err.status === 403) {
-        showToast("Invalid token");
-      }
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 

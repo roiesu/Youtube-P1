@@ -32,10 +32,14 @@ function App() {
       setToastShowing("hide");
     }, 3500);
   }
-
-  function logout() {
+  function handleExpiredToken(navigate) {
+    showToast("Invalid token.\nLogging out");
+    logout(navigate);
+  }
+  function logout(navigate) {
     localStorage.removeItem("token");
     setCurrentUser(null);
+    if (navigate) navigate("/sign-in");
   }
   useEffect(() => {
     localStorage.removeItem("token");
@@ -55,24 +59,54 @@ function App() {
             <Route
               exact
               path="/"
-              element={<MainPage currentUser={currentUser} showToast={showToast} />}
+              element={
+                <MainPage
+                  currentUser={currentUser}
+                  showToast={showToast}
+                  handleExpiredToken={handleExpiredToken}
+                />
+              }
             />
             <Route
               exact
               path="/watch/:v?"
-              element={<WatchVideoPage currentUser={currentUser} showToast={showToast} />}
+              element={
+                <WatchVideoPage
+                  currentUser={currentUser}
+                  showToast={showToast}
+                  handleExpiredToken={handleExpiredToken}
+                />
+              }
             />
-            <Route exact path="/channel/:id" element={<ChannelPage showToast={showToast} />} />
+            <Route
+              exact
+              path="/channel/:id"
+              element={
+                <ChannelPage showToast={showToast} handleExpiredToken={handleExpiredToken} />
+              }
+            />
             {currentUser ? (
               // Pages only users can see
               <>
                 <Route
                   path="/my-videos"
-                  element={<MyVideos currentUser={currentUser} showToast={showToast} />}
+                  element={
+                    <MyVideos
+                      currentUser={currentUser}
+                      showToast={showToast}
+                      handleExpiredToken={handleExpiredToken}
+                    />
+                  }
                 />
                 <Route
                   path="/video/upload"
-                  element={<UploadVideoPage currentUser={currentUser} showToast={showToast} />}
+                  element={
+                    <UploadVideoPage
+                      currentUser={currentUser}
+                      showToast={showToast}
+                      handleExpiredToken={handleExpiredToken}
+                    />
+                  }
                 />
                 <Route
                   path="/video/edit/:v?channel?"
@@ -81,7 +115,12 @@ function App() {
                 <Route
                   path="/user/edit"
                   element={
-                    <EditUser logout={logout} currentUser={currentUser} showToast={showToast} />
+                    <EditUser
+                      logout={logout}
+                      currentUser={currentUser}
+                      showToast={showToast}
+                      handleExpiredToken={handleExpiredToken}
+                    />
                   }
                 />
               </>

@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
-import { getQuery } from "../../../utilities";
+import { getQuery, simpleErrorCatcher } from "../../../utilities";
 
-function VideoEdit({ currentUser, showToast }) {
+function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
 
   const [videoName, setVideoName] = useState("");
@@ -47,17 +47,7 @@ function VideoEdit({ currentUser, showToast }) {
         navigate("/my-videos");
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          showToast("Video not found");
-        } else if (error.response.status === 500) {
-          showToast("Internal server error");
-        } else {
-          showToast("An unexpected error occurred");
-        }
-      } else {
-        showToast("An unexpected error occurred");
-      }
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
 
@@ -74,17 +64,7 @@ function VideoEdit({ currentUser, showToast }) {
         setDescription(found.description);
         setTags(found.tags.join(" "));
       } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            showToast("Video not found");
-          } else if (err.response.status === 500) {
-            showToast("Internal server error");
-          } else {
-            showToast("An unexpected error occurred");
-          }
-        } else {
-          showToast("An unexpected error occurred");
-        }
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
     getVideo();

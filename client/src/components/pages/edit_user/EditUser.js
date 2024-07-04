@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
-import { getMediaFromServer, readFileIntoState } from "../../../utilities";
+import { getMediaFromServer, readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import axios from "axios";
 
-function EditUser({ currentUser, logout, showToast }) {
+function EditUser({ currentUser, logout, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [user, setUser] = useState({});
   const [previewImage, setPreviewImage] = useState();
@@ -37,11 +37,10 @@ function EditUser({ currentUser, logout, showToast }) {
         headers: { Authorization: "Bearer " + token },
       });
       if (response.status === 200) {
-        navigate("/");
-        logout();
+        logout(navigate);
       }
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
   const editUser = async () => {
@@ -67,18 +66,8 @@ function EditUser({ currentUser, logout, showToast }) {
       if (response.status === 200) {
         navigate("/my-videos");
       }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          showToast("User not found");
-        } else if (error.response.status === 500) {
-          showToast("Internal server error");
-        } else {
-          showToast(error.response.message);
-        }
-      } else {
-        showToast("An unexpected error occurred");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
 
@@ -94,17 +83,7 @@ function EditUser({ currentUser, logout, showToast }) {
         setUser(found);
         setPreviewImage(getMediaFromServer("image", found.image));
       } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            showToast("User not found");
-          } else if (err.response.status === 500) {
-            showToast("Internal server error");
-          } else {
-            showToast("An unexpected error occurred");
-          }
-        } else {
-          showToast("An unexpected error occurred");
-        }
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
     getUser();

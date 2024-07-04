@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./MyVideos.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 import MyVideoItem from "./MyVideoItem";
+import { simpleErrorCatcher } from "../../../utilities";
 
-function MyVideos({ currentUser, showToast }) {
+function MyVideos({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [userVideos, setUserVideos] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function displayUserVideos() {
       try {
@@ -17,20 +18,9 @@ function MyVideos({ currentUser, showToast }) {
           setUserVideos(response.data);
         }
       } catch (error) {
-        if (error.response) {
-          if (error.response.status === 404) {
-            showToast("User not found");
-          } else if (error.response.status === 500) {
-            showToast("Internal server error");
-          } else {
-            showToast("An unexpected error occurred");
-          }
-        } else {
-          showToast("An unexpected error occurred");
-        }
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
-
     displayUserVideos();
   }, [currentUser]);
 
@@ -49,17 +39,7 @@ function MyVideos({ currentUser, showToast }) {
         setUserVideos(tempVideos);
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          showToast("Video not found");
-        } else if (error.response.status === 500) {
-          showToast("Internal server error");
-        } else {
-          showToast("An unexpected error occurred");
-        }
-      } else {
-        showToast("An unexpected error occurred");
-      }
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 

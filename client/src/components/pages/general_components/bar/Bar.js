@@ -46,8 +46,7 @@ function Bar({ logout, loggedIn }) {
                 <div
                   className="sidebar-link"
                   onClick={() => {
-                    logout();
-                    navigate("/sign-in");
+                    logout(navigate);
                   }}
                 >
                   <IconLogout /> Sign out
