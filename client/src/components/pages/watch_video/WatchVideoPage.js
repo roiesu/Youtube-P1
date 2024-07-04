@@ -110,7 +110,9 @@ function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
         }
         setVideo(found.data);
         setLikedVideo(found.data.likedVideo);
-      } catch (err) {}
+      } catch (err) {
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+      }
     }
     getVideo();
   }, [video]);

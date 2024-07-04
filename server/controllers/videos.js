@@ -63,8 +63,13 @@ async function getVideo(req, res) {
       likedVideo = true;
     }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
-  } catch (err) {}
-  return res.sendStatus(404);
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    } else {
+      return res.status(400).send(err.message);
+    }
+  }
 }
 
 async function deleteVideo(req, res) {
@@ -87,9 +92,12 @@ async function deleteVideo(req, res) {
       return res.sendStatus(401);
     }
     await video.deleteOne();
-    return res.status(200).send("Video deleted");
+    return res.sendStatus(200);
   } catch (err) {
-    return res.status(400).send("Couldn't delete video");
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    }
+    return res.status(400).send(err.message);
   }
 }
 
@@ -115,8 +123,12 @@ async function updateVideo(req, res) {
       return res.sendStatus(201);
     }
     return res.sendStatus(404);
-  } catch (err) {}
-  return res.status(400).send("Invalid");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 async function addVideo(req, res) {
@@ -139,15 +151,21 @@ async function addVideo(req, res) {
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
-    return res.status(400).send("unexpected error acurred");
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    }
+    return res.status(400).send(err.message);
   }
 }
 
 async function likeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
+    const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (video && video.uploader.username === id) {
+      if (video.uploader._id != req.user) {
+        return res.sendStatus(401);
+      }
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
@@ -155,8 +173,12 @@ async function likeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {}
-  return res.status(400).send("Couldn't like video");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 async function dislikeVideo(req, res) {
@@ -164,6 +186,9 @@ async function dislikeVideo(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
     if (video && video.uploader.username === id) {
+      if (video.uploader._id != req.user) {
+        return res.sendStatus(401);
+      }
       await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
       video.likes.pull(req.user);
       await video.save();
@@ -171,8 +196,12 @@ async function dislikeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {}
-  return res.status(400).send("Couldn't remove like from video");
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      return res.sendStatus(404);
+    }
+    return res.status(400).send(err.message);
+  }
 }
 
 // my videos
@@ -181,7 +210,7 @@ async function getVideosDetailsByUserId(req, res) {
   try {
     const users = await User.aggregate([
       { $match: { username: id } },
-      { $project: { _id: 0, password: 0 } },
+      { $project: { name: 0, image: 0, password: 0 } },
       {
         $lookup: {
           from: "videos",
@@ -225,10 +254,12 @@ async function getVideosDetailsByUserId(req, res) {
     ]);
     if (users.length === 0) {
       return res.sendStatus(404);
+    } else if (users[0]._id != req.user) {
+      return res.sendStatus(401);
     }
     return res.status(200).send(users[0].videos);
   } catch (err) {
-    return res.status(500).send(" Error displaying user's videos");
+    return res.status(400).send(err.message);
   }
 }
 
