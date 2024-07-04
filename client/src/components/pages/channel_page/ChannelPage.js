@@ -3,15 +3,15 @@ import axios from "axios";
 import VideoLink from "../main_page/main_page_components/VideoLink";
 import { useParams, useNavigate } from "react-router-dom";
 import "./channel_page.css";
-import { getMediaFromServer } from "../../../utilities";
+import { getMediaFromServer, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 
-const ChannelPage = ({ showToast }) => {
+const ChannelPage = ({ showToast, handleExpiredToken }) => {
   const { id } = useParams();
   const { theme } = useTheme();
   const [user, setUser] = useState();
   const [videos, setVideos] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getUserAndVideos = async () => {
       try {
@@ -20,7 +20,7 @@ const ChannelPage = ({ showToast }) => {
         setUser(userResponse.data);
         setVideos(videosResponse.data);
       } catch (err) {
-        showToast(err.message);
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     };
     getUserAndVideos();

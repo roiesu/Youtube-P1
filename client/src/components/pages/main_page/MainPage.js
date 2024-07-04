@@ -1,26 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import VideoLink from "./main_page_components/VideoLink";
-import { callWithEnter, getMediaFromServer } from "../../../utilities";
+import { callWithEnter, getMediaFromServer, simpleErrorCatcher } from "../../../utilities";
 import "./MainPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ currentUser, showToast }) {
+function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
-
+  const navigate = useNavigate();
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
       setFilteredVideos(response.data);
     } catch (err) {
-      showToast(err.response);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
   async function getUserDetails() {
@@ -33,7 +33,7 @@ function MainPage({ currentUser, showToast }) {
       });
       setUserDetails(response.data);
     } catch (err) {
-      showToast(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
   useEffect(() => {

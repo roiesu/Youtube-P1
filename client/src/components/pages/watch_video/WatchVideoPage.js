@@ -5,9 +5,9 @@ import Comments from "./watch_video_page_components/comments/Comments";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
-import { getQuery } from "../../../utilities";
+import { getQuery, simpleErrorCatcher } from "../../../utilities";
 
-function WatchVideoPage({ currentUser, showToast }) {
+function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
@@ -35,7 +35,7 @@ function WatchVideoPage({ currentUser, showToast }) {
       setVideo(tempVideo);
       commentInput.current.value = "";
     } catch (err) {
-      showToast(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -51,7 +51,7 @@ function WatchVideoPage({ currentUser, showToast }) {
         setVideo(tempVideo);
       }
     } catch (err) {
-      showToast(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -70,7 +70,7 @@ function WatchVideoPage({ currentUser, showToast }) {
         setVideo(tempVideo);
       }
     } catch (err) {
-      showToast(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -88,7 +88,7 @@ function WatchVideoPage({ currentUser, showToast }) {
       setLikedVideo(!likedVideo);
       video.likes += addition;
     } catch (err) {
-      showToast(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -110,9 +110,7 @@ function WatchVideoPage({ currentUser, showToast }) {
         }
         setVideo(found.data);
         setLikedVideo(found.data.likedVideo);
-      } catch (err) {
-        showToast(err.message);
-      }
+      } catch (err) {}
     }
     getVideo();
   }, [video]);
