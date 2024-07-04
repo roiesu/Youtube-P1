@@ -4,23 +4,34 @@ import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
 import { getQuery } from "../../../utilities";
+import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 
-function VideoEdit({ currentUser}) {
+function VideoEdit({ currentUser }) {
   const { theme } = useTheme();
 
   const [videoName, setVideoName] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
   const [video, setVideo] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState();
+  useEffect(() => {
+    if (errorMessage) {
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  }, [errorMessage]);
   const changeName = (event) => {
     setVideoName(event.target.value);
   };
 
   const changeDescription = (event) => {
     setDescription(event.target.value);
+  };
+  const changeTags = (event) => {
+    setTags(event.target.value);
   };
 
   const submit = async () => {
@@ -31,17 +42,19 @@ function VideoEdit({ currentUser}) {
 
     try {
       const token = localStorage.getItem("token");
+      const newTags = tags.split(" ");
       const response = await axios.patch(
         `/api/users/${currentUser}/videos/${video._id}`,
         {
           name: videoName,
           description: description,
+          tags: newTags,
         },
         { headers: { Authorization: "Bearer " + token } }
       );
       if (response.status === 201) {
         navigate("/my-videos");
-      } 
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
@@ -63,14 +76,12 @@ function VideoEdit({ currentUser}) {
       const { v, chanel } = getQuery(location.search);
       if (!v || !chanel) return;
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/users/${chanel}/videos/${v}`, {
-          headers: { Authorization: "Bearer " + token },
-        });
+        const response = await axios.get(`/api/users/${chanel}/videos/${v}/details`);
         const found = response.data;
         setVideo(found);
         setVideoName(found.name);
         setDescription(found.description);
+        setTags(found.tags.join(" "));
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
@@ -88,11 +99,14 @@ function VideoEdit({ currentUser}) {
     getVideo();
   }, [currentUser]);
 
+  if (!video) {
+    return "Video not found";
+  }
   return (
     <div className={`page video-upload-page ${theme}`}>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       {video ? (
         <div className="video-upload-container">
+          <PopUpMessage message={errorMessage} isActive={errorMessage != null} />
           <h1>Edit Video</h1>
           <div className="input-group">
             <input
@@ -103,14 +117,20 @@ function VideoEdit({ currentUser}) {
               value={videoName}
               onChange={changeName}
             />
-          </div>
-          <div className="input-group">
             <textarea
               className="input-field"
               placeholder="Enter a new video description"
               aria-label="description"
               value={description}
               onChange={changeDescription}
+            />
+            <input
+              type="text"
+              className="input-field"
+              placeholder="Enter tags separated by spaces"
+              aria-label="tags"
+              value={tags}
+              onChange={changeTags}
             />
           </div>
           <button className="submit-button" onClick={submit}>

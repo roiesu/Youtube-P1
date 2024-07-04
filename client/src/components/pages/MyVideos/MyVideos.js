@@ -9,7 +9,6 @@ function MyVideos({ currentUser }) {
   const { theme } = useTheme();
   const [userVideos, setUserVideos] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(userVideos);
 
   useEffect(() => {
     async function displayUserVideos() {
@@ -36,15 +35,18 @@ function MyVideos({ currentUser }) {
     displayUserVideos();
   }, [currentUser]);
 
-  async function deleteVideo(videoId) {
+  async function deleteVideo(videoId, videoName) {
+    const answer = prompt(`Type '${videoName}' to confirm deletion`);
+    if (answer != videoName) {
+      return;
+    }
     try {
-      console.log(videoId);
       const token = localStorage.getItem("token");
       const response = await axios.delete(`/api/users/${currentUser}/videos/${videoId}`, {
-        headers: { Authorization: "Bearer" + token },
+        headers: { Authorization: "Bearer " + token },
       });
       if (response.status === 200) {
-        const tempVideos = userVideos.filter((video) => video.id !== videoId);
+        const tempVideos = userVideos.filter((video) => video._id !== videoId);
         setUserVideos(tempVideos);
       }
     } catch (error) {
@@ -65,23 +67,37 @@ function MyVideos({ currentUser }) {
   return (
     <div className={`page my-videos-page ${theme}`}>
       <div className="container">
-        <Link to="/upload">
-          <button className="upload-button">Upload New Video</button>
-        </Link>
-        <Link to="/edit-user">
-          <button className="edit-user-button">Edit User Details</button>
-        </Link>
-        {userVideos.map((video) => (
-          <div className="video-item" key={video._id}>
-            <MyVideoItem {...video} />
-            <button className="delete-button" onClick={() => deleteVideo(video._id)}>
-              Delete Video
-            </button>
-            <Link to={`/edit?v=${video._id}&chanel=${currentUser}`}>
-              <button className="edit-button">Edit Video</button>
-            </Link>
-          </div>
-        ))}
+        <div className="buttons">
+          <Link to="/video/upload">
+            <span className="upload-button">Upload New Video</span>
+          </Link>
+          <Link to="/user/edit">
+            <span className="edit-user-button">Edit User Details</span>
+          </Link>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Video thumbnail</th>
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Uploading date</th>
+              <th>Views</th>
+              <th>Likes</th>
+              <th>Comments</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {userVideos.map((video) => (
+              <MyVideoItem
+                key={video._id}
+                {...video}
+                deleteVideo={() => deleteVideo(video._id, video.name)}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

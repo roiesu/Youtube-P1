@@ -2,22 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
+import { getMediaFromServer, readFileIntoState } from "../../../utilities";
 import axios from "axios";
 
-function EditUser({ currentUser }) {
+function EditUser({ currentUser, logout }) {
   const { theme } = useTheme();
-
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState("");
-
+  const [user, setUser] = useState({});
+  const [previewImage, setPreviewImage] = useState();
   const [errorMessage, setErrorMessage] = useState("");
+  const [image, setImage] = useState(false);
+  const [name, setName] = useState();
+  const [password, setPassword] = useState();
   const navigate = useNavigate();
-
-  const changeUsername = (event) => {
-    setUsername(event.target.value);
-  };
 
   const changeName = (event) => {
     setName(event.target.value);
@@ -28,29 +24,49 @@ function EditUser({ currentUser }) {
   };
 
   const changeImage = (event) => {
-    setImage(event.target.value);
+    setImage(true);
+    readFileIntoState(event.target.files[0], setPreviewImage);
   };
-
-  const submit = async () => {
-    if (username === "" || name === "" || password === "" || image === "") {
-      setErrorMessage("One or more of the details missing");
+  const deleteUser = async () => {
+    const answer = prompt("Enter password to confirm deletion");
+    if (answer != user.password) {
       return;
     }
-
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.patch(
-        `/api/users/${currentUser}`,
-        {
-          username: username,
-          name: name,
-          password: password,
-          image: image
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      );
+      const response = await axios.delete(`/api/users/${user.username}`, {
+        headers: { Authorization: "Bearer " + token },
+      });
       if (response.status === 200) {
         navigate("/");
+        logout();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const editUser = async () => {
+    const body = {};
+    if (name && name != user.name) {
+      body.name = name;
+    }
+    if (password && password != user.password) {
+      body.password = password;
+    }
+    if (image) {
+      body.image = previewImage;
+    }
+    if (Object.keys(body).length == 0) {
+      setErrorMessage("Didn't change anything");
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(`/api/users/${currentUser}`, body, {
+        headers: { Authorization: "Bearer " + token },
+      });
+      if (response.status === 200) {
+        navigate("/my-videos");
       }
     } catch (error) {
       if (error.response) {
@@ -59,7 +75,7 @@ function EditUser({ currentUser }) {
         } else if (error.response.status === 500) {
           setErrorMessage("Internal server error");
         } else {
-          setErrorMessage("An unexpected error occurred");
+          setErrorMessage(error.response.message);
         }
       } else {
         setErrorMessage("An unexpected error occurred");
@@ -72,14 +88,12 @@ function EditUser({ currentUser }) {
       if (!currentUser) return;
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/users/${currentUser}`, {
-          headers: { Authorization: "Bearer " + token }
+        const response = await axios.get(`/api/users/details/${currentUser}`, {
+          headers: { Authorization: "Bearer " + token },
         });
         const found = response.data;
-        setUsername(found.username);
-        setName(found.name);
-        setPassword(found.password);
-        setImage(found.image);
+        setUser(found);
+        setPreviewImage(getMediaFromServer("image", found.image));
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
@@ -102,15 +116,8 @@ function EditUser({ currentUser }) {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="video-upload-container">
         <h1>Edit User Details</h1>
-        <div className="input-group">
-          <input
-            type="text"
-            className="input-field"
-            placeholder="Enter new username"
-            aria-label="username"
-            value={username}
-            onChange={changeUsername}
-          />
+        <div className="preview-img-container">
+          <img className="preview-img-container" src={previewImage} />
         </div>
         <div className="input-group">
           <input
@@ -118,33 +125,25 @@ function EditUser({ currentUser }) {
             className="input-field"
             placeholder="Enter new name"
             aria-label="name"
-            value={name}
+            defaultValue={user.name}
             onChange={changeName}
           />
-        </div>
-        <div className="input-group">
-          <input
-            type="password"
-            className="input-field"
-            placeholder="Enter new password"
-            aria-label="password"
-            value={password}
-            onChange={changePassword}
-          />
-        </div>
-        <div className="input-group">
           <input
             type="text"
             className="input-field"
-            placeholder="Enter new image URL"
-            aria-label="image"
-            value={image}
-            onChange={changeImage}
+            placeholder="Enter new password"
+            aria-label="password"
+            defaultValue={user.password}
+            onChange={changePassword}
           />
+          <input type="file" className="input-field" accept="image/*" onChange={changeImage} />
+          <button className="submit-button" onClick={editUser}>
+            Update User
+          </button>
+          <button className="delete-button" onClick={deleteUser}>
+            Delete User
+          </button>
         </div>
-        <button className="submit-button" onClick={submit}>
-          Update User
-        </button>
       </div>
     </div>
   );

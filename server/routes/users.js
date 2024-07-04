@@ -1,5 +1,11 @@
 const express = require("express");
-const { addUser, getUser, updateUser, deleteUser } = require("../controllers/users");
+const {
+  addUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  getFullUserDetails,
+} = require("../controllers/users");
 const {
   getVideo,
   updateVideo,
@@ -8,6 +14,7 @@ const {
   likeVideo,
   dislikeVideo,
   getVideosByUserId,
+  getMinimalVideoDetails,
 } = require("../controllers/videos");
 const { getComment, addComment, deleteComment, editComment } = require("../controllers/comments");
 const { authenticateTokenIfGot, authenticateToken } = require("../middleware/auth");
@@ -17,12 +24,14 @@ const router = express.Router();
 router.post("/", addUser);
 
 router.get("/:id", getUser);
+router.get("/details/:id", authenticateToken, getFullUserDetails);
 router.patch("/:id", authenticateToken, updateUser);
 router.delete("/:id", authenticateToken, deleteUser);
 router.get("/:id/videos", getVideosByUserId);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", authenticateTokenIfGot, getVideo);
+router.get("/:id/videos/:pid/details", getMinimalVideoDetails);
 router.patch("/:id/videos/:pid", authenticateToken, updateVideo);
 router.delete("/:id/videos/:pid", authenticateToken, deleteVideo);
 router.post("/:id/videos", authenticateToken, addVideo);

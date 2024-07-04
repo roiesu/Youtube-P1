@@ -7,10 +7,13 @@ function Page404() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       navigate("/");
     }, 3000);
-  }, [navigate]);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   return (
     <div className={`page-404 page ${theme}`}>
