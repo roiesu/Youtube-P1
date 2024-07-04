@@ -49,7 +49,6 @@ async function loginUser(req, res) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).send(token);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send("Couldn't log in this user!");
   }
 }
@@ -63,7 +62,6 @@ async function getUser(req, res) {
     }
     return res.status(200).send(user);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send("Error fetching user details");
   }
 }
@@ -106,7 +104,6 @@ async function updateUser(req, res) {
     await user.save();
     return res.sendStatus(200);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send("Error updating user details");
   }
 }
@@ -132,7 +129,6 @@ async function deleteUser(req, res) {
     await user.deleteOne();
     return res.status(200).send({ message: `User ${id} deleted!` });
   } catch (err) {
-    console.log(err);
     return res.status(500).send("Error deleting user");
   }
 }
@@ -153,7 +149,6 @@ async function getVideosByUserId(req, res) {
     }
     return res.status(200).send(user.videos);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send("Error displaying user's videos");
   }
 }

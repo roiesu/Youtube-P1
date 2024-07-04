@@ -6,16 +6,22 @@ async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
     const filterValues = { name: { $regex: name, $options: "i" } };
-    const videos = await Video.find(filterValues)
+    const topVideos = await Video.find(filterValues)
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
-      // .limit(10)
+      .limit(10)
       .populate("uploader", ["name", "image", "username", "-_id"]);
-    return res.status(200).send(videos);
+    let restVideos = [];
+    if (topVideos.length > 0) {
+      let viewsBar = topVideos[topVideos.length - 1].views;
+      restVideos = await Video.find({ ...filterValues, views: { $lt: viewsBar } })
+        .limit(10)
+        .populate("uploader", ["name", "image", "username", "-_id"]);
+    }
+    return res.status(200).send({ topVideos, restVideos });
   } catch (err) {
-    console.log(err);
+    return res.status(400).send("Couldn't get videos");
   }
-  return res.status(200).send([]);
 }
 async function getMinimalVideoDetails(req, res) {
   const { id, pid } = req.params;
@@ -57,9 +63,7 @@ async function getVideo(req, res) {
       likedVideo = true;
     }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.sendStatus(404);
 }
 
@@ -85,9 +89,8 @@ async function deleteVideo(req, res) {
     await video.deleteOne();
     return res.status(200).send("Video deleted");
   } catch (err) {
-    console.log(err);
+    return res.status(400).send("Couldn't delete video");
   }
-  return res.status(400).send("Couldn't delete video");
 }
 
 async function updateVideo(req, res) {
@@ -112,9 +115,7 @@ async function updateVideo(req, res) {
       return res.sendStatus(201);
     }
     return res.sendStatus(404);
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Invalid");
 }
 
@@ -138,8 +139,7 @@ async function addVideo(req, res) {
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err.message);
-    return res.status(err.status).send(err.message);
+    return res.status(400).send("unexpected error acurred");
   }
 }
 
@@ -155,9 +155,7 @@ async function likeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Couldn't like video");
 }
 
@@ -173,9 +171,7 @@ async function dislikeVideo(req, res) {
     } else {
       return res.sendStatus(404);
     }
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
   return res.status(400).send("Couldn't remove like from video");
 }
 
@@ -232,7 +228,6 @@ async function getVideosDetailsByUserId(req, res) {
     }
     return res.status(200).send(users[0].videos);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send(" Error displaying user's videos");
   }
 }

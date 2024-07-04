@@ -5,18 +5,24 @@ import Comments from "./watch_video_page_components/comments/Comments";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
-import { getQuery } from "../../../utilities";
+import { getQuery, simpleErrorCatcher } from "../../../utilities";
 
-function WatchVideoPage({ currentUser }) {
+function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
   const commentInput = useRef(null);
   const location = useLocation();
   const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
-
+  const navigate = useNavigate();
   async function addComment() {
-    if (!currentUser || commentInput.current.value == "") return;
+    if (!currentUser) {
+      showToast("Can't comment if not singed in");
+      return;
+    } else if (commentInput == "") {
+      showToast("Can't comment an empty text");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -29,7 +35,7 @@ function WatchVideoPage({ currentUser }) {
       setVideo(tempVideo);
       commentInput.current.value = "";
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -45,7 +51,7 @@ function WatchVideoPage({ currentUser }) {
         setVideo(tempVideo);
       }
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -64,7 +70,7 @@ function WatchVideoPage({ currentUser }) {
         setVideo(tempVideo);
       }
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -82,7 +88,7 @@ function WatchVideoPage({ currentUser }) {
       setLikedVideo(!likedVideo);
       video.likes += addition;
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
@@ -120,6 +126,7 @@ function WatchVideoPage({ currentUser }) {
             like={like}
             likedVideo={likedVideo}
             loggedIn={currentUser != null}
+            showToast={showToast}
           />
           <Comments
             currentUser={currentUser}
@@ -128,6 +135,7 @@ function WatchVideoPage({ currentUser }) {
             deleteComment={deleteComment}
             commentInput={commentInput}
             editComment={editComment}
+            showToast={showToast}
           />
         </div>
       ) : (
