@@ -31,6 +31,22 @@ const ChannelPage = () => {
     return <div>Error: {error}</div>;
   }
 
+  const renderVideosInRows = () => {
+    const rows = [];
+    for (let i = 1; i < videos.length; i += 3) {
+      rows.push(
+        <div className="video-row" key={`row-${i}`}>
+          {videos.slice(i, i + 3).map((video) => (
+            <VideoLink key={video._id} {...video} />
+          ))}
+        </div>
+      );
+    }
+    return rows;
+  };
+
+  const mostViewedVideo = videos.reduce((max, video) => video.views > max.views ? video : max, videos[0] || {});
+
   return (
     <div className={`channel-page page ${theme}`}>
       {user ? (
@@ -42,14 +58,21 @@ const ChannelPage = () => {
                 src={getMediaFromServer("image", user.image)}
                 alt={user.name}
               />
-              <h1 className="user-name">{user.name}</h1>
+              <h1 className="user-name">{user.name}{"'s channel"}</h1>
             </div>
           </div>
+          <div className="most-viewed-header">Most viewed:</div>
+          {mostViewedVideo._id && (
+            <div className="most-viewed-video">
+              <VideoLink {...mostViewedVideo} />
+            </div>
+          )}
           <div className="video-list">
+          <div className="user-videos-header">{user.name}{"'s videos:"}</div>
             {videos.length === 0 ? (
               <p>No videos found.</p>
             ) : (
-              videos.map((video) => <VideoLink key={video._id} {...video} />)
+              renderVideosInRows()
             )}
           </div>
         </>
@@ -59,5 +82,6 @@ const ChannelPage = () => {
     </div>
   );
 };
+
 
 export default ChannelPage;

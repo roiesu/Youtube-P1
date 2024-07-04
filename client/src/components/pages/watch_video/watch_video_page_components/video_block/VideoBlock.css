@@ -60,25 +60,25 @@
   white-space: break-spaces;
 }
 .light .description-div {
-  border-color: #ffd700;
+  border-color:  #c3c2c2;
   color: #333333;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background: #fffbcc;
+  background-color:  #c3c2c2;
 }
 .dark .description-div {
   background: #3d3d3d;
   color: white;
-  border-color: #737373;
+  border-color:  #c3c2c2;
   box-shadow: 0 2px 10px rgba(100, 100, 100, 0.1);
 }
 
 .light .description-div:hover {
-  background-color: #fffacd;
-  border-color: #ffc107;
+  background-color: #c3c2c2;
+  border-color:  #c3c2c2;
 }
 .dark .description-div:hover {
-  background: #474747;
-  border-color: #737373;
+  background:  #c3c2c2;
+  border-color: #c3c2c2;
 }
 .dark .tag {
   color: #7185f2;
