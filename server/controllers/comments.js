@@ -2,6 +2,31 @@ const User = require("../models/user");
 const Comment = require("../models/comment");
 const Video = require("../models/video");
 
+async function getComments(req, res) {
+  const { videoId } = req.params;
+  let comments = [];
+  try {
+    comments = await Comment.find({ video: videoId })
+      .select(["_id", "-password"])
+      .sort({ date: "desc" });
+  } catch (err) {
+  }
+  return res.status(200).send(comments);
+}
+
+async function getComment(req, res) {
+  const { id, pid, cid } = req.params;
+  let comment;
+  try {
+    comment = await Comment.findOne({ _id: cid, user: id, video: pid });
+    if (comment) {
+      return res.status(200).send(comment);
+    }
+    return res.status(404).send("Comment not found");
+  } catch (err) {
+  }
+}
+
 async function addComment(req, res) {
   const { id, pid } = req.params;
   const { text } = req.body;
@@ -23,11 +48,16 @@ async function addComment(req, res) {
     await comment.populate("user", ["name", "image", "username", "-_id"]);
     return res.status(201).send(comment);
   } catch (err) {
+<<<<<<< HEAD
     if (err.kind == "ObjectId") {
       return res.status(404).send("Video not found");
     }
     return res.status(400).send(err.message);
   }
+=======
+  }
+  return res.status(400).send("Couldn't add comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 async function editComment(req, res) {
@@ -53,11 +83,16 @@ async function editComment(req, res) {
     await comment.save();
     return res.sendStatus(201);
   } catch (err) {
+<<<<<<< HEAD
     if (err.kind == "ObjectId") {
       return res.status(404).send("Comment not found");
     }
     return res.status(400).send(err.message);
   }
+=======
+  }
+  return res.status(400).send("Couldn't edit comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 async function deleteComment(req, res) {
@@ -78,14 +113,21 @@ async function deleteComment(req, res) {
     await comment.deleteOne();
     return res.sendStatus(201);
   } catch (err) {
+<<<<<<< HEAD
     if (err.kind == "ObjectId") {
       return res.status(404).send("Comment not found");
     }
     return res.status(400).send(err.message);
   }
+=======
+  }
+  return res.status(400).send("Couldn't delete comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 module.exports = {
+  getComments,
+  getComment,
   addComment,
   editComment,
   deleteComment,
