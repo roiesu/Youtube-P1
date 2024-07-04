@@ -180,7 +180,7 @@ async function dislikeVideo(req, res) {
 }
 
 // my videos
-async function getVideosByUserId(req, res) {
+async function getVideosDetailsByUserId(req, res) {
   const { id } = req.params;
   try {
     const users = await User.aggregate([
@@ -245,6 +245,6 @@ module.exports = {
   addVideo,
   likeVideo,
   dislikeVideo,
-  getVideosByUserId,
+  getVideosDetailsByUserId,
   getMinimalVideoDetails,
 };
