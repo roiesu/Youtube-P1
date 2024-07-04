@@ -58,7 +58,7 @@ const ChannelPage = () => {
                 src={getMediaFromServer("image", user.image)}
                 alt={user.name}
               />
-              <h1 className="user-name">{user.name}{"'s chnnel"}</h1>
+              <h1 className="user-name">{user.name}{"'s channel"}</h1>
             </div>
           </div>
           <div className="most-viewed-header">Most viewed:</div>
