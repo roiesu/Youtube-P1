@@ -46,7 +46,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       if (response.status === 201) {
         navigate("/my-videos");
       }
-    } catch (error) {
+    } catch (err) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };

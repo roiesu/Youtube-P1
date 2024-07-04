@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./SignIn.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
-import { callWithEnter } from "../../../utilities";
+import { callWithEnter, simpleErrorCatcher } from "../../../utilities";
 
 function SignIn({ setCurrentUser, showToast }) {
   const { theme } = useTheme();
@@ -30,16 +30,8 @@ function SignIn({ setCurrentUser, showToast }) {
         setCurrentUser(usernameInput);
         navigate("/");
       }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          showToast("Invalid username or password");
-        } else {
-          showToast("An unexpected error occurred");
-        }
-      } else {
-        showToast("An unexpected error occurred");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, null, navigate, showToast);
     }
   }
 
