@@ -143,7 +143,11 @@ async function getVideosByUserId(req, res) {
   try {
     const user = await User.findOne({ username: id })
       .select("-password")
-      .populate({ path: "videos", select: ["name", "views", "date", "src"] });
+      .populate({
+        path: "videos",
+        select: ["name", "views", "date", "src", "uploader"],
+        populate: { path: "uploader", select: ["username", "name", "image"] },
+      });
     if (!user) {
       return res.sendStatus(404);
     }
