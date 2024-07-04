@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
 import { readFileIntoState } from "../../../utilities";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 
