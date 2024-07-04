@@ -10,7 +10,6 @@ async function getComments(req, res) {
       .select(["_id", "-password"])
       .sort({ date: "desc" });
   } catch (err) {
-    console.log(err.message);
   }
   return res.status(200).send(comments);
 }
@@ -25,7 +24,6 @@ async function getComment(req, res) {
     }
     return res.status(404).send("Comment not found");
   } catch (err) {
-    console.log(err.message);
   }
 }
 
@@ -48,7 +46,6 @@ async function addComment(req, res) {
     await comment.populate("user", ["name", "image", "username", "-_id"]);
     return res.status(201).send(comment);
   } catch (err) {
-    console.log(err.message);
   }
   return res.status(400).send("Couldn't add comment");
 }
@@ -76,7 +73,6 @@ async function editComment(req, res) {
     await comment.save();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err.message);
   }
   return res.status(400).send("Couldn't edit comment");
 }
@@ -99,7 +95,6 @@ async function deleteComment(req, res) {
     await comment.deleteOne();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err);
   }
   return res.status(400).send("Couldn't delete comment");
 }

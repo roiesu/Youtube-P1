@@ -27,7 +27,6 @@ function override64File(fileType, name, data) {
     let base64File = data.split(/;base64,/)[1];
     fs.writeFileSync(`./public/${fileType}/${name}`, base64File, { encoding: "base64" });
   } catch (err) {
-    console.log(err);
     return null;
   }
 }
