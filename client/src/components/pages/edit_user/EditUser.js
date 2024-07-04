@@ -5,11 +5,10 @@ import "../upload_video/UploadVideoPage.css";
 import { getMediaFromServer, readFileIntoState } from "../../../utilities";
 import axios from "axios";
 
-function EditUser({ currentUser, logout }) {
+function EditUser({ currentUser, logout, showToast }) {
   const { theme } = useTheme();
   const [user, setUser] = useState({});
   const [previewImage, setPreviewImage] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(false);
   const [name, setName] = useState();
   const [password, setPassword] = useState();
@@ -57,7 +56,7 @@ function EditUser({ currentUser, logout }) {
       body.image = previewImage;
     }
     if (Object.keys(body).length == 0) {
-      setErrorMessage("Didn't change anything");
+      showToast("Didn't change anything");
       return;
     }
     try {
@@ -71,14 +70,14 @@ function EditUser({ currentUser, logout }) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          setErrorMessage("User not found");
+          showToast("User not found");
         } else if (error.response.status === 500) {
-          setErrorMessage("Internal server error");
+          showToast("Internal server error");
         } else {
-          setErrorMessage(error.response.message);
+          showToast(error.response.message);
         }
       } else {
-        setErrorMessage("An unexpected error occurred");
+        showToast("An unexpected error occurred");
       }
     }
   };
@@ -97,14 +96,14 @@ function EditUser({ currentUser, logout }) {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
-            setErrorMessage("User not found");
+            showToast("User not found");
           } else if (err.response.status === 500) {
-            setErrorMessage("Internal server error");
+            showToast("Internal server error");
           } else {
-            setErrorMessage("An unexpected error occurred");
+            showToast("An unexpected error occurred");
           }
         } else {
-          setErrorMessage("An unexpected error occurred");
+          showToast("An unexpected error occurred");
         }
       }
     }
@@ -113,7 +112,6 @@ function EditUser({ currentUser, logout }) {
 
   return (
     <div className={`page video-upload-page ${theme}`}>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="video-upload-container">
         <h1>Edit User Details</h1>
         <div className="preview-img-container">

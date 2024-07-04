@@ -20,6 +20,7 @@ function VideoBlock({
   like,
   likedVideo,
   loggedIn,
+  showToast,
 }) {
   const [shareMenuVisible, setShareMenuVisible] = useState(false);
 
@@ -49,6 +50,7 @@ function VideoBlock({
               callback={scrollToComment}
               canActivate={loggedIn}
               badMessage={"You can't comment if not signed in"}
+              showToast={showToast}
             />
             <VideoActionButton
               active={likedVideo}
@@ -56,12 +58,14 @@ function VideoBlock({
               content={likes}
               callback={like}
               canActivate={loggedIn}
+              showToast={showToast}
               badMessage={"You can't like a video if not signed in"}
             />
             <VideoActionButton
               name="Share"
               content=""
               canActivate={true}
+              showToast={showToast}
               callback={() => {
                 setShareMenuVisible(true);
                 navigator.clipboard.writeText(window.location.href);

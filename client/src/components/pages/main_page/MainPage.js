@@ -5,12 +5,10 @@ import { callWithEnter, getMediaFromServer } from "../../../utilities";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
-import { useNavigate } from "react-router-dom";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ currentUser }) {
-  const navigate = useNavigate();
+function MainPage({ currentUser, showToast }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [filteredVideos, setFilteredVideos] = useState([]);
@@ -22,7 +20,7 @@ function MainPage({ currentUser }) {
       const response = await axios.get(`/api/videos?name=${searchValue}`);
       setFilteredVideos(response.data);
     } catch (err) {
-      console.log(err.response);
+      showToast(err.response);
     }
   }
   async function getUserDetails() {
@@ -34,7 +32,9 @@ function MainPage({ currentUser }) {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       });
       setUserDetails(response.data);
-    } catch (err) {}
+    } catch (err) {
+      showToast(err);
+    }
   }
   useEffect(() => {
     getVideos();
@@ -51,7 +51,7 @@ function MainPage({ currentUser }) {
   return (
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
-      <div className="user-details">
+        <div className="user-details">
           {userDetails ? (
             <>
               <Link to={`/channel/${currentUser}`}>
