@@ -14,7 +14,7 @@ function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
   const commentInput = useRef(null);
   const location = useLocation();
   const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
-
+  const navigate = useNavigate();
   async function addComment() {
     if (!currentUser) {
       showToast("Can't comment if not singed in");

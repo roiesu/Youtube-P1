@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../settings/inputs.json";
-import { readFileIntoState, callWithEnter } from "../../../utilities";
+import { readFileIntoState, callWithEnter, simpleErrorCatcher } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
@@ -52,13 +52,8 @@ function SignUp({ setCurrentUser, showToast }) {
         setCurrentUser(usernameInput);
         navigate("/");
       }
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        showToast(error.response.data);
-      } else {
-        showToast("Couldn't create user");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, null, navigate, showToast);
     }
   }
 

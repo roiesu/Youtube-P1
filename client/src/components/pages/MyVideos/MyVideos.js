@@ -17,7 +17,7 @@ function MyVideos({ currentUser, showToast, handleExpiredToken }) {
         if (response.status === 200) {
           setUserVideos(response.data);
         }
-      } catch (error) {
+      } catch (err) {
         simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
@@ -38,7 +38,7 @@ function MyVideos({ currentUser, showToast, handleExpiredToken }) {
         const tempVideos = userVideos.filter((video) => video._id !== videoId);
         setUserVideos(tempVideos);
       }
-    } catch (error) {
+    } catch (err) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
