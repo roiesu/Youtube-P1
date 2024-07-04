@@ -6,14 +6,22 @@ async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
     const filterValues = { name: { $regex: name, $options: "i" } };
-    const videos = await Video.find(filterValues)
+    const topVideos = await Video.find(filterValues)
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
-      // .limit(10)
+      .limit(10)
       .populate("uploader", ["name", "image", "username", "-_id"]);
-    return res.status(200).send(videos);
-  } catch (err) {}
-  return res.status(200).send([]);
+    let restVideos = [];
+    if (topVideos.length > 0) {
+      let viewsBar = topVideos[topVideos.length - 1].views;
+      restVideos = await Video.find({ ...filterValues, views: { $lt: viewsBar } })
+        .limit(10)
+        .populate("uploader", ["name", "image", "username", "-_id"]);
+    }
+    return res.status(200).send({ topVideos, restVideos });
+  } catch (err) {
+    return res.status(400).send("Couldn't get videos");
+  }
 }
 async function getMinimalVideoDetails(req, res) {
   const { id, pid } = req.params;
@@ -80,8 +88,9 @@ async function deleteVideo(req, res) {
     }
     await video.deleteOne();
     return res.status(200).send("Video deleted");
-  } catch (err) {}
-  return res.status(400).send("Couldn't delete video");
+  } catch (err) {
+    return res.status(400).send("Couldn't delete video");
+  }
 }
 
 async function updateVideo(req, res) {
@@ -130,7 +139,7 @@ async function addVideo(req, res) {
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
-    return res.status(err.status).send(err.message);
+    return res.status(400).send("unexpected error acurred");
   }
 }
 
