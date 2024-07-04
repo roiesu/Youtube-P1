@@ -7,11 +7,9 @@ async function preDeleteUser(next, document) {
       await video.updateOne({ $pull: { likes: document._id } });
       await video.save();
     }
-    console.log("comments");
     for (comment of document.comments) {
       await comment.deleteOne();
     }
-    console.log("videos");
     for (videoId of document.videos) {
       const video = await Video.findById(videoId).populate("uploader", ["videos"]);
       if (video) {
