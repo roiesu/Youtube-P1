@@ -46,7 +46,7 @@ async function loginUser(req, res) {
     if (user.password !== password) {
       return res.status(404).send("Invalid password!");
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "15s" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).send(token);
   } catch (err) {
     return res.status(500).send("Couldn't log in this user!");

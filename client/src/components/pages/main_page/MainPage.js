@@ -11,14 +11,16 @@ import IconMoon from "../../icons/IconMoon";
 function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
-  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [topVideos, setTopVideos] = useState([]);
+  const [restVideos, setRestVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
   const navigate = useNavigate();
   async function getVideos() {
     try {
       const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
       const response = await axios.get(`/api/videos?name=${searchValue}`);
-      setFilteredVideos(response.data);
+      setTopVideos(response.data.topVideos);
+      setRestVideos(response.data.restVideos);
     } catch (err) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
@@ -82,8 +84,13 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           search
         </button>
       </div>
-      <div className="video-list">
-        {filteredVideos.map((video) => (
+      <div className="video-list top">
+        {topVideos.map((video) => (
+          <VideoLink key={video._id} {...video} />
+        ))}
+      </div>
+      <div className="video-list rest">
+        {restVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
         ))}
       </div>
