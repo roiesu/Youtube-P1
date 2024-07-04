@@ -4,6 +4,7 @@ import "./SignIn.css";
 import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
+import { callWithEnter } from "../../../utilities";
 
 function SignIn(props) {
   const { theme } = useTheme();
@@ -60,11 +61,10 @@ function SignIn(props) {
             First time? sign up <Link to="/sign-up">here!</Link>
           </div>
         </div>
-        <div className="input-div">
+        <div className="input-div" onKeyDown={(e) => callWithEnter(e, validateSignIn)}>
           <div className="validation-input-div">
             <PopUpMessage message="Username or password are incorrect" isActive={errorMessage} />
             <label>username</label>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <input
               className="text-input"
               type="text"

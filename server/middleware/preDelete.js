@@ -1,8 +1,8 @@
 const { deletePublicFile } = require("../utils");
 
 async function preDeleteComment(next, document) {
+  console.log("comment");
   try {
-    console.log(document);
     if (document.video) {
       await document.video.updateOne({ $pull: { comments: document._id } });
       await document.video.save();
@@ -19,6 +19,7 @@ async function preDeleteComment(next, document) {
 }
 
 async function preDeleteVideo(next, document) {
+  console.log(document);
   try {
     // Remove likes
     for (user of document.likes) {
@@ -29,8 +30,10 @@ async function preDeleteVideo(next, document) {
     for (comment of document.comments) {
       await comment.deleteOne();
     }
-    await document.uploader.updateOne({ $pull: { videos: document._id } });
-    await document.uploader.save();
+    if (document.uploader) {
+      await document.uploader.updateOne({ $pull: { videos: document._id } });
+      await document.uploader.save();
+    }
     // Remove the file
     deletePublicFile("video", document.src);
     next();

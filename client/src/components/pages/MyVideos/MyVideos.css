@@ -1,16 +1,40 @@
-.container {
-  max-width: 900px;
+.my-videos-page .container {
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
   padding: 50px;
 }
-
-.dark .container {
+.my-videos-page.dark {
+  color: white;
+}
+.my-videos-page.light {
+  color: black;
+}
+.my-videos-page .container table {
+  width: 100%;
+}
+.my-videos-page .container table td.video-container {
+  height: 150px;
+  width: 150px;
+}
+.my-videos-page .container table tr {
+  border-bottom: black solid 2px;
+}
+.my-videos-page .container > .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px 0;
+}
+.my-videos-page .container > .buttons > a {
+  padding: 0 10px;
+}
+.dark .my-videos-page .container {
   background-color: #131313;
 }
 
-.light .container {
+.light .my-videos-page .container {
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -65,74 +89,17 @@
   transform: translateY(0);
 }
 
-.video-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  transition: box-shadow 0.3s ease;
+.video-actions {
+  font-size: 22px;
 }
-
-.dark .video-item {
-  background-color: #202020;
-  border: 1px solid #3e3e3e;
+.video-actions svg {
+  transition: 0.2s;
 }
-
-.light .video-item {
-  background-color: #fafafa;
-  border: 1px solid #e0e0e0;
-}
-
-.video-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.video-item video {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.delete-button,
-.edit-button {
-  padding: 10px 20px;
-  margin: 10px 5px;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
+.video-actions svg:hover {
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.delete-button {
-  background-color: #f44336;
-  color: #ffffff;
-}
-
-.delete-button:hover {
-  background-color: #e53935;
   transform: translateY(-2px);
 }
-
-.delete-button:active {
-  background-color: #d32f2f;
-  transform: translateY(0);
-}
-
-.edit-button {
-  background-color: #007bff;
-  color: #ffffff;
-}
-
-.edit-button:hover {
-  background-color: #0069d9;
-  transform: translateY(-2px);
-}
-
-.edit-button:active {
-  background-color: #0056b3;
-  transform: translateY(0);
+.my-video-item video {
+  width: 100%;
+  height: 100%;
 }

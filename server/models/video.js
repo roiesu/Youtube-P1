@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const {preDeleteVideo} = require("../middleware/preDelete");
+const { preDeleteVideo } = require("../middleware/preDelete");
 
 const VideoSchema = new mongoose.Schema({
   name: { type: String, required: true },
