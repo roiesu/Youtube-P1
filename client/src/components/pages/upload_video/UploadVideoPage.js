@@ -84,9 +84,11 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
           Upload Video
         </button>
         {videoPreview ? (
-          <video width={300}>
-            <source src={videoPreview} type="video/mp4" />
-          </video>
+          <div className="video-container">
+            <video controls loop key={videoPreview}>
+              <source src={videoPreview} type="video/mp4" />
+            </video>
+          </div>
         ) : (
           "no video"
         )}
