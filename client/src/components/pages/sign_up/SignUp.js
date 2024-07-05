@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import ValidationInput from "./sign_up_components/validation_input/ValidationInput";
 import inputs from "../../../settings/inputs.json";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
-import { readFileIntoState, callWithEnter } from "../../../utilities";
+import { readFileIntoState, callWithEnter, simpleErrorCatcher } from "../../../utilities";
 import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 
-function SignUp(props) {
+function SignUp({ setCurrentUser, showToast }) {
   const { theme } = useTheme();
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -17,17 +16,7 @@ function SignUp(props) {
   const [imageInput, setImageInput] = useState();
 
   const [image, setImage] = useState();
-  const [generalError, setGeneralError] = useState();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (generalError != null) {
-      setTimeout(() => {
-        setGeneralError(null);
-      }, [5000]);
-    }
-  }, [generalError]);
 
   useEffect(() => {
     if (imageInput) {
@@ -37,13 +26,13 @@ function SignUp(props) {
 
   async function submit() {
     if (!usernameInput || !passwordInput || !passwordValidationInput || !nameInput) {
-      setGeneralError("All fields are required");
+      showToast("All fields are required");
       return;
     } else if (!imageInput) {
-      setGeneralError("No profile picture selected");
+      showToast("No profile picture selected");
       return;
     } else if (passwordValidationInput != passwordInput) {
-      setGeneralError("Password validation must be equal to password");
+      showToast("Password validation must be equal to password");
       return;
     }
     const user = {
@@ -60,16 +49,11 @@ function SignUp(props) {
           password: passwordInput,
         });
         localStorage.setItem("token", loginResponse.data);
-        props.setCurrentUser(usernameInput);
+        setCurrentUser(usernameInput);
         navigate("/");
       }
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        setGeneralError(error.response.data);
-      } else {
-        setGeneralError("Couldn't create user");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, null, navigate, showToast);
     }
   }
 
@@ -83,7 +67,6 @@ function SignUp(props) {
           </div>
         </div>
         <div className="input-div" onKeyDown={(e) => callWithEnter(e, submit)}>
-          <PopUpMessage message={generalError} isActive={generalError != null} />
           <ValidationInput
             name={inputs.username.name}
             reqs={inputs.username.reqs}

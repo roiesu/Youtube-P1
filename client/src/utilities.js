@@ -71,6 +71,17 @@ function getQuery(url) {
   });
   return queryObj;
 }
+function simpleErrorCatcher(error, handleTokenExpired, navigate, showToast) {
+  if (error.response) {
+    if (handleTokenExpired && error.response.status === 403) {
+      handleTokenExpired(navigate);
+    } else {
+      showToast(error.response.data);
+    }
+    return;
+  }
+  showToast("An unexpected error accrued");
+}
 export {
   readFileIntoState,
   callWithEnter,
@@ -80,4 +91,5 @@ export {
   longFormatter,
   getMediaFromServer,
   getQuery,
+  simpleErrorCatcher,
 };

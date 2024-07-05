@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
-import { readFileIntoState } from "../../../utilities";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
+import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
 
-function UploadVideo({ currentUser }) {
+function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
 
   const [title, setTitle] = useState("");
@@ -14,7 +13,6 @@ function UploadVideo({ currentUser }) {
   const [tags, setTags] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
@@ -22,21 +20,13 @@ function UploadVideo({ currentUser }) {
     }
   }, [videoFile]);
 
-  useEffect(() => {
-    if (errorMessage != null) {
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, [5000]);
-    }
-  }, [errorMessage]);
-
   function validateInput(input) {
     return input != "" && input != null;
   }
 
   async function handleSubmit() {
     if (!validateInput(title) || !validateInput(videoFile) || !validateInput(description)) {
-      setErrorMessage("Name, Description and a video file are required");
+      showToast("Name, Description and a video file are required");
       return;
     }
     let tagsToSend = [];
@@ -57,22 +47,13 @@ function UploadVideo({ currentUser }) {
         navigate("/my-videos");
       }
     } catch (err) {
-      if (err.status === 404) {
-        setErrorMessage("User not found");
-      } else if (err.status === 400) {
-        setErrorMessage(err.message);
-      } else if (err.status === 401) {
-        setErrorMessage("Token needed");
-      } else if (err.status === 403) {
-        setErrorMessage("Invalid token");
-      }
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
 
   return (
     <div className={`page upload-video-page ${theme}`}>
       <div className="video-upload-container">
-        <PopUpMessage message={errorMessage} isActive={errorMessage != null} />
         <h1>Upload Video</h1>
         <input
           type="text"

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
-import { getMediaFromServer, readFileIntoState } from "../../../utilities";
+import { getMediaFromServer, readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import axios from "axios";
 
-function EditUser({ currentUser, logout }) {
+function EditUser({ currentUser, logout, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [user, setUser] = useState({});
   const [previewImage, setPreviewImage] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(false);
   const [name, setName] = useState();
   const [password, setPassword] = useState();
@@ -38,11 +37,10 @@ function EditUser({ currentUser, logout }) {
         headers: { Authorization: "Bearer " + token },
       });
       if (response.status === 200) {
-        navigate("/");
-        logout();
+        logout(navigate);
       }
     } catch (err) {
-      console.log(err);
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
   const editUser = async () => {
@@ -57,7 +55,7 @@ function EditUser({ currentUser, logout }) {
       body.image = previewImage;
     }
     if (Object.keys(body).length == 0) {
-      setErrorMessage("Didn't change anything");
+      showToast("Didn't change anything");
       return;
     }
     try {
@@ -68,18 +66,8 @@ function EditUser({ currentUser, logout }) {
       if (response.status === 200) {
         navigate("/my-videos");
       }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          setErrorMessage("User not found");
-        } else if (error.response.status === 500) {
-          setErrorMessage("Internal server error");
-        } else {
-          setErrorMessage(error.response.message);
-        }
-      } else {
-        setErrorMessage("An unexpected error occurred");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
 
@@ -95,17 +83,7 @@ function EditUser({ currentUser, logout }) {
         setUser(found);
         setPreviewImage(getMediaFromServer("image", found.image));
       } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            setErrorMessage("User not found");
-          } else if (err.response.status === 500) {
-            setErrorMessage("Internal server error");
-          } else {
-            setErrorMessage("An unexpected error occurred");
-          }
-        } else {
-          setErrorMessage("An unexpected error occurred");
-        }
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
     getUser();
@@ -113,7 +91,6 @@ function EditUser({ currentUser, logout }) {
 
   return (
     <div className={`page video-upload-page ${theme}`}>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="video-upload-container">
         <h1>Edit User Details</h1>
         <div className="preview-img-container">

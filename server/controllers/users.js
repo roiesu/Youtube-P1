@@ -15,7 +15,7 @@ async function addUser(req, res) {
     }
     imagePath = write64FileWithCopies(username + "-profile-pic", image);
     if (!imagePath) {
-      return res.status(400).send("Image is not URI");
+      return res.status(400).send("Invalid image");
     }
 
     const user = new User({ username, password, name, image: imagePath });
@@ -26,6 +26,9 @@ async function addUser(req, res) {
     if (imagePath) {
       deletePublicFile("image", imagePath);
     }
+    if (err.message.match(/.*User validation.*/)) {
+      return res.status(400).send(err.message.match(/(Invalid .+?)(?:,|$)/g).join(" ") + ".");
+    }
     return res.status(400).send(err.message);
   }
 }
@@ -33,24 +36,23 @@ async function addUser(req, res) {
 async function loginUser(req, res) {
   const { username, password } = req.body;
   if (!username) {
-    return res.status(400).send("Username is required!");
+    return res.status(400).send("Username is required");
   }
   if (!password) {
-    return res.status(400).send("password is required!");
+    return res.status(400).send("password is required");
   }
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).send("Invalid username!");
+      return res.status(404).send("User not found");
     }
     if (user.password !== password) {
-      return res.status(404).send("Invalid password!");
+      return res.status(404).send("Wrong password");
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return res.status(200).send(token);
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send("Couldn't log in this user!");
+    return res.status(err.status || 400).send(err.message);
   }
 }
 
@@ -63,8 +65,7 @@ async function getUser(req, res) {
     }
     return res.status(200).send(user);
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send("Error fetching user details");
+    return res.status(500).send(err.message);
   }
 }
 
@@ -106,8 +107,7 @@ async function updateUser(req, res) {
     await user.save();
     return res.sendStatus(200);
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send("Error updating user details");
+    return res.status(400).send(err.message);
   }
 }
 
@@ -130,10 +130,9 @@ async function deleteUser(req, res) {
     });
     await user.populate({ path: "likes", select: ["_id"] });
     await user.deleteOne();
-    return res.status(200).send({ message: `User ${id} deleted!` });
+    return res.status(200).send(`User ${id} deleted`);
   } catch (err) {
-    console.log(err);
-    return res.status(500).send("Error deleting user");
+    return res.status(400).send(err.message);
   }
 }
 
@@ -153,8 +152,7 @@ async function getVideosByUserId(req, res) {
     }
     return res.status(200).send(user.videos);
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send("Error displaying user's videos");
+    return res.status(500).send(err.message);
   }
 }
 

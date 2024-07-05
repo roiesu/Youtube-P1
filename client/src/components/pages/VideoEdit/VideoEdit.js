@@ -3,10 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
-import { getQuery } from "../../../utilities";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
+import { getQuery, simpleErrorCatcher } from "../../../utilities";
 
-function VideoEdit({ currentUser }) {
+function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
 
   const [videoName, setVideoName] = useState("");
@@ -15,14 +14,6 @@ function VideoEdit({ currentUser }) {
   const [video, setVideo] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState();
-  useEffect(() => {
-    if (errorMessage) {
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    }
-  }, [errorMessage]);
   const changeName = (event) => {
     setVideoName(event.target.value);
   };
@@ -36,7 +27,7 @@ function VideoEdit({ currentUser }) {
 
   const submit = async () => {
     if (videoName === "" || description === "") {
-      setErrorMessage("Both name and description are required");
+      showToast("Both name and description are required");
       return;
     }
 
@@ -55,18 +46,8 @@ function VideoEdit({ currentUser }) {
       if (response.status === 201) {
         navigate("/my-videos");
       }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          setErrorMessage("Video not found");
-        } else if (error.response.status === 500) {
-          setErrorMessage("Internal server error");
-        } else {
-          setErrorMessage("An unexpected error occurred");
-        }
-      } else {
-        setErrorMessage("An unexpected error occurred");
-      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   };
 
@@ -83,17 +64,7 @@ function VideoEdit({ currentUser }) {
         setDescription(found.description);
         setTags(found.tags.join(" "));
       } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            setErrorMessage("Video not found");
-          } else if (err.response.status === 500) {
-            setErrorMessage("Internal server error");
-          } else {
-            setErrorMessage("An unexpected error occurred");
-          }
-        } else {
-          setErrorMessage("An unexpected error occurred");
-        }
+        simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
     getVideo();
@@ -106,7 +77,6 @@ function VideoEdit({ currentUser }) {
     <div className={`page video-upload-page ${theme}`}>
       {video ? (
         <div className="video-upload-container">
-          <PopUpMessage message={errorMessage} isActive={errorMessage != null} />
           <h1>Edit Video</h1>
           <div className="input-group">
             <input
@@ -138,7 +108,7 @@ function VideoEdit({ currentUser }) {
           </button>
         </div>
       ) : (
-        !errorMessage && <p>Loading...</p>
+        <p>Loading...</p>
       )}
     </div>
   );
