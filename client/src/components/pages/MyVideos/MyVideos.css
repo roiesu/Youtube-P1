@@ -99,6 +99,9 @@
   cursor: pointer;
   transform: translateY(-2px);
 }
+.my-video-item{
+  background-color: #dee0e1;
+}  
 .my-video-item video {
   width: 100%;
   height: 100%;
