@@ -1,8 +1,9 @@
+const { errorMonitor } = require("events");
 const fs = require("fs");
 
 function write64FileWithCopies(dest, data) {
+  let fileName = dest;
   try {
-    let fileName = dest;
     let [header, base64File] = data.split(/;base64,/);
     let [fileType, fileSuffix] = header.replace(/data:/, "").split("/");
     let file = fs.existsSync(`./public/${fileType}/${fileName}.${fileSuffix}`);
@@ -27,7 +28,6 @@ function override64File(fileType, name, data) {
     let base64File = data.split(/;base64,/)[1];
     fs.writeFileSync(`./public/${fileType}/${name}`, base64File, { encoding: "base64" });
   } catch (err) {
-    console.log(err);
     return null;
   }
 }

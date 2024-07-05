@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { secondsToTime, longFormatter, getMediaFromServer } from "../../../utilities";
 import IconTrash from "../../icons/IconTrash";

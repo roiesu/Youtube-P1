@@ -10,7 +10,6 @@ async function getComments(req, res) {
       .select(["_id", "-password"])
       .sort({ date: "desc" });
   } catch (err) {
-    console.log(err.message);
   }
   return res.status(200).send(comments);
 }
@@ -25,7 +24,6 @@ async function getComment(req, res) {
     }
     return res.status(404).send("Comment not found");
   } catch (err) {
-    console.log(err.message);
   }
 }
 
@@ -38,7 +36,9 @@ async function addComment(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (!video || video.uploader.username !== id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Video not found");
+    } else if (video.uploader._id != req.user) {
+      return res.sendStatus(401);
     }
     const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();
@@ -48,9 +48,16 @@ async function addComment(req, res) {
     await comment.populate("user", ["name", "image", "username", "-_id"]);
     return res.status(201).send(comment);
   } catch (err) {
-    console.log(err.message);
+<<<<<<< HEAD
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Video not found");
+    }
+    return res.status(400).send(err.message);
+  }
+=======
   }
   return res.status(400).send("Couldn't add comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 async function editComment(req, res) {
@@ -68,7 +75,7 @@ async function editComment(req, res) {
       })
       .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
@@ -76,9 +83,16 @@ async function editComment(req, res) {
     await comment.save();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err.message);
+<<<<<<< HEAD
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(400).send(err.message);
+  }
+=======
   }
   return res.status(400).send("Couldn't edit comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 async function deleteComment(req, res) {
@@ -92,16 +106,23 @@ async function deleteComment(req, res) {
       })
       .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
-      return res.sendStatus(404);
+      return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
     await comment.deleteOne();
     return res.sendStatus(201);
   } catch (err) {
-    console.log(err);
+<<<<<<< HEAD
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Comment not found");
+    }
+    return res.status(400).send(err.message);
+  }
+=======
   }
   return res.status(400).send("Couldn't delete comment");
+>>>>>>> parent of 9b866c1 (fixed videos api)
 }
 
 module.exports = {
