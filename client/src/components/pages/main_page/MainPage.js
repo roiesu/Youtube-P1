@@ -89,6 +89,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           <VideoLink key={video._id} {...video} />
         ))}
       </div>
+      <div>dividier</div>
       <div className="video-list rest">
         {restVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
