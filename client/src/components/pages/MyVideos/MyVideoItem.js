@@ -20,7 +20,7 @@ function MyVideoItem({
   return (
     <tr className="my-video-item">
       <td className="video-container">
-        <Link to={`/watch?v=${_id}&channel=${uploader.username}`}>
+        <Link to={`/watch?v=${_id}&channel=${uploader}`}>
           <video
             onDurationChange={(e) => {
               setDuration(Math.floor(e.target.duration));
@@ -44,7 +44,7 @@ function MyVideoItem({
       <td>{longFormatter.format(commentsCount)}</td>
       <td className="video-actions">
         <IconTrash onClick={deleteVideo} />
-        <Link to={`/video/edit?v=${_id}&chanel=${uploader.username}`}>
+        <Link to={`/video/edit?v=${_id}&chanel=${uploader}`}>
           <IconEdit />
         </Link>
       </td>

@@ -10,16 +10,39 @@ async function getVideos(req, res) {
       .select(["_id", "name", "uploader", "views", "src", "date"])
       .sort({ views: "desc" })
       .limit(10)
-      .populate("uploader", ["name", "image", "username", "-_id"]);
+      .populate("uploader", ["name", "username", "image"]);
+
     let restVideos = [];
     if (topVideos.length > 0) {
       let viewsBar = topVideos[topVideos.length - 1].views;
-      restVideos = await Video.find({ ...filterValues, views: { $lt: viewsBar } })
-        .limit(10)
-        .populate("uploader", ["name", "image", "username", "-_id"]);
+      restVideos = await Video.aggregate([
+        { $match: { views: { $lt: viewsBar } } },
+        { $sample: { size: 10 } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "uploader",
+            foreignField: "_id",
+            as: "uploader",
+          },
+        },
+        { $unwind: "$uploader" },
+        {
+          $project: {
+            name: 1,
+            views: 1,
+            src: 1,
+            date: 1,
+            "uploader.name": 1,
+            "uploader.image": 1,
+            "uploader.username": 1,
+          },
+        },
+      ]);
     }
     return res.status(200).send({ topVideos, restVideos });
   } catch (err) {
+    console.log(err.message);
     return res.status(400).send("Couldn't get videos");
   }
 }
@@ -181,10 +204,16 @@ async function dislikeVideo(req, res) {
 // my videos
 async function getVideosDetailsByUserId(req, res) {
   const { id } = req.params;
+  const user = await User.findOne({ username: id }).select("_id");
+  if (!user) {
+    return res.sendStatus(404);
+  } else if (user._id != req.user) {
+    return res.sendStatus(401);
+  }
   try {
     const users = await User.aggregate([
       { $match: { username: id } },
-      { $project: { _id: 0, password: 0 } },
+      { $project: { _id: 1, videos: 1 } },
       {
         $lookup: {
           from: "videos",
@@ -195,7 +224,6 @@ async function getVideosDetailsByUserId(req, res) {
             {
               $project: {
                 name: 1,
-                uploader: 1,
                 views: 1,
                 src: 1,
                 date: 1,
@@ -203,25 +231,7 @@ async function getVideosDetailsByUserId(req, res) {
                 commentsCount: { $size: "$comments" },
               },
             },
-            {
-              $lookup: {
-                from: "users",
-                localField: "uploader",
-                foreignField: "_id",
-                as: "uploader",
-                pipeline: [
-                  {
-                    $project: {
-                      username: 1,
-                      name: 1,
-                      image: 1,
-                      _id: 0,
-                    },
-                  },
-                ],
-              },
-            },
-            { $unwind: "$uploader" },
+            { $addFields: { uploader: id } },
           ],
         },
       },
@@ -229,6 +239,7 @@ async function getVideosDetailsByUserId(req, res) {
     if (users.length === 0) {
       return res.sendStatus(404);
     }
+    console.log(users[0]);
     return res.status(200).send(users[0].videos);
   } catch (err) {
     return res.status(500).send(" Error displaying user's videos");

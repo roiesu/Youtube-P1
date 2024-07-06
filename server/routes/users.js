@@ -29,7 +29,7 @@ router.get("/details/:id", authenticateToken, getFullUserDetails);
 router.patch("/:id", authenticateToken, updateUser);
 router.delete("/:id", authenticateToken, deleteUser);
 router.get("/:id/videos", getVideosByUserId);
-router.get("/:id/videos/details", getVideosDetailsByUserId);
+router.get("/:id/videos/details", authenticateToken, getVideosDetailsByUserId);
 
 // CRUD for videos
 router.get("/:id/videos/:pid", authenticateTokenIfGot, getVideo);
