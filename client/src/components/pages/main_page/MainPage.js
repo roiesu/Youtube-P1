@@ -85,6 +85,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
         </button>
       </div>
       <div className="video-list top">
+      <div>The most popular videos</div>
         {topVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
         ))}
