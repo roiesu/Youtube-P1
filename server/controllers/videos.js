@@ -16,7 +16,7 @@ async function getVideos(req, res) {
     if (topVideos.length > 0) {
       let viewsBar = topVideos[topVideos.length - 1].views;
       restVideos = await Video.aggregate([
-        { $match: { views: { $lt: viewsBar } } },
+        { $match: { ...filterValues, views: { $lt: viewsBar } } },
         { $sample: { size: 10 } },
         {
           $lookup: {
