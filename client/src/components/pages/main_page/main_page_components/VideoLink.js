@@ -12,10 +12,10 @@ function VideoLink({ name, uploader, date, views, _id, thumbnail, duration }) {
     <div className="video-card">
       <div className="video-container">
         <Link className="video-link" to={`/watch?channel=${uploader.username}&v=${_id}`}>
-          <img src={thumbnail ? getMediaFromServer("image", thumbnail) : ""} />
+          <img src={getMediaFromServer("image", thumbnail)} />
         </Link>
 
-        <span className="video-length">{secondsToTime(duration ? duration : 0)}</span>
+        <span className="video-length">{secondsToTime(duration)}</span>
       </div>
       <div className="video-details">
         <div className="video-name">{name}</div>
