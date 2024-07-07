@@ -27,19 +27,25 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
     return input != "" && input != null;
   }
   function captureFrame() {
-    let heightRatio = videoRef.current.videoHeight / 150;
-    canvasRef.current.width = videoRef.current.videoWidth / heightRatio;
-    canvasRef.current.height = videoRef.current.videoHeight / heightRatio;
+    const heightRatio = videoRef.current.videoHeight / canvasRef.current.height;
+    const newWidth = videoRef.current.videoWidth / heightRatio;
+    const offsetX = (canvasRef.current.width - newWidth) / 2;
     const context = canvasRef.current.getContext("2d");
-    console.log(videoRef);
-    context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-    // context.rect(0, 0, 200, 300);
-    // context.fillStyle = "black";
-    // context.fill();
-    // console.log(canvasRef.current.toDataURL());
-    // canvasRef.current.toBlob()=(blob)=>{
-    //   setThumbnail(window.URL.createObjectUrl(blob))
-    // }
+    context.rect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    context.fillStyle = "black";
+    context.fill();
+    context.drawImage(
+      videoRef.current,
+      0,
+      0,
+      videoRef.current.videoWidth,
+      videoRef.current.videoHeight,
+      offsetX,
+      0,
+      newWidth,
+      canvasRef.current.height
+    );
+    setThumbnail(canvasRef.current.toDataURL());
   }
 
   async function handleSubmit() {
@@ -109,7 +115,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
               </video>
             </div>
             <button onClick={captureFrame}>capture frame for thumbnail</button>
-            <canvas className="thumb-canvas" height={200} ref={canvasRef} />
+            <canvas className="thumb-canvas" height={180} width={340} ref={canvasRef} />
           </>
         ) : (
           "no video"
