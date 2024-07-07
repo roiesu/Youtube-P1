@@ -11,7 +11,7 @@
     margin-bottom: 20px;	
     width: 71%;	
     padding: 0 20px; 	
-    background-color: gray;	
+    /* background-color: gray;	 */
   
   }	
   
@@ -23,17 +23,25 @@
   
   
   .channel-page .profile-pic {	
-    width: 250px;	
-    height: 250px;	
+    width: 200px;	
+    height: 200px;	
     border-radius: 50%;	
     border: 3px solid #ddd;	
   }	
   
-  .channel-page .user-name {	
+  .light .channel-page .user-name {	
     font-size: 40px; 	
     font-weight: bold;	
-    color: #dddddd;	
-    background-color: #050505;	
+    color: black;	
+    padding: 10px;	
+    border-radius: 8px;	
+  
+  }	
+
+  .dark .channel-page .user-name {	
+    font-size: 40px; 	
+    font-weight: bold;	
+    color: white;	
     padding: 10px;	
     border-radius: 8px;	
   
@@ -64,7 +72,7 @@
     font-size: 20px; 	
     font-weight: bold;	
     color: #dddddd;	
-    background-color: black;	
+    background-color: rgb(63, 62, 62);	
     padding: 10px;	
     border-radius: 8px;	
     border-color: antiquewhite;	
@@ -85,7 +93,7 @@
     font-size: 20px; 	
     font-weight: bold;	
     color: #dddddd;	
-    background-color: black;	
+    background-color: rgb(63, 62, 62);	
     padding: 10px;	
     border-radius: 8px;	
     border-color: antiquewhite;	
