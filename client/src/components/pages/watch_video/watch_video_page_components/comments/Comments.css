@@ -22,7 +22,7 @@
 
 .comment-input,
 .edit-comment-input {
-  width: 70%;
+  width: 100%;
   font-size: 1.2rem;
   outline: none;
   border: none;
