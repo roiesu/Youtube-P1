@@ -7,6 +7,7 @@ const VideoSchema = new mongoose.Schema({
   uploader: { type: ObjectId, required: true, ref: "User" },
   src: { type: String, required: true },
   thumbnail: { type: String, required: true },
+  duration: { type: Number, required: true },
   likes: [{ type: ObjectId, ref: "User" }],
   views: { type: Number, default: 0 },
   date: { type: Date, default: Date.now },

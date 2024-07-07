@@ -144,7 +144,7 @@ async function getVideosByUserId(req, res) {
       .select("-password")
       .populate({
         path: "videos",
-        select: ["name", "views", "date", "src", "uploader"],
+        select: ["name", "views", "date", "thumbnail", "uploader"],
         populate: { path: "uploader", select: ["username", "name", "image"] },
       });
     if (!user) {
