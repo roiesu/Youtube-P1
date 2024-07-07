@@ -62,6 +62,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
       src: videoPreview,
       description,
       tags: tagsToSend,
+      duration: Math.floor(videoRef.current.duration),
     };
     try {
       const response = await axios.post(`/api/users/${currentUser}/videos`, newVideo, {
