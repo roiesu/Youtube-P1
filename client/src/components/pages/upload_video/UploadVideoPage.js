@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
 import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
@@ -13,6 +13,9 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const [tags, setTags] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
+  const canvasRef = useRef(null);
+  const videoRef = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
@@ -22,6 +25,21 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
 
   function validateInput(input) {
     return input != "" && input != null;
+  }
+  function captureFrame() {
+    let heightRatio = videoRef.current.videoHeight / 150;
+    canvasRef.current.width = videoRef.current.videoWidth / heightRatio;
+    canvasRef.current.height = videoRef.current.videoHeight / heightRatio;
+    const context = canvasRef.current.getContext("2d");
+    console.log(videoRef);
+    context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    // context.rect(0, 0, 200, 300);
+    // context.fillStyle = "black";
+    // context.fill();
+    // console.log(canvasRef.current.toDataURL());
+    // canvasRef.current.toBlob()=(blob)=>{
+    //   setThumbnail(window.URL.createObjectUrl(blob))
+    // }
   }
 
   async function handleSubmit() {
@@ -84,11 +102,15 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
           Upload Video
         </button>
         {videoPreview ? (
-          <div className="video-container">
-            <video controls loop key={videoPreview}>
-              <source src={videoPreview} type="video/mp4" />
-            </video>
-          </div>
+          <>
+            <div className="video-container">
+              <video controls loop key={videoPreview} ref={videoRef}>
+                <source src={videoPreview} type="video/mp4" />
+              </video>
+            </div>
+            <button onClick={captureFrame}>capture frame for thumbnail</button>
+            <canvas className="thumb-canvas" height={200} ref={canvasRef} />
+          </>
         ) : (
           "no video"
         )}

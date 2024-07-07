@@ -239,7 +239,6 @@ async function getVideosDetailsByUserId(req, res) {
     if (users.length === 0) {
       return res.sendStatus(404);
     }
-    console.log(users[0]);
     return res.status(200).send(users[0].videos);
   } catch (err) {
     return res.status(500).send(" Error displaying user's videos");
