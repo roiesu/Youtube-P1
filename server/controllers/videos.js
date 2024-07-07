@@ -1,13 +1,13 @@
 const User = require("../models/user");
 const Video = require("../models/video");
-const { write64FileWithCopies } = require("../utils");
+const { write64FileWithCopies, deletePublicFile, override64File } = require("../utils");
 
 async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
     const filterValues = { name: { $regex: name, $options: "i" } };
     const topVideos = await Video.find(filterValues)
-      .select(["_id", "name", "uploader", "views", "src", "date"])
+      .select(["_id", "name", "uploader", "views", "thumbnail", "date", "duration"])
       .sort({ views: "desc" })
       .limit(10)
       .populate("uploader", ["name", "username", "image"]);
@@ -31,8 +31,9 @@ async function getVideos(req, res) {
           $project: {
             name: 1,
             views: 1,
-            src: 1,
+            thumbnail: 1,
             date: 1,
+            duration: 1,
             "uploader.name": 1,
             "uploader.image": 1,
             "uploader.username": 1,
@@ -134,6 +135,9 @@ async function updateVideo(req, res) {
     if (video.uploader._id != req.user) {
       return res.sendStatus(401);
     } else if (video && video.uploader.username === id) {
+      if (req.body.thumbnail) {
+        override64File("image", video.thumbnail, req.body.thumbnail);
+      }
       await video.updateOne(updateObj);
       return res.sendStatus(201);
     }
@@ -144,9 +148,9 @@ async function updateVideo(req, res) {
 
 async function addVideo(req, res) {
   const { id } = req.params;
-  const { name, description, tags, src, thumbnail } = req.body;
-  if (!name || !src) {
-    return res.status(400).send("Name and video are required");
+  const { name, description, tags, src, thumbnail, duration } = req.body;
+  if (!name || !src || !description || !thumbnail || !duration) {
+    return res.status(400).send("Name, description, video, thumbnail and duration are required");
   }
   let videoFile, imageFile;
   try {
@@ -157,7 +161,7 @@ async function addVideo(req, res) {
       return res.status(401).send("Invalid user");
     }
     videoFile = write64FileWithCopies(name, src);
-    imageFile = write64FileWithCopies(name, thumbnail);
+    imageFile = write64FileWithCopies(name + " thumbnail", thumbnail);
     if (!videoFile) {
       return res.status(400).send("Invalid video file");
     }
@@ -168,12 +172,19 @@ async function addVideo(req, res) {
       tags,
       src: videoFile,
       thumbnail: imageFile,
+      duration,
     });
     await video.save();
     user.videos.push(video._id);
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
+    if (videoFile) {
+      deletePublicFile("video", videoFile);
+    }
+    if (imageFile) {
+      deletePublicFile("image", imageFile);
+    }
     return res.status(400).send("unexpected error accrued");
   }
 }
@@ -234,8 +245,9 @@ async function getVideosDetailsByUserId(req, res) {
               $project: {
                 name: 1,
                 views: 1,
-                src: 1,
+                thumbnail: 1,
                 date: 1,
+                duration: 1,
                 likesCount: { $size: "$likes" },
                 commentsCount: { $size: "$comments" },
               },

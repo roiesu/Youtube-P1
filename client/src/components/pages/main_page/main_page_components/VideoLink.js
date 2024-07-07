@@ -7,22 +7,15 @@ import {
   getMediaFromServer,
 } from "../../../../utilities";
 
-function VideoLink({ name, uploader, date, views, _id, src }) {
-  const [duration, setDuration] = useState(0);
+function VideoLink({ name, uploader, date, views, _id, thumbnail, duration }) {
   return (
     <div className="video-card">
       <div className="video-container">
         <Link className="video-link" to={`/watch?channel=${uploader.username}&v=${_id}`}>
-          <video
-            onDurationChange={(e) => {
-              setDuration(Math.floor(e.target.duration));
-            }}
-          >
-            <source src={getMediaFromServer("video", src)} type="video/mp4" />
-          </video>
+          <img src={thumbnail ? getMediaFromServer("image", thumbnail) : ""} />
         </Link>
 
-        <span className="video-length">{secondsToTime(duration)}</span>
+        <span className="video-length">{secondsToTime(duration ? duration : 0)}</span>
       </div>
       <div className="video-details">
         <div className="video-name">{name}</div>
