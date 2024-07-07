@@ -52,7 +52,7 @@ async function getMinimalVideoDetails(req, res) {
 
   try {
     const video = await Video.findById(pid)
-      .select(["name", "description", "tags"])
+      .select(["name", "description", "tags", "thumbnail", "src"])
       .populate("uploader", ["username", "_-id"]);
     if (!video || video.uploader.username != id) {
       return res.status(404).send("Video not found");
@@ -87,7 +87,9 @@ async function getVideo(req, res) {
       likedVideo = true;
     }
     return res.status(200).send({ ...video.toJSON(), likes: video.likes.length, likedVideo });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
   return res.sendStatus(404);
 }
 

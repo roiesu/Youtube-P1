@@ -37,7 +37,7 @@ function MyVideoItem({
       <td>{longFormatter.format(commentsCount)}</td>
       <td className="video-actions">
         <IconTrash onClick={deleteVideo} />
-        <Link to={`/video/edit?v=${_id}&chanel=${uploader}`}>
+        <Link to={`/video/edit?v=${_id}&channel=${uploader}`}>
           <IconEdit />
         </Link>
       </td>

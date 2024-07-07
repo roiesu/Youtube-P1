@@ -94,14 +94,11 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
           Upload Video
         </button>
         {videoPreview ? (
-          <>
-            <div className="video-container">
-              <video controls loop key={videoPreview} ref={videoRef}>
-                <source src={videoPreview} type="video/mp4" />
-              </video>
-            </div>
-            <ImagePicker setThumbnail={setThumbnail} videoRef={videoRef} />
-          </>
+          <ImagePicker
+            videoPreview={videoPreview}
+            setThumbnail={setThumbnail}
+            videoRef={videoRef}
+          />
         ) : (
           ""
         )}

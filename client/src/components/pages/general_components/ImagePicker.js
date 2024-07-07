@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { readFileIntoState } from "../../../utilities";
-function ImagePicker({ setThumbnail, videoRef }) {
-  const [imageURI, setImageURI] = useState(null);
+function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
+  const [imageURI, setImageURI] = useState(thumbnail);
   const [isCatchingFrame, setIsCatchingFrame] = useState(false);
   const canvasRef = useRef(null);
 
@@ -20,10 +20,19 @@ function ImagePicker({ setThumbnail, videoRef }) {
     context.fillStyle = "black";
     context.fill();
     context.drawImage(item, 0, 0, width, height, offsetX, 0, newWidth, canvasRef.current.height);
-    setThumbnail(canvasRef.current.toDataURL());
+    try {
+      setThumbnail(canvasRef.current.toDataURL());
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <div>
+      <div className="video-container">
+        <video crossOrigin="anonymous" controls loop key={videoPreview} ref={videoRef}>
+          <source src={videoPreview} type="video/mp4" />
+        </video>
+      </div>
       <div>
         <button disabled={isCatchingFrame} onClick={() => setIsCatchingFrame(true)}>
           Catch frame
@@ -43,11 +52,16 @@ function ImagePicker({ setThumbnail, videoRef }) {
               accept="image/*"
               onChange={(e) => readFileIntoState(e.target.files[0], setImageURI)}
             />
-            <img style={{ display: "none" }} src={imageURI} onLoad={uploadThumbnail} />
+            <img
+              style={{ display: "none" }}
+              crossOrigin="anonymous"
+              src={imageURI}
+              onLoad={uploadThumbnail}
+            />
           </>
         )}
       </div>
-      <canvas className="thumb-canvas" height={180} width={320} ref={canvasRef} />
+      <canvas allowTaint={true} className="thumb-canvas" height={180} width={320} ref={canvasRef} />
     </div>
   );
 }
