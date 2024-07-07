@@ -27,7 +27,9 @@ async function addUser(req, res) {
       deletePublicFile("image", imagePath);
     }
     if (err.message.match(/.*User validation.*/)) {
-      return res.status(400).send(err.message.match(/(Invalid .+?)(?:,|$)/g).join(" ") + ".");
+      return res
+        .status(400)
+        .send(err.message.replace(/\., /g, ".\n").replace(/^User validation failed: /, ""));
     }
     return res.status(400).send(err.message);
   }
