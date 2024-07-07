@@ -4,6 +4,7 @@ import "./UploadVideoPage.css";
 import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
+import ImagePicker from "../general_components/ImagePicker";
 
 function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
@@ -14,42 +15,25 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
-  const canvasRef = useRef(null);
   const videoRef = useRef(null);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
       readFileIntoState(videoFile, setVideoPreview);
     }
   }, [videoFile]);
-
   function validateInput(input) {
     return input != "" && input != null;
   }
-  function captureFrame() {
-    const heightRatio = videoRef.current.videoHeight / canvasRef.current.height;
-    const newWidth = videoRef.current.videoWidth / heightRatio;
-    const offsetX = (canvasRef.current.width - newWidth) / 2;
-    const context = canvasRef.current.getContext("2d");
-    context.rect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    context.fillStyle = "black";
-    context.fill();
-    context.drawImage(
-      videoRef.current,
-      0,
-      0,
-      videoRef.current.videoWidth,
-      videoRef.current.videoHeight,
-      offsetX,
-      0,
-      newWidth,
-      canvasRef.current.height
-    );
-    setThumbnail(canvasRef.current.toDataURL());
-  }
 
   async function handleSubmit() {
-    if (!validateInput(title) || !validateInput(videoFile) || !validateInput(description)) {
+    if (
+      !validateInput(title) ||
+      !validateInput(videoFile) ||
+      !validateInput(description) ||
+      !validateInput(thumbnail)
+    ) {
       showToast("Name, Description and a video file are required");
       return;
     }
@@ -60,6 +44,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
     const newVideo = {
       name: title,
       src: videoPreview,
+      thumbnail,
       description,
       tags: tagsToSend,
       duration: Math.floor(videoRef.current.duration),
@@ -115,11 +100,10 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
                 <source src={videoPreview} type="video/mp4" />
               </video>
             </div>
-            <button onClick={captureFrame}>capture frame for thumbnail</button>
-            <canvas className="thumb-canvas" height={180} width={340} ref={canvasRef} />
+            <ImagePicker setThumbnail={setThumbnail} videoRef={videoRef} />
           </>
         ) : (
-          "no video"
+          ""
         )}
       </div>
     </div>

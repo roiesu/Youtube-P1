@@ -144,10 +144,11 @@ async function updateVideo(req, res) {
 
 async function addVideo(req, res) {
   const { id } = req.params;
-  const { name, description, tags, src } = req.body;
+  const { name, description, tags, src, thumbnail } = req.body;
   if (!name || !src) {
     return res.status(400).send("Name and video are required");
   }
+  let videoFile, imageFile;
   try {
     const user = await User.findOne({ username: id });
     if (!user) {
@@ -155,17 +156,25 @@ async function addVideo(req, res) {
     } else if (user._id != req.user) {
       return res.status(401).send("Invalid user");
     }
-    let fileName = write64FileWithCopies(name, src);
-    if (!fileName) {
+    videoFile = write64FileWithCopies(name, src);
+    imageFile = write64FileWithCopies(name, thumbnail);
+    if (!videoFile) {
       return res.status(400).send("Invalid video file");
     }
-    const video = new Video({ name, uploader: user._id, description, tags, src: fileName });
+    const video = new Video({
+      name,
+      uploader: user._id,
+      description,
+      tags,
+      src: videoFile,
+      thumbnail: imageFile,
+    });
     await video.save();
     user.videos.push(video._id);
     await user.save();
     return res.sendStatus(201);
   } catch (err) {
-    return res.status(400).send("unexpected error acurred");
+    return res.status(400).send("unexpected error accrued");
   }
 }
 
