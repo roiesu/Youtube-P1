@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+
+body, .video-details {
+    font-family: 'Heebo', sans-serif;
+}
+
 .signup-page,
 .signin-page,
 .mainpage-page {

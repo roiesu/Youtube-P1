@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+
+body, .video-details {
+    font-family: 'Heebo', sans-serif;
+}
+
 .video-list {
   display: flex;
   flex-wrap: wrap;
@@ -46,7 +52,7 @@ a.video-link {
 
 .video-details {
   width: 90%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Heebo', sans-serif;
 }
 
 .video-details h1 {
@@ -144,7 +150,7 @@ a.video-link {
 .profile-pic.small {
   width: 35px;
   border-width: 2px;
-  height: 35px;
+  height: 30px;
 }
 .user-details {
   display: flex;
@@ -218,4 +224,4 @@ a.video-link {
   border-color: #d32f2f;
  }
 
- 
+
