@@ -213,7 +213,7 @@ async function likeVideo(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (video && video.uploader.username === id) {
-      if (video.uploader._id == req.user) {
+      if (video.uploader._id != req.user) {
         return res.sendStatus(401);
       }
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
@@ -237,7 +237,7 @@ async function dislikeVideo(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
     if (video && video.uploader.username === id) {
-      if (video.uploader._id == req.user) {
+      if (video.uploader._id != req.user) {
         return res.sendStatus(401);
       }
       await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
