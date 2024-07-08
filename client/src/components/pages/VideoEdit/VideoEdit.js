@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
-import { getQuery, simpleErrorCatcher } from "../../../utilities";
+import { getQuery, simpleErrorCatcher, getMediaFromServer } from "../../../utilities";
+import ImagePicker from "../general_components/ImagePicker";
 
 function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
@@ -11,7 +12,10 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const [videoName, setVideoName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
+  const [thumbnail, setThumbnail] = useState(null);
+  const [videoPreview, setVideoPreview] = useState(null);
   const [video, setVideo] = useState(null);
+  const videoRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const changeName = (event) => {
@@ -30,19 +34,21 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       showToast("Both name and description are required");
       return;
     }
-
     try {
-      const token = localStorage.getItem("token");
       const newTags = tags.split(" ");
-      const response = await axios.patch(
-        `/api/users/${currentUser}/videos/${video._id}`,
-        {
-          name: videoName,
-          description: description,
-          tags: newTags,
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      );
+      const data = {
+        name: videoName,
+        description: description,
+        tags: newTags,
+      };
+      if (!thumbnail.startsWith("http")) {
+        data.thumbnail = thumbnail;
+      }
+      console.log(data);
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(`/api/users/${currentUser}/videos/${video._id}`, data, {
+        headers: { Authorization: "Bearer " + token },
+      });
       if (response.status === 201) {
         navigate("/my-videos");
       }
@@ -54,16 +60,19 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   useEffect(() => {
     async function getVideo() {
       if (video) return;
-      const { v, chanel } = getQuery(location.search);
-      if (!v || !chanel) return;
+      const { v, channel } = getQuery(location.search);
+      if (!v || !channel) return;
       try {
-        const response = await axios.get(`/api/users/${chanel}/videos/${v}/details`);
+        const response = await axios.get(`/api/users/${channel}/videos/${v}/details`);
         const found = response.data;
         setVideo(found);
         setVideoName(found.name);
         setDescription(found.description);
+        setVideoPreview(getMediaFromServer("video", found.src));
+        setThumbnail(getMediaFromServer("image", found.thumbnail));
         setTags(found.tags.join(" "));
       } catch (err) {
+        console.log(err);
         simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
@@ -106,6 +115,16 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
           <button className="submit-button" onClick={submit}>
             Update Video
           </button>
+          {videoPreview ? (
+            <ImagePicker
+              thumbnail={thumbnail}
+              videoPreview={videoPreview}
+              setThumbnail={setThumbnail}
+              videoRef={videoRef}
+            />
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <p>Loading...</p>

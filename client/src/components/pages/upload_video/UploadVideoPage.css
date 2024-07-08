@@ -71,12 +71,16 @@ h1 {
   height: 200px;
   display: block;
 }
-.video-upload-container video {
+.video-upload-container .video-container {
   display: block;
   margin: 20px auto;
-  max-width: 100%;
+  height: 300px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.video-upload-container .video-container video {
+  height: 100%;
+  width: 100%;
 }
 
 .no-video-message {

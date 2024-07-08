@@ -27,7 +27,9 @@ async function addUser(req, res) {
       deletePublicFile("image", imagePath);
     }
     if (err.message.match(/.*User validation.*/)) {
-      return res.status(400).send(err.message.match(/(Invalid .+?)(?:,|$)/g).join(" ") + ".");
+      return res
+        .status(400)
+        .send(err.message.replace(/\., /g, ".\n").replace(/^User validation failed: /, ""));
     }
     return res.status(400).send(err.message);
   }
@@ -144,7 +146,7 @@ async function getVideosByUserId(req, res) {
       .select("-password")
       .populate({
         path: "videos",
-        select: ["name", "views", "date", "src", "uploader"],
+        select: ["name", "views", "date", "thumbnail", "uploader"],
         populate: { path: "uploader", select: ["username", "name", "image"] },
       });
     if (!user) {

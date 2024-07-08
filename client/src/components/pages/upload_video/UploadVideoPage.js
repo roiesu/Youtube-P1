@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
 import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
+import ImagePicker from "../general_components/ImagePicker";
 
 function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
@@ -13,19 +14,26 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const [tags, setTags] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
+  const videoRef = useRef(null);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
       readFileIntoState(videoFile, setVideoPreview);
     }
   }, [videoFile]);
-
   function validateInput(input) {
     return input != "" && input != null;
   }
 
   async function handleSubmit() {
-    if (!validateInput(title) || !validateInput(videoFile) || !validateInput(description)) {
+    if (
+      !validateInput(title) ||
+      !validateInput(videoFile) ||
+      !validateInput(description) ||
+      !validateInput(thumbnail)
+    ) {
       showToast("Name, Description and a video file are required");
       return;
     }
@@ -36,8 +44,10 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
     const newVideo = {
       name: title,
       src: videoPreview,
+      thumbnail,
       description,
       tags: tagsToSend,
+      duration: Math.floor(videoRef.current.duration),
     };
     try {
       const response = await axios.post(`/api/users/${currentUser}/videos`, newVideo, {
@@ -84,11 +94,13 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
           Upload Video
         </button>
         {videoPreview ? (
-          <video width={300}>
-            <source src={videoPreview} type="video/mp4" />
-          </video>
+          <ImagePicker
+            videoPreview={videoPreview}
+            setThumbnail={setThumbnail}
+            videoRef={videoRef}
+          />
         ) : (
-          "no video"
+          ""
         )}
       </div>
     </div>

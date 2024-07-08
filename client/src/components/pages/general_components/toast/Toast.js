@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Toast.css";
 import { useTheme } from "../ThemeContext";
 function Toast({ message, active }) {
