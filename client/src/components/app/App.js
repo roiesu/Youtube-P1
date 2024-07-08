@@ -30,7 +30,7 @@ function App() {
     setToastShowing("show");
     toastTimeout = setTimeout(() => {
       setToastShowing("hide");
-    }, 3500);
+    }, 5000);
   }
   function handleExpiredToken(navigate) {
     showToast("Invalid token.\nLogging out");

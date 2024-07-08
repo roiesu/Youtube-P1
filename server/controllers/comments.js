@@ -2,29 +2,6 @@ const User = require("../models/user");
 const Comment = require("../models/comment");
 const Video = require("../models/video");
 
-async function getComments(req, res) {
-  const { videoId } = req.params;
-  let comments = [];
-  try {
-    comments = await Comment.find({ video: videoId })
-      .select(["_id", "-password"])
-      .sort({ date: "desc" });
-  } catch (err) {}
-  return res.status(200).send(comments);
-}
-
-async function getComment(req, res) {
-  const { id, pid, cid } = req.params;
-  let comment;
-  try {
-    comment = await Comment.findOne({ _id: cid, user: id, video: pid });
-    if (comment) {
-      return res.status(200).send(comment);
-    }
-    return res.status(404).send("Comment not found");
-  } catch (err) {}
-}
-
 async function addComment(req, res) {
   const { id, pid } = req.params;
   const { text } = req.body;
@@ -109,8 +86,6 @@ async function deleteComment(req, res) {
 }
 
 module.exports = {
-  getComments,
-  getComment,
   addComment,
   editComment,
   deleteComment,

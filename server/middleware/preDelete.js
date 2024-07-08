@@ -34,6 +34,7 @@ async function preDeleteVideo(next, document) {
     }
     // Remove the file
     deletePublicFile("video", document.src);
+    deletePublicFile("image", document.thumbnail);
     next();
   } catch (err) {
     next(err);

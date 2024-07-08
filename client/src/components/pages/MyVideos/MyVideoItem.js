@@ -10,28 +10,21 @@ function MyVideoItem({
   uploader,
   date,
   views,
+  duration,
   likesCount,
   commentsCount,
-  src,
+  thumbnail,
   deleteVideo,
 }) {
-  const [duration, setDuration] = useState(0);
-
   return (
     <tr className="my-video-item">
       <td className="video-container">
-        <Link to={`/watch?v=${_id}&channel=${uploader.username}`}>
-          <video
-            onDurationChange={(e) => {
-              setDuration(Math.floor(e.target.duration));
-            }}
-          >
-            <source src={getMediaFromServer("video", src)} type="video/mp4" />
-          </video>
+        <Link to={`/watch?v=${_id}&channel=${uploader}`}>
+          <img src={getMediaFromServer("image", thumbnail)} />
         </Link>
       </td>
       <td>{name}</td>
-      <td>{secondsToTime(duration)}</td>
+      <td>{secondsToTime(duration ? duration : 0)}</td>
       <td>
         {new Date(date).toLocaleDateString("en", {
           year: "numeric",
@@ -44,7 +37,7 @@ function MyVideoItem({
       <td>{longFormatter.format(commentsCount)}</td>
       <td className="video-actions">
         <IconTrash onClick={deleteVideo} />
-        <Link to={`/video/edit?v=${_id}&chanel=${uploader.username}`}>
+        <Link to={`/video/edit?v=${_id}&channel=${uploader}`}>
           <IconEdit />
         </Link>
       </td>
