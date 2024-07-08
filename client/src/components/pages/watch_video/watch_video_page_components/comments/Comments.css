@@ -22,7 +22,7 @@
 
 .comment-input,
 .edit-comment-input {
-  width: 70%;
+  width: 100%;
   font-size: 1.2rem;
   outline: none;
   border: none;
@@ -72,7 +72,7 @@
 .comment-content.closed {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  /* -webkit-line-clamp:3; */
   overflow: hidden;
   text-overflow: ellipsis;
   height: 60px;

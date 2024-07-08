@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+
+body, .video-details {
+    font-family: 'Heebo', sans-serif;
+}
+
 .video-list {
   display: flex;
   flex-wrap: wrap;
@@ -46,7 +52,7 @@ a.video-link {
 
 .video-details {
   width: 90%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Heebo', sans-serif;
 }
 
 .video-details h1 {
@@ -134,8 +140,8 @@ a.video-link {
   padding: 20px 0px;
 }
 .profile-pic {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: solid 2.5px black;
   margin-right: 10px;
@@ -144,7 +150,7 @@ a.video-link {
 .profile-pic.small {
   width: 35px;
   border-width: 2px;
-  height: 35px;
+  height: 30px;
 }
 .user-details {
   display: flex;
@@ -202,3 +208,20 @@ a.video-link {
   cursor: pointer;
   transform: translateY(-2px);
 }
+ .video-list-header,
+ .more-videos-header {
+  font-size: 20px; 	
+  font-weight: bold;	
+  color: #dddddd;	
+  background-color: rgb(63, 62, 62);	
+  padding: 10px;	
+  border-radius: 8px;	
+  border-color: antiquewhite;	
+  align-items: flex-start;	
+  margin-bottom: 20px;	
+  width: 100%;	
+  padding: 0 20px; 	
+  border-color: #d32f2f;
+ }
+
+

@@ -8,6 +8,7 @@ import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
+
 function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
@@ -84,13 +85,13 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           search
         </button>
       </div>
+      <div className="video-list-header">The most popular videos:</div>
       <div className="video-list top">
-      <div>The most popular videos</div>
         {topVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
         ))}
       </div>
-      <div>dividier</div>
+      <div className="more-videos-header">More videos to watch:</div>
       <div className="video-list rest">
         {restVideos.map((video) => (
           <VideoLink key={video._id} {...video} />
