@@ -11,7 +11,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
 
   const [videoName, setVideoName] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState();
   const [thumbnail, setThumbnail] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [video, setVideo] = useState(null);
@@ -35,12 +35,13 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       return;
     }
     try {
-      const newTags = tags.split(" ");
       const data = {
         name: videoName,
         description: description,
-        tags: newTags,
       };
+      if (tags) {
+        data.tags = tags.split(" ");
+      }
       if (!thumbnail.startsWith("http")) {
         data.thumbnail = thumbnail;
       }

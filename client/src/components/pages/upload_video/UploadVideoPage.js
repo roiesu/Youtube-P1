@@ -11,7 +11,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState();
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
@@ -38,7 +38,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
       return;
     }
     let tagsToSend = [];
-    if (tags != "") {
+    if (tags) {
       tagsToSend = tags.split(" ");
     }
     const newVideo = {
