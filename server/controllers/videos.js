@@ -235,7 +235,7 @@ async function likeVideo(req, res) {
 async function dislikeVideo(req, res) {
   const { id, pid } = req.params;
   try {
-    const video = await Video.findById(pid).populate("uploader", ["username", "-_id"]);
+    const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (video && video.uploader.username === id) {
       if (video.uploader._id != req.user) {
         return res.sendStatus(401);
