@@ -62,6 +62,7 @@ async function getMinimalVideoDetails(req, res) {
 }
 async function getVideo(req, res) {
   const { id, pid } = req.params;
+
   try {
     const video = await Video.findById(pid).populate("uploader", [
       "name",
@@ -212,9 +213,6 @@ async function likeVideo(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (video && video.uploader.username === id) {
-      if (video.uploader._id != req.user) {
-        return res.sendStatus(401);
-      }
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
@@ -236,9 +234,6 @@ async function dislikeVideo(req, res) {
   try {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (video && video.uploader.username === id) {
-      if (video.uploader._id != req.user) {
-        return res.sendStatus(401);
-      }
       await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
       video.likes.pull(req.user);
       await video.save();
@@ -316,7 +311,6 @@ async function getVideosByUserId(req, res) {
     if (!user) {
       return res.sendStatus(404);
     }
-    console.log(user.videos);
     return res.status(200).send(user.videos);
   } catch (err) {
     return res.status(500).send(err.message);

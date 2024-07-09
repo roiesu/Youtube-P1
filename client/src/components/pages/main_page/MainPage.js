@@ -12,6 +12,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [topVideos, setTopVideos] = useState([]);
+  const [userImage, setUserImage] = useState("");
   const [restVideos, setRestVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
   const [searchValue, setSearchValue] = useState("");
@@ -43,9 +44,14 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
   useEffect(() => {
     getVideos();
   }, []);
+
   useEffect(() => {
     getUserDetails();
   }, [, currentUser]);
+
+  useEffect(() => {
+    if (userDetails) setUserImage(getMediaFromServer("image", userDetails.image));
+  }, [userDetails]);
 
   function search() {
     getVideos();
@@ -59,7 +65,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           {userDetails ? (
             <>
               <Link to={`/channel/${currentUser}`}>
-                <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
+                <img key={userImage} className="profile-pic" src={userImage} />
               </Link>
               <span className="user-name">Welcome back {userDetails.name}</span>
             </>

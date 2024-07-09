@@ -34,7 +34,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
       !validateInput(description) ||
       !validateInput(thumbnail)
     ) {
-      showToast("Name, Description and a video file are required");
+      showToast("Name, Description, video file and thumbnail are required");
       return;
     }
     let tagsToSend = [];
