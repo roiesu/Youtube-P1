@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const videos = require("./videos");
 const users = require("./users");
-const { loginUser } = require("../controllers/users");
+const tokens = require("./tokens");
+const { getVideos } = require("../controllers/videos");
 
-router.use("/videos", videos);
+router.get("/videos", getVideos);
 router.use("/users", users);
-router.post("/tokens", loginUser);
+router.use("/tokens", tokens);
 
 module.exports = router;

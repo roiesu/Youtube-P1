@@ -12,8 +12,6 @@ async function addComment(req, res) {
     const video = await Video.findById(pid).populate("uploader", ["username"]);
     if (!video || video.uploader.username !== id) {
       return res.status(404).send("Video not found");
-    } else if (video.uploader._id != req.user) {
-      return res.sendStatus(401);
     }
     const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();

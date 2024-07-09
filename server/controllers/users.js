@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
 const { write64FileWithCopies, override64File, deletePublicFile } = require("../utils");
 
 async function addUser(req, res) {
@@ -32,29 +31,6 @@ async function addUser(req, res) {
         .send(err.message.replace(/\., /g, ".\n").replace(/^User validation failed: /, ""));
     }
     return res.status(400).send(err.message);
-  }
-}
-
-async function loginUser(req, res) {
-  const { username, password } = req.body;
-  if (!username) {
-    return res.status(400).send("Username is required");
-  }
-  if (!password) {
-    return res.status(400).send("password is required");
-  }
-  try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-    if (user.password !== password) {
-      return res.status(404).send("Wrong password");
-    }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    return res.status(200).send(token);
-  } catch (err) {
-    return res.status(err.status || 400).send(err.message);
   }
 }
 
@@ -138,32 +114,10 @@ async function deleteUser(req, res) {
   }
 }
 
-// channel page
-async function getVideosByUserId(req, res) {
-  const { id } = req.params;
-  try {
-    const user = await User.findOne({ username: id })
-      .select("-password")
-      .populate({
-        path: "videos",
-        select: ["name", "views", "date", "thumbnail", "uploader"],
-        populate: { path: "uploader", select: ["username", "name", "image"] },
-      });
-    if (!user) {
-      return res.sendStatus(404);
-    }
-    return res.status(200).send(user.videos);
-  } catch (err) {
-    return res.status(500).send(err.message);
-  }
-}
-
 module.exports = {
   addUser,
-  loginUser,
   getUser,
   updateUser,
   deleteUser,
-  getVideosByUserId,
   getFullUserDetails,
 };

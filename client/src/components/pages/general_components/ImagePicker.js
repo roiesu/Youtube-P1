@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { readFileIntoState } from "../../../utilities";
-function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
+function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail, showToast }) {
   const [imageURI, setImageURI] = useState(thumbnail);
   const [isCatchingFrame, setIsCatchingFrame] = useState(false);
   const canvasRef = useRef(null);
@@ -23,7 +23,7 @@ function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
     try {
       setThumbnail(canvasRef.current.toDataURL());
     } catch (err) {
-      console.log(err);
+      showToast("Couldn't get image");
     }
   }
   return (

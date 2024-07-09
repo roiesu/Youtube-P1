@@ -11,7 +11,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
 
   const [videoName, setVideoName] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState();
   const [thumbnail, setThumbnail] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [video, setVideo] = useState(null);
@@ -35,16 +35,18 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       return;
     }
     try {
-      const newTags = tags.split(" ");
       const data = {
         name: videoName,
         description: description,
-        tags: newTags,
       };
+      if (tags) {
+        data.tags = tags.split(" ");
+      } else {
+        data.tags = [];
+      }
       if (!thumbnail.startsWith("http")) {
         data.thumbnail = thumbnail;
       }
-      console.log(data);
       const token = localStorage.getItem("token");
       const response = await axios.patch(`/api/users/${currentUser}/videos/${video._id}`, data, {
         headers: { Authorization: "Bearer " + token },
@@ -63,7 +65,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       const { v, channel } = getQuery(location.search);
       if (!v || !channel) return;
       try {
-        const response = await axios.get(`/api/users/${channel}/videos/${v}/details`);
+        const response = await axios.get(`/api/users/${channel}/videos/details/${v}`);
         const found = response.data;
         setVideo(found);
         setVideoName(found.name);
@@ -72,16 +74,12 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
         setThumbnail(getMediaFromServer("image", found.thumbnail));
         setTags(found.tags.join(" "));
       } catch (err) {
-        console.log(err);
         simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
     getVideo();
   }, [currentUser]);
 
-  if (!video) {
-    return "Video not found";
-  }
   return (
     <div className={`page video-upload-page ${theme}`}>
       {video ? (
@@ -121,13 +119,14 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
               videoPreview={videoPreview}
               setThumbnail={setThumbnail}
               videoRef={videoRef}
+              showToast={showToast}
             />
           ) : (
             ""
           )}
         </div>
       ) : (
-        <p>Loading...</p>
+        <div>No video found</div>
       )}
     </div>
   );
