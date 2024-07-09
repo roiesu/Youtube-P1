@@ -48,7 +48,6 @@ async function getVideos(req, res) {
 }
 async function getMinimalVideoDetails(req, res) {
   const { id, pid } = req.params;
-
   try {
     const video = await Video.findById(pid)
       .select(["name", "description", "tags", "thumbnail", "src"])
@@ -301,6 +300,25 @@ async function getVideosDetailsByUserId(req, res) {
   }
 }
 
+async function getVideosByUserId(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ username: id })
+      .select(["_id", "videos"])
+      .populate({
+        path: "videos",
+        select: ["name", "views", "date", "thumbnail", "uploader", "duration"],
+        populate: { path: "uploader", select: ["username", "name", "image"] },
+      });
+    if (!user) {
+      return res.sendStatus(404);
+    }
+    return res.status(200).send(user.videos);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
 module.exports = {
   getVideos,
   getVideo,
@@ -311,4 +329,5 @@ module.exports = {
   dislikeVideo,
   getVideosDetailsByUserId,
   getMinimalVideoDetails,
+  getVideosByUserId,
 };

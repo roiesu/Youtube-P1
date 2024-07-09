@@ -45,7 +45,6 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       if (!thumbnail.startsWith("http")) {
         data.thumbnail = thumbnail;
       }
-      console.log(data);
       const token = localStorage.getItem("token");
       const response = await axios.patch(`/api/users/${currentUser}/videos/${video._id}`, data, {
         headers: { Authorization: "Bearer " + token },
@@ -64,7 +63,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       const { v, channel } = getQuery(location.search);
       if (!v || !channel) return;
       try {
-        const response = await axios.get(`/api/users/${channel}/videos/${v}/details`);
+        const response = await axios.get(`/api/users/${channel}/videos/details/${v}`);
         const found = response.data;
         setVideo(found);
         setVideoName(found.name);
@@ -73,7 +72,6 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
         setThumbnail(getMediaFromServer("image", found.thumbnail));
         setTags(found.tags.join(" "));
       } catch (err) {
-        console.log(err);
         simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
       }
     }
@@ -122,6 +120,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
               videoPreview={videoPreview}
               setThumbnail={setThumbnail}
               videoRef={videoRef}
+              showToast={showToast}
             />
           ) : (
             ""
