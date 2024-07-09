@@ -11,7 +11,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState();
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
@@ -34,11 +34,11 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
       !validateInput(description) ||
       !validateInput(thumbnail)
     ) {
-      showToast("Name, Description and a video file are required");
+      showToast("Name, Description, video file and thumbnail are required");
       return;
     }
     let tagsToSend = [];
-    if (tags != "") {
+    if (tags) {
       tagsToSend = tags.split(" ");
     }
     const newVideo = {
@@ -98,6 +98,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
             videoPreview={videoPreview}
             setThumbnail={setThumbnail}
             videoRef={videoRef}
+            showToast={showToast}
           />
         ) : (
           ""

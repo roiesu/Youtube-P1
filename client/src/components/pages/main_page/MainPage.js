@@ -8,20 +8,22 @@ import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-
 function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
   const searchInputRef = useRef(null);
   const [topVideos, setTopVideos] = useState([]);
+  const [userImage, setUserImage] = useState("");
   const [restVideos, setRestVideos] = useState([]);
   const [userDetails, setUserDetails] = useState();
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   async function getVideos() {
     try {
-      const searchValue = searchInputRef.current.value ? searchInputRef.current.value : "";
-      const response = await axios.get(`/api/videos?name=${searchValue}`);
+      const value = searchInputRef.current.value || "";
+      const response = await axios.get(`/api/videos?name=${value}`);
       setTopVideos(response.data.topVideos);
       setRestVideos(response.data.restVideos);
+      setSearchValue(value);
     } catch (err) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
@@ -42,9 +44,14 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
   useEffect(() => {
     getVideos();
   }, []);
+
   useEffect(() => {
     getUserDetails();
   }, [, currentUser]);
+
+  useEffect(() => {
+    if (userDetails) setUserImage(getMediaFromServer("image", userDetails.image));
+  }, [userDetails]);
 
   function search() {
     getVideos();
@@ -58,7 +65,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           {userDetails ? (
             <>
               <Link to={`/channel/${currentUser}`}>
-                <img className="profile-pic" src={getMediaFromServer("image", userDetails.image)} />
+                <img key={userImage} className="profile-pic" src={userImage} />
               </Link>
               <span className="user-name">Welcome back {userDetails.name}</span>
             </>
@@ -85,18 +92,39 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
           search
         </button>
       </div>
-      <div className="video-list-header">The most popular videos:</div>
-      <div className="video-list top">
-        {topVideos.map((video) => (
-          <VideoLink key={video._id} {...video} />
-        ))}
-      </div>
-      <div className="more-videos-header">More videos to watch:</div>
-      <div className="video-list rest">
-        {restVideos.map((video) => (
-          <VideoLink key={video._id} {...video} />
-        ))}
-      </div>
+
+      {topVideos.length > 0 ? (
+        <>
+          <div className="video-list-header">
+            The most popular videos
+            {searchValue ? ` for "${searchValue}"` : ""}:
+          </div>
+          <div className="video-list top">
+            {topVideos.map((video) => (
+              <VideoLink key={video._id} {...video} />
+            ))}
+          </div>
+        </>
+      ) : searchValue ? (
+        `No results for "${searchValue}"`
+      ) : (
+        "No videos found"
+      )}
+
+      {restVideos.length > 0 ? (
+        <>
+          <div className="more-videos-header">
+            More videos to watch{searchValue ? ` for "${searchValue}"` : ""}:
+          </div>
+          <div className="video-list rest">
+            {restVideos.map((video) => (
+              <VideoLink key={video._id} {...video} />
+            ))}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

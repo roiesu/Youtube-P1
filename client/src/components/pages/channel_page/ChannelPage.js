@@ -40,11 +40,6 @@ const ChannelPage = ({ showToast, handleExpiredToken }) => {
     return rows;
   };
 
-  const mostViewedVideo = videos.reduce(
-    (max, video) => (video.views > max.views ? video : max),
-    videos[0] || {}
-  );
-
   return (
     <div className={`channel-page page ${theme}`}>
       {user ? (
@@ -63,9 +58,9 @@ const ChannelPage = ({ showToast, handleExpiredToken }) => {
             </div>
           </div>
           <div className="most-viewed-header">Most viewed:</div>
-          {mostViewedVideo._id && (
+          {videos[0] && (
             <div className="most-viewed-video">
-              <VideoLink {...mostViewedVideo} />
+              <VideoLink {...videos[0]} />
             </div>
           )}
           <div className="video-list">
@@ -73,7 +68,7 @@ const ChannelPage = ({ showToast, handleExpiredToken }) => {
               {user.name}
               {"'s videos:"}
             </div>
-            {videos.length === 0 ? <p>No videos found.</p> : renderVideosInRows()}
+            {videos.length <= 1 ? <p>No videos found.</p> : renderVideosInRows()}
           </div>
         </>
       ) : (

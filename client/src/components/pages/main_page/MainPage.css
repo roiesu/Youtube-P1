@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap");
 
-body, .video-details {
-    font-family: 'Heebo', sans-serif;
+body,
+.video-details {
+  font-family: "Heebo", sans-serif;
 }
 
 .video-list {
@@ -52,7 +53,7 @@ a.video-link {
 
 .video-details {
   width: 90%;
-  font-family: 'Heebo', sans-serif;
+  font-family: "Heebo", sans-serif;
 }
 
 .video-details h1 {
@@ -158,6 +159,9 @@ a.video-link {
   justify-content: center;
   align-items: center;
 }
+.user-details a {
+  color: #a2a2a2;
+}
 .video-card .user-details {
   align-self: flex-start;
 }
@@ -208,20 +212,18 @@ a.video-link {
   cursor: pointer;
   transform: translateY(-2px);
 }
- .video-list-header,
- .more-videos-header {
-  font-size: 20px; 	
-  font-weight: bold;	
-  color: #dddddd;	
-  background-color: rgb(63, 62, 62);	
-  padding: 10px;	
-  border-radius: 8px;	
-  border-color: antiquewhite;	
-  align-items: flex-start;	
-  margin-bottom: 20px;	
-  width: 100%;	
-  padding: 0 20px; 	
+.video-list-header,
+.more-videos-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dddddd;
+  background-color: rgb(63, 62, 62);
+  padding: 10px;
+  border-radius: 8px;
+  border-color: antiquewhite;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 0 20px;
   border-color: #d32f2f;
- }
-
-
+}
