@@ -41,6 +41,8 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
       };
       if (tags) {
         data.tags = tags.split(" ");
+      } else {
+        data.tags = [];
       }
       if (!thumbnail.startsWith("http")) {
         data.thumbnail = thumbnail;
@@ -78,9 +80,6 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
     getVideo();
   }, [currentUser]);
 
-  if (!video) {
-    return "Video not found";
-  }
   return (
     <div className={`page video-upload-page ${theme}`}>
       {video ? (
@@ -127,7 +126,7 @@ function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
           )}
         </div>
       ) : (
-        <p>Loading...</p>
+        <div>No video found</div>
       )}
     </div>
   );
