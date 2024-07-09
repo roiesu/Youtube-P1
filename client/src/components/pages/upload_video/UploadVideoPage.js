@@ -98,6 +98,7 @@ function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
             videoPreview={videoPreview}
             setThumbnail={setThumbnail}
             videoRef={videoRef}
+            showToast={showToast}
           />
         ) : (
           ""

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./App.css";
 import SignUp from "../pages/sign_up/SignUp";
@@ -42,7 +43,24 @@ function App() {
     if (navigate) navigate("/sign-in");
   }
   useEffect(() => {
-    localStorage.removeItem("token");
+    const autoLogin = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get("/api/tokens", {
+            headers: { Authorization: "Bearer " + token },
+          });
+          if (response.status == 200) {
+            setCurrentUser(response.data);
+          }
+        } catch (err) {
+          if (err.response && err.response.status != 401) {
+            localStorage.removeItem("token");
+          }
+        }
+      }
+    };
+    autoLogin();
   }, []);
   return (
     <ThemeContext>
