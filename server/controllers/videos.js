@@ -309,10 +309,14 @@ async function getVideosByUserId(req, res) {
         path: "videos",
         select: ["name", "views", "date", "thumbnail", "uploader", "duration"],
         populate: { path: "uploader", select: ["username", "name", "image"] },
+        options: {
+          sort: { views: "desc" },
+        },
       });
     if (!user) {
       return res.sendStatus(404);
     }
+    console.log(user.videos);
     return res.status(200).send(user.videos);
   } catch (err) {
     return res.status(500).send(err.message);
