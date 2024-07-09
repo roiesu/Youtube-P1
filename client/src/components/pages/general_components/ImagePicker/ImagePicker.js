@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { readFileIntoState } from "../../../utilities";
+import { readFileIntoState } from "../../../../utilities";
+import "./ImagePicker.css";
 function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
   const [imageURI, setImageURI] = useState(thumbnail);
   const [isCatchingFrame, setIsCatchingFrame] = useState(false);
@@ -34,9 +35,11 @@ function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
         </video>
       </div>
       <div>
+        <div className="Catch-frame-button"></div>
         <button disabled={isCatchingFrame} onClick={() => setIsCatchingFrame(true)}>
           Catch frame
         </button>
+        <div/>
         <button disabled={!isCatchingFrame} onClick={() => setIsCatchingFrame(false)}>
           Upload Thumbnail
         </button>
