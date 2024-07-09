@@ -5,7 +5,7 @@ import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
 import "./VideoEdit.css";
 import { getQuery, simpleErrorCatcher, getMediaFromServer } from "../../../utilities";
-import ImagePicker from "../general_components/ImagePicker/ImagePicker";
+import ImagePicker from "../general_components/ImagePicker";
 
 function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { readFileIntoState } from "../../../../utilities";
+import { readFileIntoState } from "../../../utilities";
 import "./ImagePicker.css";
 function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
   const [imageURI, setImageURI] = useState(thumbnail);
