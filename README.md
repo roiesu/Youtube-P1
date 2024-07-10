@@ -52,7 +52,8 @@ Github link: https://github.com/roiesu/Youtube-P1/tree/main-part-two
    1. JWT_SECRET = "(any text you want)"
    2. MONGODB_CONNECTION_URL = "(the connection url to your mongodb server)"
    3. MONGODB_DATABASE = "(the name of your mongodb database)"
-5. For now on, to run the program type "npm start" at the command line to start the application. To get to the web app go to "http://localhost:8080/.
+5. In the directory "db" you can find a copy of the data exported from our database. Import it to your mongodb database for your convenience.
+6. For now on, to run the program type "npm start" at the command line to start the application. To get to the web app go to "http://localhost:8080/.
 
 ## Workflow
 
