@@ -1,0 +1,180 @@
+[{
+  "_id": {
+    "$oid": "667c3044e861598ca3e65de0"
+  },
+  "username": "admin1",
+  "password": "Bishbash12!",
+  "name": "Moshik",
+  "image": "moshiko.jpeg",
+  "comments": [
+    {
+      "$oid": "667c4bd9e861598ca3e65e0b"
+    },
+    {
+      "$oid": "668588d3262c88da724ccabf"
+    },
+    {
+      "$oid": "66858cc1147e68e2f039c400"
+    },
+    {
+      "$oid": "66872b8015f53938a32b7aa7"
+    },
+    {
+      "$oid": "668b8db18da7ec125d38e5a1"
+    },
+    {
+      "$oid": "668bbd594f6be97c628d3735"
+    }
+  ],
+  "likes": [
+    {
+      "$oid": "667c3096e861598ca3e65de6"
+    },
+    {
+      "$oid": "668588605d279bf5379d16c7"
+    },
+    {
+      "$oid": "66858cac147e68e2f039c3e3"
+    },
+    {
+      "$oid": "6686cd5009f7a15a9cf8eea2"
+    },
+    {
+      "$oid": "66872d9f6ae89137b0f0ae2d"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65deb"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de4"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de9"
+    }
+  ],
+  "videos": [
+    {
+      "$oid": "667c3096e861598ca3e65de3"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de4"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de6"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de7"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de9"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65dea"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65deb"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65dec"
+    },
+    {
+      "$oid": "6686cd5009f7a15a9cf8eea2"
+    },
+    {
+      "$oid": "66872b7515f53938a32b7a9e"
+    },
+    {
+      "$oid": "66872d9f6ae89137b0f0ae2d"
+    },
+    {
+      "$oid": "668adb3fb0c7cde84b25597b"
+    }
+  ],
+  "__v": 7
+},
+{
+  "_id": {
+    "$oid": "667c3044e861598ca3e65de1"
+  },
+  "username": "NadavR",
+  "password": "Nadav123!",
+  "name": "Nadav Rottman Moses",
+  "image": "dolphin.jpeg",
+  "comments": [
+    {
+      "$oid": "667c4b12e861598ca3e65e0a"
+    },
+    {
+      "$oid": "667e6f8d407b35296baff0a8"
+    },
+    {
+      "$oid": "6686cc7009f7a15a9cf8ee6f"
+    }
+  ],
+  "likes": [
+    {
+      "$oid": "667c3096e861598ca3e65de3"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de4"
+    },
+    {
+      "$oid": "6686c9a3c4b621642ce1eecb"
+    }
+  ],
+  "videos": [
+    {
+      "$oid": "667c3096e861598ca3e65de5"
+    },
+    {
+      "$oid": "667c3096e861598ca3e65de8"
+    },
+    {
+      "$oid": "6686c9a3c4b621642ce1eecb"
+    },
+    {
+      "$oid": "6686cc6409f7a15a9cf8ee66"
+    },
+    {
+      "$oid": "6686cc8d09f7a15a9cf8ee7b"
+    },
+    {
+      "$oid": "6686cce309f7a15a9cf8ee93"
+    }
+  ],
+  "__v": 5
+},
+{
+  "_id": {
+    "$oid": "6686a016fdc87679384e0d8f"
+  },
+  "username": "Testuser",
+  "password": "Test123!",
+  "name": "Doner",
+  "image": "Testuser-profile-pic.jpeg",
+  "comments": [
+    {
+      "$oid": "6686a023fdc87679384e0da2"
+    }
+  ],
+  "videos": [
+    {
+      "$oid": "66871014513b20eb06458515"
+    },
+    {
+      "$oid": "668710d1513b20eb06458523"
+    },
+    {
+      "$oid": "6687119c513b20eb06458538"
+    }
+  ],
+  "likes": [
+    {
+      "$oid": "667c3096e861598ca3e65de9"
+    },
+    {
+      "$oid": "668710d1513b20eb06458523"
+    }
+  ],
+  "__v": 3
+}]
