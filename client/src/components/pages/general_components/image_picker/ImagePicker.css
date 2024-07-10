@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Heebo", sans-serif;
+}
+
+.image-picker button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.image-picker button:hover {
+  background-color: darkred;
+}
+
+.image-picker button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.image-picker .video-container {
+  margin-bottom: 20px;
+}
+
+.image-picker .input-field {
+  margin: 10px 0;
+}
+
+.image-picker .thumb-canvas {
+  display: block;
+  margin-top: 20px;
+}
+.image-picker image {
+  display: none;
+}
+.image-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

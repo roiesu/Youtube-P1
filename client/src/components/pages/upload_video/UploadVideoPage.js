@@ -4,7 +4,7 @@ import "./UploadVideoPage.css";
 import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
-import ImagePicker from "../general_components/ImagePicker";
+import ImagePicker from "../general_components/image_picker/ImagePicker";
 
 function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();

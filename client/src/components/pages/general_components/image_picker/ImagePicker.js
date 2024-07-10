@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
-import { readFileIntoState } from "../../../utilities";
-function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail, showToast }) {
+import { readFileIntoState } from "../../../../utilities";
+import "./ImagePicker.css";
+function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
   const [imageURI, setImageURI] = useState(thumbnail);
   const [isCatchingFrame, setIsCatchingFrame] = useState(false);
   const canvasRef = useRef(null);
@@ -27,7 +28,7 @@ function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail, showToas
     }
   }
   return (
-    <div>
+    <div className="image-picker">
       <div className="video-container">
         <video crossOrigin="anonymous" controls loop key={videoPreview} ref={videoRef}>
           <source src={videoPreview} type="video/mp4" />
