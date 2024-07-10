@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { readFileIntoState } from "../../../utilities";
+import { readFileIntoState } from "../../../../utilities";
 import "./ImagePicker.css";
 function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
   const [imageURI, setImageURI] = useState(thumbnail);
@@ -28,18 +28,16 @@ function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
     }
   }
   return (
-    <div>
+    <div className="image-picker">
       <div className="video-container">
         <video crossOrigin="anonymous" controls loop key={videoPreview} ref={videoRef}>
           <source src={videoPreview} type="video/mp4" />
         </video>
       </div>
       <div>
-        <div className="Catch-frame-button"></div>
         <button disabled={isCatchingFrame} onClick={() => setIsCatchingFrame(true)}>
           Catch frame
         </button>
-        <div/>
         <button disabled={!isCatchingFrame} onClick={() => setIsCatchingFrame(false)}>
           Upload Thumbnail
         </button>
