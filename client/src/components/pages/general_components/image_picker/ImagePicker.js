@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { readFileIntoState } from "../../../../utilities";
 import "./ImagePicker.css";
-function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail }) {
+function ImagePicker({ setThumbnail, videoRef, videoPreview, thumbnail, showToast }) {
   const [imageURI, setImageURI] = useState(thumbnail);
   const [isCatchingFrame, setIsCatchingFrame] = useState(false);
   const canvasRef = useRef(null);
