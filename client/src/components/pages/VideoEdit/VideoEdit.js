@@ -3,8 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import "../upload_video/UploadVideoPage.css";
 import axios from "axios";
+import "./VideoEdit.css";
 import { getQuery, simpleErrorCatcher, getMediaFromServer } from "../../../utilities";
-import ImagePicker from "../general_components/ImagePicker";
+import ImagePicker from "../general_components/image_picker/ImagePicker";
 
 function VideoEdit({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
