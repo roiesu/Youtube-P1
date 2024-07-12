@@ -9,6 +9,9 @@ activity = "1.9.0"
 constraintlayout = "2.1.4"
 firebaseCrashlyticsBuildtools = "3.0.0"
 media3Ui = "1.3.1"
+roomCommon = "2.6.1"
+roomRuntime = "2.6.1"
+roomCompiler = "2.6.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -21,6 +24,9 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Ui" }
 media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
+room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

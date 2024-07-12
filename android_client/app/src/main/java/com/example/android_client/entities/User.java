@@ -3,14 +3,20 @@ package com.example.android_client.entities;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class User {
+    @PrimaryKey()
+    private String _id;
     private String username;
     private String password;
     private String name;
     private String image;
 
-    public User(String username, String password, String name, String image){
+    public User(String _id,String username, String password, String name, String image){
+        this._id = _id;
         this.username=username;
         this.password=password;
         this.name=name;
@@ -52,8 +58,17 @@ public class User {
         this.image = image;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         return obj instanceof User&& ((User)obj).getUsername().equals(username);
     }
+    public String toString(){
+        return "("+_id+") "+username+": "+name;
+    }
+
+
 }
