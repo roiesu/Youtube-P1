@@ -3,6 +3,8 @@ package com.example.android_client.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.android_client.AppDB;
+import com.example.android_client.ContextApplication;
 import com.example.android_client.api.UserAPI;
 import com.example.android_client.dao.UserDao;
 import com.example.android_client.entities.User;
@@ -16,7 +18,8 @@ public class UserRepository {
         this.username = username;
         api = new UserAPI();
         userData = new UserData();
-//        dao = UserDao
+        AppDB database = AppDB.getInstance();
+        dao = database.userDao();
 
     }
     class UserData extends MutableLiveData<User> {
