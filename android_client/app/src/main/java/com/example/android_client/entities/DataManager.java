@@ -25,6 +25,8 @@ public class DataManager {
     private static ArrayList<User> usersList;
     private static ArrayList<Video> videoList;
     private static User currentUser;
+    private static String currentUsername ="admin1";
+    private static String token;
     private static DataManager instance;
     private static boolean initialized;
 
@@ -224,6 +226,9 @@ public class DataManager {
         Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
         getVideoList().add(newVideo);
         return newVideo;
+    }
+    public static String getCurrentUsername(){
+        return currentUsername;
     }
 
 
