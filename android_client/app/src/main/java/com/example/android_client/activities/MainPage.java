@@ -3,7 +3,6 @@ package com.example.android_client.activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,6 +17,7 @@ import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.UserViewModel;
 
 import java.util.ArrayList;
 
@@ -25,11 +25,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
 
@@ -43,13 +40,9 @@ public class MainPage extends AppCompatActivity {
     private SearchView searchInput;
     private ImageView displayImage;
     private CardView imageContainer;
+    private UserViewModel userDetails;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page);
-
+    public void initItems(){
         switchMode = findViewById(R.id.darkModeSwitch);
 
         sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
@@ -74,17 +67,26 @@ public class MainPage extends AppCompatActivity {
             }
             editor.apply();
         });
-
-        DataManager.initializeData(this);
-        videoList = findViewById(R.id.recyclerView);
-        videoList.setLayoutManager(new LinearLayoutManager(this));
         welcomeMessage = findViewById(R.id.welcomeMessage);
         displayImage = findViewById(R.id.userImage);
         imageContainer = findViewById(R.id.userImageContainer);
-        getVideos("");
+    }
+    public void initVideos(){
+        searchInput = findViewById(R.id.searchBar);
+        videoList = findViewById(R.id.recyclerView);
+        videoList.setLayoutManager(new LinearLayoutManager(this));
+
+//        getVideos("");
         VideoAdapter adapter = new VideoAdapter(this, videos);
         videoList.setAdapter(adapter);
-        searchInput = findViewById(R.id.searchBar);
+
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        if (dividerDrawable != null) {
+            dividerItemDecoration.setDrawable(dividerDrawable);
+            videoList.addItemDecoration(dividerItemDecoration);
+        }
         searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -105,18 +107,25 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        if (dividerDrawable != null) {
-            dividerItemDecoration.setDrawable(dividerDrawable);
-            videoList.addItemDecoration(dividerItemDecoration);
-        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_page);
+//        initItems();
+//        initVideos();
+
+        userDetails = new UserViewModel();
+//        DataManager.initializeData(this);
+
 
     }
     @Override
     protected void onStart() {
         super.onStart();
-        setWelcomeMessage();
+//        setWelcomeMessage();
     }
 
     private void setWelcomeMessage() {

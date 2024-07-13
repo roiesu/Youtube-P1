@@ -2,19 +2,22 @@ package com.example.android_client.entities;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class User {
-    @PrimaryKey()
+    @PrimaryKey()@NonNull()
     private String _id;
     // Unique?
     private String username;
     private String password;
     private String name;
     private String image;
+    public User(){
+    }
 
     public User(String _id,String username, String password, String name, String image){
         this._id = _id;
@@ -62,6 +65,10 @@ public class User {
     public String get_id() {
         return _id;
     }
+    public void set_id(String id) {
+        _id=id;
+    }
+
 
     @Override
     public boolean equals(@Nullable Object obj) {
