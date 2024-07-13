@@ -23,6 +23,9 @@ public class UserAPI {
         retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrlApi)).addConverterFactory(GsonConverterFactory.create()).build();
         webServiceAPI = retrofit.create(UserWebServiceAPI.class);
     }
+    public void getAll(){
+
+    }
     public void get(String username, MutableLiveData userData){
         if(username==null || username == ""){
             return;
