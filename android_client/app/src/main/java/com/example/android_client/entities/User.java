@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey()
     private String _id;
+    // Unique?
     private String username;
     private String password;
     private String name;

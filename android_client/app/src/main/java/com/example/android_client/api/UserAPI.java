@@ -36,7 +36,7 @@ public class UserAPI {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.w("Error", t);
+                Log.w("Error!!!", t);
             }
         });
     }
