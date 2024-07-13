@@ -11,8 +11,10 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="MANAGE_MEDIA" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:usesCleartextTraffic="true"
+        android:name="com.example.android_client.ContextApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,7 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_client"
         tools:targetApi="31">
-
         <activity
             android:name=".activities.PageNotFound"
             android:exported="true"
