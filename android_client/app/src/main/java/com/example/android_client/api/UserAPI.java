@@ -2,6 +2,8 @@ package com.example.android_client.api;
 
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.android_client.R;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.entities.User;
@@ -18,16 +20,23 @@ public class UserAPI {
     Retrofit retrofit;
     UserWebServiceAPI webServiceAPI;
     public UserAPI(){
-        retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrl)).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrlApi)).addConverterFactory(GsonConverterFactory.create()).build();
         webServiceAPI = retrofit.create(UserWebServiceAPI.class);
     }
-    public void get(String username){
+    public void get(String username, MutableLiveData userData){
+        if(username==null || username == ""){
+            return;
+        }
         Call<User> call = webServiceAPI.getUser(username);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("USER RESPONSE", String.valueOf(response.body()));
-                User user = response.body();
+                User body = response.body();
+                if(body!=null) {
+                    userData.setValue(body);
+                }
+                Log.w("USER RESPONSE", String.valueOf(body));
+
             }
 
             @Override

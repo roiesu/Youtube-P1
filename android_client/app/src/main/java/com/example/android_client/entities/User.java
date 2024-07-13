@@ -7,24 +7,31 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.android_client.ContextApplication;
+import com.example.android_client.R;
+
+import java.net.URL;
+
 @Entity
 public class User {
-    @PrimaryKey()@NonNull()
+    @PrimaryKey()
+    @NonNull()
     private String _id;
     // Unique?
     private String username;
     private String password;
     private String name;
     private String image;
-    public User(){
+
+    public User() {
     }
 
-    public User(String _id,String username, String password, String name, String image){
+    public User(String _id, String username, String password, String name, String image) {
         this._id = _id;
-        this.username=username;
-        this.password=password;
-        this.name=name;
-        this.image=image;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.image = image;
     }
 
     public String getUsername() {
@@ -51,10 +58,15 @@ public class User {
         this.name = name;
     }
 
+    public String getImageFromServer() {
+        return ContextApplication.context.getString(R.string.BaseUrlMedia) + "image/" + image;
+    }
+
     public String getImage() {
         return image;
     }
-    public Uri getImageUri(){
+
+    public Uri getImageUri() {
         return Uri.parse(this.image);
     }
 
@@ -65,17 +77,19 @@ public class User {
     public String get_id() {
         return _id;
     }
+
     public void set_id(String id) {
-        _id=id;
+        _id = id;
     }
 
 
     @Override
     public boolean equals(@Nullable Object obj) {
-        return obj instanceof User&& ((User)obj).getUsername().equals(username);
+        return obj instanceof User && ((User) obj).getUsername().equals(username);
     }
-    public String toString(){
-        return "("+_id+") "+username+": "+name;
+
+    public String toString() {
+        return "(" + _id + ") " + username + ": " + name;
     }
 
 

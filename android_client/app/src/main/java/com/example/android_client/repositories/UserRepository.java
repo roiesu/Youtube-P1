@@ -11,7 +11,9 @@ public class UserRepository {
     private UserDao dao;
     private UserData userData;
     private UserAPI api;
-    public UserRepository(){
+    private String username;
+    public UserRepository(String username){
+        this.username = username;
         api = new UserAPI();
         userData = new UserData();
 //        dao = UserDao
@@ -20,23 +22,22 @@ public class UserRepository {
     class UserData extends MutableLiveData<User> {
         public UserData(){
             super();
-            User user = new User();
-            setValue(user);
+            api.get(username, this);
         }
-        @Override
-        protected void onActive(){
-            super.onActive();
-            new Thread(()->{
-               userData.postValue(dao.get("admin1"));
-            }).start();
-        }
+//        @Override
+//        protected void onActive(){
+//            super.onActive();
+//            new Thread(()->{
+//               userData.postValue(dao.get(username));
+//            }).start();
+//        }
 
     }
     public MutableLiveData<User> get(){
         return userData;
     }
     public void reload(){
-        api.get();
+        api.get(username,userData);
     }
 
 }

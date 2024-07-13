@@ -9,8 +9,8 @@ import com.example.android_client.repositories.UserRepository;
 public class UserViewModel extends ViewModel {
     private MutableLiveData<User> user;
     private UserRepository repository;
-    public UserViewModel(){
-        this.repository = new UserRepository();
+    public UserViewModel(String username){
+        this.repository = new UserRepository(username);
         user = repository.get();
     }
     public MutableLiveData<User> getUser(){
