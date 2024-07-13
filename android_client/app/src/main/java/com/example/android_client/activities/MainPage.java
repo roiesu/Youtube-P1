@@ -145,15 +145,6 @@ public class MainPage extends AppCompatActivity {
                 imageContainer.setVisibility(View.GONE);
             }
         });
-//        User currentUser = DataManager.getCurrentUser();
-//        if (currentUser != null) {
-//            welcomeMessage.setText("Welcome, " + currentUser.getName() + "!");
-//            displayImage.setImageURI(currentUser.getImageUri());
-//            imageContainer.setVisibility(View.VISIBLE);
-//        } else {
-//            welcomeMessage.setText("Hello Guest! Please sign in");
-//            imageContainer.setVisibility(View.GONE);
-//        }
     }
 
     private void getVideos(String query) {
