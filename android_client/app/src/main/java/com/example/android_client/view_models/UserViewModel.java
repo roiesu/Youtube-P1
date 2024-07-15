@@ -13,11 +13,18 @@ public class UserViewModel extends ViewModel {
         this.repository = new UserRepository(username);
         user = repository.get();
     }
+    public UserViewModel(){
+        this.repository = new UserRepository();
+        user = repository.get();
+    }
     public MutableLiveData<User> getUser(){
         if(user==null){
             return new MutableLiveData<>();
         }
         return user;
+    }
+    public void login(){
+        this.repository.login();
     }
 
 }

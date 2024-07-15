@@ -7,12 +7,6 @@
         <item>Validate Password</item>
         <item>Name</item>
     </string-array>
-    <string-array name="inputRegex">
-        <item>^[\\w\\d!@#$%^&amp;*\\-_]{6,}$</item>
-        <item>^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!?#$%&amp;*+,\\-./@^_{}|~])[\\w\\d!?#$%&amp;*+,\\-./@^{}|~]{8,}$</item>
-        <item>.+</item>
-        <item>^[\\w\\d\\-_!@#$%^&amp;*]+( [\\w\\d\\-_!@#$%^&amp;*]+)*$</item>
-    </string-array>
     <string-array name="inputRequierments">
         <item>Username at least 6 letters long, Contains only letters, numbers and special symbols.</item>
         <item>Password t least 8 letters long, Must contain: a small and a capital letter, a number and a symbol.</item>

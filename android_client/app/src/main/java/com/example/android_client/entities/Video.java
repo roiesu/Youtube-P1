@@ -58,21 +58,6 @@ public class Video {
         this.date = date;
     }
 
-//    public Video(int id, String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
-//        this.id = id;
-//        this.name = name;
-//        this.uploader = uploader.getUsername();
-//        this.displayUploader = uploader.getName();
-//        this.src = src;
-//        this.likes = new ArrayList<>();
-//        this.views = 0;
-//        this.date_time = new Date();
-//        this.description = description;
-//        this.tags = tags;
-//        this.comments = new ArrayList<>();
-//        createVideoDetails(context);
-//    }
-
     public void createVideoDetails(Context context) {
         try {
             MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
@@ -87,37 +72,9 @@ public class Video {
         }
     }
 
-
-    public void like(String user) {
-        for (int i = 0; i < likes.size(); i++) {
-            if (likes.get(i).equals(user)) {
-                likes.remove(i);
-                return;
-            }
-        }
-        likes.add(user);
-    }
-
     public void addComment(String username, String displayUsername, String text) {
         Comment comment = new Comment(new Date(), username, displayUsername, text, false);
         comments.add(0, comment);
-    }
-
-    public void editComment(String username, Date date, String newText) {
-        for (Comment comment : comments) {
-            if (comment.getDate_time().equals(date) && comment.getUser().equals(username)) {
-                comment.setText(newText);
-                comment.setEdited(false);
-            }
-        }
-    }
-
-    public void deleteComment(String username, Date date) {
-        for (int i = 0; i < comments.size(); i++) {
-            if (comments.get(i).getDate_time().equals(date) && comments.get(i).getUser().equals(username)) {
-                comments.remove(i);
-            }
-        }
     }
 
     @NonNull
