@@ -21,8 +21,9 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
     try {
       const value = searchInputRef.current.value || "";
       const response = await axios.get(`/api/videos?name=${value}`);
-      setTopVideos(response.data.topVideos);
-      setRestVideos(response.data.restVideos);
+      const videoArr = response.data;
+      setTopVideos(videoArr.slice(0, 10));
+      setRestVideos(videoArr.slice(10, 20));
       setSearchValue(value);
     } catch (err) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
