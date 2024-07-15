@@ -85,7 +85,10 @@ public class MainPage extends AppCompatActivity {
         videoList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
-        getVideos("");
+        videos.getVideos().observe(this,list->{
+            adapter.setVideos(list);
+            adapter.notifyDataSetChanged();
+        });
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
@@ -94,25 +97,21 @@ public class MainPage extends AppCompatActivity {
             dividerItemDecoration.setDrawable(dividerDrawable);
             videoList.addItemDecoration(dividerItemDecoration);
         }
-//        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                getVideos(s);
-//                adapter.setVideos(videos);
-//                adapter.notifyDataSetChanged();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                if (s.equals("")) {
-//                    getVideos(s);
-//                    adapter.setVideos(videos);
-//                    adapter.notifyDataSetChanged();
-//                }
-//                return false;
-//            }
-//        });
+        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                videos.searchVideo(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.equals("")) {
+                    videos.searchVideo(s);
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -144,15 +143,6 @@ public class MainPage extends AppCompatActivity {
                 welcomeMessage.setText("Hello Guest! Please sign in");
                 imageContainer.setVisibility(View.GONE);
             }
-        });
-    }
-
-    private void getVideos(String query) {
-//        ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
-//        this.videos = filtered;
-        videos.getVideos().observe(this,list->{
-            adapter.setVideos(list);
-            adapter.notifyDataSetChanged();
         });
     }
 }

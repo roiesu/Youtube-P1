@@ -26,8 +26,8 @@ public class VideoApi {
         webServiceAPI = retrofit.create(VideoWebServiceAPI.class);
     }
 
-    public void getAll(MutableLiveData videoListData) {
-        Call<List<Video>> call = webServiceAPI.getVideos();
+    public void getAll(MutableLiveData videoListData,String query) {
+        Call<List<Video>> call = webServiceAPI.getVideos(query);
         call.enqueue(new Callback<List<Video>>() {
             @Override
             public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {

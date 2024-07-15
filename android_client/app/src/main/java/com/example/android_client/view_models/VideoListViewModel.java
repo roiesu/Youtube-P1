@@ -22,4 +22,7 @@ public class VideoListViewModel extends ViewModel {
         }
         return videoList;
     }
+    public void searchVideo(String query){
+        this.repository.searchVideo(query);
+    }
 }

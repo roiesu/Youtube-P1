@@ -6,8 +6,9 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface VideoWebServiceAPI {
     @GET ("videos")
-    Call<List<Video>> getVideos();
+    Call<List<Video>> getVideos(@Query("name") String query);
 }
