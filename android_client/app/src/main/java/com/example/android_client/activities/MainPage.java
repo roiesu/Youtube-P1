@@ -21,6 +21,7 @@ import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.UserViewModel;
+import com.example.android_client.view_models.VideoListViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,12 +41,14 @@ public class MainPage extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private RecyclerView videoList;
-    private ArrayList<Video> videos;
     private TextView welcomeMessage;
     private SearchView searchInput;
     private ImageView displayImage;
     private CardView imageContainer;
     private UserViewModel userDetails;
+    private VideoListViewModel videos;
+    private VideoAdapter adapter;
+
 
     public void initItems(){
         switchMode = findViewById(R.id.darkModeSwitch);
@@ -80,10 +83,9 @@ public class MainPage extends AppCompatActivity {
         searchInput = findViewById(R.id.searchBar);
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
-
-//        getVideos("");
-        VideoAdapter adapter = new VideoAdapter(this, videos);
+        adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
+        getVideos("");
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
@@ -92,25 +94,25 @@ public class MainPage extends AppCompatActivity {
             dividerItemDecoration.setDrawable(dividerDrawable);
             videoList.addItemDecoration(dividerItemDecoration);
         }
-        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                getVideos(s);
-                adapter.setVideos(videos);
-                adapter.notifyDataSetChanged();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if (s.equals("")) {
-                    getVideos(s);
-                    adapter.setVideos(videos);
-                    adapter.notifyDataSetChanged();
-                }
-                return false;
-            }
-        });
+//        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                getVideos(s);
+//                adapter.setVideos(videos);
+//                adapter.notifyDataSetChanged();
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                if (s.equals("")) {
+//                    getVideos(s);
+//                    adapter.setVideos(videos);
+//                    adapter.notifyDataSetChanged();
+//                }
+//                return false;
+//            }
+//        });
 
     }
 
@@ -119,17 +121,15 @@ public class MainPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
-        initItems();
-//        initVideos();
+        videos = new VideoListViewModel();
         userDetails = new UserViewModel(DataManager.getCurrentUsername());
+        setWelcomeMessage();
+        initItems();
+        initVideos();
+
 //        DataManager.initializeData(this);
 
 
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        setWelcomeMessage();
     }
 
     private void setWelcomeMessage() {
@@ -148,7 +148,11 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void getVideos(String query) {
-        ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
-        this.videos = filtered;
+//        ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
+//        this.videos = filtered;
+        videos.getVideos().observe(this,list->{
+            adapter.setVideos(list);
+            adapter.notifyDataSetChanged();
+        });
     }
 }

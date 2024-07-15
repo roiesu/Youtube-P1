@@ -41,7 +41,7 @@ async function getVideos(req, res) {
         },
       ]);
     }
-    return res.status(200).send({ topVideos, restVideos });
+    return res.status(200).send(topVideos.concat(restVideos));
   } catch (err) {
     return res.status(400).send(err.message);
   }
