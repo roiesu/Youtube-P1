@@ -38,7 +38,6 @@ public class WatchingVideo extends AppCompatActivity {
     private VideoView videoView;
     private RecyclerView commentsList;
     private TextView commentsHeader;
-
     private com.google.android.material.button.MaterialButton likeButton;
     private Button commentButton;
     private Button shareButton;
@@ -72,9 +71,9 @@ public class WatchingVideo extends AppCompatActivity {
         setContentView(R.layout.watching_video);
         ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
         ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews())+" Views");
-        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate_time()));
+        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate()));
         ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
-        ((TextView) findViewById(R.id.videoUploader)).setText(video.getDisplayUploader());
+        ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
         currentUser = DataManager.getCurrentUser();
         shareButton = findViewById(R.id.shareButton);
         commentInput = findViewById(R.id.commentInput);
@@ -85,7 +84,7 @@ public class WatchingVideo extends AppCompatActivity {
             if (DataManager.getCurrentUser() == null) {
                 return;
             }
-            DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
+//            DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
             ((TextView) view).setText(video.getLikes().size() + "");
             likedVideo = !likedVideo;
             changeLikeIcon();
@@ -95,8 +94,8 @@ public class WatchingVideo extends AppCompatActivity {
 
         commentsList = findViewById(R.id.commentsList);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
-        CommentAdapter adapter = new CommentAdapter(this, video.getComments());
-        commentsList.setAdapter(adapter);
+//        CommentAdapter adapter = new CommentAdapter(this, video.getComments());
+//        commentsList.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
@@ -104,15 +103,15 @@ public class WatchingVideo extends AppCompatActivity {
         commentsList.addItemDecoration(dividerItemDecoration);
 
         commentsHeader = findViewById(R.id.commentsTitle);
-        commentsHeader.setText(adapter.getItemCount() + " Comments");
+//        commentsHeader.setText(adapter.getItemCount() + " Comments");
 
-        commentButton.setOnClickListener(l -> {
-            commentVideo(adapter);
-        });
-        AlertDialog shareDialog = createShareDialog(video.getId());
-        shareButton.setOnClickListener(l -> {
-            shareDialog.show();
-        });
+//        commentButton.setOnClickListener(l -> {
+//            commentVideo(adapter);
+//        });
+//        AlertDialog shareDialog = createShareDialog(video.getId());
+//        shareButton.setOnClickListener(l -> {
+//            shareDialog.show();
+//        });
 
     }
 
