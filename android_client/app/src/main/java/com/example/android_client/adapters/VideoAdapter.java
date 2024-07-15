@@ -76,7 +76,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoViews = itemView.findViewById(R.id.videoViews);
             videoDate = itemView.findViewById(R.id.videoDate);
             videoDuration = itemView.findViewById(R.id.videoDuration);
-
         }
     }
 }
