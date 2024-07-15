@@ -141,7 +141,6 @@ public class MainPage extends AppCompatActivity {
         imageContainer.setVisibility(View.GONE);
         userDetails.getUser().observe(this,user->{
             if(user!=null){
-                Log.w("USERRRR",user.toString());
                 welcomeMessage.setText("Welcome, " + user.getName() + "!");
                 imageContainer.setVisibility(View.VISIBLE);
                 Glide.with(this).load(user.getImageFromServer()).into(displayImage);

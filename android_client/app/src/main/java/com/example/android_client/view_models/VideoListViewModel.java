@@ -4,16 +4,16 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.android_client.entities.Video;
-import com.example.android_client.repositories.VideoRepository;
+import com.example.android_client.repositories.VideoListRepository;
 
 import java.util.List;
 
 public class VideoListViewModel extends ViewModel {
 
     private MutableLiveData<List<Video>> videoList;
-    private VideoRepository repository;
+    private VideoListRepository repository;
     public VideoListViewModel(){
-        this.repository = new VideoRepository();
+        this.repository = new VideoListRepository();
         videoList = repository.getAll();
     }
     public MutableLiveData<List<Video>> getVideos(){

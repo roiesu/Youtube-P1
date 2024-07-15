@@ -15,6 +15,9 @@ import com.example.android_client.web_service.UserWebServiceAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -47,7 +50,9 @@ public class UserAPI {
                 if(body!=null) {
                     userData.setValue(body);
                 }
-                Log.w("USER RESPONSE", String.valueOf(body));
+                else{
+                    Log.w("USER RESPONSE", response.raw().code()+"");
+                }
 
             }
 
@@ -72,6 +77,13 @@ public class UserAPI {
                     userDetails.setValue(null);
                 }
                 else {
+                    String errorMessage;
+                    try {
+                        errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
+                    } catch (IOException e) {
+                        errorMessage=response.message();
+                    }
+                    ContextApplication.showToast(errorMessage);
                     Log.w("Login"+ response.raw().code(), response.errorBody().toString());
                 }
             }
