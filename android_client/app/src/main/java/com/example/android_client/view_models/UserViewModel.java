@@ -26,5 +26,8 @@ public class UserViewModel extends ViewModel {
     public void login(){
         this.repository.login();
     }
+    public void create(){
+        this.repository.addUser();
+    }
 
 }

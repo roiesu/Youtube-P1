@@ -35,7 +35,32 @@ public class UserAPI {
         retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrlApi)).addConverterFactory(GsonConverterFactory.create(gson)).build();
         webServiceAPI = retrofit.create(UserWebServiceAPI.class);
     }
-    public void getAll(){
+    public void add(MutableLiveData<User> userDetails){
+        Call<Void> addUserCall = webServiceAPI.addUser(userDetails.getValue());
+        addUserCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    login(userDetails);
+                }
+                else{
+                    String errorMessage;
+                    try {
+                        errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
+                    } catch (IOException e) {
+                        errorMessage=response.message();
+                    }
+                    ContextApplication.showToast(errorMessage);
+                    Log.w("Login"+ response.raw().code(), response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.w("USER RESPONSE", t);
+            }
+
+        });
 
     }
     public void get(String username, MutableLiveData userData){
@@ -65,8 +90,8 @@ public class UserAPI {
 
     public void login(MutableLiveData<User> userDetails){
         User user = userDetails.getValue();
-        Call<String> loginCall = webServiceAPI.login(user);
-        loginCall.enqueue(new Callback<String>() {
+        Call<String> call = webServiceAPI.login(user);
+        call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String body = response.body();
