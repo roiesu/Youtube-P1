@@ -25,4 +25,7 @@ public class VideoListViewModel extends ViewModel {
     public void searchVideo(String query){
         this.repository.searchVideo(query);
     }
+    public void reload(){
+        this.repository.reload();
+    }
 }

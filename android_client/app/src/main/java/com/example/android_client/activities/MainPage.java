@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainPage extends AppCompatActivity {
 
@@ -85,10 +86,17 @@ public class MainPage extends AppCompatActivity {
         videoList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(()->{
+            searchInput.setQuery("",false);
+            videos.reload();
+        });
         videos.getVideos().observe(this,list->{
             adapter.setVideos(list);
             adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
         });
+
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
@@ -106,13 +114,9 @@ public class MainPage extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s.equals("")) {
-                    videos.searchVideo(s);
-                }
                 return false;
             }
         });
-
     }
 
     @Override
