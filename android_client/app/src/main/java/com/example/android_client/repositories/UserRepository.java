@@ -18,6 +18,7 @@ public class UserRepository {
         this.username = username;
         api = new UserAPI();
         userData = new UserData();
+        // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
 
