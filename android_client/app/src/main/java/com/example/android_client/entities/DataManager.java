@@ -125,61 +125,61 @@ public class DataManager {
 
     public static Video findVideoById(int id, boolean addView) {
         for (Video video : videoList) {
-            if (video.getId() == id) {
-                if (addView) {
-                    video.addView();
-                }
-                return video;
-            }
+//            if (video.getId() == id) {
+//                if (addView) {
+//                    video.addView();
+//                }
+//                return video;
+//            }
         }
         return null;
     }
 
     public static void likeVideo(int id, String username) {
         for (Video video : videoList) {
-            if (video.getId() == id) {
-                video.like(username);
-                return;
-            }
+//            if (video.getId() == id) {
+//                video.like(username);
+//                return;
+//            }
         }
     }
 
     public static void commentVideo(int id, String username, String displayUsername, String text) {
         for (Video video : videoList) {
-            if (video.getId() == id) {
-                video.addComment(username, displayUsername, text);
-                return;
-            }
+//            if (video.getId() == id) {
+//                video.addComment(username, displayUsername, text);
+//                return;
+//            }
         }
     }
 
     public static void removeCommentFromVideo(int id, String username, Date date) {
         for (Video video : videoList) {
-            if (video.getId() == id) {
-                video.deleteComment(username, date);
-                return;
-            }
+//            if (video.getId() == id) {
+//                video.deleteComment(username, date);
+//                return;
+//            }
         }
     }
 
     public static void updateVideo(int videoId, String newName, String newDescription) {
         for (Video video : videoList) {
-            if (video.getId() == videoId) {
-                if (newName != null && !newName.isEmpty()) {
-                    video.setName(newName);
-                }
-                if (newDescription != null && !newDescription.isEmpty()) {
-                    video.setDescription(newDescription);
-                }
-            }
+//            if (video.getId() == videoId) {
+//                if (newName != null && !newName.isEmpty()) {
+//                    video.setName(newName);
+//                }
+//                if (newDescription != null && !newDescription.isEmpty()) {
+//                    video.setDescription(newDescription);
+//                }
+//            }
         }
     }
 
     public void updateCommentInVideo(int id, String username, Date date, String newText) {
         for (Video video : videoList) {
-            if (video.getId() == id) {
-                video.editComment(username, date, newText);
-            }
+//            if (video.getId() == id) {
+//                video.editComment(username, date, newText);
+//            }
         }
     }
 
@@ -187,7 +187,7 @@ public class DataManager {
         ArrayList<Video> filteredVideos = new ArrayList<>();
         Pattern regex = Pattern.compile(".*" + value + ".*", Pattern.CASE_INSENSITIVE);
         for (Video video : videoList) {
-            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader() : key == FILTER_TITLE_KEY ? video.getName() : "";
+            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
             if (regex.matcher(keyValue).matches()) {
                 filteredVideos.add(video);
             }
@@ -200,11 +200,11 @@ public class DataManager {
     }
 
     public static Video findVideoById(int id) {
-        for (Video video : videoList) {
-            if (video.getId() == id) {
-                return video;
-            }
-        }
+//        for (Video video : videoList) {
+//            if (video.getId() == id) {
+//                return video;
+//            }
+//        }
         return null;
     }
 
@@ -222,8 +222,9 @@ public class DataManager {
     }
 
     public static Video createVideo(String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
-        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
-        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
+        Video newVideo = new Video();
+//        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
+//        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
         getVideoList().add(newVideo);
         return newVideo;
     }

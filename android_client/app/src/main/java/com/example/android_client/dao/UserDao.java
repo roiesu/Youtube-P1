@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT _id,username,name,password from user WHERE username= :username")
+    @Query("SELECT _id,username,name,image from user WHERE username= :username")
     User get(String username);
     @Query("SELECT _id,username,name,password from user")
     List<User> index();
