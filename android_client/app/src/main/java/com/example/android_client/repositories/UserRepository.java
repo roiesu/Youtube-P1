@@ -51,4 +51,8 @@ public class UserRepository {
         this.api.login(userData);
     }
 
+    public void addUser(){
+        this.api.login(userData);
+    }
+
 }

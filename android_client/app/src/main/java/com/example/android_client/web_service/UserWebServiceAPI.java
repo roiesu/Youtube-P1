@@ -23,4 +23,7 @@ public interface UserWebServiceAPI {
 
     @POST("tokens")
     Call<String> login(@Body User userDetails);
+
+    @POST("users")
+    Call<Void> addUser(@Body User user);
 }
