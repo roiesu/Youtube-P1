@@ -25,7 +25,7 @@ public class DataManager {
     private static ArrayList<User> usersList;
     private static ArrayList<Video> videoList;
     private static User currentUser;
-    private static String currentUsername ="admin1";
+    private static String currentUsername;
     private static String token;
     private static DataManager instance;
     private static boolean initialized;
@@ -39,10 +39,6 @@ public class DataManager {
 
     public static void setInitialized(boolean initialized) {
         DataManager.initialized = initialized;
-    }
-
-    public static ArrayList<User> getUsersList() {
-        return usersList;
     }
 
     public static ArrayList<Video> getVideoList() {
@@ -60,6 +56,8 @@ public class DataManager {
     public static void setCurrentUser(User newUser) {
         currentUser = newUser;
     }
+    public static void setToken(String newToken){token = newToken;}
+    public static void setCurrentUsername(String username){currentUsername = username;}
 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
@@ -231,6 +229,9 @@ public class DataManager {
     public static String getCurrentUsername(){
         return currentUsername;
     }
-
+    public static void Logout(){
+        currentUsername=null;
+        token=null;
+    }
 
 }

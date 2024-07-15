@@ -55,10 +55,9 @@ public class SignUp extends AppCompatActivity {
         inputList = findViewById(R.id.recyclerView);
         inputList.setLayoutManager(new LinearLayoutManager(this));
         String[] inputNames = getResources().getStringArray(R.array.inputNames);
-        String[] inputRegex = getResources().getStringArray(R.array.inputRegex);
         String[] inputReqs = getResources().getStringArray(R.array.inputRequierments);
         for (int i = 0; i < 4; i++) {
-            inputs.add(new InputValidation(inputNames[i], inputRegex[i], inputReqs[i]));
+            inputs.add(new InputValidation(inputNames[i], inputReqs[i]));
         }
         InputValidationAdapter adapter = new InputValidationAdapter(this, inputs, true);
         inputList.setAdapter(adapter);

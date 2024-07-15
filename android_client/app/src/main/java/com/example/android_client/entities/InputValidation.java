@@ -16,7 +16,10 @@ public class InputValidation {
         this.name = name;
         this.regex = Pattern.compile(regex);
         this.reqs = reqs;
-
+    }
+    public InputValidation(String name, String reqs){
+        this.name= name;
+        this.reqs=reqs;
     }
 
     public boolean match() {
