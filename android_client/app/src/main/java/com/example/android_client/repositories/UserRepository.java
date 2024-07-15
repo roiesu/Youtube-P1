@@ -52,7 +52,7 @@ public class UserRepository {
     }
 
     public void addUser(){
-        this.api.login(userData);
+        this.api.add(userData);
     }
 
 }

@@ -86,8 +86,9 @@ public class Utilities {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream .toByteArray();
         String data=Base64.encodeToString(byteArray, Base64.DEFAULT);
-        String filePostfix =type==IMAGE_TYPE?".png":type==VIDEO_TYPE?"mp4":null;
-        return "data:"+type+"/"+filePostfix+";base64,"+data;
+        String filePostfix =type==IMAGE_TYPE?"png":type==VIDEO_TYPE?"mp4":null;
+        String typeString = type==IMAGE_TYPE?"image":type==VIDEO_TYPE?"video":null;
+        return "data:"+typeString+"/"+filePostfix+";base64,"+data;
     }
 
 
