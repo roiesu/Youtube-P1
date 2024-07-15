@@ -15,23 +15,20 @@ public class VideoRepository {
     public VideoRepository(){
         api = new VideoApi();
         videoListData = new VideoListData();
-
     }
     class VideoListData extends MutableLiveData<List<Video>> {
         public VideoListData(){
             super();
-            api.getAll(this);
-        }
-
-        @Override
-        protected void onActive() {
-            super.onActive();
+            api.getAll(this,"");
         }
     }
     public MutableLiveData<List<Video>> getAll(){
         return videoListData;
     }
     public void reload(){
-        api.getAll(videoListData);
+        api.getAll(videoListData,"");
+    }
+    public void searchVideo(String query){
+        api.getAll(videoListData,query);
     }
 }

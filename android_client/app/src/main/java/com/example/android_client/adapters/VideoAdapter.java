@@ -2,6 +2,7 @@ package com.example.android_client.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
+        Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.get_id());
@@ -62,6 +64,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
         ImageView videoPreview;
+        ImageView uploaderImage;
         TextView videoTitle;
         TextView videoUploader;
         TextView videoViews;
@@ -76,6 +79,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoViews = itemView.findViewById(R.id.videoViews);
             videoDate = itemView.findViewById(R.id.videoDate);
             videoDuration = itemView.findViewById(R.id.videoDuration);
+            uploaderImage = itemView.findViewById(R.id.uploaderImage);
         }
     }
 }
