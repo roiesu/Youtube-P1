@@ -143,7 +143,7 @@ public class SignUp extends AppCompatActivity {
             toast.show();
             return;
         }
-        User newUser = new User(inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageUri.toString());
+        User newUser = new User("0",inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageUri.toString());
         DataManager.addUser(newUser);
         DataManager.getInstance().setCurrentUser(newUser);
         Intent intent = new Intent(this, MainPage.class);

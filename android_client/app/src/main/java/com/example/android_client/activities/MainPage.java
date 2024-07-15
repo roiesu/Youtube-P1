@@ -2,8 +2,9 @@ package com.example.android_client.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -13,23 +14,26 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.UserViewModel;
+import com.example.android_client.view_models.VideoListViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainPage extends AppCompatActivity {
 
@@ -38,18 +42,16 @@ public class MainPage extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private RecyclerView videoList;
-    private ArrayList<Video> videos;
     private TextView welcomeMessage;
     private SearchView searchInput;
     private ImageView displayImage;
     private CardView imageContainer;
+    private UserViewModel userDetails;
+    private VideoListViewModel videos;
+    private VideoAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page);
-
+    public void initItems(){
         switchMode = findViewById(R.id.darkModeSwitch);
 
         sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
@@ -74,36 +76,28 @@ public class MainPage extends AppCompatActivity {
             }
             editor.apply();
         });
-
-        DataManager.initializeData(this);
-        videoList = findViewById(R.id.recyclerView);
-        videoList.setLayoutManager(new LinearLayoutManager(this));
         welcomeMessage = findViewById(R.id.welcomeMessage);
         displayImage = findViewById(R.id.userImage);
         imageContainer = findViewById(R.id.userImageContainer);
-        getVideos("");
-        VideoAdapter adapter = new VideoAdapter(this, videos);
-        videoList.setAdapter(adapter);
+    }
+    public void initVideos(){
         searchInput = findViewById(R.id.searchBar);
-        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                getVideos(s);
-                adapter.setVideos(videos);
-                adapter.notifyDataSetChanged();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if (s.equals("")) {
-                    getVideos(s);
-                    adapter.setVideos(videos);
-                    adapter.notifyDataSetChanged();
-                }
-                return false;
-            }
+        videoList = findViewById(R.id.recyclerView);
+        videoList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new VideoAdapter(this, new ArrayList<>());
+        videoList.setAdapter(adapter);
+        SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(()->{
+            searchInput.setQuery("",false);
+            videos.reload();
         });
+        videos.getVideos().observe(this,list->{
+            adapter.setVideos(list);
+            adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
+        });
+
+
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
@@ -111,28 +105,48 @@ public class MainPage extends AppCompatActivity {
             dividerItemDecoration.setDrawable(dividerDrawable);
             videoList.addItemDecoration(dividerItemDecoration);
         }
+        searchInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                videos.searchVideo(s);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_page);
+        videos = new VideoListViewModel();
+        userDetails = new UserViewModel(DataManager.getCurrentUsername());
         setWelcomeMessage();
+        initItems();
+        initVideos();
+
+//        DataManager.initializeData(this);
+
+
     }
 
     private void setWelcomeMessage() {
-        User currentUser = DataManager.getCurrentUser();
-        if (currentUser != null) {
-            welcomeMessage.setText("Welcome, " + currentUser.getName() + "!");
-            displayImage.setImageURI(currentUser.getImageUri());
-            imageContainer.setVisibility(View.VISIBLE);
-        } else {
-            welcomeMessage.setText("Hello Guest! Please sign in");
-            imageContainer.setVisibility(View.GONE);
-        }
-    }
-
-    private void getVideos(String query) {
-        ArrayList<Video> filtered = DataManager.filterVideosBy(DataManager.FILTER_TITLE_KEY, query);
-        this.videos = filtered;
+        userDetails.getUser().observe(this,user->{
+            if(user!=null){
+                Log.w("USERRRR",user.toString());
+                welcomeMessage.setText("Welcome, " + user.getName() + "!");
+                imageContainer.setVisibility(View.VISIBLE);
+                Glide.with(this).load(user.getImageFromServer()).into(displayImage);
+            }
+            else{
+                welcomeMessage.setText("Hello Guest! Please sign in");
+                imageContainer.setVisibility(View.GONE);
+            }
+        });
     }
 }

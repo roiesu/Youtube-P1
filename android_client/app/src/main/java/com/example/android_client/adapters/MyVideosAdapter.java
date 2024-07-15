@@ -43,15 +43,15 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
     public void onBindViewHolder(VideoViewHolder holder, int position) {
         Video video = videos.get(position);
         holder.videoName.setText(video.getName());
-        holder.videoThumbnail.setImageBitmap(video.getThumbnail());
+        holder.videoThumbnail.setImageResource(R.drawable.moshiko);
         holder.editButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, VideoEdit.class);
-            intent.putExtra("VIDEO_ID", video.getId());
+            intent.putExtra("VIDEO_ID", video.get_id());
             context.startActivity(intent);
         });
 
         holder.deleteButton.setOnClickListener(v -> {
-            deleteVideo(video.getId());
+//            deleteVideo(video.get_id());
             videos.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, videos.size());
