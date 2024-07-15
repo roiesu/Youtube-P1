@@ -1,4 +1,25 @@
 package com.example.android_client.view_models;
 
-public class VideoListViewModel {
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.example.android_client.entities.Video;
+import com.example.android_client.repositories.VideoRepository;
+
+import java.util.List;
+
+public class VideoListViewModel extends ViewModel {
+
+    private MutableLiveData<List<Video>> videoList;
+    private VideoRepository repository;
+    public VideoListViewModel(){
+        this.repository = new VideoRepository();
+        videoList = repository.getAll();
+    }
+    public MutableLiveData<List<Video>> getVideos(){
+        if(videoList==null){
+            return new MutableLiveData<>();
+        }
+        return videoList;
+    }
 }

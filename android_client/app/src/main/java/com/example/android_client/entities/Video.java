@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.android_client.ContextApplication;
+import com.example.android_client.R;
+
 import java.util.ArrayList;
 import java.util.Date;
 @Entity
@@ -149,6 +152,9 @@ public class Video {
     public void setSrc(String src) {
         this.src = src;
     }
+    public String getThumbnailFromServer(){
+        return ContextApplication.context.getString(R.string.BaseUrlMedia) + "image/" + thumbnail;
+    }
 
     public String getThumbnail() {
         return thumbnail;
@@ -164,6 +170,13 @@ public class Video {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    public ArrayList<String> getLikes(){
+        return this.likes;
+    }
+    public void setLikes(ArrayList<String> likes){
+        this.likes=likes;
     }
 
     public long getViews() {
