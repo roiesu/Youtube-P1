@@ -47,6 +47,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
         Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
+
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.get_id());
@@ -57,6 +58,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void setVideos(List<Video> newVideos){
         this.videos=newVideos;
     }
+
     @Override
     public int getItemCount() {
         return videos.size();
