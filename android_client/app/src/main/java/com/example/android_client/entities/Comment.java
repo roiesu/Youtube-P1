@@ -3,42 +3,52 @@ package com.example.android_client.entities;
 import java.util.Date;
 
 public class Comment {
-    private Date date_time;
-    private String user;
-    private String display_name;
+    private String _id;
+    private Date date;
+    private User user;
+    private Video video;
     private String text;
     private boolean edited;
 
-    public Comment(Date dateTime, String user, String displayName, String text,boolean edited) {
-        this.date_time = dateTime;
+    public Comment(String _id, Date date, User user, Video video, String text ,Boolean edited){
+        this._id = _id;
+        this.date = date;
         this.user = user;
-        this.display_name = displayName;
+        this.video = video;
         this.text = text;
-        this.edited=edited;
+        this.edited = edited;
     }
 
-    public Date getDate_time() {
-        return date_time;
+    public String get_id() {
+        return _id;
     }
 
-    public void setDate_time(Date date_time) {
-        this.date_time = date_time;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public String getUser() {
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+    public Video getVideo() {
+        return video;
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public void setVideo(Video video) {
+        this.video = video;
     }
 
     public String getText() {
@@ -47,11 +57,6 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public void edit(String text){
-        this.text=text;
-        this.edited=true;
     }
 
     public boolean isEdited() {
