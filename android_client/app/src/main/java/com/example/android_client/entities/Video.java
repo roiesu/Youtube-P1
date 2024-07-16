@@ -25,7 +25,7 @@ public class Video {
     private String src;
     private String thumbnail;
     private long duration;
-    private ArrayList<String> likes;
+    private long likes;
     private long views;
     private Date date;
     private String description;
@@ -34,7 +34,7 @@ public class Video {
 
     public Video() {}
 
-    public Video(String _id, String name, User uploader, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
+    public Video(String _id, String name, User uploader, String src, String thumbnail, long duration, long likes, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this._id = _id;
         this.name = name;
         this.uploader = uploader;
@@ -72,11 +72,6 @@ public class Video {
         }
     }
 
-    public void addComment(String username, String displayUsername, String text) {
-        Comment comment = new Comment(new Date(), username, displayUsername, text, false);
-        comments.add(0, comment);
-    }
-
     @NonNull
     public String get_id() {
         return _id;
@@ -112,6 +107,9 @@ public class Video {
     public String getThumbnailFromServer(){
         return ContextApplication.context.getString(R.string.BaseUrlMedia) + "image/" + thumbnail;
     }
+    public String getVideoFromServer(){
+        return ContextApplication.context.getString(R.string.BaseUrlMedia) + "video/" + src;
+    }
 
     public String getThumbnail() {
         return thumbnail;
@@ -129,10 +127,10 @@ public class Video {
         this.duration = duration;
     }
 
-    public ArrayList<String> getLikes(){
+    public long getLikes(){
         return this.likes;
     }
-    public void setLikes(ArrayList<String> likes){
+    public void setLikes(long likes){
         this.likes=likes;
     }
 
@@ -166,5 +164,13 @@ public class Video {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 }
