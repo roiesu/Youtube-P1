@@ -46,10 +46,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.commentText.setText(comment.getText());
-        holder.commentUser.setText(comment.getUser());
-        holder.commentDate.setText(Utilities.dateDiff(comment.getDate_time()) + (comment.isEdited() ? "( edited )" : ""));
-        User currentUser = DataManager.getCurrentUser();
-        if (currentUser == null || currentUser.getUsername() != comment.getUser()) {
+        holder.commentUser.setText(comment.getUser().getUsername());
+        holder.commentDate.setText(Utilities.dateDiff(comment.getDate()) + (comment.isEdited() ? "( edited )" : ""));
+        String currentUsername = DataManager.getCurrentUsername();
+        if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
             holder.commentOptionOpener.setVisibility(View.GONE);
             return;
         }
@@ -102,7 +102,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
         builder.setPositiveButton("Edit", (dialog, which) -> {
-            comments.get(commentPlace).edit(input.getText().toString());
+//            comments.get(commentPlace).edit(input.getText().toString());
             this.notifyItemChanged(commentPlace);
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
