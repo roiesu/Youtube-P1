@@ -69,6 +69,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             Intent intent = new Intent(context, ChannelActivity.class);
             intent.putExtra("USER_ID", video.getUploader().get_id());
             context.startActivity(intent);
+            this.notifyItemChanged(position);
         });
     }
     public void setVideos(List<Video> newVideos){
