@@ -43,7 +43,6 @@ public class VideoApi {
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
                 Log.w("VIDEO API", t);
-                videoListData.setValue(null); // Optionally set to null or empty list on failure
             }
         });
     }
