@@ -13,20 +13,27 @@ public class UserRepository {
     private UserDao dao;
     private UserData userData;
     private UserAPI api;
-    private String username;
     public UserRepository(String username){
-        this.username = username;
+        api = new UserAPI();
+        userData = new UserData(username);
+        // Room
+        AppDB database = AppDB.getInstance();
+        dao = database.userDao();
+    }
+    public UserRepository(){
         api = new UserAPI();
         userData = new UserData();
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
-
     }
     class UserData extends MutableLiveData<User> {
-        public UserData(){
+        public UserData(String username){
             super();
             api.get(username, this);
+        }
+        public UserData(){
+            super();
         }
 //        @Override
 //        protected void onActive(){
@@ -40,8 +47,12 @@ public class UserRepository {
     public MutableLiveData<User> get(){
         return userData;
     }
-    public void reload(){
-        api.get(username,userData);
+    public void login(){
+        this.api.login(userData);
+    }
+
+    public void addUser(){
+        this.api.add(userData);
     }
 
 }
