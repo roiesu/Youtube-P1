@@ -25,5 +25,4 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="BaseUrlApi">http://192.168.202.1:8080/api/</string>
     <string name="BaseUrlMedia">http://192.168.202.1:8080/media/</string>
-
 </resources>
