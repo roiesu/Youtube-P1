@@ -12,7 +12,10 @@ import retrofit2.http.Query;
 public interface VideoWebServiceAPI {
     @GET ("videos")
     Call<List<Video>> getVideos(@Query("name") String query);
-
+    //channel page
+    @GET("users/{userId}/videos")
+    Call<List<Video>> getVideosByUser(@Path("userId") String userId);
     @GET("users/{channel}/videos/{videoId}")
     Call<Video> getVideo(@Path("channel") String channel, @Path("videoId") String videoId);
+
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.ChannelActivity;
 import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.Video;
 
@@ -47,6 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
         Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
+
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.get_id());
@@ -54,10 +56,27 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
+
+        // image -> channel
+        holder.uploaderImage.setOnClickListener(l->{
+            Intent intent = new Intent(context, WatchingVideo.class);
+            intent.putExtra("videoId",video.get_id());
+            context.startActivity(intent);
+            this.notifyItemChanged(position);
+        });
+
+        //name -> channel
+        holder.videoUploader.setOnClickListener(l -> {
+            Intent intent = new Intent(context, ChannelActivity.class);
+            intent.putExtra("USER_ID", video.getUploader().get_id());
+            context.startActivity(intent);
+            this.notifyItemChanged(position);
+        });
     }
     public void setVideos(List<Video> newVideos){
         this.videos=newVideos;
     }
+
     @Override
     public int getItemCount() {
         return videos.size();

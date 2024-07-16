@@ -28,4 +28,11 @@ public class VideoListViewModel extends ViewModel {
     public void reload(){
         this.repository.reload();
     }
+
+// get video for user - channel page
+    public void loadVideosForUser(String userId) {
+        MutableLiveData<List<Video>> userVideos = new MutableLiveData<>();
+        this.repository.fetchVideosByUser(userId, userVideos);
+        this.videoList = userVideos;
+    }
 }
