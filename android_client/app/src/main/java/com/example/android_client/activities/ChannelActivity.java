@@ -38,12 +38,14 @@ public class ChannelActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         });
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelVideoList.getContext(), DividerItemDecoration.VERTICAL);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
         if (dividerDrawable != null) {
             dividerItemDecoration.setDrawable(dividerDrawable);
             channelVideoList.addItemDecoration(dividerItemDecoration);
         }
+
         videos.loadVideosForUser(userId);
     }
 }
