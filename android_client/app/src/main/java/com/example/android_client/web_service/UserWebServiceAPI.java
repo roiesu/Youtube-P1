@@ -20,4 +20,10 @@ public interface UserWebServiceAPI {
 
     @PATCH("users/{id}")
     Call<Void> updateUser(@Path("id") String id);
+
+    @POST("tokens")
+    Call<String> login(@Body User userDetails);
+
+    @POST("users")
+    Call<Void> addUser(@Body User user);
 }

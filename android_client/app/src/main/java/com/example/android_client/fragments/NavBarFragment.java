@@ -60,7 +60,7 @@ public class NavBarFragment extends Fragment {
             startActivity(new Intent(getActivity(), SignUp.class));
         });
         btnLogout.setOnClickListener(v -> {
-            DataManager.setCurrentUser(null);
+            DataManager.Logout();
             startActivity(new Intent(getActivity(), SignIn.class));
         });
         return view;
@@ -69,7 +69,7 @@ public class NavBarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (DataManager.getCurrentUser() == null) {
+        if (DataManager.getCurrentUsername() == null) {
             btnMyVideos.setVisibility(View.GONE);
             btnLogout.setVisibility(View.GONE);
             btnSignUp.setVisibility(View.VISIBLE);

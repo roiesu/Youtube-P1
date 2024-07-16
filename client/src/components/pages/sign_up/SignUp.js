@@ -35,6 +35,7 @@ function SignUp({ setCurrentUser, showToast }) {
       showToast("Password validation must be equal to password");
       return;
     }
+
     const user = {
       username: usernameInput,
       password: passwordInput,

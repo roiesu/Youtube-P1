@@ -126,19 +126,21 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.main_page);
         videos = new VideoListViewModel();
         userDetails = new UserViewModel(DataManager.getCurrentUsername());
-        setWelcomeMessage();
         initItems();
         initVideos();
 
 //        DataManager.initializeData(this);
-
-
+    }
+    @Override protected void onResume() {
+        super.onResume();
+        setWelcomeMessage();
     }
 
     private void setWelcomeMessage() {
+        welcomeMessage.setText("Hello Guest! Please sign in");
+        imageContainer.setVisibility(View.GONE);
         userDetails.getUser().observe(this,user->{
             if(user!=null){
-                Log.w("USERRRR",user.toString());
                 welcomeMessage.setText("Welcome, " + user.getName() + "!");
                 imageContainer.setVisibility(View.VISIBLE);
                 Glide.with(this).load(user.getImageFromServer()).into(displayImage);

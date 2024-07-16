@@ -1,10 +1,13 @@
 package com.example.android_client;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -13,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utilities {
+    public static int VIDEO_TYPE=1;
+    public static int IMAGE_TYPE=2;
     public static String dateDiff(Date date) {
         long now = new Date().getTime();
         long diffTime = (long) Math.floor(Math.abs(now - date.getTime()) / 1000);
@@ -75,6 +80,15 @@ public class Utilities {
         int videoResId = context.getResources().getIdentifier(res, dir, context.getPackageName());
         String uriString = "android.resource://" + context.getPackageName() + "/" + videoResId;
         return uriString;
+    }
+    public static String bitmapToBase64(Bitmap bitmap,int type){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream .toByteArray();
+        String data=Base64.encodeToString(byteArray, Base64.DEFAULT);
+        String filePostfix =type==IMAGE_TYPE?"png":type==VIDEO_TYPE?"mp4":null;
+        String typeString = type==IMAGE_TYPE?"image":type==VIDEO_TYPE?"video":null;
+        return "data:"+typeString+"/"+filePostfix+";base64,"+data;
     }
 
 
