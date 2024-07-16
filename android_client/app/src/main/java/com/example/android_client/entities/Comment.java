@@ -1,8 +1,18 @@
 package com.example.android_client.entities;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "user", onDelete = ForeignKey.CASCADE)
+        , @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "video", onDelete = ForeignKey.CASCADE)})
+
 public class Comment {
+    @PrimaryKey
+    @NonNull
     private String _id;
     private Date date;
     private User user;
@@ -10,7 +20,7 @@ public class Comment {
     private String text;
     private boolean edited;
 
-    public Comment(String _id, Date date, User user, Video video, String text ,Boolean edited){
+    public Comment(String _id, Date date, User user, Video video, String text, Boolean edited) {
         this._id = _id;
         this.date = date;
         this.user = user;
