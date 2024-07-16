@@ -29,7 +29,7 @@
     <string name="page_not_found">Page not found!\nOr maybe you don\'t have access to watch it?</string>
     <string name="camera_permission_denied">No permission to use camera</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="BaseUrlApi">http:// 172.18.41.241:8080/api/</string>
+    <string name="BaseUrlApi">http://172.18.41.241:8080/api/</string>
     <string name="BaseUrlMedia">http:// 172.18.41.241:8080/media/</string>
 
 </resources>
