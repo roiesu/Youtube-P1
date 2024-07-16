@@ -28,7 +28,5 @@ public class VideoRepository {
     }
 
 
-    public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
-        api.getVideosByUser(userId, videoListData);
-    }
+
 }

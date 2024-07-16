@@ -5,12 +5,16 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.Junction;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -22,10 +26,17 @@ public class User {
     private String password;
     private String name;
     private String image;
-
-    public User() {
-    }
-
+    @Relation(
+            parentColumn = "_id",
+            entity = Video.class,
+            entityColumn = "_id",
+            projection = {"_id"},
+            associateBy = @Junction(
+                    value=Like.class,
+                    parentColumn="userId",
+                    entityColumn ="videoId")
+    )
+    private Set<String> likes;
     public User(String _id, String username, String password, String name, String image) {
         this._id = _id;
         this.username = username;

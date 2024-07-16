@@ -8,33 +8,54 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Junction;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-@Entity
-public class Video {
-    @PrimaryKey @NonNull
+
+@Entity(
+        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploader", onDelete = ForeignKey.CASCADE)
+)public class Video {
+    @PrimaryKey
+    @NonNull
     private String _id;
     private String name;
+    @NonNull @Embedded()
     private User uploader;
     private String src;
     private String thumbnail;
     private long duration;
-    private long likes;
+    @Relation(
+            parentColumn = "_id",
+            entity = User.class,
+            entityColumn = "_id",
+            projection = {"_id"},
+            associateBy = @Junction(
+                    value = Like.class,
+                    parentColumn = "videoId",
+                    entityColumn = "userId")
+    )
+    private ArrayList<String> likes;
+    private long likesNum;
     private long views;
     private Date date;
     private String description;
     private ArrayList<String> tags;
+    @Relation(
+            parentColumn = "_id",
+            entityColumn = "_id",
+            entity = Comment.class)
     private ArrayList<Comment> comments;
 
-    public Video() {}
-
-    public Video(String _id, String name, User uploader, String src, String thumbnail, long duration, long likes, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
+    public Video(String _id, String name, User uploader, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
         this._id = _id;
         this.name = name;
         this.uploader = uploader;
@@ -42,13 +63,15 @@ public class Video {
         this.thumbnail = thumbnail;
         this.duration = duration;
         this.likes = likes;
+        this.likesNum=likes.size();
         this.views = views;
         this.date = date;
         this.description = description;
         this.tags = tags;
         this.comments = comments;
     }
-    public Video(String _id, String name, User uploader, String thumbnail, long duration, long views, Date date){
+
+    public Video(String _id, String name, User uploader, String thumbnail, long duration, long views, Date date) {
         this._id = _id;
         this.name = name;
         this.uploader = uploader;
@@ -104,10 +127,12 @@ public class Video {
     public void setSrc(String src) {
         this.src = src;
     }
-    public String getThumbnailFromServer(){
+
+    public String getThumbnailFromServer() {
         return ContextApplication.context.getString(R.string.BaseUrlMedia) + "image/" + thumbnail;
     }
-    public String getVideoFromServer(){
+
+    public String getVideoFromServer() {
         return ContextApplication.context.getString(R.string.BaseUrlMedia) + "video/" + src;
     }
 
@@ -127,11 +152,12 @@ public class Video {
         this.duration = duration;
     }
 
-    public long getLikes(){
+    public ArrayList<String> getLikes() {
         return this.likes;
     }
-    public void setLikes(long likes){
-        this.likes=likes;
+
+    public void setLikes(ArrayList<String> likes) {
+        this.likes = likes;
     }
 
     public long getViews() {
@@ -172,5 +198,13 @@ public class Video {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public long getLikesNum() {
+        return likesNum;
+    }
+
+    public void setLikesNum(long likesNum) {
+        this.likesNum = likesNum;
     }
 }

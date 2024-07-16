@@ -88,13 +88,13 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
                 ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
-                likeButton.setText(video.getLikes() + "");
+                likeButton.setText(video.getLikesNum() + "");
 
                 likeButton.setOnClickListener(view -> {
                     if (DataManager.getCurrentUser() == null) {
                         return;
                     }
-                    ((TextView) view).setText(video.getLikes() + "");
+                    ((TextView) view).setText(video.getLikesNum() + "");
                     likedVideo = !likedVideo;
                     changeLikeIcon();
                 });

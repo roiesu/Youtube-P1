@@ -27,6 +27,10 @@ public class VideoListRepository {
     public void reload(){
         api.getAll(videoListData,"");
     }
+
+    public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
+        api.getVideosByUser(userId, videoListData);
+    }
     public void searchVideo(String query){
         api.getAll(videoListData,query);
     }
