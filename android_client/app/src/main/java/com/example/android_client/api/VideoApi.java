@@ -63,4 +63,24 @@ public class VideoApi {
         });
     }
 
+    public void get(MutableLiveData videoData,String channel, String videoId) {
+        if(videoId == null ||channel == null){
+            return;
+        }
+
+        Call<Video> call = webServiceAPI.getVideo(channel, videoId);
+        call.enqueue(new Callback<Video>() {
+            @Override
+            public void onResponse(Call<Video> call, Response<Video> response) {
+                Video body = response.body();
+                if (body != null) {
+                    videoData.setValue(body);
+                }
+            }
+            @Override
+            public void onFailure(Call<Video> call, Throwable t) {
+                Log.w("USER RESPONSE", t);
+            }
+        });
+    }
 }

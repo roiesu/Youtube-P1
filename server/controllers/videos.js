@@ -62,7 +62,6 @@ async function getMinimalVideoDetails(req, res) {
 }
 async function getVideo(req, res) {
   const { id, pid } = req.params;
-
   try {
     const video = await Video.findById(pid).populate("uploader", [
       "name",
@@ -78,8 +77,10 @@ async function getVideo(req, res) {
     await video.save();
     await video.populate({
       path: "comments",
-      populate: { path: "user", select: ["-password", "-_id"] },
+      select: ["-video"],
+     populate: { path: "user", select: ["_id", "name", "username","image"]},
     });
+    console.log(video.comments);
 
     let likedVideo = false;
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {

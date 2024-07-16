@@ -14,7 +14,6 @@ import com.example.android_client.R;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
@@ -31,10 +30,12 @@ import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
-import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.VideoViewModel;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
-    private Video video;
     private VideoView videoView;
     private RecyclerView commentsList;
     private TextView commentsHeader;
@@ -44,76 +45,82 @@ public class WatchingVideo extends AppCompatActivity {
     private EditText commentInput;
     private User currentUser;
     private boolean likedVideo;
+    private VideoViewModel video;
 
     @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String appLinkAction = intent.getAction();
-        int id = 0;
+        setContentView(R.layout.watching_video);
+
+        AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
+        String appLinkAction = intent.get().getAction();
+        String channel = "";
+        String videoId = "";
         if (appLinkAction == null) {
-            id = intent.getIntExtra("videoId", 0);
+            videoId = intent.get().getStringExtra("videoId");
+            channel = intent.get().getStringExtra("channel");
         } else {
             DataManager.initializeData(this);
-            String lastPathSegment = intent.getData().getLastPathSegment();
+            String lastPathSegment = intent.get().getData().getLastPathSegment();
             if (lastPathSegment.matches("^\\d{0,9}$")) {
-                id = Integer.parseInt(lastPathSegment);
+//                 id = Integer.parseInt(lastPathSegment);
             }
         }
-        video = DataManager.findVideoById(id, true);
-        if (video == null) {
-            intent = new Intent(this, PageNotFound.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
 
-        setContentView(R.layout.watching_video);
-        ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
-        ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews())+" Views");
-        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate()));
-        ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
-        ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
-        currentUser = DataManager.getCurrentUser();
+        // Initialize views
+        videoView = findViewById(R.id.videoView);
+        commentsList = findViewById(R.id.commentsList);
+        commentsHeader = findViewById(R.id.commentsTitle);
         shareButton = findViewById(R.id.shareButton);
         commentInput = findViewById(R.id.commentInput);
         commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
-        likeButton.setText(video.getLikes().size() + "");
-        likeButton.setOnClickListener(view -> {
-            if (DataManager.getCurrentUser() == null) {
-                return;
+
+        video = new VideoViewModel(channel, videoId);
+        video.getVideo().observe(this, video -> {
+            if (video == null) {
+                intent.set(new Intent(this, PageNotFound.class));
+                startActivity(intent.get());
+                finish();
+            } else {
+                ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
+                ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
+                ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
+                ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
+                ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
+                likeButton.setText(video.getLikes() + "");
+
+                likeButton.setOnClickListener(view -> {
+                    if (DataManager.getCurrentUser() == null) {
+                        return;
+                    }
+                    ((TextView) view).setText(video.getLikes() + "");
+                    likedVideo = !likedVideo;
+                    changeLikeIcon();
+                });
+
+//                isLiked();
+                initVideo();
+
+                commentsList.setLayoutManager(new LinearLayoutManager(this));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+                Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+                dividerItemDecoration.setDrawable(dividerDrawable);
+                commentsList.addItemDecoration(dividerItemDecoration);
+
+                 CommentAdapter adapter = new CommentAdapter(this, video.getComments());
+                 commentsList.setAdapter(adapter);
+                 commentsHeader.setText(adapter.getItemCount() + " Comments");
+
+                 commentButton.setOnClickListener(l -> commentVideo(adapter));
+
+
+                 AlertDialog shareDialog = createShareDialog(video.get_id());
+                 shareButton.setOnClickListener(l -> shareDialog.show());
             }
-//            DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
-            ((TextView) view).setText(video.getLikes().size() + "");
-            likedVideo = !likedVideo;
-            changeLikeIcon();
         });
-        isLiked();
-        initVideo();
-
-        commentsList = findViewById(R.id.commentsList);
-        commentsList.setLayoutManager(new LinearLayoutManager(this));
-//        CommentAdapter adapter = new CommentAdapter(this, video.getComments());
-//        commentsList.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        dividerItemDecoration.setDrawable(dividerDrawable);
-        commentsList.addItemDecoration(dividerItemDecoration);
-
-        commentsHeader = findViewById(R.id.commentsTitle);
-//        commentsHeader.setText(adapter.getItemCount() + " Comments");
-
-//        commentButton.setOnClickListener(l -> {
-//            commentVideo(adapter);
-//        });
-//        AlertDialog shareDialog = createShareDialog(video.getId());
-//        shareButton.setOnClickListener(l -> {
-//            shareDialog.show();
-//        });
-
     }
+
 
     @Override
     public void onPause() {
@@ -129,7 +136,7 @@ public class WatchingVideo extends AppCompatActivity {
 
     private void initVideo() {
         videoView = findViewById(R.id.videoView);
-        videoView.setVideoURI(Uri.parse(video.getSrc()));
+        videoView.setVideoPath(video.getVideo().getValue().getVideoFromServer());
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
@@ -148,13 +155,13 @@ public class WatchingVideo extends AppCompatActivity {
             // Notify user
             return;
         }
-        video.addComment(currentUser.getUsername(), currentUser.getName(), content);
+//        video.addComment(currentUser.getUsername(), currentUser.getName(), content);
         commentInput.setText("");
         adapter.notifyItemInserted(0);
         commentsHeader.setText(adapter.getItemCount() + " Comments");
     }
 
-    private AlertDialog createShareDialog(int videoId) {
+    private AlertDialog createShareDialog(String videoId) {
         String shareLink = getResources().getString(R.string.url) + "/watch/" + videoId;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setPositiveButton("Copy to clipboard", (dialog, id1) -> {
@@ -174,18 +181,18 @@ public class WatchingVideo extends AppCompatActivity {
         return dialogBuilder.create();
     }
 
-    private void isLiked() {
-        if (currentUser != null) {
-            for (String username : video.getLikes()) {
-                if (username.equals(currentUser.getUsername())) {
-                    likedVideo = true;
-                    changeLikeIcon();
-                    return;
-                }
-            }
-        }
-        likedVideo = false;
-    }
+//    private void isLiked() {
+//        if (currentUser != null) {
+//            for (String username : video.getLikes()) {
+//                if (username.equals(currentUser.getUsername())) {
+//                    likedVideo = true;
+//                    changeLikeIcon();
+//                    return;
+//                }
+//            }
+//        }
+//        likedVideo = false;
+//    }
 
     private void changeLikeIcon() {
         if (likedVideo) {

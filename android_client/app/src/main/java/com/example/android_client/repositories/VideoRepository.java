@@ -1,36 +1,32 @@
 package com.example.android_client.repositories;
-
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
 
 public class VideoRepository {
-//    private UserDao dao;
-    private VideoListData videoListData;
+    //    private UserDao dao;
+    private VideoData videoData;
     private VideoApi api;
-    public VideoRepository(){
+
+    public VideoRepository(String channel, String videoId) {
         api = new VideoApi();
-        videoListData = new VideoListData();
+        videoData = new VideoData(channel, videoId);
     }
-    class VideoListData extends MutableLiveData<List<Video>> {
-        public VideoListData(){
+
+    class VideoData extends MutableLiveData<Video> {
+        public VideoData(String channel, String videoId) {
             super();
-            api.getAll(this,"");
+            api.get(this, channel, videoId);
         }
     }
-    public MutableLiveData<List<Video>> getAll(){
-        return videoListData;
+
+    public MutableLiveData<Video> get() {
+        return videoData;
     }
-    public void reload(){
-        api.getAll(videoListData,"");
-    }
-    public void searchVideo(String query){
-        api.getAll(videoListData,query);
-    }
+
 
     public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
         api.getVideosByUser(userId, videoListData);
