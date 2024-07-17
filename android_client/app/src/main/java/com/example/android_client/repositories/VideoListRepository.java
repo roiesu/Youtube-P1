@@ -25,12 +25,18 @@ public class VideoListRepository {
         public VideoListData(){
             super();
         }
+        @Override
+        public void onActive(){
+            reload();
+        }
     }
     public MutableLiveData<List<Video>> getAll(){
         return videoListData;
     }
     public void reload(){
-        api.getVideos(videoListData,"");
+        new Thread(()->{
+            videoListData.postValue(dao.searchVideos());
+        }).start();
     }
 
     public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {

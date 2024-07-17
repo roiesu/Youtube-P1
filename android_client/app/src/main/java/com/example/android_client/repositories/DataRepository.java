@@ -69,7 +69,7 @@ public class DataRepository {
     public MutableLiveData<List<Video>> getVideos() {
         return videoListData;
     }
-    public void init(LifecycleOwner lifecycleOwner) {
+    public void init(LifecycleOwner lifecycleOwner, MutableLiveData initialized) {
         Thread deleteThread = new Thread(()->{
             try{
                 userDao.deleteAll();
@@ -107,6 +107,7 @@ public class DataRepository {
                             videoThread.join();
                             commentThread.start();
                             commentThread.join();
+                            initialized.setValue(true);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }

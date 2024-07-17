@@ -93,7 +93,6 @@ public class MainPage extends AppCompatActivity {
         adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
-        videos.reload();
         refreshLayout.setOnRefreshListener(() -> {
             searchInput.setQuery("", false);
             videos.reload();
@@ -162,5 +161,10 @@ public class MainPage extends AppCompatActivity {
     private void initializeData() {
         DatabaseViewModel databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         databaseViewModel.init(this);
+        databaseViewModel.getInitialized().observe(this,value->{
+            if(value == true) {
+                videos.reload();
+            }
+        });
     }
 }

@@ -13,13 +13,16 @@ import retrofit2.http.GET;
 
 @Dao
 public interface VideoDao {
+    @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration,likesNum FROM video " +
+            "ORDER BY views DESC " +
+            "LIMIT 20")
+    List<Video> searchVideos();
+
     @Query("DELETE from video")
     void deleteAll();
     @Query("SELECT * from video")
     List<Video> index();
 
-    @Query("SELECT * FROM video WHERE _id = :id")
-    Video get(String id);
 
     @Insert
     void insert(Video...videos);
