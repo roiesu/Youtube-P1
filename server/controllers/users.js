@@ -114,10 +114,19 @@ async function deleteUser(req, res) {
   }
 }
 
+async function userIndex(req, res) {
+  try {
+    const users = await User.find().select(["_id", "username", "password", "name", "image"]);
+    return res.send(users);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+}
 module.exports = {
   addUser,
   getUser,
   updateUser,
   deleteUser,
   getFullUserDetails,
+  userIndex,
 };
