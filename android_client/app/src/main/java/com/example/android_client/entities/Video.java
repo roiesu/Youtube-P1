@@ -29,6 +29,7 @@ public class Video {
     @NonNull
     private String _id;
     private String name;
+    @NonNull
     private String uploaderId;
     private String src;
     private String thumbnail;

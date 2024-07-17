@@ -1,18 +1,23 @@
 package com.example.android_client.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.android_client.entities.User;
+import com.example.android_client.entities.Comment;
 
 import java.util.List;
 
 @Dao
 public interface CommentDao {
     @Query("SELECT * from comment")
-    List<User> index();
-    @Query("SELECT _id,username,name,image from user WHERE username= :username")
-    User get(String username);
+    List<Comment> index();
+
+    @Query("DELETE from comment")
+    void deleteAll();
+
+    @Insert
+    void insert(Comment ...comments);
 
 
 }

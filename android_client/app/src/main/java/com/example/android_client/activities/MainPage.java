@@ -21,6 +21,7 @@ import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.UserListViewModel;
 import com.example.android_client.view_models.UserViewModel;
 import com.example.android_client.view_models.VideoListViewModel;
@@ -34,6 +35,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -53,7 +55,7 @@ public class MainPage extends AppCompatActivity {
     private VideoAdapter adapter;
 
 
-    public void initItems(){
+    public void initItems() {
         switchMode = findViewById(R.id.darkModeSwitch);
 
         sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
@@ -82,23 +84,23 @@ public class MainPage extends AppCompatActivity {
         displayImage = findViewById(R.id.userImage);
         imageContainer = findViewById(R.id.userImageContainer);
     }
-    public void initVideos(){
+
+    public void initVideos() {
         searchInput = findViewById(R.id.searchBar);
         videoList = findViewById(R.id.recyclerView);
         videoList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
-        refreshLayout.setOnRefreshListener(()->{
-            searchInput.setQuery("",false);
+        refreshLayout.setOnRefreshListener(() -> {
+            searchInput.setQuery("", false);
             videos.reload();
         });
-        videos.getVideos().observe(this,list->{
+        videos.getVideos().observe(this, list -> {
             adapter.setVideos(list);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         });
-
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videoList.getContext(), DividerItemDecoration.VERTICAL);
@@ -133,7 +135,9 @@ public class MainPage extends AppCompatActivity {
 
 //        DataManager.initializeData(this);
     }
-    @Override protected void onResume() {
+
+    @Override
+    protected void onResume() {
         super.onResume();
         setWelcomeMessage();
     }
@@ -141,21 +145,24 @@ public class MainPage extends AppCompatActivity {
     private void setWelcomeMessage() {
         welcomeMessage.setText("Hello Guest! Please sign in");
         imageContainer.setVisibility(View.GONE);
-        userDetails.getUser().observe(this,user->{
-            if(user!=null){
+        userDetails.getUser().observe(this, user -> {
+            if (user != null) {
                 welcomeMessage.setText("Welcome, " + user.getName() + "!");
                 imageContainer.setVisibility(View.VISIBLE);
                 Glide.with(this).load(user.getImageFromServer()).into(displayImage);
-            }
-            else{
+            } else {
                 welcomeMessage.setText("Hello Guest! Please sign in");
                 imageContainer.setVisibility(View.GONE);
             }
         });
     }
-    private void initializeData(){
+
+    private void initializeData() {
         UserListViewModel userListViewModel = new ViewModelProvider(this).get(UserListViewModel.class);
-        VideoListViewModel videoListViewModel= new VideoListViewModel();
+        VideoListViewModel videoListViewModel = new ViewModelProvider(this).get(VideoListViewModel.class);
+        CommentListViewModel commentListViewModel = new ViewModelProvider(this).get(CommentListViewModel.class);
         userListViewModel.init(this);
+        videoListViewModel.init(this);
+        commentListViewModel.init(this);
     }
 }

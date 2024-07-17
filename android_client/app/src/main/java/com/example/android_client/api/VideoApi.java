@@ -46,7 +46,7 @@ public class VideoApi {
             }
         });
     }
-    public void getAll(MutableLiveData videoListData,String query) {
+    public void getVideos(MutableLiveData videoListData,String query) {
         Call<List<Video>> call = webServiceAPI.getVideos(query);
         call.enqueue(new Callback<List<Video>>() {
             @Override
@@ -80,6 +80,26 @@ public class VideoApi {
             @Override
             public void onFailure(Call<Video> call, Throwable t) {
                 Log.w("USER RESPONSE", t);
+            }
+        });
+    }
+    public void getAll(MutableLiveData videoListData){
+        Call<List<Video>> call = webServiceAPI.getAll();
+        call.enqueue(new Callback<List<Video>>() {
+            @Override
+            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
+                List<Video> body = response.body();
+                if(body!=null){
+                    videoListData.setValue(body);
+                }
+                else{
+                    Log.w("Zbabir","yes");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Video>> call, Throwable t) {
+                Log.w("Zbabir",t);
             }
         });
     }

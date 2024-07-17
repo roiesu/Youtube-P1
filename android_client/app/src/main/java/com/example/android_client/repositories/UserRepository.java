@@ -1,27 +1,25 @@
 package com.example.android_client.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
-import com.example.android_client.ContextApplication;
-import com.example.android_client.api.UserAPI;
+import com.example.android_client.api.UserApi;
 import com.example.android_client.dao.UserDao;
 import com.example.android_client.entities.User;
 
 public class UserRepository {
     private UserDao dao;
     private UserData userData;
-    private UserAPI api;
+    private UserApi api;
     public UserRepository(String username){
-        api = new UserAPI();
+        api = new UserApi();
         userData = new UserData(username);
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
     public UserRepository(){
-        api = new UserAPI();
+        api = new UserApi();
         userData = new UserData();
         // Room
         AppDB database = AppDB.getInstance();
