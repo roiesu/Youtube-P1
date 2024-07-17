@@ -19,10 +19,10 @@ public interface VideoDao {
     List<Video> topTenVideos(String searchValue);
 
     @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration FROM video " +
-            "WHERE name LIKE  '%' || :searchValue || '%' AND views <= :maxViews " +
+            "WHERE name LIKE  '%' || :searchValue || '%' AND views <= :lastViews AND _id <> :lastId " +
             "ORDER BY RANDOM() " +
             "LIMIT 10")
-    List<Video> restTenVideos(String searchValue, Long maxViews);
+    List<Video> restTenVideos(String searchValue, Long lastViews, String lastId);
 
     @Transaction
     @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration from video LIMIT 10")

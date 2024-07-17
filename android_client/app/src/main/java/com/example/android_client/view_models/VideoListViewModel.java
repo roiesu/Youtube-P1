@@ -13,9 +13,8 @@ public class VideoListViewModel extends ViewModel {
 
     private MutableLiveData<List<Video>> videoList;
     private VideoListRepository repository;
-
-    public VideoListViewModel() {
-        this.repository = new VideoListRepository();
+    public VideoListViewModel(LifecycleOwner owner) {
+        this.repository = new VideoListRepository(owner);
         videoList = repository.getAll();
     }
 
