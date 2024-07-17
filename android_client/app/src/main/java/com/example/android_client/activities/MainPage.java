@@ -126,7 +126,7 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initializeData();
         setContentView(R.layout.main_page);
-        videos = new VideoListViewModel();
+        videos = new VideoListViewModel(this);
         userDetails = new UserViewModel();
         initItems();
         initVideos();
@@ -158,8 +158,8 @@ public class MainPage extends AppCompatActivity {
     private void initializeData() {
         DatabaseViewModel databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         databaseViewModel.init(this);
-        databaseViewModel.getInitialized().observe(this,value->{
-            if(value == true) {
+        databaseViewModel.getInitialized().observe(this, value -> {
+            if (value == true) {
                 videos.reload();
                 userDetails.getUser(DataManager.getCurrentUsername());
             }

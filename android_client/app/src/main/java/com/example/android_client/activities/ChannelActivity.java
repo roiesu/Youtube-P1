@@ -32,7 +32,7 @@ public class ChannelActivity extends AppCompatActivity {
         channelVideoList.setAdapter(adapter);
         refreshLayout = findViewById(R.id.channelRefreshLayout);
         refreshLayout.setOnRefreshListener(() -> videos.loadVideosForUser(userId));
-        videos = new VideoListViewModel();
+        videos = new VideoListViewModel(this);
         videos.getVideos().observe(this, list -> {
             adapter.setVideos(list);
             adapter.notifyDataSetChanged();

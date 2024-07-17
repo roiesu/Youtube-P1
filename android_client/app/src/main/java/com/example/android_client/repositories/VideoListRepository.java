@@ -17,12 +17,14 @@ public class VideoListRepository {
     private VideoDao dao;
     private VideoListData videoListData;
     private VideoApi api;
+    private LifecycleOwner owner;
 
-    public VideoListRepository() {
+    public VideoListRepository(LifecycleOwner owner) {
         api = new VideoApi();
         videoListData = new VideoListData();
         AppDB instance = AppDB.getInstance();
         dao = instance.videoDao();
+        this.owner = owner;
     }
 
     class VideoListData extends MutableLiveData<List<Video>> {
@@ -41,9 +43,7 @@ public class VideoListRepository {
     }
 
     public void reload() {
-        new Thread(() -> {
-            videoListData.postValue(dao.topTenVideos(""));
-        }).start();
+        searchVideo("");
     }
 
     public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
@@ -51,25 +51,21 @@ public class VideoListRepository {
     }
 
     public void searchVideo(String query) {
-        Thread first = new Thread(() -> {
-            videoListData.postValue(dao.topTenVideos(query));
-        });
-        Thread second = new Thread(() -> {
-            List<Video> videoList = videoListData.getValue();
-            if (videoList.size() > 10) {
-                Long maxViews = videoList.get(9).getViews();
-                videoList.addAll(dao.restTenVideos(query, maxViews));
-                videoListData.postValue(videoList);
+        MutableLiveData<List<Video>> temp = new MutableLiveData<>();
+        new Thread(() -> {
+            temp.postValue(dao.topTenVideos(query));
+        }).start();
+        temp.observe(owner, list -> {
+            if (list.size() == 10) {
+                Video lastVideo = list.get(9);
+                new Thread(() -> {
+                    List<Video> tempList = list;
+                    tempList.addAll(dao.restTenVideos(query, lastVideo.getViews(), lastVideo.get_id()));
+                    videoListData.postValue(tempList);
+                }).start();
+            } else {
+                videoListData.postValue(list);
             }
         });
-        try {
-            first.start();
-            first.join();
-            second.start();
-            second.join();
-        } catch (Exception ex) {
-            Log.w("ERROR", ex);
-        }
-
     }
 }
