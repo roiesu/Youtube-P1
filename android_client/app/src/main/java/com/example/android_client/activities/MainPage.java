@@ -19,11 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
-import com.example.android_client.entities.Video;
-import com.example.android_client.view_models.CommentListViewModel;
+
 import com.example.android_client.view_models.DatabaseViewModel;
-import com.example.android_client.view_models.UserListViewModel;
 import com.example.android_client.view_models.UserViewModel;
 import com.example.android_client.view_models.VideoListViewModel;
 
@@ -130,7 +127,7 @@ public class MainPage extends AppCompatActivity {
         initializeData();
         setContentView(R.layout.main_page);
         videos = new VideoListViewModel();
-        userDetails = new UserViewModel(DataManager.getCurrentUsername());
+        userDetails = new UserViewModel();
         initItems();
         initVideos();
 
@@ -146,7 +143,7 @@ public class MainPage extends AppCompatActivity {
     private void setWelcomeMessage() {
         welcomeMessage.setText("Hello Guest! Please sign in");
         imageContainer.setVisibility(View.GONE);
-        userDetails.getUser().observe(this, user -> {
+        userDetails.getUserData().observe(this, user -> {
             if (user != null) {
                 welcomeMessage.setText("Welcome, " + user.getName() + "!");
                 imageContainer.setVisibility(View.VISIBLE);
@@ -164,7 +161,9 @@ public class MainPage extends AppCompatActivity {
         databaseViewModel.getInitialized().observe(this,value->{
             if(value == true) {
                 videos.reload();
+                userDetails.getUser(DataManager.getCurrentUsername());
             }
         });
+
     }
 }

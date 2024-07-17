@@ -34,7 +34,7 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userViewModel= new UserViewModel();
-        userViewModel.getUser().observe(this,user->{
+        userViewModel.getUserData().observe(this,user->{
             if(user==null){
                 startActivity(new Intent(this,MainPage.class));
             }
@@ -68,7 +68,7 @@ public class SignIn extends AppCompatActivity {
 
     private void login() {
         User userDetails = new User(null,inputs.get(0).getInputText(),inputs.get(1).getInputText(),null,null);
-        userViewModel.getUser().setValue(userDetails);
+        userViewModel.getUserData().setValue(userDetails);
         userViewModel.login();
     }
 
