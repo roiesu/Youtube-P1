@@ -71,16 +71,4 @@ public class VideoListRepository {
         }
 
     }
-
-    public void init(LifecycleOwner lifecycleOwner) {
-        api.getAll(this.videoListData);
-        videoListData.observe(lifecycleOwner, list -> {
-            new Thread(() -> {
-                Video[] videoArray = list.toArray(new Video[0]);
-                dao.insert(videoArray);
-                List<Video> videos = dao.index();
-                int x = 5;
-            }).start();
-        });
-    }
 }

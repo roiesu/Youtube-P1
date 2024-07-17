@@ -13,30 +13,31 @@ public class VideoListViewModel extends ViewModel {
 
     private MutableLiveData<List<Video>> videoList;
     private VideoListRepository repository;
-    public VideoListViewModel(){
+
+    public VideoListViewModel() {
         this.repository = new VideoListRepository();
         videoList = repository.getAll();
     }
-    public MutableLiveData<List<Video>> getVideos(){
-        if(videoList==null){
+
+    public MutableLiveData<List<Video>> getVideos() {
+        if (videoList == null) {
             return new MutableLiveData<>();
         }
         return videoList;
     }
-    public void searchVideo(String query){
+
+    public void searchVideo(String query) {
         this.repository.searchVideo(query);
     }
-    public void reload(){
+
+    public void reload() {
         this.repository.reload();
     }
 
-// get video for user - channel page
+    // get video for user - channel page
     public void loadVideosForUser(String userId) {
         MutableLiveData<List<Video>> userVideos = new MutableLiveData<>();
         this.repository.fetchVideosByUser(userId, userVideos);
         this.videoList = userVideos;
-    }
-    public void init(LifecycleOwner lifecycleOwner){
-        this.repository.init(lifecycleOwner);
     }
 }
