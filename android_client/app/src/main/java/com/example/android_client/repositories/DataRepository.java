@@ -18,7 +18,6 @@ import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class DataRepository {
     private UserDao userDao;

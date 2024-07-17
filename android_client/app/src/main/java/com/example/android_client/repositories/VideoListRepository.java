@@ -35,7 +35,7 @@ public class VideoListRepository {
     }
     public void reload(){
         new Thread(()->{
-            videoListData.postValue(dao.searchVideos());
+            videoListData.postValue(dao.searchVideos(""));
         }).start();
     }
 
@@ -43,7 +43,9 @@ public class VideoListRepository {
         api.getVideosByUser(userId, videoListData);
     }
     public void searchVideo(String query){
-        api.getVideos(videoListData,query);
+       new Thread(()->{
+           videoListData.postValue(dao.searchVideos(query));
+       }).start();
     }
 
     public void init(LifecycleOwner lifecycleOwner){
