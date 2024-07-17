@@ -18,8 +18,8 @@ public interface VideoDao {
     @Query("SELECT * from video")
     List<Video> index();
 
-    @Query("SELECT _id,username,name,image from user WHERE username= :username")
-    User get(String username);
+    @Query("SELECT * FROM video WHERE _id = :id")
+    Video get(String id);
 
     @Insert
     void insert(Video...videos);

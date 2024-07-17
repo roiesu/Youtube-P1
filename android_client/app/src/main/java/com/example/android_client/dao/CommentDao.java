@@ -16,5 +16,5 @@ public interface CommentDao {
     @Query("DELETE FROM comment")
     void deleteAll();
     @Insert
-    void insert(Comment...comment);
+    void insert(Comment ...comment);
 }

@@ -45,7 +45,6 @@ public class UserListRepository {
         api.getAll(userListData);
         userListData.observe(lifecycleOwner, list -> {
             new Thread(()->{
-                dao.deleteAll();
                 User [] userArray = list.toArray(new User[0]);
                 dao.insert(userArray);
                 List<User> users = dao.index();

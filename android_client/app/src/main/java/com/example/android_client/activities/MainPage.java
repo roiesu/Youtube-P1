@@ -22,6 +22,7 @@ import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.CommentListViewModel;
+import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.UserListViewModel;
 import com.example.android_client.view_models.UserViewModel;
 import com.example.android_client.view_models.VideoListViewModel;
@@ -159,12 +160,7 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initializeData() {
-        UserListViewModel userListViewModel = new ViewModelProvider(this).get(UserListViewModel.class);
-        VideoListViewModel videoListViewModel = new ViewModelProvider(this).get(VideoListViewModel.class);
-        CommentListViewModel commentListViewModel = new ViewModelProvider(this).get(CommentListViewModel.class);
-
-        userListViewModel.init(this);
-        videoListViewModel.init(this);
-        commentListViewModel.init(this);
+        DatabaseViewModel databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
+        databaseViewModel.init(this);
     }
 }
