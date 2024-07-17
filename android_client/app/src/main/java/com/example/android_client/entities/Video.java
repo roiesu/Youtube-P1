@@ -35,23 +35,19 @@ public class Video {
     private String src;
     private String thumbnail;
     private long duration;
-    private ArrayList<String> likes;
-    private long likesNum;
+    private Integer likesNum;
     private long views;
     private Date date;
     private String description;
     private ArrayList<String> tags;
-
-//    private ArrayList<Comment> comments;
     public Video(){}
-    public Video(String _id, String name, String uploaderId, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags) {
+    public Video(String _id, String name, String uploaderId, String src, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags) {
         this._id = _id;
         this.name = name;
         this.uploaderId = uploaderId;
         this.src = src;
         this.thumbnail = thumbnail;
         this.duration = duration;
-        this.likes = likes;
 //        this.likesNum=likes.size();
         this.views = views;
         this.date = date;
@@ -140,14 +136,6 @@ public class Video {
         this.duration = duration;
     }
 
-    public ArrayList<String> getLikes() {
-        return this.likes;
-    }
-
-    public void setLikes(ArrayList<String> likes) {
-        this.likes = likes;
-    }
-
     public long getViews() {
         return views;
     }
@@ -188,11 +176,11 @@ public class Video {
 //        this.comments = comments;
 //    }
 
-    public long getLikesNum() {
+    public Integer getLikesNum() {
         return likesNum;
     }
 
-    public void setLikesNum(long likesNum) {
+    public void setLikesNum(int likesNum) {
         this.likesNum = likesNum;
     }
 }

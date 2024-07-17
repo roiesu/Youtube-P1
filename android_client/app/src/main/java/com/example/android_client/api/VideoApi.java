@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
@@ -84,11 +85,11 @@ public class VideoApi {
         });
     }
     public void getAll(MutableLiveData videoListData){
-        Call<List<Video>> call = webServiceAPI.getAll();
-        call.enqueue(new Callback<List<Video>>() {
+        Call<List<VideoWithLikes>> call = webServiceAPI.getAll();
+        call.enqueue(new Callback<List<VideoWithLikes>>() {
             @Override
-            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
-                List<Video> body = response.body();
+            public void onResponse(Call<List<VideoWithLikes>> call, Response<List<VideoWithLikes>> response) {
+                List<VideoWithLikes> body = response.body();
                 if(body!=null){
                     videoListData.setValue(body);
                 }
@@ -98,7 +99,7 @@ public class VideoApi {
             }
 
             @Override
-            public void onFailure(Call<List<Video>> call, Throwable t) {
+            public void onFailure(Call<List<VideoWithLikes>> call, Throwable t) {
                 Log.w("Zbabir",t);
             }
         });

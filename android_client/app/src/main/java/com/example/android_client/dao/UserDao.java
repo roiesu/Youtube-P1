@@ -14,15 +14,22 @@ import java.util.List;
 public interface UserDao {
     @Query("DELETE from user")
     Void deleteAll();
+
     @Query("SELECT _id,username,name,image from user WHERE username= :username")
     User get(String username);
+
+    @Query("SELECT _id,username from user WHERE _id=:id")
+    User getById(String id);
+
     @Query("SELECT * from user")
     List<User> index();
+
     @Insert
-    void insert(User...users);
+    void insert(User... users);
+
     @Update
-    void update(User ...users);
+    void update(User... users);
 
     @Delete
-    void delete(User ...users);
+    void delete(User... users);
 }
