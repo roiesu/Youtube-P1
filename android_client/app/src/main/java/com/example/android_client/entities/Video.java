@@ -23,8 +23,8 @@ import java.util.Date;
 
 @Entity
         (
-        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
-)
+                foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
+        )
 public class Video {
     @PrimaryKey
     @NonNull
@@ -40,15 +40,18 @@ public class Video {
     private Date date;
     private String description;
     private ArrayList<String> tags;
-    public Video(){}
-    public Video(String _id, String name, String uploaderId, String src, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags) {
+
+    public Video() {
+    }
+
+    public Video(String _id, String name, String uploaderId, String src, Integer likesNum, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags) {
         this._id = _id;
         this.name = name;
         this.uploaderId = uploaderId;
         this.src = src;
         this.thumbnail = thumbnail;
         this.duration = duration;
-//        this.likesNum=likes.size();
+        this.likesNum = likesNum;
         this.views = views;
         this.date = date;
         this.description = description;
@@ -167,14 +170,6 @@ public class Video {
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
-
-//    public ArrayList<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(ArrayList<Comment> comments) {
-//        this.comments = comments;
-//    }
 
     public Integer getLikesNum() {
         return likesNum;

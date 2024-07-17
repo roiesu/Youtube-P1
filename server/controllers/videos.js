@@ -14,7 +14,6 @@ async function videoIndex(req, res) {
             uploaderId: "$uploader",
             src: "$src",
             likesNum: { $size: "$likes" },
-            commentsNum: { $size: "$comments" },
             thumbnail: "$thumbnail",
             duration: "$duration",
             views: "$views",

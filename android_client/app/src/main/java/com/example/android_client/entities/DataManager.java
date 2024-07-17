@@ -223,7 +223,7 @@ public class DataManager {
         Video newVideo = new Video();
 //        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
 //        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
-        getVideoList().add(newVideo);
+//        getVideoList().add(newVideo);
         return newVideo;
     }
     public static String getCurrentUsername(){
