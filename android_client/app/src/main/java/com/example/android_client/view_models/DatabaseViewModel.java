@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
-import com.example.android_client.repositories.CommentListRepository;
 import com.example.android_client.repositories.DataRepository;
 
 import java.util.List;
@@ -17,12 +16,15 @@ public class DatabaseViewModel extends ViewModel {
     private MutableLiveData<List<User>> users;
     private MutableLiveData<List<Video>> videos;
     private MutableLiveData<List<Comment>> comments;
+    private MutableLiveData<Boolean> initialized;
 
     public DatabaseViewModel(){
         this.repository = new DataRepository();
         users = repository.getUsers();
         videos = repository.getVideos();
         comments = repository.getComments();
+        initialized = new MutableLiveData<>();
+        initialized.setValue(false);
     }
     public MutableLiveData<List<User>> getUsers(){
         if(users==null){
@@ -42,8 +44,14 @@ public class DatabaseViewModel extends ViewModel {
         }
         return comments;
     }
+    public MutableLiveData<Boolean> getInitialized(){
+        if(initialized == null){
+            return new MutableLiveData<>();
+        }
+        return initialized;
+    }
     public void init(LifecycleOwner lifecycleOwner){
-        this.repository.init(lifecycleOwner);
+        this.repository.init(lifecycleOwner,initialized);
     }
 
 }

@@ -52,7 +52,7 @@ public class Video {
         this.thumbnail = thumbnail;
         this.duration = duration;
         this.likes = likes;
-        this.likesNum=likes.size();
+//        this.likesNum=likes.size();
         this.views = views;
         this.date = date;
         this.description = description;
