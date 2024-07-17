@@ -12,21 +12,20 @@ import java.util.List;
 
 @Dao
 public interface VideoDao {
+    @Transaction
     @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration FROM video " +
             "WHERE name LIKE  '%' || :searchValue || '%' " +
             "ORDER BY views DESC " +
             "LIMIT 10")
-    List<Video> topTenVideos(String searchValue);
+    List<VideoWithUser> topTenVideos(String searchValue);
 
+    @Transaction
     @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration FROM video " +
             "WHERE name LIKE  '%' || :searchValue || '%' AND views <= :lastViews AND _id <> :lastId " +
             "ORDER BY RANDOM() " +
             "LIMIT 10")
-    List<Video> restTenVideos(String searchValue, Long lastViews, String lastId);
+    List<VideoWithUser> restTenVideos(String searchValue, Long lastViews, String lastId);
 
-    @Transaction
-    @Query("SELECT _id,name,uploaderId,date,views,thumbnail,duration from video LIMIT 10")
-    List<VideoWithUser> test();
 
     @Query("DELETE from video")
     void deleteAll();
