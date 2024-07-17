@@ -2,6 +2,31 @@ const User = require("../models/user");
 const Video = require("../models/video");
 const { write64FileWithCopies, deletePublicFile, override64File } = require("../utils");
 
+async function videoIndex(req, res) {
+  try {
+    const videos = await Video.aggregate([
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          uploaderId: "$uploader",
+          src: 1,
+          thumbnail: 1,
+          duration: 1,
+          likes: 1,
+          views: 1,
+          date: 1,
+          description: 1,
+          tags: 1,
+        },
+      },
+    ]);
+    return res.send(videos);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+}
+
 async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
@@ -78,7 +103,7 @@ async function getVideo(req, res) {
     await video.populate({
       path: "comments",
       select: ["-video"],
-     populate: { path: "user", select: ["_id", "name", "username","image"]},
+      populate: { path: "user", select: ["_id", "name", "username", "image"] },
     });
     console.log(video.comments);
 
@@ -329,4 +354,5 @@ module.exports = {
   getVideosDetailsByUserId,
   getMinimalVideoDetails,
   getVideosByUserId,
+  videoIndex,
 };
