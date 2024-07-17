@@ -92,6 +92,7 @@ public class MainPage extends AppCompatActivity {
         adapter = new VideoAdapter(this, new ArrayList<>());
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
+        videos.reload();
         refreshLayout.setOnRefreshListener(() -> {
             searchInput.setQuery("", false);
             videos.reload();
@@ -161,6 +162,7 @@ public class MainPage extends AppCompatActivity {
         UserListViewModel userListViewModel = new ViewModelProvider(this).get(UserListViewModel.class);
         VideoListViewModel videoListViewModel = new ViewModelProvider(this).get(VideoListViewModel.class);
         CommentListViewModel commentListViewModel = new ViewModelProvider(this).get(CommentListViewModel.class);
+
         userListViewModel.init(this);
         videoListViewModel.init(this);
         commentListViewModel.init(this);

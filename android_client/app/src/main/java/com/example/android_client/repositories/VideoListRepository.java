@@ -24,7 +24,6 @@ public class VideoListRepository {
     class VideoListData extends MutableLiveData<List<Video>> {
         public VideoListData(){
             super();
-            api.getVideos(this,"");
         }
     }
     public MutableLiveData<List<Video>> getAll(){
@@ -46,8 +45,10 @@ public class VideoListRepository {
         videoListData.observe(lifecycleOwner,list->{
             new Thread(()->{
                 dao.deleteAll();
-                Video[] videoArray = list.toArray(new Video[0]);
+                Video [] videoArray = list.toArray(new Video[0]);
                 dao.insert(videoArray);
+                List<Video> videos = dao.index();
+                int x=5;
             }).start();
         });
     }
