@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.UserListViewModel;
 import com.example.android_client.view_models.UserViewModel;
 import com.example.android_client.view_models.VideoListViewModel;
 
@@ -121,8 +123,8 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        initializeData();
         setContentView(R.layout.main_page);
         videos = new VideoListViewModel();
         userDetails = new UserViewModel(DataManager.getCurrentUsername());
@@ -150,5 +152,10 @@ public class MainPage extends AppCompatActivity {
                 imageContainer.setVisibility(View.GONE);
             }
         });
+    }
+    private void initializeData(){
+        UserListViewModel userListViewModel = new ViewModelProvider(this).get(UserListViewModel.class);
+        VideoListViewModel videoListViewModel= new VideoListViewModel();
+        userListViewModel.init(this);
     }
 }

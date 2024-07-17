@@ -12,6 +12,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface UserWebServiceAPI {
+    @GET("index/users")
+    Call<List<User>> getAll();
 
     @GET("users/{id}")
     Call<User> getUser(@Path("id") String id);
