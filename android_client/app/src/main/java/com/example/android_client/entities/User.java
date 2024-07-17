@@ -14,6 +14,7 @@ import com.example.android_client.R;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,17 +27,7 @@ public class User {
     private String password;
     private String name;
     private String image;
-    @Relation(
-            parentColumn = "_id",
-            entity = Video.class,
-            entityColumn = "_id",
-            projection = {"_id"},
-            associateBy = @Junction(
-                    value=Like.class,
-                    parentColumn="userId",
-                    entityColumn ="videoId")
-    )
-    private Set<String> likes;
+
     public User(String _id, String username, String password, String name, String image) {
         this._id = _id;
         this.username = username;

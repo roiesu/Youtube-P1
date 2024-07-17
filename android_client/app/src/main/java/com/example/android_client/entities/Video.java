@@ -22,43 +22,30 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Entity(
-        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploader", onDelete = ForeignKey.CASCADE)
-)public class Video {
+        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
+)
+public class Video {
     @PrimaryKey
     @NonNull
     private String _id;
     private String name;
-    @NonNull @Embedded()
-    private User uploader;
+    private String uploaderId;
     private String src;
     private String thumbnail;
     private long duration;
-    @Relation(
-            parentColumn = "_id",
-            entity = User.class,
-            entityColumn = "_id",
-            projection = {"_id"},
-            associateBy = @Junction(
-                    value = Like.class,
-                    parentColumn = "videoId",
-                    entityColumn = "userId")
-    )
     private ArrayList<String> likes;
     private long likesNum;
     private long views;
     private Date date;
     private String description;
     private ArrayList<String> tags;
-    @Relation(
-            parentColumn = "_id",
-            entityColumn = "_id",
-            entity = Comment.class)
-    private ArrayList<Comment> comments;
 
-    public Video(String _id, String name, User uploader, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
+//    private ArrayList<Comment> comments;
+    public Video(){}
+    public Video(String _id, String name, String uploaderId, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags) {
         this._id = _id;
         this.name = name;
-        this.uploader = uploader;
+        this.uploaderId = uploaderId;
         this.src = src;
         this.thumbnail = thumbnail;
         this.duration = duration;
@@ -68,13 +55,12 @@ import java.util.Date;
         this.date = date;
         this.description = description;
         this.tags = tags;
-        this.comments = comments;
     }
 
-    public Video(String _id, String name, User uploader, String thumbnail, long duration, long views, Date date) {
+    public Video(String _id, String name, String uploader, String thumbnail, long duration, long views, Date date) {
         this._id = _id;
         this.name = name;
-        this.uploader = uploader;
+        this.uploaderId = uploader;
         this.thumbnail = thumbnail;
         this.duration = duration;
         this.views = views;
@@ -112,12 +98,12 @@ import java.util.Date;
         this.name = name;
     }
 
-    public User getUploader() {
-        return uploader;
+    public String getUploaderId() {
+        return uploaderId;
     }
 
-    public void setUploader(User uploader) {
-        this.uploader = uploader;
+    public void setUploaderId(String uploader) {
+        this.uploaderId = uploader;
     }
 
     public String getSrc() {
@@ -192,13 +178,13 @@ import java.util.Date;
         this.tags = tags;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
+//    public ArrayList<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(ArrayList<Comment> comments) {
+//        this.comments = comments;
+//    }
 
     public long getLikesNum() {
         return likesNum;

@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserDao {
     @Query("SELECT _id,username,name,image from user WHERE username= :username")
     User get(String username);
-    @Query("SELECT _id,username,name,password from user")
+    @Query("SELECT * from user")
     List<User> index();
     @Insert
     void insert(User...users);

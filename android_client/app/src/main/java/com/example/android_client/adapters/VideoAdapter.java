@@ -42,17 +42,17 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         Video video = videos.get(position);
         holder.videoTitle.setText(video.getName());
-        holder.videoUploader.setText(video.getUploader().getName());
+//        holder.videoUploader.setText(video.getUploader().getName());
         holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
-        Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
+//        Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
 
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.get_id());
-            intent.putExtra("channel",video.getUploader().getUsername());
+//            intent.putExtra("channel",video.getUploader().getUsername());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
@@ -68,7 +68,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         //name -> channel
         holder.videoUploader.setOnClickListener(l -> {
             Intent intent = new Intent(context, ChannelActivity.class);
-            intent.putExtra("USER_ID", video.getUploader().get_id());
+//            intent.putExtra("USER_ID", video.getUploader().get_id());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });

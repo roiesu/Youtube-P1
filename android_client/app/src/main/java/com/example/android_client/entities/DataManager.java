@@ -185,10 +185,10 @@ public class DataManager {
         ArrayList<Video> filteredVideos = new ArrayList<>();
         Pattern regex = Pattern.compile(".*" + value + ".*", Pattern.CASE_INSENSITIVE);
         for (Video video : videoList) {
-            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
-            if (regex.matcher(keyValue).matches()) {
-                filteredVideos.add(video);
-            }
+//            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
+//            if (regex.matcher(keyValue).matches()) {
+//                filteredVideos.add(video);
+//            }
         }
         return filteredVideos;
     }
