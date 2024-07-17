@@ -31,7 +31,5 @@ public abstract class AppDB extends RoomDatabase{
         }
         return instance;
     }
-    public static void initialize(){
 
-    }
 }

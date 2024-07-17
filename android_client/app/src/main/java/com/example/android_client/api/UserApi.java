@@ -1,14 +1,11 @@
 package com.example.android_client.api;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.R;
 import com.example.android_client.ContextApplication;
-import com.example.android_client.activities.MainPage;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.web_service.UserWebServiceAPI;
@@ -17,7 +14,6 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -27,11 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
-public class UserAPI {
+public class UserApi {
     Retrofit retrofit;
     UserWebServiceAPI webServiceAPI;
 
-    public UserAPI() {
+    public UserApi() {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();

@@ -1,5 +1,6 @@
 package com.example.android_client.view_models;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -34,5 +35,8 @@ public class VideoListViewModel extends ViewModel {
         MutableLiveData<List<Video>> userVideos = new MutableLiveData<>();
         this.repository.fetchVideosByUser(userId, userVideos);
         this.videoList = userVideos;
+    }
+    public void init(LifecycleOwner lifecycleOwner){
+        this.repository.init(lifecycleOwner);
     }
 }

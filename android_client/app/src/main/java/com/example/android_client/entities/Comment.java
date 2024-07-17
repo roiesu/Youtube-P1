@@ -15,12 +15,14 @@ public class Comment {
     @NonNull
     private String _id;
     private Date date;
+    @NonNull
     private String userId;
+    @NonNull
     private String videoId;
     private String text;
     private boolean edited;
 
-    public Comment(String _id, Date date, String userId, String videoId, String text, Boolean edited) {
+    public Comment(@NonNull String _id, Date date,@NonNull String userId,@NonNull String videoId, String text, Boolean edited) {
         this._id = _id;
         this.date = date;
         this.userId = userId;

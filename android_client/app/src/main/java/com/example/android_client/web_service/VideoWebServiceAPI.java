@@ -18,4 +18,7 @@ public interface VideoWebServiceAPI {
     @GET("users/{channel}/videos/{videoId}")
     Call<Video> getVideo(@Path("channel") String channel, @Path("videoId") String videoId);
 
+    @GET("index/videos")
+    Call<List<Video>> getAll();
+
 }
