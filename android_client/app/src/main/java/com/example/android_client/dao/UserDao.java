@@ -12,6 +12,8 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
+    @Query("DELETE from user")
+    Void deleteAll();
     @Query("SELECT _id,username,name,image from user WHERE username= :username")
     User get(String username);
     @Query("SELECT * from user")
