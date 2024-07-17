@@ -11,47 +11,55 @@ public class UserRepository {
     private UserDao dao;
     private UserData userData;
     private UserApi api;
-    public UserRepository(String username){
+
+    public UserRepository(String username) {
         api = new UserApi();
         userData = new UserData(username);
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
-    public UserRepository(){
+
+    public UserRepository() {
         api = new UserApi();
         userData = new UserData();
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
-    class UserData extends MutableLiveData<User> {
-        public UserData(String username){
-            super();
-            api.get(username, this);
-        }
-        public UserData(){
-            super();
-        }
-//        @Override
-//        protected void onActive(){
-//            super.onActive();
-//            new Thread(()->{
-//               userData.postValue(dao.get(username));
-//            }).start();
-//        }
 
+    class UserData extends MutableLiveData<User> {
+        public UserData(String username) {
+            super();
+            getUser(username);
+        }
+
+        public UserData() {
+            super();
+        }
+
+        //        @Override
+        protected void onActive() {
+            super.onActive();
+        }
     }
-    public MutableLiveData<User> get(){
+
+    public void getUser(String username) {
+        new Thread(() -> {
+            userData.postValue(dao.get(username));
+        }).start();
+    }
+
+    public MutableLiveData<User> get() {
         return userData;
     }
-    public void login(){
+
+    public void login() {
         this.api.login(userData);
     }
 
-    public void addUser(){
+    public void addUser() {
         this.api.add(userData);
     }
-
 
 }
