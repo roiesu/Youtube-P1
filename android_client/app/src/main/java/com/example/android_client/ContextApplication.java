@@ -13,8 +13,10 @@ public class ContextApplication extends Application {
         super.onCreate();
         Log.w("TESTING","YES");
         context = getApplicationContext();
+        AppDB.initialize();
     }
     public static void showToast(String message){
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
+
 }

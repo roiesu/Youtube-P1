@@ -32,6 +32,7 @@ import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.view_models.VideoViewModel;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -87,7 +88,7 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
                 ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
-                ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
+//                ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
                 likeButton.setText(video.getLikesNum() + "");
 
                 likeButton.setOnClickListener(view -> {
@@ -108,8 +109,10 @@ public class WatchingVideo extends AppCompatActivity {
                 dividerItemDecoration.setDrawable(dividerDrawable);
                 commentsList.addItemDecoration(dividerItemDecoration);
 
-                 CommentAdapter adapter = new CommentAdapter(this, video.getComments());
-                 commentsList.setAdapter(adapter);
+//                 CommentAdapter adapter = new CommentAdapter(this, video.getComments());
+                CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>());
+
+                commentsList.setAdapter(adapter);
                  commentsHeader.setText(adapter.getItemCount() + " Comments");
 
                  commentButton.setOnClickListener(l -> commentVideo(adapter));

@@ -7,24 +7,24 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "user", onDelete = ForeignKey.CASCADE)
-        , @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "video", onDelete = ForeignKey.CASCADE)})
+@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "userId", onDelete = ForeignKey.CASCADE)
+        , @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "videoId", onDelete = ForeignKey.CASCADE)})
 
 public class Comment {
     @PrimaryKey
     @NonNull
     private String _id;
     private Date date;
-    private User user;
-    private Video video;
+    private String userId;
+    private String videoId;
     private String text;
     private boolean edited;
 
-    public Comment(String _id, Date date, User user, Video video, String text, Boolean edited) {
+    public Comment(String _id, Date date, String userId, String videoId, String text, Boolean edited) {
         this._id = _id;
         this.date = date;
-        this.user = user;
-        this.video = video;
+        this.userId = userId;
+        this.videoId = videoId;
         this.text = text;
         this.edited = edited;
     }
@@ -45,20 +45,20 @@ public class Comment {
         this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String user) {
+        this.userId = user;
     }
 
-    public Video getVideo() {
-        return video;
+    public String getVideoId() {
+        return videoId;
     }
 
-    public void setVideo(Video video) {
-        this.video = video;
+    public void setVideoId(String video) {
+        this.videoId = video;
     }
 
     public String getText() {
