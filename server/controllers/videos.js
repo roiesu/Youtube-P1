@@ -7,17 +7,21 @@ async function videoIndex(req, res) {
     const videos = await Video.aggregate([
       {
         $project: {
-          _id: 1,
-          name: 1,
-          uploaderId: "$uploader",
-          src: 1,
-          thumbnail: 1,
-          duration: 1,
-          likes: 1,
-          views: 1,
-          date: 1,
-          description: 1,
-          tags: 1,
+          likes: "$likes",
+          video: {
+            _id: "$_id",
+            name: "$name",
+            uploaderId: "$uploader",
+            src: "$src",
+            likesNum: { $size: "$likes" },
+            commentsNum: { $size: "$comments" },
+            thumbnail: "$thumbnail",
+            duration: "$duration",
+            views: "$views",
+            date: "$date",
+            description: "$description",
+            tags: "$tags",
+          },
         },
       },
     ]);

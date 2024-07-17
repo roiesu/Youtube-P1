@@ -1,5 +1,6 @@
 package com.example.android_client.web_service;
 
+import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface VideoWebServiceAPI {
     Call<Video> getVideo(@Path("channel") String channel, @Path("videoId") String videoId);
 
     @GET("index/videos")
-    Call<List<Video>> getAll();
+    Call<List<VideoWithLikes>> getAll();
 
 }

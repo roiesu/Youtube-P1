@@ -15,10 +15,11 @@ public class VideoWithUser extends Video {
     )
 
     private ArrayList<Comment> comments;
-    public VideoWithUser(String _id, String name, User uploader, String src, String thumbnail, long duration, ArrayList<String> likes, long views, Date date, String description, ArrayList<String> tags,ArrayList<Comment> comments) {
-        super(_id, name, null, src, thumbnail, duration, likes, views, date, description, tags);
-        this.uploader=uploader;
-        this.comments=comments;
+
+    public VideoWithUser(String _id, String name, User uploader, String src, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
+        super(_id, name, null, src, thumbnail, duration, views, date, description, tags);
+        this.uploader = uploader;
+        this.comments = comments;
     }
 
     public User getUploader() {

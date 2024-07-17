@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
@@ -14,7 +15,7 @@ import java.util.List;
 public class DatabaseViewModel extends ViewModel {
     public DataRepository repository;
     private MutableLiveData<List<User>> users;
-    private MutableLiveData<List<Video>> videos;
+    private MutableLiveData<List<VideoWithLikes>> videos;
     private MutableLiveData<List<Comment>> comments;
     private MutableLiveData<Boolean> initialized;
 
@@ -32,7 +33,7 @@ public class DatabaseViewModel extends ViewModel {
         }
         return users;
     }
-    public MutableLiveData<List<Video>> getVideos(){
+    public MutableLiveData<List<VideoWithLikes>> getVideos(){
         if(videos==null){
             return new MutableLiveData<>();
         }
