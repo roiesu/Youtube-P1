@@ -16,6 +16,7 @@ import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.activities.ChannelActivity;
 import com.example.android_client.activities.WatchingVideo;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
     private Context context;
-    private List<Video> videos;
+    private List<VideoWithUser> videos;
 
-    public VideoAdapter(Context context, List<Video> videos) {
+    public VideoAdapter(Context context, List<VideoWithUser> videos) {
         super();
         this.context = context;
         this.videos = videos;
@@ -40,19 +41,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Video video = videos.get(position);
+        VideoWithUser video = videos.get(position);
         holder.videoTitle.setText(video.getName());
-//        holder.videoUploader.setText(video.getUploader().getName());
+        holder.videoUploader.setText(video.getUploader().getName());
         holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
-//        Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
+        Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
 
         holder.videoPreview.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId",video.get_id());
-//            intent.putExtra("channel",video.getUploader().getUsername());
+            intent.putExtra("channel",video.getUploader().getUsername());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
@@ -73,7 +74,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             this.notifyItemChanged(position);
         });
     }
-    public void setVideos(List<Video> newVideos){
+    public void setVideos(List<VideoWithUser> newVideos){
         this.videos=newVideos;
     }
 

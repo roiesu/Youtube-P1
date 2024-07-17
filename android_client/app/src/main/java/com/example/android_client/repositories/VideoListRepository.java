@@ -27,7 +27,7 @@ public class VideoListRepository {
         this.owner = owner;
     }
 
-    class VideoListData extends MutableLiveData<List<Video>> {
+    class VideoListData extends MutableLiveData<List<VideoWithUser>> {
         public VideoListData() {
             super();
         }
@@ -38,7 +38,7 @@ public class VideoListRepository {
         }
     }
 
-    public MutableLiveData<List<Video>> getAll() {
+    public MutableLiveData<List<VideoWithUser>> getAll() {
         return videoListData;
     }
 
@@ -46,12 +46,13 @@ public class VideoListRepository {
         searchVideo("");
     }
 
-    public void fetchVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
-        api.getVideosByUser(userId, videoListData);
+    public void fetchVideosByUser(String userId, MutableLiveData<List<VideoWithUser>> videoListData) {
+        // FIX LATERRR
+//        api.getVideosByUser(userId, videoListData);
     }
 
     public void searchVideo(String query) {
-        MutableLiveData<List<Video>> temp = new MutableLiveData<>();
+        MutableLiveData<List<VideoWithUser>> temp = new MutableLiveData<>();
         new Thread(() -> {
             temp.postValue(dao.topTenVideos(query));
         }).start();
@@ -59,7 +60,7 @@ public class VideoListRepository {
             if (list.size() == 10) {
                 Video lastVideo = list.get(9);
                 new Thread(() -> {
-                    List<Video> tempList = list;
+                    List<VideoWithUser> tempList = list;
                     tempList.addAll(dao.restTenVideos(query, lastVideo.getViews(), lastVideo.get_id()));
                     videoListData.postValue(tempList);
                 }).start();
