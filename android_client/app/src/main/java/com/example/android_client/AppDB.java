@@ -17,7 +17,7 @@ import com.example.android_client.entities.Like;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 
-@Database(entities = {User.class, Comment.class, Video.class, Like.class},version = 16)
+@Database(entities = {User.class, Comment.class, Video.class, Like.class},version = 17)
 @TypeConverters({Converters.class})
 public abstract class AppDB extends RoomDatabase{
     public static AppDB instance;

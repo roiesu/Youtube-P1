@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 import com.example.android_client.dao.VideoDao;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
 
 import java.util.List;

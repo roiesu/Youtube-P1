@@ -10,17 +10,14 @@ import com.example.android_client.entities.Video;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class VideoWithUser extends Video {
+public class VideoWithUser {
+    @Relation(parentColumn = "uploaderId", entityColumn = "_id", projection = {"username", "name", "image"})
     private User uploader;
-    @Relation(
-            parentColumn = "_id",
-            entityColumn = "videoId"
-    )
+    @Embedded
+    private Video video;
 
-    private ArrayList<Comment> comments;
-
-    public VideoWithUser(String _id, String name, User uploader, String src, String thumbnail, Integer likesNum, long duration, long views, Date date, String description, ArrayList<String> tags) {
-        super(_id, name, null, src, likesNum, thumbnail, duration, views, date, description, tags);
+    public VideoWithUser(Video video, User uploader) {
+        this.video = video;
         this.uploader = uploader;
     }
 
@@ -30,5 +27,13 @@ public class VideoWithUser extends Video {
 
     public void setUploader(User uploader) {
         this.uploader = uploader;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public void setVideo(Video video) {
+        this.video = video;
     }
 }
