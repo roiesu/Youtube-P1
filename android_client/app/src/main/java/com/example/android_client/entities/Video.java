@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
-//        (
-//        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
-//)
+        (
+        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
+)
 public class Video {
     @PrimaryKey
     @NonNull

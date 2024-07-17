@@ -44,7 +44,6 @@ public class VideoListRepository {
         api.getAll(this.videoListData);
         videoListData.observe(lifecycleOwner,list->{
             new Thread(()->{
-                dao.deleteAll();
                 Video [] videoArray = list.toArray(new Video[0]);
                 dao.insert(videoArray);
                 List<Video> videos = dao.index();

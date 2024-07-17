@@ -30,14 +30,6 @@ public class CommentListRepository {
         public CommentListData() {
             super();
         }
-//        @Override
-//        protected void onActive(){
-//            super.onActive();
-//            new Thread(()->{
-//               userData.postValue(dao.get(username));
-//            }).start();
-//        }
-
     }
 
     public MutableLiveData<List<Comment>> get() {
@@ -48,7 +40,6 @@ public class CommentListRepository {
         api.getAll(commentListData);
         commentListData.observe(lifecycleOwner, list -> {
             new Thread(() -> {
-                dao.deleteAll();
                 Comment [] commentsArray = list.toArray(new Comment[0]);
                 dao.insert(commentsArray);
                 List<Comment> comments = dao.index();

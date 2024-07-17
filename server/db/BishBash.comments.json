@@ -1,132 +1,117 @@
-[{
-  "_id": {
-    "$oid": "667c4b12e861598ca3e65e0a"
+[
+  {
+    "_id": {
+      "$oid": "667c4b12e861598ca3e65e0a"
+    },
+    "date": {
+      "$date": "2024-06-02T18:28:25.000Z"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de0"
+    },
+    "text": "Wow i would have killed myself if i were you.\nVery ugly in the face.",
+    "video": {
+      "$oid": "667c3096e861598ca3e65de3"
+    }
   },
-  "date": {
-    "$date": "2024-06-02T18:28:25.000Z"
+  {
+    "_id": {
+      "$oid": "667c4bd9e861598ca3e65e0b"
+    },
+    "date": {
+      "$date": "2024-06-02T18:28:25.000Z"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de0"
+    },
+    "video": {
+      "$oid": "667c3096e861598ca3e65de8"
+    },
+    "text": "Wadiya is a democracy"
   },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
+  {
+    "_id": {
+      "$oid": "6686a023fdc87679384e0da2"
+    },
+    "user": {
+      "$oid": "6686a016fdc87679384e0d8f"
+    },
+    "video": {
+      "$oid": "667c3096e861598ca3e65de9"
+    },
+    "text": "asdasdasdasd",
+    "edited": false,
+    "date": {
+      "$date": "2024-07-04T13:14:11.793Z"
+    },
+    "__v": 0
   },
-  "text": "Wow i would have killed myself if i were you.\nVery ugly in the face.",
-  "video": {
-    "$oid": "667c3096e861598ca3e65de3"
+  {
+    "_id": {
+      "$oid": "6686cc7009f7a15a9cf8ee6f"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de1"
+    },
+    "video": {
+      "$oid": "6686cc6409f7a15a9cf8ee66"
+    },
+    "text": "wow much agree",
+    "edited": false,
+    "date": {
+      "$date": "2024-07-04T16:23:12.317Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "66872b8015f53938a32b7aa7"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de0"
+    },
+    "video": {
+      "$oid": "66872b7515f53938a32b7a9e"
+    },
+    "text": "wow",
+    "edited": false,
+    "date": {
+      "$date": "2024-07-04T23:08:48.407Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "668b8db18da7ec125d38e5a1"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de0"
+    },
+    "video": {
+      "$oid": "667c3096e861598ca3e65deb"
+    },
+    "text": "wow",
+    "edited": false,
+    "date": {
+      "$date": "2024-07-08T06:56:49.042Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "668bbd594f6be97c628d3735"
+    },
+    "user": {
+      "$oid": "667c3044e861598ca3e65de0"
+    },
+    "video": {
+      "$oid": "667c3096e861598ca3e65de4"
+    },
+    "text": "to grow in the hands of the superior",
+    "edited": false,
+    "date": {
+      "$date": "2024-07-08T10:20:09.852Z"
+    },
+    "__v": 0
   }
-},
-{
-  "_id": {
-    "$oid": "667c4bd9e861598ca3e65e0b"
-  },
-  "date": {
-    "$date": "2024-06-02T18:28:25.000Z"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
-  },
-  "video": {
-    "$oid": "667c3096e861598ca3e65de8"
-  },
-  "text": "Wadiya is a democracy"
-},
-{
-  "_id": {
-    "$oid": "66858cc1147e68e2f039c400"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
-  },
-  "video": {
-    "$oid": "66858dee9ab3369b7e0f262c"
-  },
-  "text": "amazing",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-03T17:39:13.451Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6686a023fdc87679384e0da2"
-  },
-  "user": {
-    "$oid": "6686a016fdc87679384e0d8f"
-  },
-  "video": {
-    "$oid": "667c3096e861598ca3e65de9"
-  },
-  "text": "asdasdasdasd",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-04T13:14:11.793Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6686cc7009f7a15a9cf8ee6f"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de1"
-  },
-  "video": {
-    "$oid": "6686cc6409f7a15a9cf8ee66"
-  },
-  "text": "wow much agree",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-04T16:23:12.317Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "66872b8015f53938a32b7aa7"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
-  },
-  "video": {
-    "$oid": "66872b7515f53938a32b7a9e"
-  },
-  "text": "wow",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-04T23:08:48.407Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "668b8db18da7ec125d38e5a1"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
-  },
-  "video": {
-    "$oid": "667c3096e861598ca3e65deb"
-  },
-  "text": "wow",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-08T06:56:49.042Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "668bbd594f6be97c628d3735"
-  },
-  "user": {
-    "$oid": "667c3044e861598ca3e65de0"
-  },
-  "video": {
-    "$oid": "667c3096e861598ca3e65de4"
-  },
-  "text": "to grow in the hands of the superior",
-  "edited": false,
-  "date": {
-    "$date": "2024-07-08T10:20:09.852Z"
-  },
-  "__v": 0
-}]
+]
