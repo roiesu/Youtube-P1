@@ -48,6 +48,9 @@ public class UserListRepository {
                 dao.deleteAll();
                 User [] userArray = list.toArray(new User[0]);
                 dao.insert(userArray);
+                List<User> users = dao.index();
+                int x=5;
+
             }).start();
 
         });

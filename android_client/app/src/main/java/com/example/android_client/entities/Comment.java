@@ -7,20 +7,19 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "userId", onDelete = ForeignKey.CASCADE)
-        , @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "videoId", onDelete = ForeignKey.CASCADE)})
+@Entity
+//        (foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "userId", onDelete = ForeignKey.CASCADE)
+//        , @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "videoId", onDelete = ForeignKey.CASCADE)})
 
 public class Comment {
     @PrimaryKey
     @NonNull
     private String _id;
     private Date date;
-    @NonNull
     private String userId;
-    @NonNull
     private String videoId;
     private String text;
-    private boolean edited;
+    private Boolean edited;
 
     public Comment(@NonNull String _id, Date date,@NonNull String userId,@NonNull String videoId, String text, Boolean edited) {
         this._id = _id;
@@ -47,13 +46,6 @@ public class Comment {
         this.date = date;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String user) {
-        this.userId = user;
-    }
 
     public String getVideoId() {
         return videoId;
@@ -77,5 +69,13 @@ public class Comment {
 
     public void setEdited(boolean edited) {
         this.edited = edited;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

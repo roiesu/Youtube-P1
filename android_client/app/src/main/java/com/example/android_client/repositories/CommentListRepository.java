@@ -7,7 +7,10 @@ import com.example.android_client.AppDB;
 import com.example.android_client.api.CommentApi;
 import com.example.android_client.dao.CommentDao;
 import com.example.android_client.entities.Comment;
+import com.example.android_client.entities.User;
+import com.example.android_client.entities.Video;
 
+import java.util.Date;
 import java.util.List;
 
 public class CommentListRepository {
@@ -44,13 +47,12 @@ public class CommentListRepository {
     public void init(LifecycleOwner lifecycleOwner) {
         api.getAll(commentListData);
         commentListData.observe(lifecycleOwner, list -> {
-            new Thread(()->{
+            new Thread(() -> {
                 dao.deleteAll();
-                Comment[] commentArray = list.toArray(new Comment[0]);
-                dao.insert(commentArray);
+                Comment [] commentsArray = list.toArray(new Comment[0]);
+                dao.insert(commentsArray);
                 List<Comment> comments = dao.index();
-                int x=6;
-
+                int x=5;
             }).start();
 
         });

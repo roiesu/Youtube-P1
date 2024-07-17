@@ -10,14 +10,11 @@ import java.util.List;
 
 @Dao
 public interface CommentDao {
-    @Query("SELECT * from comment")
+    @Query("SELECT * FROM comment")
     List<Comment> index();
 
-    @Query("DELETE from comment")
+    @Query("DELETE FROM comment")
     void deleteAll();
-
     @Insert
-    void insert(Comment ...comments);
-
-
+    void insert(Comment...comment);
 }
