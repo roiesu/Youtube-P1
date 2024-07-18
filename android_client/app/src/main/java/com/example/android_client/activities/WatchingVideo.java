@@ -10,12 +10,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -30,8 +32,10 @@ import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
+import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoViewModel;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -46,8 +50,8 @@ public class WatchingVideo extends AppCompatActivity {
     private User currentUser;
     private boolean likedVideo;
     private VideoViewModel video;
+    private LikeViewModel likeViewModel;
 
-    @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watching_video);
@@ -83,23 +87,22 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
                 ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
-                likeButton.setText(video.getLikes() + "");
-
+                ImageView uploaderImage = findViewById(R.id.uploaderImage);
+                Glide.with(this).load(video.getUploader().getImageFromServer()).into(uploaderImage);
                 likeButton.setOnClickListener(view -> {
-                    if (DataManager.getCurrentUser() == null) {
-                        return;
+                    if (!likeViewModel.getIsLiked().getValue()) {
+                        likeViewModel.like(video.getUploader().getUsername(), video.get_id());
+                    } else {
+                        int x = 5;
+//                        likeViewModel.dislike();
                     }
-                    ((TextView) view).setText(video.getLikes() + "");
-                    likedVideo = !likedVideo;
-                    changeLikeIcon();
                 });
-
-//                isLiked();
                 initVideo();
 
                 commentsList.setLayoutManager(new LinearLayoutManager(this));
@@ -108,15 +111,23 @@ public class WatchingVideo extends AppCompatActivity {
                 dividerItemDecoration.setDrawable(dividerDrawable);
                 commentsList.addItemDecoration(dividerItemDecoration);
 
-                 CommentAdapter adapter = new CommentAdapter(this, video.getComments());
-                 commentsList.setAdapter(adapter);
-                 commentsHeader.setText(adapter.getItemCount() + " Comments");
+//                 CommentAdapter adapter = new CommentAdapter(this, video.getComments());
+                CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>());
 
-                 commentButton.setOnClickListener(l -> commentVideo(adapter));
+                commentsList.setAdapter(adapter);
+                commentsHeader.setText(adapter.getItemCount() + " Comments");
+
+                commentButton.setOnClickListener(l -> commentVideo(adapter));
 
 
-                 AlertDialog shareDialog = createShareDialog(video.get_id());
-                 shareButton.setOnClickListener(l -> shareDialog.show());
+                AlertDialog shareDialog = createShareDialog(video.get_id());
+                shareButton.setOnClickListener(l -> shareDialog.show());
+                likeViewModel.getIsLiked().observe(this, isLiked -> {
+                    changeLikeIcon(isLiked);
+                });
+                likeViewModel.getVideoLikes().observe(this,likeNumber->{
+                    likeButton.setText(likeNumber + "");
+                });
             }
         });
     }
@@ -194,8 +205,8 @@ public class WatchingVideo extends AppCompatActivity {
 //        likedVideo = false;
 //    }
 
-    private void changeLikeIcon() {
-        if (likedVideo) {
+    private void changeLikeIcon(Boolean isLiked) {
+        if (isLiked) {
             likeButton.setIcon(getResources().getDrawable(R.drawable.ic_filled_like, getTheme()));
         } else {
             likeButton.setIcon(getResources().getDrawable(R.drawable.ic_like, getTheme()));

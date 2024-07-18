@@ -103,7 +103,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userViewModel = new UserViewModel();
-        userViewModel.getUser().observe(this,user->{
+        userViewModel.getUserData().observe(this,user->{
             if(user==null){
                 startActivity(new Intent(this,MainPage.class));
             }
@@ -177,7 +177,7 @@ public class SignUp extends AppCompatActivity {
             return;
         }
         User newUser = new User(null, inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageData);
-        userViewModel.getUser().setValue(newUser);
+        userViewModel.getUserData().setValue(newUser);
         userViewModel.create();
     }
 

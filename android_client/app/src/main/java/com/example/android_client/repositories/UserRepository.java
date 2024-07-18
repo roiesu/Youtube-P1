@@ -1,57 +1,64 @@
 package com.example.android_client.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
-import com.example.android_client.ContextApplication;
-import com.example.android_client.api.UserAPI;
+import com.example.android_client.api.UserApi;
 import com.example.android_client.dao.UserDao;
 import com.example.android_client.entities.User;
 
 public class UserRepository {
     private UserDao dao;
     private UserData userData;
-    private UserAPI api;
-    public UserRepository(String username){
-        api = new UserAPI();
+    private UserApi api;
+
+    public UserRepository(String username) {
+        api = new UserApi();
         userData = new UserData(username);
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
-    public UserRepository(){
-        api = new UserAPI();
+
+    public UserRepository() {
+        api = new UserApi();
         userData = new UserData();
         // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
-    class UserData extends MutableLiveData<User> {
-        public UserData(String username){
-            super();
-            api.get(username, this);
-        }
-        public UserData(){
-            super();
-        }
-//        @Override
-//        protected void onActive(){
-//            super.onActive();
-//            new Thread(()->{
-//               userData.postValue(dao.get(username));
-//            }).start();
-//        }
 
+    class UserData extends MutableLiveData<User> {
+        public UserData(String username) {
+            super();
+            getUser(username);
+        }
+
+        public UserData() {
+            super();
+        }
+
+        //        @Override
+        protected void onActive() {
+            super.onActive();
+        }
     }
-    public MutableLiveData<User> get(){
+
+    public void getUser(String username) {
+        new Thread(() -> {
+            userData.postValue(dao.get(username));
+        }).start();
+    }
+
+    public MutableLiveData<User> get() {
         return userData;
     }
-    public void login(){
+
+    public void login() {
         this.api.login(userData);
     }
 
-    public void addUser(){
+    public void addUser() {
         this.api.add(userData);
     }
 

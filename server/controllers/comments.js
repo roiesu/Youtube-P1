@@ -82,9 +82,29 @@ async function deleteComment(req, res) {
     return res.status(400).send(err.message);
   }
 }
+async function commentIndex(req, res) {
+  try {
+    const comments = await Comment.aggregate([
+      {
+        $project: {
+          _id: 1,
+          userId: "$user",
+          videoId: "$video",
+          text: 1,
+          date: 1,
+          edited: 1,
+        },
+      },
+    ]);
+    return res.send(comments);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+}
 
 module.exports = {
   addComment,
   editComment,
   deleteComment,
+  commentIndex,
 };
