@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.datatypes.VideoWithUserWithComments;
@@ -33,11 +34,14 @@ public interface VideoDao {
 
     @Query("SELECT * from video")
     List<Video> index();
+
     @Transaction
     @Query("SELECT * from video WHERE uploaderId = :channel AND _id = :videoId")
     VideoWithUserWithComments getVideo(String channel, String videoId);
 
     @Insert
     void insert(Video... videos);
+    @Query("UPDATE video SET likesNum = :likesNum WHERE _id = :videoId")
+    void setLikesNum(int likesNum, String videoId);
 
 }
