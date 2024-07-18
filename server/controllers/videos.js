@@ -108,7 +108,6 @@ async function getVideo(req, res) {
       select: ["-video"],
       populate: { path: "user", select: ["_id", "name", "username", "image"] },
     });
-    console.log(video.comments);
 
     let likedVideo = false;
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {

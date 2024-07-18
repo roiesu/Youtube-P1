@@ -20,7 +20,7 @@ async function addUser(req, res) {
     const user = new User({ username, password, name, image: imagePath });
 
     await user.save();
-    return res.sendStatus(200);
+    return res.status(201).send(user);
   } catch (err) {
     if (imagePath) {
       deletePublicFile("image", imagePath);
@@ -83,7 +83,8 @@ async function updateUser(req, res) {
     }
     await user.updateOne(updateFields, { runValidators: true });
     await user.save();
-    return res.sendStatus(200);
+    console.log(user, updateFields);
+    return res.send(user);
   } catch (err) {
     return res.status(400).send(err.message);
   }

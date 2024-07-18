@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,18 +51,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoPreview);
         Glide.with(context).load(video.getUploader().getImageFromServer()).into(holder.uploaderImage);
 
-        holder.videoPreview.setOnClickListener(l->{
+        holder.videoPreview.setOnClickListener(l -> {
             Intent intent = new Intent(context, WatchingVideo.class);
-            intent.putExtra("videoId",video.get_id());
-            intent.putExtra("channel",video.getUploader().getUsername());
+            intent.putExtra("videoId", video.get_id());
+            intent.putExtra("channel", video.getUploader().get_id());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
 
         // image -> channel
-        holder.uploaderImage.setOnClickListener(l->{
+        holder.uploaderImage.setOnClickListener(l -> {
             Intent intent = new Intent(context, WatchingVideo.class);
-            intent.putExtra("videoId",video.get_id());
+            intent.putExtra("videoId", video.get_id());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
@@ -74,8 +75,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             this.notifyItemChanged(position);
         });
     }
-    public void setVideos(List<VideoWithUser> newVideos){
-        this.videos=newVideos;
+
+    public void setVideos(List<VideoWithUser> newVideos) {
+        this.videos = newVideos;
     }
 
     @Override

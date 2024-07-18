@@ -6,6 +6,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.datatypes.VideoWithUserWithComments;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
@@ -32,7 +33,9 @@ public interface VideoDao {
 
     @Query("SELECT * from video")
     List<Video> index();
-
+    @Transaction
+    @Query("SELECT * from video WHERE uploaderId = :channel AND _id = :videoId")
+    VideoWithUserWithComments getVideo(String channel, String videoId);
 
     @Insert
     void insert(Video... videos);

@@ -26,6 +26,7 @@ public class DataManager {
     private static ArrayList<Video> videoList;
     private static User currentUser;
     private static String currentUsername;
+    private static String currentUserId;
     private static String token;
     private static DataManager instance;
     private static boolean initialized;
@@ -56,8 +57,18 @@ public class DataManager {
     public static void setCurrentUser(User newUser) {
         currentUser = newUser;
     }
-    public static void setToken(String newToken){token = newToken;}
-    public static void setCurrentUsername(String username){currentUsername = username;}
+
+    public static void setToken(String newToken) {
+        token = newToken;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setCurrentUsername(String username) {
+        currentUsername = username;
+    }
 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
@@ -173,6 +184,14 @@ public class DataManager {
         }
     }
 
+    public static String getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public static void setCurrentUserId(String currentUserId) {
+        DataManager.currentUserId = currentUserId;
+    }
+
     public void updateCommentInVideo(int id, String username, Date date, String newText) {
         for (Video video : videoList) {
 //            if (video.getId() == id) {
@@ -226,12 +245,15 @@ public class DataManager {
 //        getVideoList().add(newVideo);
         return newVideo;
     }
-    public static String getCurrentUsername(){
+
+    public static String getCurrentUsername() {
         return currentUsername;
     }
-    public static void Logout(){
-        currentUsername=null;
-        token=null;
+
+    public static void Logout() {
+        currentUsername = null;
+        token = null;
+        currentUserId = null;
     }
 
 }
