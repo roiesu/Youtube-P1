@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.datatypes.VideoWithLikes;
+import com.example.android_client.datatypes.VideoWithUserWithComments;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
@@ -28,7 +30,7 @@ public class VideoApi {
         webServiceAPI = retrofit.create(VideoWebServiceAPI.class);
     }
 
-// channel page
+    // channel page
     public void getVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
         Call<List<Video>> call = webServiceAPI.getVideosByUser(userId);
         call.enqueue(new Callback<List<Video>>() {
@@ -46,7 +48,8 @@ public class VideoApi {
             }
         });
     }
-    public void getAll(MutableLiveData videoListData,String query) {
+
+    public void getVideos(MutableLiveData videoListData, String query) {
         Call<List<Video>> call = webServiceAPI.getVideos(query);
         call.enqueue(new Callback<List<Video>>() {
             @Override
@@ -56,6 +59,7 @@ public class VideoApi {
                     videoListData.setValue(body);
                 }
             }
+
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
                 Log.w("USER RESPONSE", t);
@@ -63,23 +67,45 @@ public class VideoApi {
         });
     }
 
-    public void get(MutableLiveData videoData,String channel, String videoId) {
-        if(videoId == null ||channel == null){
+    public void getVideo(MutableLiveData videoData, String channel, String videoId) {
+        if (videoId == null || channel == null) {
             return;
         }
 
-        Call<Video> call = webServiceAPI.getVideo(channel, videoId);
-        call.enqueue(new Callback<Video>() {
+        Call<VideoWithUserWithComments> call = webServiceAPI.getVideo(channel, videoId);
+        call.enqueue(new Callback<VideoWithUserWithComments>() {
             @Override
-            public void onResponse(Call<Video> call, Response<Video> response) {
+            public void onResponse(Call<VideoWithUserWithComments> call, Response<VideoWithUserWithComments> response) {
                 Video body = response.body();
                 if (body != null) {
                     videoData.setValue(body);
                 }
+                // HANDLE ERRORS
             }
+
             @Override
-            public void onFailure(Call<Video> call, Throwable t) {
+            public void onFailure(Call<VideoWithUserWithComments> call, Throwable t) {
                 Log.w("USER RESPONSE", t);
+            }
+        });
+    }
+
+    public void getAll(MutableLiveData videoListData) {
+        Call<List<VideoWithLikes>> call = webServiceAPI.getAll();
+        call.enqueue(new Callback<List<VideoWithLikes>>() {
+            @Override
+            public void onResponse(Call<List<VideoWithLikes>> call, Response<List<VideoWithLikes>> response) {
+                List<VideoWithLikes> body = response.body();
+                if (body != null) {
+                    videoListData.setValue(body);
+                } else {
+                    Log.w("Zbabir", "yes");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<VideoWithLikes>> call, Throwable t) {
+                Log.w("Zbabir", t);
             }
         });
     }

@@ -2,6 +2,34 @@ const User = require("../models/user");
 const Video = require("../models/video");
 const { write64FileWithCopies, deletePublicFile, override64File } = require("../utils");
 
+async function videoIndex(req, res) {
+  try {
+    const videos = await Video.aggregate([
+      {
+        $project: {
+          likes: "$likes",
+          video: {
+            _id: "$_id",
+            name: "$name",
+            uploaderId: "$uploader",
+            src: "$src",
+            likesNum: { $size: "$likes" },
+            thumbnail: "$thumbnail",
+            duration: "$duration",
+            views: "$views",
+            date: "$date",
+            description: "$description",
+            tags: "$tags",
+          },
+        },
+      },
+    ]);
+    return res.send(videos);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+}
+
 async function getVideos(req, res) {
   const name = req.query.name || "";
   try {
@@ -78,9 +106,8 @@ async function getVideo(req, res) {
     await video.populate({
       path: "comments",
       select: ["-video"],
-     populate: { path: "user", select: ["_id", "name", "username","image"]},
+      populate: { path: "user", select: ["_id", "name", "username", "image"] },
     });
-    console.log(video.comments);
 
     let likedVideo = false;
     if (req.user && video.likes.find((likedUser) => likedUser == req.user)) {
@@ -217,7 +244,7 @@ async function likeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
-      return res.sendStatus(201);
+      return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);
     }
@@ -329,4 +356,5 @@ module.exports = {
   getVideosDetailsByUserId,
   getMinimalVideoDetails,
   getVideosByUserId,
+  videoIndex,
 };

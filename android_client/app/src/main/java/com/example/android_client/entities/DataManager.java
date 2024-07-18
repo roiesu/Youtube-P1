@@ -26,6 +26,7 @@ public class DataManager {
     private static ArrayList<Video> videoList;
     private static User currentUser;
     private static String currentUsername;
+    private static String currentUserId;
     private static String token;
     private static DataManager instance;
     private static boolean initialized;
@@ -56,8 +57,18 @@ public class DataManager {
     public static void setCurrentUser(User newUser) {
         currentUser = newUser;
     }
-    public static void setToken(String newToken){token = newToken;}
-    public static void setCurrentUsername(String username){currentUsername = username;}
+
+    public static void setToken(String newToken) {
+        token = newToken;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setCurrentUsername(String username) {
+        currentUsername = username;
+    }
 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
@@ -173,6 +184,14 @@ public class DataManager {
         }
     }
 
+    public static String getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public static void setCurrentUserId(String currentUserId) {
+        DataManager.currentUserId = currentUserId;
+    }
+
     public void updateCommentInVideo(int id, String username, Date date, String newText) {
         for (Video video : videoList) {
 //            if (video.getId() == id) {
@@ -185,10 +204,10 @@ public class DataManager {
         ArrayList<Video> filteredVideos = new ArrayList<>();
         Pattern regex = Pattern.compile(".*" + value + ".*", Pattern.CASE_INSENSITIVE);
         for (Video video : videoList) {
-            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
-            if (regex.matcher(keyValue).matches()) {
-                filteredVideos.add(video);
-            }
+//            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
+//            if (regex.matcher(keyValue).matches()) {
+//                filteredVideos.add(video);
+//            }
         }
         return filteredVideos;
     }
@@ -223,15 +242,18 @@ public class DataManager {
         Video newVideo = new Video();
 //        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
 //        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
-        getVideoList().add(newVideo);
+//        getVideoList().add(newVideo);
         return newVideo;
     }
-    public static String getCurrentUsername(){
+
+    public static String getCurrentUsername() {
         return currentUsername;
     }
-    public static void Logout(){
-        currentUsername=null;
-        token=null;
+
+    public static void Logout() {
+        currentUsername = null;
+        token = null;
+        currentUserId = null;
     }
 
 }

@@ -46,13 +46,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.commentText.setText(comment.getText());
-        holder.commentUser.setText(comment.getUser().getUsername());
+//        holder.commentUser.setText(comment.getUser().getUsername());
         holder.commentDate.setText(Utilities.dateDiff(comment.getDate()) + (comment.isEdited() ? "( edited )" : ""));
         String currentUsername = DataManager.getCurrentUsername();
-        if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
-            holder.commentOptionOpener.setVisibility(View.GONE);
-            return;
-        }
+//        if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
+//            holder.commentOptionOpener.setVisibility(View.GONE);
+//            return;
+//        }
         PopupMenu popupMenu = createOptionsMenu(holder.commentOptionOpener, position);
         holder.commentOptionOpener.setOnClickListener(view -> {
             popupMenu.show();
