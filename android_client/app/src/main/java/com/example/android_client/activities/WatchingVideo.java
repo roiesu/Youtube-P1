@@ -87,7 +87,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
-                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
@@ -95,12 +95,11 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
                 ImageView uploaderImage = findViewById(R.id.uploaderImage);
                 Glide.with(this).load(video.getUploader().getImageFromServer()).into(uploaderImage);
-                likeButton.setText(video.getLikesNum() + "");
-
                 likeButton.setOnClickListener(view -> {
-                    if (likeViewModel.getIsLiked().getValue()) {
-//                        likeViewModel.like();
+                    if (!likeViewModel.getIsLiked().getValue()) {
+                        likeViewModel.like(video.getUploader().getUsername(), video.get_id());
                     } else {
+                        int x = 5;
 //                        likeViewModel.dislike();
                     }
                 });
@@ -125,6 +124,9 @@ public class WatchingVideo extends AppCompatActivity {
                 shareButton.setOnClickListener(l -> shareDialog.show());
                 likeViewModel.getIsLiked().observe(this, isLiked -> {
                     changeLikeIcon(isLiked);
+                });
+                likeViewModel.getVideoLikes().observe(this,likeNumber->{
+                    likeButton.setText(likeNumber + "");
                 });
             }
         });

@@ -244,7 +244,7 @@ async function likeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
-      return res.sendStatus(201);
+      return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);
     }
