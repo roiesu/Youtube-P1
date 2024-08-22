@@ -65,20 +65,6 @@ public class Video {
         this.date = date;
     }
 
-    public void createVideoDetails(Context context) {
-        try {
-            MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
-            mediaRetriever.setDataSource(context, Uri.parse(getSrc()));
-            String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
-            this.setDuration(seconds);
-//            this.setThumbnail(mediaRetriever.getFrameAtTime());
-            mediaRetriever.release();
-        } catch (Exception ex) {
-            Log.w("Error", ex.toString());
-        }
-    }
-
     @NonNull
     public String get_id() {
         return _id;

@@ -18,16 +18,28 @@ public class VideoRepository {
 
     public VideoRepository(String channel, String videoId, LifecycleOwner owner) {
         api = new VideoApi();
-        this.owner=owner;
+        this.owner = owner;
         AppDB instance = AppDB.getInstance();
         dao = instance.videoDao();
         videoData = new VideoData(channel, videoId);
+    }
+
+    public VideoRepository(LifecycleOwner owner) {
+        api = new VideoApi();
+        this.owner = owner;
+        AppDB instance = AppDB.getInstance();
+        dao = instance.videoDao();
+        videoData = new VideoData();
     }
 
     class VideoData extends MutableLiveData<VideoWithUser> {
         public VideoData(String channel, String videoId) {
             super();
             getVideo(channel, videoId);
+        }
+
+        public VideoData() {
+            super();
         }
     }
 
@@ -36,16 +48,19 @@ public class VideoRepository {
     }
 
     public void getVideo(String channel, String videoId) {
-        MutableLiveData<Long> views= new MutableLiveData<>();
-        api.getVideo(views,channel,videoId);
-        views.observe(owner,data->{
-            new Thread(()->{
-                dao.increaseViews(data.longValue(),videoId);
+        MutableLiveData<Long> views = new MutableLiveData<>();
+        api.getVideo(views, channel, videoId);
+        views.observe(owner, data -> {
+            new Thread(() -> {
+                dao.increaseViews(data.longValue(), videoId);
                 videoData.postValue(dao.getVideo(channel, videoId));
             }).start();
         });
 
     }
 
+    public void upload() {
+        this.api.uploadVideo(videoData);
+    }
 
 }
