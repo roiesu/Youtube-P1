@@ -1,19 +1,14 @@
 package com.example.android_client.entities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Junction;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
@@ -35,27 +30,29 @@ public class Video {
     private String src;
     private String thumbnail;
     private long duration;
-    private Integer likesNum;
+    private Integer likesCount;
     private long views;
     private Date date;
     private String description;
     private ArrayList<String> tags;
+    private Integer commentsCount;
 
     public Video() {
     }
 
-    public Video(String _id, String name, String uploaderId, String src, Integer likesNum, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags) {
+    public Video(String _id, String name, String uploaderId, String src, Integer likesCount, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, Integer commentsCount) {
         this._id = _id;
         this.name = name;
         this.uploaderId = uploaderId;
         this.src = src;
         this.thumbnail = thumbnail;
         this.duration = duration;
-        this.likesNum = likesNum;
+        this.likesCount = likesCount;
         this.views = views;
         this.date = date;
         this.description = description;
         this.tags = tags;
+        this.commentsCount = commentsCount;
     }
 
     public Video(String _id, String name, String uploader, String thumbnail, long duration, long views, Date date) {
@@ -171,11 +168,19 @@ public class Video {
         this.tags = tags;
     }
 
-    public Integer getLikesNum() {
-        return likesNum;
+    public Integer getLikesCount() {
+        return likesCount;
     }
 
-    public void setLikesNum(int likesNum) {
-        this.likesNum = likesNum;
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Integer commentsCount) {
+        this.commentsCount = commentsCount;
     }
 }

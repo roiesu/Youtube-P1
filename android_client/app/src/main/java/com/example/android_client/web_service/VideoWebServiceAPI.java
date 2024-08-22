@@ -10,6 +10,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -26,5 +27,8 @@ public interface VideoWebServiceAPI {
 
     @GET("index/videos")
     Call<List<VideoWithLikes>> getAll();
+
+    @GET("users/{userId}/videos/details")
+    Call<List<Video>> getVideosDetailsByUser(@Path("userId") String userId, @Header("Authorization") String token);
 
 }
