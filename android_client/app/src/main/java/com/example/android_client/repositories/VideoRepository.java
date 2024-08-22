@@ -1,46 +1,50 @@
 package com.example.android_client.repositories;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
-import com.example.android_client.dao.LikeDao;
-import com.example.android_client.dao.UserDao;
-import com.example.android_client.dao.VideoDao;
-import com.example.android_client.datatypes.VideoWithUserWithComments;
-import com.example.android_client.entities.Video;
 
-import java.util.List;
+import com.example.android_client.dao.VideoDao;
+import com.example.android_client.datatypes.VideoWithUser;
+
 
 public class VideoRepository {
     private VideoDao dao;
     private VideoData videoData;
     private VideoApi api;
+    private LifecycleOwner owner;
 
-    public VideoRepository(String channel, String videoId) {
+    public VideoRepository(String channel, String videoId, LifecycleOwner owner) {
         api = new VideoApi();
-        videoData = new VideoData(channel, videoId);
+        this.owner=owner;
         AppDB instance = AppDB.getInstance();
         dao = instance.videoDao();
+        videoData = new VideoData(channel, videoId);
     }
 
-    class VideoData extends MutableLiveData<VideoWithUserWithComments> {
+    class VideoData extends MutableLiveData<VideoWithUser> {
         public VideoData(String channel, String videoId) {
             super();
             getVideo(channel, videoId);
         }
     }
 
-    public MutableLiveData<VideoWithUserWithComments> get() {
+    public MutableLiveData<VideoWithUser> get() {
         return videoData;
     }
 
     public void getVideo(String channel, String videoId) {
-        new Thread(() -> {
-            VideoWithUserWithComments test = dao.getVideo(channel, videoId);
-            int y = 5;
-            videoData.postValue(test);
-        }).start();
+        MutableLiveData<Long> views= new MutableLiveData<>();
+        api.getVideo(views,channel,videoId);
+        views.observe(owner,data->{
+            new Thread(()->{
+                dao.increaseViews(data.longValue(),videoId);
+                videoData.postValue(dao.getVideo(channel, videoId));
+            }).start();
+        });
+
     }
 
 
