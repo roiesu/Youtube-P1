@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.android_client.datatypes.VideoWithUserWithComments;
 import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.repositories.VideoRepository;
 

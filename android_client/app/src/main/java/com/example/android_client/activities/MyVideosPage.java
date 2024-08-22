@@ -3,8 +3,6 @@ package com.example.android_client.activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,32 +15,36 @@ import com.example.android_client.R;
 import com.example.android_client.adapters.MyVideosAdapter;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.VideoListViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyVideosPage extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView videosList;
     private Button uploadVideoButton;
+    private VideoListViewModel videoListViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_videos);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        videosList = findViewById(R.id.recyclerView);
+        videosList.setLayoutManager(new LinearLayoutManager(this));
         uploadVideoButton = findViewById(R.id.uploadVideoButton);
+        videoListViewModel = new VideoListViewModel(this);
 
-        ArrayList<Video> videos = DataManager.filterVideosBy(1, DataManager.getCurrentUser().getUsername());
-        MyVideosAdapter adapter = new MyVideosAdapter(this, videos);
-        recyclerView.setAdapter(adapter);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+        MyVideosAdapter adapter = new MyVideosAdapter(this, new ArrayList<>());
+        videosList.setAdapter(adapter);
+        videoListViewModel.getVideos().observe(this,videos -> {
+            adapter.setVideos(videos);
+        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videosList.getContext(),
                 DividerItemDecoration.VERTICAL);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
         dividerItemDecoration.setDrawable(dividerDrawable);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
+        videosList.addItemDecoration(dividerItemDecoration);
+        videoListViewModel.getVideosDetailsByUser();
         uploadVideoButton.setOnClickListener(v -> {
             Intent intent = new Intent(MyVideosPage.this, VideoUpload.class);
             startActivity(intent);
@@ -53,7 +55,7 @@ public class MyVideosPage extends AppCompatActivity {
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         int position = data.getIntExtra("videoPosition", 0);
-        recyclerView.getAdapter().notifyItemChanged(position);
+        videosList.getAdapter().notifyItemChanged(position);
 
     }
 

@@ -5,9 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.android_client.view_models.UserListViewModel;
-import com.example.android_client.view_models.VideoListViewModel;
-
 public class ContextApplication extends Application {
     public static Context context;
 

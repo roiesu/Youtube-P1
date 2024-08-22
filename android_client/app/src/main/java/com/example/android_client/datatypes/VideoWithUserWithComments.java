@@ -12,8 +12,8 @@ import java.util.List;
 public class VideoWithUserWithComments extends VideoWithUser{
     @Relation(parentColumn = "_id", entityColumn = "videoId")
     private List<Comment> comments;
-    public VideoWithUserWithComments(String _id, String name, String src, Integer likesNum, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, User uploader, List<Comment> comments) {
-        super(_id, name, src, likesNum, thumbnail, duration, views, date, description, tags, uploader);
+    public VideoWithUserWithComments(String _id, String name, String src, Integer likesCount, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, User uploader, List<Comment> comments) {
+        super(_id, name, src, likesCount, thumbnail, duration, views, date, description, tags,comments.size(), uploader);
         this.comments = comments;
     }
 
