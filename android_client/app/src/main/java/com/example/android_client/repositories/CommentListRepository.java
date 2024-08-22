@@ -11,6 +11,7 @@ import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class CommentListRepository {
     }
     public void getCommentsByVideo(String videoId){
         new Thread(()->{
-           List<CommentWithUser> list = dao.getCommentsByVideo(videoId);
+            List<CommentWithUser> list = dao.getCommentsByVideo(videoId);
            commentListData.postValue(list);
         }).start();
     }
