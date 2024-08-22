@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.entities.DataManager;
@@ -47,7 +50,10 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.commentNum.setText(""+video.getCommentsNum());
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
-
+        PopupMenu popupMenu = createOptionsMenu(holder.videoOptions);
+        holder.videoOptions.setOnClickListener(l->{
+            popupMenu.show();
+        });
 
 //        holder.editButton.setOnClickListener(v -> {
 //            Intent intent = new Intent(context, VideoEdit.class);
@@ -68,13 +74,22 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         return videos.size();
     }
 
-    public void resetVideos(ArrayList<Video> newVideos) {
-        this.videos = newVideos;
-        notifyDataSetChanged();
-    }
-
     private void deleteVideo(int videoId) {
         DataManager.deleteVideoById(videoId);
+    }
+
+    public PopupMenu createOptionsMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this.context, view);
+        popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.deleteCommentOption) {
+                ContextApplication.showToast("First");
+            } else if (menuItem.getItemId() == R.id.editCommentOption) {
+                ContextApplication.showToast("Second");
+            }
+            return true;
+        });
+        return popupMenu;
     }
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
@@ -85,9 +100,8 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         TextView viewsNum;
         TextView likesNum;
         TextView commentNum;
-//        Button editButton;
-//        Button deleteButton;
 
+        ImageView videoOptions;
         public VideoViewHolder(View itemView) {
             super(itemView);
             videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
@@ -97,9 +111,8 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
             viewsNum = itemView.findViewById(R.id.viewsNum);
             likesNum = itemView.findViewById(R.id.likesNum);
             commentNum = itemView.findViewById(R.id.commentNum);
-
-//            editButton = itemView.findViewById(R.id.editButton);
-//            deleteButton = itemView.findViewById(R.id.deleteButton);
+            videoOptions = itemView.findViewById(R.id.videoOptions);
         }
     }
+
 }
