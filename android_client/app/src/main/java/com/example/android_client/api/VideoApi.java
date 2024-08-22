@@ -13,6 +13,7 @@ import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,28 +70,27 @@ public class VideoApi {
         });
     }
 
-    public void getVideo(MutableLiveData videoData, String channel, String videoId) {
+    public void getVideo(MutableLiveData viewsData, String channel, String videoId) {
         if (videoId == null || channel == null) {
             return;
         }
-
-        Call<VideoWithUserWithComments> call = webServiceAPI.getVideo(channel, videoId);
-        call.enqueue(new Callback<VideoWithUserWithComments>() {
+        Call<Video> call = webServiceAPI.incViews(channel, videoId);
+        call.enqueue(new Callback<Video>() {
             @Override
-            public void onResponse(Call<VideoWithUserWithComments> call, Response<VideoWithUserWithComments> response) {
+            public void onResponse(Call<Video> call, Response<Video> response) {
                 Video body = response.body();
-                if (body != null) {
-                    videoData.setValue(body);
+                if(body!=null){
+                    viewsData.setValue(body.getViews());
                 }
-                // HANDLE ERRORS
             }
 
             @Override
-            public void onFailure(Call<VideoWithUserWithComments> call, Throwable t) {
-                Log.w("USER RESPONSE", t);
+            public void onFailure(Call<Video> call, Throwable t) {
+                Log.w("USER ERROR","YES");
             }
         });
     }
+
 
     public void getAll(MutableLiveData videoListData) {
         Call<List<VideoWithLikes>> call = webServiceAPI.getAll();

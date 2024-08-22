@@ -75,4 +75,18 @@ public class LikeRepository {
             }
         });
     }
+    public void dislike(String username,String videoId){
+        MutableLiveData<Like> temp = new MutableLiveData<>();
+        api.dislikeVideo(username, videoId, temp);
+        temp.observe(owner, likeValue -> {
+            if (likeValue != null) {
+                new Thread(() -> {
+                    likeDao.delete(likeValue);
+                    isLiked.postValue(false);
+                    videoDao.setLikesNum(likeNum.getValue() - 1, videoId);
+                    likeNum.postValue(likeNum.getValue() - 1);
+                }).start();
+            }
+        });
+    }
 }

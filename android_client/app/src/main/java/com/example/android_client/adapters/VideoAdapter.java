@@ -61,18 +61,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         // image -> channel
         holder.uploaderImage.setOnClickListener(l -> {
-            Intent intent = new Intent(context, WatchingVideo.class);
-            intent.putExtra("videoId", video.get_id());
-            context.startActivity(intent);
-            this.notifyItemChanged(position);
-        });
-
-        //name -> channel
-        holder.videoUploader.setOnClickListener(l -> {
-            Intent intent = new Intent(context, ChannelActivity.class);
-//            intent.putExtra("USER_ID", video.getUploader().get_id());
-            context.startActivity(intent);
-            this.notifyItemChanged(position);
+            // Move to channel page
         });
     }
 

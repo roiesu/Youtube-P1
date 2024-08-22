@@ -3,6 +3,7 @@ package com.example.android_client.web_service;
 import com.example.android_client.entities.Like;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PUT;
@@ -14,4 +15,7 @@ public interface LikeWebServiceAPI {
 
     @PUT("users/{username}/videos/{videoId}/like")
     Call<String> likeVideo(@Path("username") String username, @Path("videoId") String videoId, @Header("Authorization") String token);
+
+    @DELETE("users/{username}/videos/{videoId}/like")
+    Call<String> dislikeVideo(@Path("username") String username, @Path("videoId") String videoId, @Header("Authorization") String token);
 }
