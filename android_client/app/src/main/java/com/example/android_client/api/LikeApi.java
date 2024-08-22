@@ -50,4 +50,26 @@ public class LikeApi {
             }
         });
     }
+
+    public void dislikeVideo(String username, String videoId, MutableLiveData like) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<String> call = webServiceAPI.dislikeVideo(username, videoId, header);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String body = response.body();
+                if (body != null) {
+                    like.setValue(new Like(body, videoId));
+                } else {
+                    Log.w("ERROR", "error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.w("ERROR", t);
+            }
+        });
+    }
+
 }

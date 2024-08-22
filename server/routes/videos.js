@@ -10,6 +10,7 @@ const {
   getVideosDetailsByUserId,
   getMinimalVideoDetails,
   getVideosByUserId,
+  increaseViews,
 } = require("../controllers/videos");
 const { authenticateTokenIfGot, authenticateToken } = require("../middleware/auth");
 
@@ -19,6 +20,8 @@ router.use("/:pid/comments", comments);
 // Like and dislike video
 router.put("/:pid/like", authenticateToken, likeVideo);
 router.delete("/:pid/like", authenticateToken, dislikeVideo);
+
+router.patch("/:pid/view", increaseViews);
 
 // Getting videos by user
 router.get("/", getVideosByUserId);
