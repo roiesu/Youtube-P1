@@ -36,4 +36,7 @@ public class LikeViewModel extends ViewModel {
     public void like(String username, String videoId) {
         this.repository.like(username, videoId);
     }
+    public void dislike(String username, String videoId) {
+        this.repository.dislike(username, videoId);
+    }
 }

@@ -244,6 +244,7 @@ async function likeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
+      console.log("Like", req.user);
       return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);
@@ -265,7 +266,8 @@ async function dislikeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
       video.likes.pull(req.user);
       await video.save();
-      return res.sendStatus(201);
+      console.log("dislike", req.user);
+      return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);
     }
@@ -345,6 +347,18 @@ async function getVideosByUserId(req, res) {
   }
 }
 
+async function increaseViews(req, res) {
+  const { pid, id } = req.params;
+  const video = await Video.findOneAndUpdate(
+    { _id: pid, uploader: id },
+    { $inc: { views: 1 } },
+    { new: true }
+  ).select(["views"]);
+  if (!video) {
+    return res.status(404).send("Video not found");
+  }
+  return res.status(200).send(video);
+}
 module.exports = {
   getVideos,
   getVideo,
@@ -357,4 +371,5 @@ module.exports = {
   getMinimalVideoDetails,
   getVideosByUserId,
   videoIndex,
+  increaseViews,
 };

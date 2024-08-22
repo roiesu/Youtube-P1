@@ -2,6 +2,7 @@ package com.example.android_client.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -17,21 +19,33 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.WatchingVideo;
+import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private Context context;
-    private ArrayList<Comment> comments;
+    private List<CommentWithUser> comments;
 
-    public CommentAdapter(Context context, ArrayList<Comment> comments) {
+    public CommentAdapter(Context context, List<CommentWithUser> comments) {
         this.context = context;
         this.comments = comments;
+    }
+    public CommentAdapter(Context context){
+        this.context = context;
+        this.comments = new ArrayList<>();
+    }
+    public void setComments(List<CommentWithUser> comments){
+        this.comments=comments;
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,39 +58,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        Comment comment = comments.get(position);
+        CommentWithUser comment = comments.get(position);
         holder.commentText.setText(comment.getText());
-//        holder.commentUser.setText(comment.getUser().getUsername());
+        holder.commentUser.setText(comment.getUser().getUsername());
         holder.commentDate.setText(Utilities.dateDiff(comment.getDate()) + (comment.isEdited() ? "( edited )" : ""));
         String currentUsername = DataManager.getCurrentUsername();
-//        if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
-//            holder.commentOptionOpener.setVisibility(View.GONE);
-//            return;
-//        }
-        PopupMenu popupMenu = createOptionsMenu(holder.commentOptionOpener, position);
-        holder.commentOptionOpener.setOnClickListener(view -> {
-            popupMenu.show();
+        if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
+            holder.commentOptionOpener.setVisibility(View.GONE);
+        }
+        else {
+            PopupMenu popupMenu = createOptionsMenu(holder.commentOptionOpener, position);
+            holder.commentOptionOpener.setOnClickListener(view -> {
+                popupMenu.show();
+            });
+        }
+        Glide.with(context).load(comment.getUser().getImageFromServer()).into(holder.profilePic);
+
+        holder.profilePic.setOnClickListener(l -> {
+            // Move to channel page
         });
     }
 
     @Override
     public int getItemCount() {
         return comments.size();
-    }
-
-    public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView commentUser;
-        TextView commentDate;
-        TextView commentText;
-        View commentOptionOpener;
-
-        public CommentViewHolder(@NonNull View itemView) {
-            super(itemView);
-            commentUser = itemView.findViewById(R.id.commentUser);
-            commentDate = itemView.findViewById(R.id.commentDate);
-            commentText = itemView.findViewById(R.id.commentText);
-            commentOptionOpener = itemView.findViewById(R.id.commentOptionsOpener);
-        }
     }
 
     public PopupMenu createOptionsMenu(View view, int commentPlace) {
@@ -108,5 +113,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         return builder.create();
     }
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
+        TextView commentUser;
+        TextView commentDate;
+        TextView commentText;
+        View commentOptionOpener;
+        ImageView profilePic;
+
+        public CommentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            profilePic = itemView.findViewById(R.id.uploaderImage);
+            commentUser = itemView.findViewById(R.id.commentUser);
+            commentDate = itemView.findViewById(R.id.commentDate);
+            commentText = itemView.findViewById(R.id.commentText);
+            commentOptionOpener = itemView.findViewById(R.id.commentOptionsOpener);
+        }
+    }
 }
+
 
