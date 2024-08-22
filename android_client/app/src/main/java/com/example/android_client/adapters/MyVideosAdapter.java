@@ -1,6 +1,7 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import com.bumptech.glide.Glide;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoViewHolder> {
     private Context context;
@@ -45,14 +49,22 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         Video video = videos.get(position);
         holder.videoName.setText(video.getName());
         holder.videoDate.setText(Utilities.formatDate(video.getDate()));
-        holder.viewsNum.setText(""+video.getViews());
-        holder.likesNum.setText(""+video.getLikesNum());
-        holder.commentNum.setText(""+video.getCommentsNum());
+        holder.viewsNum.setText(Utilities.shortCompactNumber(video.getViews()));
+        holder.likesNum.setText(Utilities.shortCompactNumber(video.getLikesNum()));
+        holder.commentNum.setText(Utilities.shortCompactNumber(video.getCommentsNum()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
         PopupMenu popupMenu = createOptionsMenu(holder.videoOptions);
         holder.videoOptions.setOnClickListener(l->{
             popupMenu.show();
+        });
+
+        holder.videoThumbnail.setOnClickListener(l->{
+            Intent intent = new Intent(context, WatchingVideo.class);
+            intent.putExtra("videoId", video.get_id());
+            intent.putExtra("channel", video.getUploaderId());
+            context.startActivity(intent);
+            this.notifyItemChanged(position);
         });
 
 //        holder.editButton.setOnClickListener(v -> {

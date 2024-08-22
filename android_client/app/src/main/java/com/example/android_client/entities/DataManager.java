@@ -90,10 +90,10 @@ public class DataManager {
         for (User user : usersList) {
             user.setImage(Utilities.getResourceUriString(context, user.getImage(), "drawable"));
         }
-        for (Video video : videoList) {
-            video.setSrc(Utilities.getResourceUriString(context, video.getSrc(), "raw"));
-            video.createVideoDetails(context);
-        }
+//        for (Video video : videoList) {
+//            video.setSrc(Utilities.getResourceUriString(context, video.getSrc(), "raw"));
+//            video.createVideoDetails(context);
+//        }
         DataManager.setInitialized(true);
     }
 
