@@ -23,6 +23,7 @@ public class MyVideosPage extends AppCompatActivity {
 
     private RecyclerView videosList;
     private Button uploadVideoButton;
+    private Button editDetailsButton;
     private VideoListViewModel videoListViewModel;
 
     @Override
@@ -32,6 +33,7 @@ public class MyVideosPage extends AppCompatActivity {
         videosList = findViewById(R.id.recyclerView);
         videosList.setLayoutManager(new LinearLayoutManager(this));
         uploadVideoButton = findViewById(R.id.uploadVideoButton);
+        editDetailsButton = findViewById(R.id.editUserButton);
         videoListViewModel = new VideoListViewModel(this);
 
         MyVideosAdapter adapter = new MyVideosAdapter(this, new ArrayList<>());
