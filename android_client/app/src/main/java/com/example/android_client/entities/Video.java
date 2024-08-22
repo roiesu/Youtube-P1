@@ -30,29 +30,29 @@ public class Video {
     private String src;
     private String thumbnail;
     private long duration;
-    private Integer likesCount;
+    private Integer likesNum;
     private long views;
     private Date date;
     private String description;
     private ArrayList<String> tags;
-    private Integer commentsCount;
+    private Integer commentsNum;
 
     public Video() {
     }
 
-    public Video(String _id, String name, String uploaderId, String src, Integer likesCount, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, Integer commentsCount) {
+    public Video(String _id, String name, String uploaderId, String src, Integer likesNum, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, Integer commentsNum) {
         this._id = _id;
         this.name = name;
         this.uploaderId = uploaderId;
         this.src = src;
         this.thumbnail = thumbnail;
         this.duration = duration;
-        this.likesCount = likesCount;
+        this.likesNum = likesNum;
         this.views = views;
         this.date = date;
         this.description = description;
         this.tags = tags;
-        this.commentsCount = commentsCount;
+        this.commentsNum = commentsNum;
     }
 
     public Video(String _id, String name, String uploader, String thumbnail, long duration, long views, Date date) {
@@ -168,19 +168,19 @@ public class Video {
         this.tags = tags;
     }
 
-    public Integer getLikesCount() {
-        return likesCount;
+    public Integer getLikesNum() {
+        return likesNum;
     }
 
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
+    public void setLikesNum(int likesNum) {
+        this.likesNum = likesNum;
     }
 
-    public Integer getCommentsCount() {
-        return commentsCount;
+    public Integer getCommentsNum() {
+        return commentsNum;
     }
 
-    public void setCommentsCount(Integer commentsCount) {
-        this.commentsCount = commentsCount;
+    public void setCommentsNum(Integer commentsNum) {
+        this.commentsNum = commentsNum;
     }
 }

@@ -41,7 +41,7 @@ public interface VideoDao {
 
     @Insert
     void insert(Video... videos);
-    @Query("UPDATE video SET likesCount = :likesNum WHERE _id = :videoId")
+    @Query("UPDATE video SET likesNum = :likesNum WHERE _id = :videoId")
     void setLikesNum(int likesNum, String videoId);
 
     @Query("UPDATE video SET views = :views WHERE _id = :videoId")

@@ -43,8 +43,8 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.videoName.setText(video.getName());
         holder.videoDate.setText(Utilities.formatDate(video.getDate()));
         holder.viewsNum.setText(""+video.getViews());
-        holder.likesNum.setText(""+video.getLikesCount());
-        holder.commentNum.setText(""+video.getCommentsCount());
+        holder.likesNum.setText(""+video.getLikesNum());
+        holder.commentNum.setText(""+video.getCommentsNum());
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
 

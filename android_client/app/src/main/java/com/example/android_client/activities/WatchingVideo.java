@@ -29,12 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoViewModel;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -87,7 +85,7 @@ public class WatchingVideo extends AppCompatActivity {
                 finish();
             } else {
                 initComments(video.get_id());
-                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesCount());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
