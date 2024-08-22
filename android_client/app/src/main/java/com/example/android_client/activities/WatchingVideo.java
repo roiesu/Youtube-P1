@@ -1,6 +1,5 @@
 package com.example.android_client.activities;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.example.android_client.R;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +34,6 @@ import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoViewModel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -87,7 +84,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
-                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesCount());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
@@ -100,7 +97,7 @@ public class WatchingVideo extends AppCompatActivity {
                         likeViewModel.like(video.getUploader().getUsername(), video.get_id());
                     } else {
                         int x = 5;
-//                        likeViewModel.dislike();
+                        likeViewModel.dislike();
                     }
                 });
                 initVideo();

@@ -2,8 +2,6 @@ package com.example.android_client.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,13 +20,11 @@ import com.example.android_client.entities.DataManager;
 
 import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.UserViewModel;
-import com.example.android_client.view_models.VideoListViewModel;
+import com.example.android_client.view_models.VideoWithUserListViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -49,7 +45,7 @@ public class MainPage extends AppCompatActivity {
     private ImageView displayImage;
     private CardView imageContainer;
     private UserViewModel userDetails;
-    private VideoListViewModel videos;
+    private VideoWithUserListViewModel videos;
     private VideoAdapter adapter;
 
 
@@ -126,7 +122,7 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initializeData();
         setContentView(R.layout.main_page);
-        videos = new VideoListViewModel(this);
+        videos = new VideoWithUserListViewModel(this);
         userDetails = new UserViewModel();
         initItems();
         initVideos();

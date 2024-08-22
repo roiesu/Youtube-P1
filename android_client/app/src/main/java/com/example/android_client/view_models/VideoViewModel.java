@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.android_client.datatypes.VideoWithUserWithComments;
-import com.example.android_client.repositories.VideoListRepository;
 import com.example.android_client.repositories.VideoRepository;
-
-import java.util.List;
 
 public class VideoViewModel extends ViewModel {
 

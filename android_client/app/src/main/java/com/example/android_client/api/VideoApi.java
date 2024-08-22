@@ -8,6 +8,7 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.datatypes.VideoWithUserWithComments;
+import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
@@ -32,6 +33,7 @@ public class VideoApi {
 
     // channel page
     public void getVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
+
         Call<List<Video>> call = webServiceAPI.getVideosByUser(userId);
         call.enqueue(new Callback<List<Video>>() {
             @Override
@@ -105,6 +107,25 @@ public class VideoApi {
 
             @Override
             public void onFailure(Call<List<VideoWithLikes>> call, Throwable t) {
+                Log.w("Zbabir", t);
+            }
+        });
+    }
+    public void getVideosDetailsByUser(MutableLiveData<List<Video>> videoListData,String username){
+        String header = "Bearer " + DataManager.getToken();
+
+        Call<List<Video>> call = webServiceAPI.getVideosDetailsByUser(username,header);
+        call.enqueue(new Callback<List<Video>>() {
+            @Override
+            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
+                List<Video> body = response.body();
+                if(body!=null){
+                    videoListData.setValue(body);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Video>> call, Throwable t) {
                 Log.w("Zbabir", t);
             }
         });
