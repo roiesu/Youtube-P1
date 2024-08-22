@@ -1,12 +1,15 @@
 package com.example.android_client.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.android_client.entities.Like;
 
 import java.util.List;
+
+import retrofit2.http.DELETE;
 
 @Dao
 public interface LikeDao {
@@ -16,6 +19,9 @@ public interface LikeDao {
 
     @Insert
     void insert(Like... likes);
+
+    @Delete
+    void delete(Like... likes);
 
     @Query("SELECT * FROM `Like`")
     List<Like> index();
