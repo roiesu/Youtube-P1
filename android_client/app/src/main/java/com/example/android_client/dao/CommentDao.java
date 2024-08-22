@@ -8,6 +8,7 @@ import androidx.room.Transaction;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -23,5 +24,5 @@ public interface CommentDao {
 
     @Transaction
     @Query("SELECT * FROM comment WHERE videoId = :videoId")
-    List<CommentWithUser> getCommentsByVideo( String videoId);
+    List<CommentWithUser> getCommentsByVideo(String videoId);
 }

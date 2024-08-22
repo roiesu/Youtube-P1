@@ -148,16 +148,18 @@ public class WatchingVideo extends AppCompatActivity {
     }
     private void initComments(String videoId){
         commentListViewModel = new CommentListViewModel();
-        commentListViewModel.getComments().observe(this,commentsList->{
-            CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>());
-            commentsHeader.setText(adapter.getItemCount() + " Comments");
-            commentButton.setOnClickListener(l -> commentVideo(adapter));
-        });
+        CommentAdapter adapter = new CommentAdapter(this);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
+        commentsList.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
         dividerItemDecoration.setDrawable(dividerDrawable);
         commentsList.addItemDecoration(dividerItemDecoration);
+        commentListViewModel.getComments().observe(this,commentsList->{
+            adapter.setComments(commentsList);
+            commentsHeader.setText(commentsList.size() + " Comments");
+            commentButton.setOnClickListener(l -> commentVideo(adapter));
+        });
         commentListViewModel.getCommentsByVideo(videoId);
     }
     private void commentVideo(CommentAdapter adapter) {
