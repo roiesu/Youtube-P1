@@ -5,57 +5,121 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/videoThumbnail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+        <!-- Video Thumbnail with Duration -->
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/videoThumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/videoName"
-                android:layout_width="match_parent"
+                android:id="@+id/videoDuration"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Video Name"
-                android:textAlignment="center"
-                android:textSize="18sp" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="4dp"
+                android:background="@android:color/black"
+                android:padding="4dp"
+                tools:text="12:34"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <!-- Video Details Container -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <!-- Video Name -->
+            <TextView
+                android:id="@+id/videoName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="Video Title"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Video Date and Views Container -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <!-- Video Date -->
+                <TextView
+                    android:id="@+id/videoDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Uploaded on Jan 1, 2024"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp" />
+
+                <!-- Divider -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="•"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Video Views -->
+                <TextView
+                    android:id="@+id/viewsNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1M views"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+            <!-- Likes and Comments -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/editButton"
+                <TextView
+                    android:id="@+id/likesNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Edit" />
+                    android:layout_marginEnd="16dp"
+                    tools:text="👍 10K"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
 
-                <Button
-                    android:id="@+id/deleteButton"
+                <TextView
+                    android:id="@+id/commentNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Delete" />
+                    tools:text="💬 500"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

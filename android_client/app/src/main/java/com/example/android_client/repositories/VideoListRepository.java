@@ -1,7 +1,5 @@
 package com.example.android_client.repositories;
 
-import android.util.Log;
-
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +7,7 @@ import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 import com.example.android_client.dao.VideoDao;
 import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
@@ -27,46 +26,25 @@ public class VideoListRepository {
         this.owner = owner;
     }
 
-    class VideoListData extends MutableLiveData<List<VideoWithUser>> {
+    class VideoListData extends MutableLiveData<List<Video>> {
         public VideoListData() {
             super();
         }
 
         @Override
         public void onActive() {
-            reload();
+            // do something
         }
     }
 
-    public MutableLiveData<List<VideoWithUser>> getAll() {
+    public MutableLiveData<List<Video>> getAll() {
         return videoListData;
     }
 
-    public void reload() {
-        searchVideo("");
+    public void getVideosDetailsByUser(){
+        api.getVideosDetailsByUser(videoListData, DataManager.getCurrentUsername());
     }
 
-    public void fetchVideosByUser(String userId, MutableLiveData<List<VideoWithUser>> videoListData) {
-        // FIX LATERRR
-//        api.getVideosByUser(userId, videoListData);
-    }
 
-    public void searchVideo(String query) {
-        MutableLiveData<List<VideoWithUser>> temp = new MutableLiveData<>();
-        new Thread(() -> {
-            temp.postValue(dao.topTenVideos(query));
-        }).start();
-        temp.observe(owner, list -> {
-            if (list.size() == 10) {
-                Video lastVideo = list.get(9);
-                new Thread(() -> {
-                    List<VideoWithUser> tempList = list;
-                    tempList.addAll(dao.restTenVideos(query, lastVideo.getViews(), lastVideo.get_id()));
-                    videoListData.postValue(tempList);
-                }).start();
-            } else {
-                videoListData.postValue(list);
-            }
-        });
-    }
+
 }

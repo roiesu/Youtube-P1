@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
-import com.example.android_client.view_models.VideoListViewModel;
+import com.example.android_client.view_models.VideoWithUserListViewModel;
 import java.util.ArrayList;
 
 public class ChannelActivity extends AppCompatActivity {
 
     private RecyclerView channelVideoList;
     private VideoAdapter adapter;
-    private VideoListViewModel videos;
+    private VideoWithUserListViewModel videos;
     private SwipeRefreshLayout refreshLayout;
 
     @Override
@@ -32,7 +32,7 @@ public class ChannelActivity extends AppCompatActivity {
         channelVideoList.setAdapter(adapter);
         refreshLayout = findViewById(R.id.channelRefreshLayout);
         refreshLayout.setOnRefreshListener(() -> videos.loadVideosForUser(userId));
-        videos = new VideoListViewModel(this);
+        videos = new VideoWithUserListViewModel(this);
         videos.getVideos().observe(this, list -> {
             adapter.setVideos(list);
             adapter.notifyDataSetChanged();
