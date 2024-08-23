@@ -7,7 +7,6 @@ import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 
 import com.example.android_client.dao.VideoDao;
-import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
 
 
@@ -42,7 +41,7 @@ public class VideoRepository {
         views.observe(owner, data -> {
             new Thread(() -> {
                 dao.increaseViews(data.longValue(), videoId);
-                videoData.postValue(dao.getVideo(channel, videoId));
+                videoData.postValue(dao.getVideoWithUser(channel, videoId));
             }).start();
         });
 

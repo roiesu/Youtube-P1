@@ -33,10 +33,12 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         this.context = context;
         this.videos = videos;
     }
-    public void setVideos(List<Video> videos){
-        this.videos=videos;
+
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
         this.notifyDataSetChanged();
     }
+
 
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,11 +57,11 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
         PopupMenu popupMenu = createOptionsMenu(holder.videoOptions);
-        holder.videoOptions.setOnClickListener(l->{
+        holder.videoOptions.setOnClickListener(l -> {
             popupMenu.show();
         });
 
-        holder.videoThumbnail.setOnClickListener(l->{
+        holder.videoThumbnail.setOnClickListener(l -> {
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId", video.get_id());
             intent.putExtra("channel", DataManager.getCurrentUserId());
@@ -114,6 +116,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         TextView commentNum;
 
         ImageView videoOptions;
+
         public VideoViewHolder(View itemView) {
             super(itemView);
             videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
