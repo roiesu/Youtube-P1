@@ -12,12 +12,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import retrofit2.Response;
 
 public class Utilities {
     public static int VIDEO_TYPE=1;
@@ -118,7 +121,15 @@ public class Utilities {
             e.printStackTrace();
             return null;
         }
-
+    }
+    public static void handleError(Response response){
+        String errorMessage;
+        try {
+            errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            errorMessage = response.message();
+        }
+        ContextApplication.showToast(errorMessage);
     }
 
 

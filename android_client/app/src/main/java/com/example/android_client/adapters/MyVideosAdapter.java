@@ -62,7 +62,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.videoThumbnail.setOnClickListener(l->{
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId", video.get_id());
-            intent.putExtra("channel", video.getUploaderId());
+            intent.putExtra("channel", DataManager.getCurrentUserId());
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });

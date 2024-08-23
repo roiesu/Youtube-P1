@@ -40,6 +40,6 @@ public interface VideoWebServiceAPI {
     Call<Video> incViews(@Path("channel") String channel, @Path("videoId") String videoId);
 
     @POST("users/{channel}/videos")
-    Call<VideoWithUser> uploadVideo(@Path("channel") String channel, @Header("Authorization") String token, @Body Video video);
+    Call<Video> uploadVideo(@Path("channel") String channel, @Header("Authorization") String token, @Body Video video);
 
 }
