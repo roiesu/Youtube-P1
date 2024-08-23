@@ -1,5 +1,6 @@
 package com.example.android_client.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -37,6 +39,7 @@ public class VideoUpload extends AppCompatActivity {
     private Button uploadVideoButton, submitVideoDetailsButton;
     private EditText videoNameInput, videoDescriptionInput, videoTagsInput;
     private Video video;
+    private ImageView goBackButton;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
 
     private VideoViewModel videoViewModel;
@@ -48,9 +51,17 @@ public class VideoUpload extends AppCompatActivity {
         setContentView(R.layout.upload_video);
         video = new VideoWithUser();
         videoViewModel = new VideoViewModel(this);
+        goBackButton = findViewById(R.id.goBack);
+        goBackButton.setOnClickListener(l -> {
+            finish();
+        });
         finished = new MutableLiveData<>();
         finished.observe(this, data -> {
             if (data) {
+                Intent result = new Intent();
+                result.putExtra("videoId", videoViewModel.getVideo().getValue().get_id());
+                result.putExtra("uploaderId", videoViewModel.getVideo().getValue().getUploaderId());
+                setResult(RESULT_OK, result);
                 finish();
             }
         });
@@ -87,13 +98,6 @@ public class VideoUpload extends AppCompatActivity {
 
     }
 
-    public void onRestart() {
-        super.onRestart();
-        if (DataManager.getCurrentUsername() == null) {
-            finish();
-        }
-    }
-
     private void createVideoObject() {
         createVideoDetails(videoUri, video);
         video.setName(videoNameInput.getText().toString());
@@ -105,7 +109,7 @@ public class VideoUpload extends AppCompatActivity {
     }
 
     public String createThumbnail(MediaMetadataRetriever mediaRetriever) {
-        Bitmap thumbnail = mediaRetriever.getFrameAtTime(previewVideo.getCurrentPosition()* 1000L,MediaMetadataRetriever.OPTION_CLOSEST);
+        Bitmap thumbnail = mediaRetriever.getFrameAtTime(previewVideo.getCurrentPosition() * 1000L, MediaMetadataRetriever.OPTION_CLOSEST);
         Bitmap resultBitmap = Bitmap.createBitmap(320, 180, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(resultBitmap);
         Paint paint = new Paint();

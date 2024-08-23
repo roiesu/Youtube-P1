@@ -41,7 +41,7 @@ public class VideoWithUserRepository {
         views.observe(owner, data -> {
             new Thread(() -> {
                 dao.increaseViews(data.longValue(), videoId);
-                videoData.postValue(dao.getVideo(channel, videoId));
+                videoData.postValue(dao.getVideoWithUser(channel, videoId));
             }).start();
         });
 
