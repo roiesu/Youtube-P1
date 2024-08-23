@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -54,6 +55,13 @@ public class VideoUpload extends AppCompatActivity {
             }
         });
         previewVideo = findViewById(R.id.videoPreview);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(previewVideo);
+        previewVideo.setMediaController(mediaController);
+        previewVideo.setOnPreparedListener(mediaPlayer -> {
+            mediaPlayer.start();
+            previewVideo.start();
+        });
         uploadVideoButton = findViewById(R.id.videoInput);
         videoNameInput = findViewById(R.id.videoNameInput);
         videoDescriptionInput = findViewById(R.id.videoDescriptionInput);
@@ -65,7 +73,6 @@ public class VideoUpload extends AppCompatActivity {
                 String data = Utilities.videoUriToBase64(this, uri);
                 video.setSrc(data);
                 previewVideo.setVideoURI(videoUri);
-                createVideoDetails(uri, video);
                 previewVideo.start();
             }
         });
@@ -88,6 +95,7 @@ public class VideoUpload extends AppCompatActivity {
     }
 
     private void createVideoObject() {
+        createVideoDetails(videoUri, video);
         video.setName(videoNameInput.getText().toString());
         video.setDescription(videoDescriptionInput.getText().toString());
         video.setTags(new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(","))));
@@ -97,7 +105,7 @@ public class VideoUpload extends AppCompatActivity {
     }
 
     public String createThumbnail(MediaMetadataRetriever mediaRetriever) {
-        Bitmap thumbnail = mediaRetriever.getFrameAtTime();
+        Bitmap thumbnail = mediaRetriever.getFrameAtTime(previewVideo.getCurrentPosition()* 1000L,MediaMetadataRetriever.OPTION_CLOSEST);
         Bitmap resultBitmap = Bitmap.createBitmap(320, 180, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(resultBitmap);
         Paint paint = new Paint();
