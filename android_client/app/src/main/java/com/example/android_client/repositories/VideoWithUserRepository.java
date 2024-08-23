@@ -8,31 +8,30 @@ import com.example.android_client.api.VideoApi;
 
 import com.example.android_client.dao.VideoDao;
 import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.entities.Video;
 
 
-public class VideoRepository {
+public class VideoWithUserRepository {
     private VideoDao dao;
     private VideoData videoData;
     private VideoApi api;
     private LifecycleOwner owner;
 
-
-    public VideoRepository(LifecycleOwner owner) {
+    public VideoWithUserRepository(String channel, String videoId, LifecycleOwner owner) {
         api = new VideoApi();
         this.owner = owner;
         AppDB instance = AppDB.getInstance();
         dao = instance.videoDao();
-        videoData = new VideoData();
+        videoData = new VideoData(channel, videoId);
     }
 
-    class VideoData extends MutableLiveData<Video> {
-        public VideoData() {
+    class VideoData extends MutableLiveData<VideoWithUser> {
+        public VideoData(String channel, String videoId) {
             super();
+            getVideo(channel, videoId);
         }
     }
 
-    public MutableLiveData<Video> get() {
+    public MutableLiveData<VideoWithUser> get() {
         return videoData;
     }
 
@@ -48,16 +47,5 @@ public class VideoRepository {
 
     }
 
-    public void upload(MutableLiveData finished) {
-        this.videoData.observe(owner, data -> {
-            if (data != null && data.get_id() != null) {
-                new Thread(() -> {
-                    dao.insert(data);
-                    finished.postValue(true);
-                }).start();
-            }
-        });
-        this.api.uploadVideo(videoData);
-    }
 
 }

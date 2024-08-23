@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.datatypes.VideoWithUserWithComments;
@@ -133,21 +134,24 @@ public class VideoApi {
         });
     }
 
-    public void uploadVideo(MutableLiveData<VideoWithUser> videoData) {
+    public void uploadVideo(MutableLiveData<Video> videoData) {
         String header = "Bearer " + DataManager.getToken();
-        Call<VideoWithUser> call = webServiceAPI.uploadVideo(videoData.getValue().getUploader().getUsername(), header, videoData.getValue());
-        call.enqueue(new Callback<VideoWithUser>() {
+        Call<Video> call = webServiceAPI.uploadVideo(videoData.getValue().getUploaderId(), header, videoData.getValue());
+        call.enqueue(new Callback<Video>() {
             @Override
-            public void onResponse(Call<VideoWithUser> call, Response<VideoWithUser> response) {
-                VideoWithUser body = response.body();
+            public void onResponse(Call<Video> call, Response<Video> response) {
+                Video body = response.body();
                 if (body != null) {
                     videoData.setValue(body);
+                }
+                else{
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
-            public void onFailure(Call<VideoWithUser> call, Throwable t) {
-                Log.w("Zbabir", t);
+            public void onFailure(Call<Video> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
             }
         });
 
