@@ -43,7 +43,6 @@ public class WatchingVideo extends AppCompatActivity {
     private Button commentButton;
     private Button shareButton;
     private EditText commentInput;
-    private boolean likedVideo;
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
 

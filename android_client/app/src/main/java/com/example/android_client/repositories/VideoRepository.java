@@ -7,6 +7,7 @@ import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 
 import com.example.android_client.dao.VideoDao;
+import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 
 
@@ -57,6 +58,17 @@ public class VideoRepository {
             }
         });
         this.api.uploadVideo(videoData);
+    }
+
+    public void deleteVideo(String videoId) {
+        videoData.observe(owner, data -> {
+            if ((data != null) && (data.get_id() != null)) {
+                new Thread(()->{
+                    dao.deleteVideo(videoId);
+                }).start();
+            }
+        });
+        api.deleteVideo(videoData, videoId, DataManager.getCurrentUsername());
     }
 
 }

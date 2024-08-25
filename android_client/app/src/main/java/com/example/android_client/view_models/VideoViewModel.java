@@ -18,6 +18,7 @@ public class VideoViewModel extends ViewModel {
         this.repository = new VideoRepository(owner);
         video = repository.get();
     }
+
     public void setVideo(Video video) {
         this.video.setValue(video);
     }
@@ -28,7 +29,12 @@ public class VideoViewModel extends ViewModel {
         }
         return video;
     }
-    public void uploadVideo(MutableLiveData finished){
+
+    public void uploadVideo(MutableLiveData finished) {
         this.repository.upload(finished);
+    }
+
+    public void deleteVideo(String id) {
+        this.repository.deleteVideo(id);
     }
 }

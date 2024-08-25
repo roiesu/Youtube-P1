@@ -1,14 +1,18 @@
 package com.example.android_client.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.entities.Like;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
+
+import retrofit2.http.DELETE;
 
 @Dao
 public interface VideoDao {
@@ -42,10 +46,14 @@ public interface VideoDao {
 
     @Insert
     void insert(Video... videos);
+
     @Query("UPDATE video SET likesNum = :likesNum WHERE _id = :videoId")
     void setLikesNum(int likesNum, String videoId);
 
     @Query("UPDATE video SET views = :views WHERE _id = :videoId")
-    void increaseViews(long views,String videoId);
+    void increaseViews(long views, String videoId);
+
+    @Query("DELETE FROM video WHERE _id = :videoId")
+    void deleteVideo(String videoId);
 
 }

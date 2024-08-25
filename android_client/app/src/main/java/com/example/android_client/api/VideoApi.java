@@ -143,8 +143,7 @@ public class VideoApi {
                 Video body = response.body();
                 if (body != null) {
                     videoData.setValue(body);
-                }
-                else{
+                } else {
                     Utilities.handleError(response);
                 }
             }
@@ -155,5 +154,28 @@ public class VideoApi {
             }
         });
 
+    }
+
+    public void deleteVideo(MutableLiveData<Video> data, String videoId, String userId) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.deleteVideo(userId, videoId, header);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Video video = new Video();
+                    video.set_id(videoId);
+                    data.setValue(video);
+                }
+                else{
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
+            }
+        });
     }
 }
