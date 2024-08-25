@@ -102,7 +102,7 @@ public class VideoUpload extends AppCompatActivity {
         createVideoDetails(videoUri, video);
         video.setName(videoNameInput.getText().toString());
         video.setDescription(videoDescriptionInput.getText().toString());
-        video.setTags(new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(","))));
+        video.setTags(new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(" "))));
         video.setUploaderId(DataManager.getCurrentUsername());
         videoViewModel.setVideo(video);
         videoViewModel.uploadVideo(finished);

@@ -26,4 +26,5 @@
     <string name="BaseUrlApi">http://10.100.102.10:8080/api/</string>
     <string name="BaseUrlMedia">http://10.100.102.10:8080/media/</string>
     <string name="video_preview">Video Preview</string>
+    <string name="video_tags">Video Tags</string>
 </resources>

@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.adapters.MyVideosAdapter;
-import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoListViewModel;
 
@@ -30,9 +27,7 @@ public class MyVideosPage extends AppCompatActivity {
     private Button uploadVideoButton;
     private Button editDetailsButton;
     private VideoListViewModel videoListViewModel;
-    MyVideosAdapter adapter;
-
-
+    private MyVideosAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +40,29 @@ public class MyVideosPage extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
-                        videoListViewModel.refreshMyVideos(intent.getStringExtra("videoId"), intent.getStringExtra("uploaderId"));
+                        videoListViewModel.addToMyVideos(intent.getStringExtra("videoId"), intent.getStringExtra("uploaderId"));
+                    }
+                });
+        ActivityResultLauncher<Intent> editVideoResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent intent = result.getData();
+                        int position = intent.getIntExtra("position", 0);
+                        String newName = intent.getStringExtra("newName");
+                        Video video = videoListViewModel.getVideos().getValue().get(position);
+                        video.setName(newName);
+                        adapter.notifyItemChanged(position);
                     }
                 });
 
         videoListViewModel = new VideoListViewModel(this);
-        adapter = new MyVideosAdapter(this, new ArrayList<>(),this);
+        adapter = new MyVideosAdapter(this, new ArrayList<>(), this, editVideoResultLauncher);
         videosList.setAdapter(adapter);
         videoListViewModel.getVideos().observe(this, videos -> {
             if (adapter.getItemCount() == 0) {
                 adapter.setVideos(videos);
             } else {
-                adapter.notifyItemInserted(videos.size()-1);
+                adapter.notifyItemInserted(videos.size() - 1);
             }
         });
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videosList.getContext(),

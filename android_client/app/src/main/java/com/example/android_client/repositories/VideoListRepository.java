@@ -41,7 +41,7 @@ public class VideoListRepository {
         api.getVideosDetailsByUser(videoListData, DataManager.getCurrentUsername());
     }
 
-    public void refreshMyVideos(String newVideoId, String newVideoUploaderId) {
+    public void addToMyVideos(String newVideoId, String newVideoUploaderId) {
         new Thread(() -> {
             Video newVideo = dao.getVideo(newVideoUploaderId, newVideoId);
             List<Video> temp = this.videoListData.getValue();
@@ -49,6 +49,5 @@ public class VideoListRepository {
             this.videoListData.postValue(temp);
         }).start();
     }
-
-
 }
+
