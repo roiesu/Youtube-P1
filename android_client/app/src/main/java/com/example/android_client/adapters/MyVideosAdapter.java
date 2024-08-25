@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.VideoEdit;
 import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
@@ -32,12 +34,14 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
     private VideoViewModel videoViewModel;
     private List<Video> videos;
     private LifecycleOwner owner;
+    private ActivityResultLauncher editVideoLauncher;
 
-    public MyVideosAdapter(Context context, List<Video> videos, LifecycleOwner owner) {
+    public MyVideosAdapter(Context context, List<Video> videos, LifecycleOwner owner, ActivityResultLauncher editVideoLauncher) {
         this.context = context;
         this.videos = videos;
         this.owner = owner;
-        videoViewModel = new VideoViewModel(owner);
+        this.videoViewModel = new VideoViewModel(owner);
+        this.editVideoLauncher = editVideoLauncher;
     }
 
     public void setVideos(List<Video> videos) {
@@ -86,8 +90,6 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         videoViewModel.deleteVideo(videoId);
     }
 
-    ;
-
     @Override
     public int getItemCount() {
         return videos.size();
@@ -98,7 +100,11 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.editCommentOption) {
-                ContextApplication.showToast("First");
+                Intent editVideoIntent = new Intent(context, VideoEdit.class);
+                Video video = videos.get(position);
+                editVideoIntent.putExtra("videoId", video.get_id());
+                editVideoIntent.putExtra("position", position);
+                this.editVideoLauncher.launch(editVideoIntent);
             } else if (menuItem.getItemId() == R.id.deleteCommentOption) {
                 deleteVideo(videoId, position);
             }

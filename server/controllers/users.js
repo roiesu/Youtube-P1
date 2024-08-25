@@ -83,7 +83,6 @@ async function updateUser(req, res) {
     }
     await user.updateOne(updateFields, { runValidators: true });
     await user.save();
-    console.log(user, updateFields);
     return res.send(user);
   } catch (err) {
     return res.status(400).send(err.message);

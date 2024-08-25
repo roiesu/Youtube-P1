@@ -162,12 +162,11 @@ public class VideoApi {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Video video = new Video();
                     video.set_id(videoId);
                     data.setValue(video);
-                }
-                else{
+                } else {
                     Utilities.handleError(response);
                 }
             }
@@ -177,5 +176,28 @@ public class VideoApi {
                 ContextApplication.showToast("ERRORRR");
             }
         });
+    }
+
+    public void updateVideo(MutableLiveData<Video> data) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.updateVideo(DataManager.getCurrentUsername(), data.getValue().get_id(), header, data.getValue());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Video video = data.getValue();
+                    video.set_id("-1");
+                    data.setValue(video);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
+            }
+        });
+
     }
 }
