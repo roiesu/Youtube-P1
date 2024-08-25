@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.R;
 import com.example.android_client.ContextApplication;
+import com.example.android_client.Utilities;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.web_service.UserWebServiceAPI;
@@ -50,7 +51,7 @@ public class UserApi {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.w("ERRORRRRR",t);
+                Log.w("ERRORRRRR", t);
             }
         });
     }
@@ -120,13 +121,7 @@ public class UserApi {
                     instance.setToken(body);
                     userDetails.setValue(null);
                 } else {
-                    String errorMessage;
-                    try {
-                        errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
-                    } catch (IOException e) {
-                        errorMessage = response.message();
-                    }
-                    ContextApplication.showToast(errorMessage);
+                    Utilities.handleError(response);
                     Log.w("Login" + response.raw().code(), response.errorBody().toString());
                 }
             }

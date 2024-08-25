@@ -220,7 +220,14 @@ async function addVideo(req, res) {
     await video.save();
     user.videos.push(video._id);
     await user.save();
-    return res.sendStatus(201);
+    const videoToSend = {
+      ...video.toJSON(),
+      uploaderId: video.uploader,
+      likesNum: 0,
+      commentsNum: 0,
+    };
+
+    return res.status(201).send(videoToSend);
   } catch (err) {
     if (videoFile) {
       deletePublicFile("video", videoFile);
@@ -307,8 +314,8 @@ async function getVideosDetailsByUserId(req, res) {
                 thumbnail: 1,
                 date: 1,
                 duration: 1,
-                likesCount: { $size: "$likes" },
-                commentsCount: { $size: "$comments" },
+                likesNum: { $size: "$likes" },
+                commentsNum: { $size: "$comments" },
               },
             },
             { $addFields: { uploader: id } },

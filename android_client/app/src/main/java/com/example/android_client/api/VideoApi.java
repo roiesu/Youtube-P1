@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithLikes;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.datatypes.VideoWithUserWithComments;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
@@ -79,14 +81,14 @@ public class VideoApi {
             @Override
             public void onResponse(Call<Video> call, Response<Video> response) {
                 Video body = response.body();
-                if(body!=null){
+                if (body != null) {
                     viewsData.setValue(body.getViews());
                 }
             }
 
             @Override
             public void onFailure(Call<Video> call, Throwable t) {
-                Log.w("USER ERROR","YES");
+                Log.w("USER ERROR", "YES");
             }
         });
     }
@@ -111,15 +113,16 @@ public class VideoApi {
             }
         });
     }
-    public void getVideosDetailsByUser(MutableLiveData<List<Video>> videoListData,String username){
+
+    public void getVideosDetailsByUser(MutableLiveData<List<Video>> videoListData, String username) {
         String header = "Bearer " + DataManager.getToken();
 
-        Call<List<Video>> call = webServiceAPI.getVideosDetailsByUser(username,header);
+        Call<List<Video>> call = webServiceAPI.getVideosDetailsByUser(username, header);
         call.enqueue(new Callback<List<Video>>() {
             @Override
             public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
                 List<Video> body = response.body();
-                if(body!=null){
+                if (body != null) {
                     videoListData.setValue(body);
                 }
             }
@@ -127,6 +130,51 @@ public class VideoApi {
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
                 Log.w("Zbabir", t);
+            }
+        });
+    }
+
+    public void uploadVideo(MutableLiveData<Video> videoData) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Video> call = webServiceAPI.uploadVideo(videoData.getValue().getUploaderId(), header, videoData.getValue());
+        call.enqueue(new Callback<Video>() {
+            @Override
+            public void onResponse(Call<Video> call, Response<Video> response) {
+                Video body = response.body();
+                if (body != null) {
+                    videoData.setValue(body);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Video> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
+            }
+        });
+
+    }
+
+    public void deleteVideo(MutableLiveData<Video> data, String videoId, String userId) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.deleteVideo(userId, videoId, header);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Video video = new Video();
+                    video.set_id(videoId);
+                    data.setValue(video);
+                }
+                else{
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
             }
         });
     }
