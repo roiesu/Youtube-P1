@@ -75,6 +75,7 @@
         <activity android:name=".activities.SignIn" />
         <activity android:name=".activities.VideoUpload" />
         <activity android:name=".activities.VideoEdit" />
+        <activity android:name=".activities.EditUser" />
     </application>
 
 </manifest>
