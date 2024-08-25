@@ -120,70 +120,6 @@ public class DataManager {
         return array;
     }
 
-    public static void addUser(User user) {
-        usersList.add(user);
-    }
-
-    public static User findUser(String username) {
-        for (User user : usersList) {
-            if (user.getUsername().equals(username))
-                return user;
-        }
-        return null;
-    }
-
-    public static Video findVideoById(int id, boolean addView) {
-        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                if (addView) {
-//                    video.addView();
-//                }
-//                return video;
-//            }
-        }
-        return null;
-    }
-
-    public static void likeVideo(int id, String username) {
-        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                video.like(username);
-//                return;
-//            }
-        }
-    }
-
-    public static void commentVideo(int id, String username, String displayUsername, String text) {
-        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                video.addComment(username, displayUsername, text);
-//                return;
-//            }
-        }
-    }
-
-    public static void removeCommentFromVideo(int id, String username, Date date) {
-        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                video.deleteComment(username, date);
-//                return;
-//            }
-        }
-    }
-
-    public static void updateVideo(int videoId, String newName, String newDescription) {
-        for (Video video : videoList) {
-//            if (video.getId() == videoId) {
-//                if (newName != null && !newName.isEmpty()) {
-//                    video.setName(newName);
-//                }
-//                if (newDescription != null && !newDescription.isEmpty()) {
-//                    video.setDescription(newDescription);
-//                }
-//            }
-        }
-    }
-
     public static String getCurrentUserId() {
         return currentUserId;
     }
@@ -192,58 +128,9 @@ public class DataManager {
         DataManager.currentUserId = currentUserId;
     }
 
-    public void updateCommentInVideo(int id, String username, Date date, String newText) {
-        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                video.editComment(username, date, newText);
-//            }
-        }
-    }
-
-    public static ArrayList<Video> filterVideosBy(int key, String value) {
-        ArrayList<Video> filteredVideos = new ArrayList<>();
-        Pattern regex = Pattern.compile(".*" + value + ".*", Pattern.CASE_INSENSITIVE);
-        for (Video video : videoList) {
-//            String keyValue = key == FILTER_UPLOADER_KEY ? video.getUploader().get_id() : key == FILTER_TITLE_KEY ? video.getName() : "";
-//            if (regex.matcher(keyValue).matches()) {
-//                filteredVideos.add(video);
-//            }
-        }
-        return filteredVideos;
-    }
 
     public static User getCurrentUser() {
         return currentUser;
-    }
-
-    public static Video findVideoById(int id) {
-//        for (Video video : videoList) {
-//            if (video.getId() == id) {
-//                return video;
-//            }
-//        }
-        return null;
-    }
-
-
-    public static List<Video> getUserVideos() {
-        return videoList;
-    }
-
-    public static void deleteVideoById(int videoId) {
-        Video video = findVideoById(videoId);
-        if (video != null) {
-            videoList.remove(video);
-            // Also delete the video from the server or persistent storage if necessary
-        }
-    }
-
-    public static Video createVideo(String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
-        Video newVideo = new Video();
-//        int newId = getVideoList().get(getVideoList().size() - 1).getId() + 1;
-//        Video newVideo = new Video(newId, name, uploader, src, description, tags, context);
-//        getVideoList().add(newVideo);
-        return newVideo;
     }
 
     public static String getCurrentUsername() {
@@ -251,9 +138,10 @@ public class DataManager {
     }
 
     public static void Logout() {
-        currentUsername = null;
-        token = null;
-        currentUserId = null;
+        DataManager instance = DataManager.getInstance();
+        instance.currentUsername = null;
+        instance.token = null;
+        instance.currentUserId = null;
     }
 
 }

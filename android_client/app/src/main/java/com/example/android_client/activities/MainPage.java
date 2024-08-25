@@ -124,17 +124,16 @@ public class MainPage extends AppCompatActivity {
         initializeData();
         setContentView(R.layout.main_page);
         videos = new VideoWithUserListViewModel(this);
-        userDetails = new UserViewModel();
+        userDetails = new UserViewModel(this);
         initItems();
         initVideos();
-
-//        DataManager.initializeData(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setWelcomeMessage();
+        userDetails.getUser(DataManager.getCurrentUsername());
     }
 
     private void setWelcomeMessage() {

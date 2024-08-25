@@ -32,7 +32,7 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userViewModel= new UserViewModel();
+        userViewModel= new UserViewModel(this);
         userViewModel.getUserData().observe(this,user->{
             if(user==null){
                 startActivity(new Intent(this,MainPage.class));

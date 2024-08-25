@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
@@ -21,6 +22,8 @@ public class EditUser extends AppCompatActivity {
     private EditText nameInput, passwordInput;
     private Button uploadImageButton, submitDetailsButton, deleteUserButton;
     private UserViewModel userViewModel;
+    private boolean initialized = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,17 +36,32 @@ public class EditUser extends AppCompatActivity {
         this.uploadImageButton = findViewById(R.id.changImageButton);
         this.deleteUserButton = findViewById(R.id.deleteUserButton);
         this.submitDetailsButton = findViewById(R.id.updateDetailsButton);
-        userViewModel = new UserViewModel();
+        userViewModel = new UserViewModel(this);
+        MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
+        finished.observe(this, data -> {
+            if (data) {
+                Intent intent = new Intent();
+                intent.putExtra("edited", false);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
         userViewModel.getUserData().observe(this, data -> {
-            if (data != null) {
+            if (data != null && finished.getValue() == false) {
                 this.passwordInput.setText(data.getPassword());
                 this.nameInput.setText(data.getName());
                 Glide.with(this).load(data.getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(this.profilePicture);
+                initialized = true;
+            } else if (initialized == false) {
+                finish();
             }
         });
 
         goBack.setOnClickListener(l -> {
             finish();
+        });
+        deleteUserButton.setOnClickListener(l -> {
+            userViewModel.delete(finished);
         });
         userViewModel.getFullUserDetails(DataManager.getCurrentUsername());
     }

@@ -153,4 +153,24 @@ public class UserApi {
             }
         });
     }
+
+    public void deleteUser(MutableLiveData<User> data) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.deleteUser(data.getValue().getUsername(), header);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    data.setValue(null);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.w("ERRORRR", t);
+            }
+        });
+    }
 }

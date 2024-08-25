@@ -1,5 +1,6 @@
 package com.example.android_client.repositories;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
@@ -11,21 +12,21 @@ public class UserRepository {
     private UserDao dao;
     private UserData userData;
     private UserApi api;
+    private LifecycleOwner owner;
 
     public UserRepository(String username) {
         api = new UserApi();
         userData = new UserData(username);
-        // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
     }
 
-    public UserRepository() {
+    public UserRepository(LifecycleOwner owner) {
         api = new UserApi();
         userData = new UserData();
-        // Room
         AppDB database = AppDB.getInstance();
         dao = database.userDao();
+        this.owner = owner;
     }
 
     class UserData extends MutableLiveData<User> {
@@ -64,6 +65,19 @@ public class UserRepository {
 
     public void addUser() {
         this.api.add(userData);
+    }
+
+    public void deleteUser(MutableLiveData finished) {
+        User user = this.userData.getValue();
+        this.userData.observe(owner, data -> {
+            if (data == null) {
+                new Thread(() -> {
+                    dao.delete(user);
+                    finished.postValue(true);
+                }).start();
+            }
+        });
+        this.api.deleteUser(this.userData);
     }
 
 }
