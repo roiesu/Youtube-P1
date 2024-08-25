@@ -11,8 +11,8 @@ function MyVideoItem({
   date,
   views,
   duration,
-  likesCount,
-  commentsCount,
+  likesNum,
+  commentsNum,
   thumbnail,
   deleteVideo,
 }) {
@@ -33,8 +33,8 @@ function MyVideoItem({
         })}
       </td>
       <td>{longFormatter.format(views)}</td>
-      <td>{longFormatter.format(likesCount)}</td>
-      <td>{longFormatter.format(commentsCount)}</td>
+      <td>{longFormatter.format(likesNum)}</td>
+      <td>{longFormatter.format(commentsNum)}</td>
       <td className="video-actions">
         <IconTrash onClick={deleteVideo} />
         <Link to={`/video/edit?v=${_id}&channel=${uploader}`}>

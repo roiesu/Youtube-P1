@@ -18,6 +18,7 @@ function MyVideos({ currentUser, showToast, handleExpiredToken }) {
         });
         if (response.status === 200) {
           setUserVideos(response.data);
+          console.log(response);
         }
       } catch (err) {
         simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);

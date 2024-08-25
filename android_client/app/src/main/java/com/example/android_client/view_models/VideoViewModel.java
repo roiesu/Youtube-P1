@@ -5,24 +5,36 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.android_client.datatypes.VideoWithUserWithComments;
 import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.entities.Video;
 import com.example.android_client.repositories.VideoRepository;
 
 public class VideoViewModel extends ViewModel {
 
-    private MutableLiveData<VideoWithUser> video;
+    private MutableLiveData<Video> video;
     private VideoRepository repository;
 
-    public VideoViewModel(String channel, String videoId, LifecycleOwner owner) {
-        this.repository = new VideoRepository(channel, videoId,owner);
+    public VideoViewModel(LifecycleOwner owner) {
+        this.repository = new VideoRepository(owner);
         video = repository.get();
     }
 
-    public MutableLiveData<VideoWithUser> getVideo() {
+    public void setVideo(Video video) {
+        this.video.setValue(video);
+    }
+
+    public MutableLiveData<Video> getVideo() {
         if (video == null) {
             return new MutableLiveData<>();
         }
         return video;
+    }
+
+    public void uploadVideo(MutableLiveData finished) {
+        this.repository.upload(finished);
+    }
+
+    public void deleteVideo(String id) {
+        this.repository.deleteVideo(id);
     }
 }

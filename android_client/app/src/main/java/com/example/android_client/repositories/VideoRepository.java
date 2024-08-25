@@ -7,7 +7,8 @@ import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 
 import com.example.android_client.dao.VideoDao;
-import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.entities.DataManager;
+import com.example.android_client.entities.Video;
 
 
 public class VideoRepository {
@@ -16,36 +17,58 @@ public class VideoRepository {
     private VideoApi api;
     private LifecycleOwner owner;
 
-    public VideoRepository(String channel, String videoId, LifecycleOwner owner) {
+
+    public VideoRepository(LifecycleOwner owner) {
         api = new VideoApi();
-        this.owner=owner;
+        this.owner = owner;
         AppDB instance = AppDB.getInstance();
         dao = instance.videoDao();
-        videoData = new VideoData(channel, videoId);
+        videoData = new VideoData();
     }
 
-    class VideoData extends MutableLiveData<VideoWithUser> {
-        public VideoData(String channel, String videoId) {
+    class VideoData extends MutableLiveData<Video> {
+        public VideoData() {
             super();
-            getVideo(channel, videoId);
         }
     }
 
-    public MutableLiveData<VideoWithUser> get() {
+    public MutableLiveData<Video> get() {
         return videoData;
     }
 
     public void getVideo(String channel, String videoId) {
-        MutableLiveData<Long> views= new MutableLiveData<>();
-        api.getVideo(views,channel,videoId);
-        views.observe(owner,data->{
-            new Thread(()->{
-                dao.increaseViews(data.longValue(),videoId);
-                videoData.postValue(dao.getVideo(channel, videoId));
+        MutableLiveData<Long> views = new MutableLiveData<>();
+        api.getVideo(views, channel, videoId);
+        views.observe(owner, data -> {
+            new Thread(() -> {
+                dao.increaseViews(data.longValue(), videoId);
+                videoData.postValue(dao.getVideoWithUser(channel, videoId));
             }).start();
         });
 
     }
 
+    public void upload(MutableLiveData finished) {
+        this.videoData.observe(owner, data -> {
+            if (data != null && data.get_id() != null) {
+                new Thread(() -> {
+                    dao.insert(data);
+                    finished.postValue(true);
+                }).start();
+            }
+        });
+        this.api.uploadVideo(videoData);
+    }
+
+    public void deleteVideo(String videoId) {
+        videoData.observe(owner, data -> {
+            if ((data != null) && (data.get_id() != null)) {
+                new Thread(()->{
+                    dao.deleteVideo(videoId);
+                }).start();
+            }
+        });
+        api.deleteVideo(videoData, videoId, DataManager.getCurrentUsername());
+    }
 
 }

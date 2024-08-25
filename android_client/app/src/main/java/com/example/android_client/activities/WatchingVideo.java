@@ -29,12 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
-import com.example.android_client.view_models.VideoViewModel;
+import com.example.android_client.view_models.VideoWithUserViewModel;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -45,8 +43,7 @@ public class WatchingVideo extends AppCompatActivity {
     private Button commentButton;
     private Button shareButton;
     private EditText commentInput;
-    private boolean likedVideo;
-    private VideoViewModel video;
+    private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
 
     private CommentListViewModel commentListViewModel;
@@ -79,7 +76,7 @@ public class WatchingVideo extends AppCompatActivity {
         commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
 
-        video = new VideoViewModel(channel, videoId,this);
+        video = new VideoWithUserViewModel(channel, videoId,this);
         video.getVideo().observe(this, video -> {
             if (video == null) {
                 intent.set(new Intent(this, PageNotFound.class));
@@ -87,7 +84,7 @@ public class WatchingVideo extends AppCompatActivity {
                 finish();
             } else {
                 initComments(video.get_id());
-                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesCount());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));

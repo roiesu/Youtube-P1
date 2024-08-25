@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.PrimaryKey;
 import androidx.room.Relation;
@@ -44,7 +45,11 @@ public class User {
         this.name = name;
         this.image = image;
     }
-
+    @Ignore
+    public User(String username){
+        this._id="0";
+        this.username=username;
+    }
     public String getUsername() {
         return username;
     }
