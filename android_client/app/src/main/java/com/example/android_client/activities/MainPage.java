@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.entities.DataManager;
@@ -144,7 +145,7 @@ public class MainPage extends AppCompatActivity {
                 DataManager.setCurrentUserId(user.get_id());
                 welcomeMessage.setText("Welcome, " + user.getName() + "!");
                 imageContainer.setVisibility(View.VISIBLE);
-                Glide.with(this).load(user.getImageFromServer()).into(displayImage);
+                Glide.with(this).load(user.getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(displayImage);
             } else {
                 welcomeMessage.setText("Hello Guest! Please sign in");
                 imageContainer.setVisibility(View.GONE);

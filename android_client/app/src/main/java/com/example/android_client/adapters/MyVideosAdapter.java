@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
@@ -65,7 +66,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.likesNum.setText(Utilities.shortCompactNumber(video.getLikesNum()));
         holder.commentNum.setText(Utilities.shortCompactNumber(video.getCommentsNum()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
-        Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
+        Glide.with(context).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.videoThumbnail);
         PopupMenu popupMenu = createOptionsMenu(holder.videoOptions, video.get_id(), position);
         holder.videoOptions.setOnClickListener(l -> {
             popupMenu.show();
