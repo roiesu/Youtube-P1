@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.adapters.MyVideosAdapter;
+import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoListViewModel;
 
@@ -41,7 +42,13 @@ public class MyVideosPage extends AppCompatActivity {
         ActivityResultLauncher<Intent> editUserResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Intent intent = result.getData();
+                        boolean edited = result.getData().getBooleanExtra("edited", true);
+                        if (edited) {
+                            // do something
+                        } else {
+                            DataManager.Logout();
+                            finish();
+                        }
                     }
                 });
         ActivityResultLauncher<Intent> uploadVideoResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),

@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
@@ -20,7 +21,8 @@ public interface UserWebServiceAPI {
     Call<User> getUser(@Path("id") String id);
 
     @GET("users/details/{id}")
-    Call <User> getUserDetails(@Path("id")String username, @Header("Authorization") String token);
+    Call<User> getUserDetails(@Path("id") String username, @Header("Authorization") String token);
+
     @POST("users")
     Call<Void> createUser(@Body User user);
 
@@ -32,4 +34,7 @@ public interface UserWebServiceAPI {
 
     @POST("users")
     Call<Void> addUser(@Body User user);
+
+    @DELETE("users/{userId}")
+    Call<Void> deleteUser(@Path("userId") String userId, @Header("Authorization")String token);
 }
