@@ -28,6 +28,7 @@ public class MyVideosPage extends AppCompatActivity {
     private Button editDetailsButton;
     private VideoListViewModel videoListViewModel;
     private MyVideosAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,13 @@ public class MyVideosPage extends AppCompatActivity {
         videosList.setLayoutManager(new LinearLayoutManager(this));
         uploadVideoButton = findViewById(R.id.uploadVideoButton);
         editDetailsButton = findViewById(R.id.editUserButton);
+
+        ActivityResultLauncher<Intent> editUserResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent intent = result.getData();
+                    }
+                });
         ActivityResultLauncher<Intent> uploadVideoResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -74,6 +82,10 @@ public class MyVideosPage extends AppCompatActivity {
         uploadVideoButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, VideoUpload.class);
             uploadVideoResultLauncher.launch(intent);
+        });
+        editDetailsButton.setOnClickListener(l -> {
+            Intent intent = new Intent(this, EditUser.class);
+            editUserResultLauncher.launch(intent);
         });
     }
 }

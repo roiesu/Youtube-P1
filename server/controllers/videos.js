@@ -155,7 +155,6 @@ async function deleteVideo(req, res) {
 
 async function updateVideo(req, res) {
   const { id, pid } = req.params;
-  console.log(req.body);
   let updateObj = {};
   if (req.body.name) {
     updateObj.name = req.body.name;

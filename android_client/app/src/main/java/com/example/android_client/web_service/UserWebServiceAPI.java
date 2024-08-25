@@ -7,6 +7,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -17,6 +18,9 @@ public interface UserWebServiceAPI {
 
     @GET("users/{id}")
     Call<User> getUser(@Path("id") String id);
+
+    @GET("users/details/{id}")
+    Call <User> getUserDetails(@Path("id")String username, @Header("Authorization") String token);
     @POST("users")
     Call<Void> createUser(@Body User user);
 

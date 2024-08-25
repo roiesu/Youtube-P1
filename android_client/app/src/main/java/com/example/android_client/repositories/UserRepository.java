@@ -50,6 +50,10 @@ public class UserRepository {
         }).start();
     }
 
+    public void getFullUserDetails(String username) {
+        api.getUserFullDetails(this.userData, username);
+    }
+
     public MutableLiveData<User> get() {
         return userData;
     }

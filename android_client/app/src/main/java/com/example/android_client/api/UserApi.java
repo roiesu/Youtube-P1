@@ -133,4 +133,24 @@ public class UserApi {
         });
     }
 
+    public void getUserFullDetails(MutableLiveData data, String username) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<User> call = webServiceAPI.getUserDetails(username, header);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User body = response.body();
+                if (body != null) {
+                    data.setValue(body);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.w("ERRORRR", t);
+            }
+        });
+    }
 }
