@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 
 import android.content.Intent;
@@ -76,7 +77,7 @@ public class WatchingVideo extends AppCompatActivity {
         commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
 
-        video = new VideoWithUserViewModel(channel, videoId,this);
+        video = new VideoWithUserViewModel(channel, videoId, this);
         video.getVideo().observe(this, video -> {
             if (video == null) {
                 intent.set(new Intent(this, PageNotFound.class));
@@ -91,7 +92,7 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
                 ImageView uploaderImage = findViewById(R.id.uploaderImage);
-                Glide.with(this).load(video.getUploader().getImageFromServer()).into(uploaderImage);
+                Glide.with(this).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(uploaderImage);
                 likeButton.setOnClickListener(view -> {
                     if (!likeViewModel.getIsLiked().getValue()) {
                         likeViewModel.like(video.getUploader().getUsername(), video.get_id());
@@ -102,14 +103,12 @@ public class WatchingVideo extends AppCompatActivity {
                 initVideo();
 
 
-
-
                 AlertDialog shareDialog = createShareDialog(video.get_id());
                 shareButton.setOnClickListener(l -> shareDialog.show());
                 likeViewModel.getIsLiked().observe(this, isLiked -> {
                     changeLikeIcon(isLiked);
                 });
-                likeViewModel.getVideoLikes().observe(this,likeNumber->{
+                likeViewModel.getVideoLikes().observe(this, likeNumber -> {
                     likeButton.setText(likeNumber + "");
                 });
             }
@@ -140,7 +139,8 @@ public class WatchingVideo extends AppCompatActivity {
             videoView.start();
         });
     }
-    private void initComments(String videoId){
+
+    private void initComments(String videoId) {
         commentListViewModel = new CommentListViewModel();
         CommentAdapter adapter = new CommentAdapter(this);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
@@ -149,13 +149,14 @@ public class WatchingVideo extends AppCompatActivity {
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
         dividerItemDecoration.setDrawable(dividerDrawable);
         commentsList.addItemDecoration(dividerItemDecoration);
-        commentListViewModel.getComments().observe(this,commentsList->{
+        commentListViewModel.getComments().observe(this, commentsList -> {
             adapter.setComments(commentsList);
             commentsHeader.setText(commentsList.size() + " Comments");
             commentButton.setOnClickListener(l -> commentVideo(adapter));
         });
         commentListViewModel.getCommentsByVideo(videoId);
     }
+
     private void commentVideo(CommentAdapter adapter) {
 //        if (currentUser == null) {
 //            return;

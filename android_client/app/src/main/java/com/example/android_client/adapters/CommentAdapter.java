@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.activities.WatchingVideo;
@@ -72,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 popupMenu.show();
             });
         }
-        Glide.with(context).load(comment.getUser().getImageFromServer()).into(holder.profilePic);
+        Glide.with(context).load(comment.getUser().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.profilePic);
 
         holder.profilePic.setOnClickListener(l -> {
             // Move to channel page
