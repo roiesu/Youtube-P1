@@ -12,6 +12,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
@@ -42,4 +43,6 @@ public interface VideoWebServiceAPI {
     @POST("users/{channel}/videos")
     Call<Video> uploadVideo(@Path("channel") String channel, @Header("Authorization") String token, @Body Video video);
 
+    @DELETE("users/{channel}/videos/{videoId}")
+    Call<Void> deleteVideo(@Path("channel") String channel, @Path("videoId") String videoId, @Header("Authorization") String token);
 }

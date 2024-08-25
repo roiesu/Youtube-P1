@@ -50,7 +50,7 @@ public class MyVideosPage extends AppCompatActivity {
                 });
 
         videoListViewModel = new VideoListViewModel(this);
-        adapter = new MyVideosAdapter(this, new ArrayList<>());
+        adapter = new MyVideosAdapter(this, new ArrayList<>(),this);
         videosList.setAdapter(adapter);
         videoListViewModel.getVideos().observe(this, videos -> {
             if (adapter.getItemCount() == 0) {

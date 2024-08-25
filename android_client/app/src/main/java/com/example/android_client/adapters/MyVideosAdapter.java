@@ -10,6 +10,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import com.example.android_client.Utilities;
 import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
+import com.example.android_client.view_models.VideoViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +29,15 @@ import okhttp3.internal.Util;
 
 public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoViewHolder> {
     private Context context;
+    private VideoViewModel videoViewModel;
     private List<Video> videos;
+    private LifecycleOwner owner;
 
-    public MyVideosAdapter(Context context, List<Video> videos) {
+    public MyVideosAdapter(Context context, List<Video> videos, LifecycleOwner owner) {
         this.context = context;
         this.videos = videos;
+        this.owner = owner;
+        videoViewModel = new VideoViewModel(owner);
     }
 
     public void setVideos(List<Video> videos) {
@@ -56,7 +62,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.commentNum.setText(Utilities.shortCompactNumber(video.getCommentsNum()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
-        PopupMenu popupMenu = createOptionsMenu(holder.videoOptions);
+        PopupMenu popupMenu = createOptionsMenu(holder.videoOptions, video.get_id(), position);
         holder.videoOptions.setOnClickListener(l -> {
             popupMenu.show();
         });
@@ -68,38 +74,33 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
             context.startActivity(intent);
             this.notifyItemChanged(position);
         });
-
-//        holder.editButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, VideoEdit.class);
-//            intent.putExtra("VIDEO_ID", video.get_id());
-//            context.startActivity(intent);
-//        });
-//
-//        holder.deleteButton.setOnClickListener(v -> {
-////            deleteVideo(video.get_id());
-//            videos.remove(position);
-//            notifyItemRemoved(position);
-//            notifyItemRangeChanged(position, videos.size());
-//        });
     }
+
+    public void deleteVideo(String videoId, int position) {
+        videoViewModel.getVideo().observe(owner, data -> {
+            if (data != null && data.get_id() != null) {
+                this.videos.remove(position);
+                this.notifyItemRemoved(position);
+            }
+        });
+        videoViewModel.deleteVideo(videoId);
+    }
+
+    ;
 
     @Override
     public int getItemCount() {
         return videos.size();
     }
 
-    private void deleteVideo(int videoId) {
-        DataManager.deleteVideoById(videoId);
-    }
-
-    public PopupMenu createOptionsMenu(View view) {
+    public PopupMenu createOptionsMenu(View view, String videoId, int position) {
         PopupMenu popupMenu = new PopupMenu(this.context, view);
         popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
-            if (menuItem.getItemId() == R.id.deleteCommentOption) {
+            if (menuItem.getItemId() == R.id.editCommentOption) {
                 ContextApplication.showToast("First");
-            } else if (menuItem.getItemId() == R.id.editCommentOption) {
-                ContextApplication.showToast("Second");
+            } else if (menuItem.getItemId() == R.id.deleteCommentOption) {
+                deleteVideo(videoId, position);
             }
             return true;
         });
