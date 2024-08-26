@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.android_client.R;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.Utilities;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.web_service.UserWebServiceAPI;
 import com.google.gson.Gson;
@@ -57,26 +57,20 @@ public class UserApi {
     }
 
     public void add(MutableLiveData<User> userDetails) {
-        Call<Void> addUserCall = webServiceAPI.addUser(userDetails.getValue());
-        addUserCall.enqueue(new Callback<Void>() {
+        Call<User> addUserCall = webServiceAPI.addUser(userDetails.getValue());
+        addUserCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    login(userDetails);
+            public void onResponse(Call<User> call, Response<User> response) {
+                User body = response.body();
+                if (body != null) {
+                    userDetails.setValue(body);
                 } else {
-                    String errorMessage;
-                    try {
-                        errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
-                    } catch (IOException e) {
-                        errorMessage = response.message();
-                    }
-                    ContextApplication.showToast(errorMessage);
-                    Log.w("Login" + response.raw().code(), response.errorBody().toString());
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.w("USER RESPONSE", t);
             }
 
@@ -119,7 +113,7 @@ public class UserApi {
                     DataManager instance = DataManager.getInstance();
                     instance.setCurrentUsername(user.getUsername());
                     instance.setToken(body);
-                    userDetails.setValue(null);
+                    userDetails.postValue(null);
                 } else {
                     Utilities.handleError(response);
                     Log.w("Login" + response.raw().code(), response.errorBody().toString());

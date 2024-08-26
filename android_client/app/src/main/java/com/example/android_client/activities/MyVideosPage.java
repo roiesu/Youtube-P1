@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.adapters.MyVideosAdapter;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoListViewModel;
 

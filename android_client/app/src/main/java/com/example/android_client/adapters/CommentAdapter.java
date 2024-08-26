@@ -1,13 +1,8 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,11 +18,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
-import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.datatypes.CommentWithUser;
-import com.example.android_client.entities.Comment;
-import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
+import com.example.android_client.DataManager;
 
 import java.util.ArrayList;
 import java.util.List;

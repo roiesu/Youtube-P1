@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;

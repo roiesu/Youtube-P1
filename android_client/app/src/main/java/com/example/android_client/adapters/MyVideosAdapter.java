@@ -10,25 +10,20 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
-import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.activities.VideoEdit;
 import com.example.android_client.activities.WatchingVideo;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoViewHolder> {
     private Context context;

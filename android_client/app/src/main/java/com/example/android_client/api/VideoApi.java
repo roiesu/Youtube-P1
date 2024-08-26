@@ -8,22 +8,17 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithLikes;
-import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.datatypes.VideoWithUserWithComments;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public class VideoApi {
     Retrofit retrofit;

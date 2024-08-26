@@ -20,6 +20,7 @@ async function addUser(req, res) {
     const user = new User({ username, password, name, image: imagePath });
 
     await user.save();
+    console.log(user);
     return res.status(201).send(user);
   } catch (err) {
     if (imagePath) {

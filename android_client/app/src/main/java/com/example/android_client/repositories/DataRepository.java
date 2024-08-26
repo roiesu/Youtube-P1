@@ -3,7 +3,6 @@ package com.example.android_client.repositories;
 import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
@@ -16,6 +15,7 @@ import com.example.android_client.dao.UserDao;
 import com.example.android_client.dao.VideoDao;
 import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.entities.Comment;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Like;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
@@ -79,7 +79,10 @@ public class DataRepository {
         return videoListData;
     }
 
-    public void init(LifecycleOwner lifecycleOwner, MutableLiveData initialized) {
+    public void init(LifecycleOwner lifecycleOwner,MutableLiveData initialized) {
+        if (DataManager.isInitialized()) {
+            return;
+        }
         Thread deleteThread = new Thread(() -> {
             try {
                 userDao.deleteAll();
@@ -129,7 +132,7 @@ public class DataRepository {
                             videoThread.join();
                             commentThread.start();
                             commentThread.join();
-                            initialized.setValue(true);
+                            initialized.postValue(true);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }

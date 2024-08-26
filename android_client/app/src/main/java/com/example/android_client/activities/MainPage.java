@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 
 import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.UserViewModel;
@@ -48,6 +48,7 @@ public class MainPage extends AppCompatActivity {
     private UserViewModel userDetails;
     private VideoWithUserListViewModel videos;
     private VideoAdapter adapter;
+    private DatabaseViewModel databaseViewModel;
 
 
     public void initItems() {
@@ -121,6 +122,7 @@ public class MainPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         initializeData();
         setContentView(R.layout.main_page);
         videos = new VideoWithUserListViewModel(this);
@@ -153,10 +155,10 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initializeData() {
-        DatabaseViewModel databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         databaseViewModel.init(this);
         databaseViewModel.getInitialized().observe(this, value -> {
             if (value == true) {
+                DataManager.setInitialized(true);
                 videos.reload();
                 userDetails.getUser(DataManager.getCurrentUsername());
             }

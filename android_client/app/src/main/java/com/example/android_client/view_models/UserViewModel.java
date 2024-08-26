@@ -44,4 +44,6 @@ public class UserViewModel extends ViewModel {
         this.repository.deleteUser(finished);
     }
 
+    public void edit(){this.repository.editUser();}
+
 }

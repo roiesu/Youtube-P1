@@ -1,9 +1,7 @@
 package com.example.android_client.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,7 @@ import com.example.android_client.activities.MainPage;
 import com.example.android_client.activities.MyVideosPage;
 import com.example.android_client.activities.SignIn;
 import com.example.android_client.activities.SignUp;
-import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
+import com.example.android_client.DataManager;
 
 public class NavBarFragment extends Fragment {
     private ImageButton btnHome;
