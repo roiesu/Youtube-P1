@@ -135,9 +135,19 @@ public class Utilities {
         }
     }
 
+    public static String imageUriToBase64(Context context, Uri filePath) {
+        Bitmap bitmap;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return Utilities.bitmapToBase64(bitmap, Utilities.IMAGE_TYPE);
+    }
+
     public static void handleError(Response response) {
         String errorMessage;
-        if(response.code()==403){
+        if (response.code() == 403) {
             DataManager.Logout();
             ContextApplication.showToast("Registration token expired, please login again.");
         }

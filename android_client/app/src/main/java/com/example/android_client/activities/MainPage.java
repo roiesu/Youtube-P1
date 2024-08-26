@@ -134,8 +134,8 @@ public class MainPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setWelcomeMessage();
         userDetails.getUser(DataManager.getCurrentUsername());
+        setWelcomeMessage();
     }
 
     private void setWelcomeMessage() {

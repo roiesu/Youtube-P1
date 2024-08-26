@@ -14,13 +14,6 @@ public class UserRepository {
     private UserApi api;
     private LifecycleOwner owner;
 
-    public UserRepository(String username) {
-        api = new UserApi();
-        userData = new UserData(username);
-        AppDB database = AppDB.getInstance();
-        dao = database.userDao();
-    }
-
     public UserRepository(LifecycleOwner owner) {
         api = new UserApi();
         userData = new UserData();
@@ -82,15 +75,23 @@ public class UserRepository {
             if (data == null) {
                 new Thread(() -> {
                     dao.delete(user);
-                    finished.postValue(true);
+                    finished.postValue(1);
                 }).start();
             }
         });
         this.api.deleteUser(this.userData);
     }
 
-    public void editUser() {
-        this.
+    public void editUser(User user,MutableLiveData<Integer> finished) {
+        userData.observe(owner, data -> {
+            if (data != null) {
+                new Thread(() -> {
+                    dao.update(data);
+                    finished.postValue(2);
+                }).start();
+            }
+        });
+        this.api.editUser(userData, user);
     }
 
 }

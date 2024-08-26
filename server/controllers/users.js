@@ -84,7 +84,12 @@ async function updateUser(req, res) {
     }
     await user.updateOne(updateFields, { runValidators: true });
     await user.save();
-
+    if (name) {
+      user.name = name;
+    }
+    if (password) {
+      user.password = password;
+    }
     console.log(user);
     return res.send(user);
   } catch (err) {

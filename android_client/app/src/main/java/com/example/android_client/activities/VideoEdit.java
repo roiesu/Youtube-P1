@@ -103,13 +103,7 @@ public class VideoEdit extends AppCompatActivity {
             video.setTags(new ArrayList<>(Arrays.asList(tagsInput.getText().toString().split(" "))));
 
             if (thumbnailURI != null) {
-                Bitmap bitmap;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), thumbnailURI);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                video.setThumbnail(Utilities.bitmapToBase64(bitmap, Utilities.IMAGE_TYPE));
+                video.setThumbnail(Utilities.imageUriToBase64(this, thumbnailURI));
             }
             videoViewModel.setVideo(video);
         });

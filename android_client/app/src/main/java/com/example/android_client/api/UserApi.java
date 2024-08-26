@@ -167,4 +167,25 @@ public class UserApi {
             }
         });
     }
+
+    public void editUser(MutableLiveData<User> userData, User userDetails) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<User> call = webServiceAPI.editUser(userDetails.getUsername(), header, userDetails);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User body = response.body();
+                if (body != null) {
+                    userData.setValue(body);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
 }
