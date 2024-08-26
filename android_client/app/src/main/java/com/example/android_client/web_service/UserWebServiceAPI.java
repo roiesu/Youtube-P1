@@ -36,5 +36,8 @@ public interface UserWebServiceAPI {
     Call<User> addUser(@Body User user);
 
     @DELETE("users/{userId}")
-    Call<Void> deleteUser(@Path("userId") String userId, @Header("Authorization")String token);
+    Call<Void> deleteUser(@Path("userId") String userId, @Header("Authorization") String token);
+
+    @PATCH("users/{userId}")
+    Call<User> editUser(@Path("userId") String userId, @Header("Authorization") String token, @Body User user);
 }

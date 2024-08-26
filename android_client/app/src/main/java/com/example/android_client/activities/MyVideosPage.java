@@ -44,9 +44,7 @@ public class MyVideosPage extends RegisteredOnlyActivity {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         boolean edited = result.getData().getBooleanExtra("edited", true);
-                        if (edited) {
-                            // do something
-                        } else {
+                        if (!edited) {
                             DataManager.Logout();
                             finish();
                         }
