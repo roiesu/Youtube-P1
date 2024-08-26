@@ -56,4 +56,7 @@ public interface VideoDao {
     @Query("DELETE FROM video WHERE _id = :videoId")
     void deleteVideo(String videoId);
 
+    @Query("UPDATE video SET commentsNum = commentsNum + :count WHERE _id =:videoId")
+    void updateComments(String videoId,int count);
+
 }

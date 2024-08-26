@@ -6,9 +6,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.Utilities;
 import com.example.android_client.entities.Comment;
+import com.example.android_client.entities.DataManager;
+import com.example.android_client.entities.Video;
+import com.example.android_client.repositories.CommentRepository;
 import com.example.android_client.web_service.CommentWebServiceAPI;
 import com.example.android_client.web_service.VideoWebServiceAPI;
+
 
 import java.util.List;
 
@@ -26,24 +31,70 @@ public class CommentApi {
         retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrlApi)).addConverterFactory(GsonConverterFactory.create()).build();
         webServiceAPI = retrofit.create(CommentWebServiceAPI.class);
     }
-    public void getAll(MutableLiveData comments){
+
+    public void getAll(MutableLiveData comments) {
         Call<List<Comment>> call = webServiceAPI.getAll();
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 List<Comment> body = response.body();
-                if(body!=null){
+                if (body != null) {
                     comments.setValue(body);
-                }
-                else{
-                    Log.w("Errorrrr","Yes");
+                } else {
+                    Log.w("Errorrrr", "Yes");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-                Log.w("ERRPRRRR",t);
+                Log.w("ERRPRRRR", t);
             }
         });
     }
+
+    public void deleteComment(MutableLiveData<Comment> data, Comment comment, String videoUploader) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.deleteComment(videoUploader, comment.getVideoId(), comment.get_id(), header);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    comment.setUserId(null);
+                    data.setValue(comment);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERROR");
+            }
+        });
+    }
+
+    public void editComment(MutableLiveData<Comment> data, Comment comment, String text, String videoUploader) {
+        String header = "Bearer " + DataManager.getToken();
+        Comment temp = new Comment();
+        temp.setText(text);
+        Call<Void> call = webServiceAPI.editComment(videoUploader, comment.getVideoId(), comment.get_id(), header, temp);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    comment.setText(text);
+                    comment.setEdited(true);
+                    data.setValue(comment);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERROR");
+            }
+        });
+    }
+
 }
