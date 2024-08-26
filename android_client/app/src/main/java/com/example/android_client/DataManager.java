@@ -1,12 +1,9 @@
-package com.example.android_client.entities;
+package com.example.android_client;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
-import android.util.Log;
 
-import com.example.android_client.Utilities;
+import com.example.android_client.entities.User;
+import com.example.android_client.entities.Video;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,9 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
 
 
 public class DataManager {
@@ -30,10 +24,6 @@ public class DataManager {
     private static String token;
     private static DataManager instance;
     private static boolean initialized;
-
-    private DataManager() {
-    }
-
     public static boolean isInitialized() {
         return initialized;
     }
@@ -42,20 +32,12 @@ public class DataManager {
         DataManager.initialized = initialized;
     }
 
-    public static ArrayList<Video> getVideoList() {
-        return videoList;
-    }
-
     public static void setUsersList(ArrayList<User> users) {
         usersList = users;
     }
 
     public static void setVideoList(ArrayList<Video> videos) {
         videoList = videos;
-    }
-
-    public static void setCurrentUser(User newUser) {
-        currentUser = newUser;
     }
 
     public static void setToken(String newToken) {

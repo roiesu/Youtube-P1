@@ -1,12 +1,8 @@
 package com.example.android_client.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.adapters.InputValidationAdapter;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.InputValidation;
 import com.example.android_client.entities.User;
-import com.example.android_client.repositories.UserRepository;
 import com.example.android_client.view_models.UserViewModel;
 
 import java.util.ArrayList;

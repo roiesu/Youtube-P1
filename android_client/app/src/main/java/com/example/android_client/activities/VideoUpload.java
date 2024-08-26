@@ -22,11 +22,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoViewModel;
 

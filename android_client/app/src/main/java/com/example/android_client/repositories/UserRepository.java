@@ -64,6 +64,15 @@ public class UserRepository {
     }
 
     public void addUser() {
+        this.userData.observe(owner, data -> {
+            if (data == null || data.get_id() == null) {
+                return;
+            }
+            new Thread(() -> {
+                dao.insert(data);
+                login();
+            }).start();
+        });
         this.api.add(userData);
     }
 
@@ -78,6 +87,10 @@ public class UserRepository {
             }
         });
         this.api.deleteUser(this.userData);
+    }
+
+    public void editUser() {
+
     }
 
 }

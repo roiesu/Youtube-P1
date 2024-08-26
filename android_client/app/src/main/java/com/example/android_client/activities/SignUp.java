@@ -20,13 +20,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.InputValidationAdapter;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.InputValidation;
 import com.example.android_client.entities.User;
 import com.example.android_client.view_models.UserViewModel;
@@ -46,7 +47,7 @@ public class SignUp extends AppCompatActivity {
     private Uri imageUri;
 
     private String imageData;
-    private Button change;
+    private Button goToSignInButton;
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> cameraResultLauncher;
     private UserViewModel userViewModel;
@@ -103,9 +104,9 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userViewModel = new UserViewModel(this);
-        userViewModel.getUserData().observe(this,user->{
-            if(user==null){
-                startActivity(new Intent(this,MainPage.class));
+        userViewModel.getUserData().observe(this, user -> {
+            if (user == null) {
+                startActivity(new Intent(this, MainPage.class));
             }
         });
         setContentView(R.layout.sign_up);
@@ -115,8 +116,8 @@ public class SignUp extends AppCompatActivity {
             register();
         });
         previewImage = findViewById(R.id.imagePreview);
-        change = findViewById(R.id.signin);
-        change.setOnClickListener(l -> {
+        goToSignInButton = findViewById(R.id.signin);
+        goToSignInButton.setOnClickListener(l -> {
             Intent intent = new Intent(l.getContext(), SignIn.class);
             startActivity(intent);
         });
@@ -177,6 +178,7 @@ public class SignUp extends AppCompatActivity {
             return;
         }
         User newUser = new User(null, inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageData);
+
         userViewModel.getUserData().setValue(newUser);
         userViewModel.create();
     }

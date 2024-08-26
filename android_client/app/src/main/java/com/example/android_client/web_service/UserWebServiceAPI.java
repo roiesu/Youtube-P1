@@ -33,7 +33,7 @@ public interface UserWebServiceAPI {
     Call<String> login(@Body User userDetails);
 
     @POST("users")
-    Call<Void> addUser(@Body User user);
+    Call<User> addUser(@Body User user);
 
     @DELETE("users/{userId}")
     Call<Void> deleteUser(@Path("userId") String userId, @Header("Authorization")String token);
