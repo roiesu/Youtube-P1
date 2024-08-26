@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
@@ -92,6 +93,29 @@ public class CommentApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERROR");
+            }
+        });
+    }
+    public void addComment(MutableLiveData<CommentWithUser> data,String text,String uploaderId,String videoId){
+        String header = "Bearer " + DataManager.getToken();
+        Comment temp = new Comment();
+        temp.setText(text);
+        Call<CommentWithUser> call = webServiceAPI.addComment(uploaderId,videoId,header,temp);
+        call.enqueue(new Callback<CommentWithUser>() {
+            @Override
+            public void onResponse(Call<CommentWithUser> call, Response<CommentWithUser> response) {
+                CommentWithUser body= response.body();
+                if(body!=null){
+                    data.setValue(body);
+                }
+                else{
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentWithUser> call, Throwable t) {
                 ContextApplication.showToast("ERROR");
             }
         });

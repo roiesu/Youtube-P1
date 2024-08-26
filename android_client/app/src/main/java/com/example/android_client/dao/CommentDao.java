@@ -7,6 +7,7 @@ import androidx.room.Transaction;
 
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
+import com.example.android_client.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,9 @@ public interface CommentDao {
 
     @Query("DELETE FROM comment")
     void deleteAll();
+
     @Insert
     void insert(Comment ...comment);
-
 
     @Transaction
     @Query("SELECT * FROM comment WHERE videoId = :videoId")
@@ -33,5 +34,4 @@ public interface CommentDao {
 
     @Query("UPDATE Comment SET text = :text, edited = TRUE WHERE _id =:commentId")
     void editComment(String commentId, String text);
-
 }

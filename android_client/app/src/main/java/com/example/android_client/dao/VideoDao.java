@@ -59,4 +59,6 @@ public interface VideoDao {
     @Query("UPDATE video SET commentsNum = commentsNum + :count WHERE _id =:videoId")
     void updateComments(String videoId,int count);
 
+
+
 }
