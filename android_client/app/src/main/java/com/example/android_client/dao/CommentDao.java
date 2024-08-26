@@ -26,7 +26,7 @@ public interface CommentDao {
     void insert(Comment ...comment);
 
     @Transaction
-    @Query("SELECT * FROM comment WHERE videoId = :videoId")
+    @Query("SELECT * FROM comment WHERE videoId = :videoId ORDER BY date DESC")
     List<CommentWithUser> getCommentsByVideo(String videoId);
 
     @Query("DELETE FROM Comment WHERE _id =:commentId")
