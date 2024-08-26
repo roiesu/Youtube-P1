@@ -1,5 +1,6 @@
 package com.example.android_client.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -7,12 +8,9 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.entities.Like;
 import com.example.android_client.entities.Video;
 
 import java.util.List;
-
-import retrofit2.http.DELETE;
 
 @Dao
 public interface VideoDao {
@@ -56,4 +54,16 @@ public interface VideoDao {
     @Query("DELETE FROM video WHERE _id = :videoId")
     void deleteVideo(String videoId);
 
+    @Query("SELECT * from video WHERE uploaderId = :userId")
+    List<VideoWithUser>getVideosByUserId(String userId);
+
+    @Query("SELECT * FROM video WHERE uploaderId = :userId")
+    LiveData<List<Video>> getVideosListByUserId(String userId);
+
+    @Transaction
+    @Query("SELECT * FROM video WHERE uploaderId = :userId")
+    LiveData<List<VideoWithUser>> getVideoWithUserByUserId(String userId);
 }
+
+
+

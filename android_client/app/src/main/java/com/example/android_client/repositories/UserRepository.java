@@ -1,5 +1,6 @@
 package com.example.android_client.repositories;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
@@ -46,11 +47,15 @@ public class UserRepository {
 
     public void getUser(String username) {
         new Thread(() -> {
-            userData.postValue(dao.get(username));
+            User user = dao.get(username);
+            userData.postValue(user);
         }).start();
     }
+    public LiveData<User> getUserById(String userId) {
+        return dao.getUserById(userId);
+    }
 
-    public MutableLiveData<User> get() {
+    public MutableLiveData<User> getUserData() {
         return userData;
     }
 
@@ -63,3 +68,5 @@ public class UserRepository {
     }
 
 }
+
+
