@@ -1,4 +1,4 @@
-package com.example.android_client.activities;
+package com.example.android_client.activities.helpers;
 
 import android.Manifest;
 import android.app.Activity;

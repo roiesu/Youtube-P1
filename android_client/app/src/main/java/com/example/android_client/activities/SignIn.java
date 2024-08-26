@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
+import com.example.android_client.activities.helpers.GuestOnlyActivity;
 import com.example.android_client.adapters.InputValidationAdapter;
 import com.example.android_client.DataManager;
 import com.example.android_client.entities.InputValidation;
@@ -18,7 +19,7 @@ import com.example.android_client.view_models.UserViewModel;
 import java.util.ArrayList;
 
 
-public class SignIn extends AppCompatActivity {
+public class SignIn extends GuestOnlyActivity {
     private ArrayList<InputValidation> inputs;
     private RecyclerView inputList;
     private Button submit;

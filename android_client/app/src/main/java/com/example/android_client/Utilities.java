@@ -137,6 +137,10 @@ public class Utilities {
 
     public static void handleError(Response response) {
         String errorMessage;
+        if(response.code()==403){
+            DataManager.Logout();
+            ContextApplication.showToast("Registration token expired, please login again.");
+        }
         try {
             errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
