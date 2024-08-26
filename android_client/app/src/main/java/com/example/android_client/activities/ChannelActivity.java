@@ -1,51 +1,60 @@
 package com.example.android_client.activities;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bumptech.glide.Glide;
+import com.example.android_client.AppDB;
 import com.example.android_client.R;
 import com.example.android_client.adapters.VideoAdapter;
-import com.example.android_client.view_models.VideoWithUserListViewModel;
-import java.util.ArrayList;
+import com.example.android_client.repositories.UserRepository;
+import com.example.android_client.repositories.VideoRepository;
 
 public class ChannelActivity extends AppCompatActivity {
 
-    private RecyclerView channelVideoList;
-    private VideoAdapter adapter;
-    private VideoWithUserListViewModel videos;
-    private SwipeRefreshLayout refreshLayout;
+    private TextView channelName;
+    private ImageView profilePicture;
+    private RecyclerView recyclerView;
+    private VideoAdapter videoAdapter;
+    private VideoRepository videoRepository;
+    private UserRepository userRepository;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel);
 
+        channelName = findViewById(R.id.channelHeader);
+        profilePicture = findViewById(R.id.channelImage);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        videoAdapter = new VideoAdapter(this);
+        recyclerView.setAdapter(videoAdapter);
+
         String userId = getIntent().getStringExtra("USER_ID");
-        channelVideoList = findViewById(R.id.channelVideoList);
-        channelVideoList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new VideoAdapter(this, new ArrayList<>());
-        channelVideoList.setAdapter(adapter);
-        refreshLayout = findViewById(R.id.channelRefreshLayout);
-        refreshLayout.setOnRefreshListener(() -> videos.loadVideosForUser(userId));
-        videos = new VideoWithUserListViewModel(this);
-        videos.getVideos().observe(this, list -> {
-            adapter.setVideos(list);
-            adapter.notifyDataSetChanged();
-            refreshLayout.setRefreshing(false);
-        });
+        userRepository = new UserRepository();
+        videoRepository = new VideoRepository(AppDB.getInstance().videoDao());
+        if (userId != null) {
+            userRepository.getUserById(userId).observe(this, user -> {
+                if (user != null) {
+                    channelName.setText(user.getName() + "'s channel");
+                    Glide.with(this)
+                            .load(user.getImageFromServer())
+                            .circleCrop()
+                            .into(profilePicture);
+                }
+            });
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(channelVideoList.getContext(), DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        if (dividerDrawable != null) {
-            dividerItemDecoration.setDrawable(dividerDrawable);
-            channelVideoList.addItemDecoration(dividerItemDecoration);
+            videoRepository.getVideosByUserId(userId).observe(this, videos -> {
+                if (videos != null) {
+                    videoAdapter.setVideos(videos);                  }
+            });
         }
-
-        videos.loadVideosForUser(userId);
     }
 }

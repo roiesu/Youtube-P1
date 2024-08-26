@@ -1,5 +1,6 @@
 package com.example.android_client.view_models;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -11,12 +12,14 @@ public class UserViewModel extends ViewModel {
     private UserRepository repository;
     public UserViewModel(String username){
         this.repository = new UserRepository(username);
-        user = repository.get();
+        user = repository.getUserData();
     }
     public UserViewModel(){
         this.repository = new UserRepository();
-        user = repository.get();
+        user = repository.getUserData();
     }
+
+
     public MutableLiveData<User> getUserData(){
         if(user==null){
             return new MutableLiveData<>();
