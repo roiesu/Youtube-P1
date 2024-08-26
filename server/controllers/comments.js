@@ -47,8 +47,7 @@ async function editComment(req, res) {
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
-    await comment.updateOne({ $set: { text, edited: true } });
-    await comment.save();
+    await comment.updateOne({ $set: { text, edited: true } });    await comment.save();
     return res.sendStatus(201);
   } catch (err) {
     if (err.kind == "ObjectId") {
@@ -67,7 +66,7 @@ async function deleteComment(req, res) {
         select: ["_id", "uploader"],
         populate: { path: "uploader", select: ["username"] },
       })
-      .populate("user", ["_id"]);
+      .populate("user", ["_id"]);  
     if (!comment || comment.video.uploader.username != id) {
       return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {

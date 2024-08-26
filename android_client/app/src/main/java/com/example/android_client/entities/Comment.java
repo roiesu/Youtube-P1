@@ -31,6 +31,9 @@ public class Comment {
         this.text = text;
         this.edited = edited;
     }
+    public Comment(){
+
+    }
 
     public String get_id() {
         return _id;

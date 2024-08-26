@@ -11,6 +11,8 @@ import com.example.android_client.entities.Comment;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.DELETE;
+
 @Dao
 public interface CommentDao {
     @Query("SELECT * FROM comment")
@@ -25,4 +27,11 @@ public interface CommentDao {
     @Transaction
     @Query("SELECT * FROM comment WHERE videoId = :videoId")
     List<CommentWithUser> getCommentsByVideo(String videoId);
+
+    @Query("DELETE FROM Comment WHERE _id =:commentId")
+    void deleteComment(String commentId);
+
+    @Query("UPDATE Comment SET text = :text, edited = TRUE WHERE _id =:commentId")
+    void editComment(String commentId, String text);
+
 }

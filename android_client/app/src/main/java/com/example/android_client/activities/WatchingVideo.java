@@ -1,3 +1,4 @@
+
 package com.example.android_client.activities;
 
 import android.content.ClipData;
@@ -33,6 +34,7 @@ import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -45,7 +47,6 @@ public class WatchingVideo extends AppCompatActivity {
     private EditText commentInput;
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
-
     private CommentListViewModel commentListViewModel;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
-                initComments(video.get_id());
+                initComments(video.get_id(), video.getUploader().getUsername());
                 likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
@@ -140,9 +141,9 @@ public class WatchingVideo extends AppCompatActivity {
             videoView.start();
         });
     }
-    private void initComments(String videoId){
+    private void initComments(String videoId, String videoUploader){
         commentListViewModel = new CommentListViewModel();
-        CommentAdapter adapter = new CommentAdapter(this);
+        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
         commentsList.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
