@@ -1,3 +1,4 @@
+
 package com.example.android_client.activities;
 
 import android.content.ClipData;
@@ -22,17 +23,21 @@ import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
+import com.example.android_client.datatypes.CommentWithUser;
+import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -45,13 +50,12 @@ public class WatchingVideo extends AppCompatActivity {
     private EditText commentInput;
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
-
     private CommentListViewModel commentListViewModel;
+    private MutableLiveData<Integer> commentListSize;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watching_video);
-
         AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
         String appLinkAction = intent.get().getAction();
         String channel = "";
@@ -83,7 +87,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
-                initComments(video.get_id());
+                initComments(video.get_id(), video.getUploader().getUsername());
                 likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
@@ -140,9 +144,10 @@ public class WatchingVideo extends AppCompatActivity {
             videoView.start();
         });
     }
-    private void initComments(String videoId){
+    private void initComments(String videoId, String videoUploader){
+        commentListSize = new MutableLiveData<>(0);
         commentListViewModel = new CommentListViewModel();
-        CommentAdapter adapter = new CommentAdapter(this);
+        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader,commentListSize);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
         commentsList.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -151,24 +156,18 @@ public class WatchingVideo extends AppCompatActivity {
         commentsList.addItemDecoration(dividerItemDecoration);
         commentListViewModel.getComments().observe(this,commentsList->{
             adapter.setComments(commentsList);
-            commentsHeader.setText(commentsList.size() + " Comments");
+            commentListSize.setValue(commentsList.size());
             commentButton.setOnClickListener(l -> commentVideo(adapter));
+        });
+        commentListSize.observe(this,count->{
+            commentsHeader.setText(count + " Comments");
         });
         commentListViewModel.getCommentsByVideo(videoId);
     }
     private void commentVideo(CommentAdapter adapter) {
-//        if (currentUser == null) {
-//            return;
-//        }
-        String content = commentInput.getText().toString();
-        if (content.matches("^[\\s \\r\\t\\n]*$")) {
-            // Notify user
-            return;
-        }
-//        video.addComment(currentUser.getUsername(), currentUser.getName(), content);
-        commentInput.setText("");
-        adapter.notifyItemInserted(0);
-        commentsHeader.setText(adapter.getItemCount() + " Comments");
+        commentListViewModel.addComment(this,commentInput.getText().toString(),video.getVideo().getValue().getUploader().getUsername(),video.getVideo().getValue().get_id());
+//        commentInput.setText("");
+//        adapter.notifyItemInserted(0);
     }
 
     private AlertDialog createShareDialog(String videoId) {
