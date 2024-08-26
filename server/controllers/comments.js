@@ -18,7 +18,7 @@ async function addComment(req, res) {
     video.comments.push(comment._id);
     await video.save();
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
-    await comment.populate("user", ["name", "image", "username", "-_id"]);
+    await comment.populate("user", ["name", "image", "username", "_id"]);
     return res.status(201).send(comment);
   } catch (err) {
     if (err.kind == "ObjectId") {

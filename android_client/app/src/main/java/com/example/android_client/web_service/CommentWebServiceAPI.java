@@ -1,5 +1,6 @@
 package com.example.android_client.web_service;
 
+import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
 
 
@@ -11,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface CommentWebServiceAPI {
@@ -22,4 +24,8 @@ public interface CommentWebServiceAPI {
 
     @PATCH("users/{channel}/videos/{videoId}/comments/{commentId}")
     Call<Void> editComment(@Path("channel") String channel, @Path("videoId") String videoId, @Path("commentId") String commentId, @Header("Authorization") String token, @Body Comment comment);
+
+    @POST("users/{channel}/videos/{videoId}/comments")
+    Call<CommentWithUser> addComment(@Path("channel") String channel,@Path("videoId") String videoId,@Header("Authorization") String token,@Body Comment comment);
+
 }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -42,12 +43,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private CommentViewModel commentViewModel;
     private LifecycleOwner owner;
     private String videoUploader;
+    private MutableLiveData<Integer> commentListSize;
 
-    public CommentAdapter(Context context, List<CommentWithUser> comments, LifecycleOwner owner, String videoUploader) {
+    public CommentAdapter(Context context, List<CommentWithUser> comments, LifecycleOwner owner, String videoUploader, MutableLiveData<Integer> commentListSize) {
         this.context = context;
         this.comments = comments;
         this.owner = owner;
         this.videoUploader = videoUploader;
+        this.commentListSize = commentListSize;
         commentViewModel = new CommentViewModel(owner);
     }
 
@@ -96,6 +99,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             if (data != null && data.get_id() != null && data.getUserId() == null) {
                 this.comments.remove(position);
                 this.notifyItemRemoved(position);
+                this.commentListSize.setValue(comments.size());
             }
         });
         commentViewModel.deleteComment(comments.get(position), videoUploader);
