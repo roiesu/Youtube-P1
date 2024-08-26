@@ -66,6 +66,7 @@ public class EditUser extends MediaPickerActivity {
             userViewModel.delete(finished);
         });
         submitDetailsButton.setOnClickListener(l->{
+            
             userViewModel.edit();
         });
         userViewModel.getFullUserDetails(DataManager.getCurrentUsername());
