@@ -80,6 +80,9 @@ public class DataRepository {
     }
 
     public void init(LifecycleOwner lifecycleOwner, MutableLiveData initialized) {
+        if(initialized.isInitialized()){
+            return;
+        }
         Thread deleteThread = new Thread(() -> {
             try {
                 userDao.deleteAll();
