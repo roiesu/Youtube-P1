@@ -47,6 +47,8 @@ public class SignUp extends MediaPickerActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.sign_up);
+        targetImageView = findViewById(R.id.imagePreview);
         uploadImageButton = findViewById(R.id.imageInput);
         uploadImageButton.setOnClickListener(view -> {
             pickImage();
@@ -54,22 +56,20 @@ public class SignUp extends MediaPickerActivity {
         userViewModel = new UserViewModel(this);
         userViewModel.getUserData().observe(this, user -> {
             if (user == null) {
-                startActivity(new Intent(this, MainPage.class));
+                Intent intent = new Intent(this, MainPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         });
-        setContentView(R.layout.sign_up);
         initInputs();
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
             register();
         });
-        targetImageView = findViewById(R.id.imagePreview);
         goToSignInButton = findViewById(R.id.signin);
         goToSignInButton.setOnClickListener(l -> {
-            Intent intent = new Intent(this, MainPage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+            startActivity(new Intent(this,SignIn.class));
         });
 
 
