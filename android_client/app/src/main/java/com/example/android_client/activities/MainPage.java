@@ -87,7 +87,7 @@ public class MainPage extends AppCompatActivity {
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(() -> {
-            searchInput.setQuery("", false);
+             searchInput.setQuery("", false);
             videos.reload();
         });
         videos.getVideos().observe(this, list -> {
@@ -126,8 +126,6 @@ public class MainPage extends AppCompatActivity {
         userDetails = new UserViewModel();
         initItems();
         initVideos();
-
-//        DataManager.initializeData(this);
     }
 
     @Override
@@ -156,7 +154,7 @@ public class MainPage extends AppCompatActivity {
         DatabaseViewModel databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         databaseViewModel.init(this);
         databaseViewModel.getInitialized().observe(this, value -> {
-            if (value == true) {
+            if (value) {
                 videos.reload();
                 userDetails.getUser(DataManager.getCurrentUsername());
             }

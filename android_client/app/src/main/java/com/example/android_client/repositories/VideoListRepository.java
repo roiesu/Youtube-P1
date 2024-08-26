@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 import com.example.android_client.dao.VideoDao;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 
@@ -49,6 +50,11 @@ public class VideoListRepository {
             this.videoListData.postValue(temp);
         }).start();
     }
-
+    public void getVideosByUserId(String userId, MutableLiveData<List<VideoWithUser>> liveData) {
+        new Thread(() -> {
+            List<VideoWithUser> videos =dao.getVideosByUserId(userId);;
+            liveData.postValue(videos);
+        }).start();
+    }
 
 }
