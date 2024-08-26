@@ -63,6 +63,10 @@ public interface VideoDao {
     @Transaction
     @Query("SELECT * FROM video WHERE uploaderId = :userId")
     LiveData<List<VideoWithUser>> getVideoWithUserByUserId(String userId);
+  
+    @Query("UPDATE video SET commentsNum = commentsNum + :count WHERE _id =:videoId")
+    void updateComments(String videoId,int count);
+
 }
 
 
