@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
-import com.example.android_client.activities.helpers.GuestOnlyActivity;
 import com.example.android_client.adapters.InputValidationAdapter;
 import com.example.android_client.DataManager;
 import com.example.android_client.entities.InputValidation;
@@ -19,7 +18,7 @@ import com.example.android_client.view_models.UserViewModel;
 import java.util.ArrayList;
 
 
-public class SignIn extends GuestOnlyActivity {
+public class SignIn extends AppCompatActivity {
     private ArrayList<InputValidation> inputs;
     private RecyclerView inputList;
     private Button submit;
@@ -31,7 +30,10 @@ public class SignIn extends GuestOnlyActivity {
         userViewModel= new UserViewModel(this);
         userViewModel.getUserData().observe(this,user->{
             if(user==null){
-                startActivity(new Intent(this,MainPage.class));
+                Intent intent = new Intent(this, MainPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         });
         setContentView(R.layout.sign_in);

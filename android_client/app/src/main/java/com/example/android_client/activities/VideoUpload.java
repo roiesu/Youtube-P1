@@ -109,31 +109,7 @@ public class VideoUpload extends AppCompatActivity {
 
     public String createThumbnail(MediaMetadataRetriever mediaRetriever) {
         Bitmap thumbnail = mediaRetriever.getFrameAtTime(previewVideo.getCurrentPosition() * 1000L, MediaMetadataRetriever.OPTION_CLOSEST);
-        Bitmap resultBitmap = Bitmap.createBitmap(320, 180, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        canvas.drawRect(0, 0, 320, 180, paint);
-        if (thumbnail != null) {
-            int thumbnailWidth = thumbnail.getWidth();
-            int thumbnailHeight = thumbnail.getHeight();
-            float aspectRatio = (float) thumbnailWidth / thumbnailHeight;
-
-            int newWidth = 320;
-            int newHeight = (int) (newWidth / aspectRatio);
-
-            if (newHeight > 180) {
-                newHeight = 180;
-                newWidth = (int) (newHeight * aspectRatio);
-            }
-            Bitmap resizedThumbnail = Bitmap.createScaledBitmap(thumbnail, newWidth, newHeight, true);
-            int left = (320 - newWidth) / 2;
-            int top = (180 - newHeight) / 2;
-            canvas.drawBitmap(resizedThumbnail, left, top, null);
-            thumbnail.recycle();
-        }
-        return Utilities.bitmapToBase64(resultBitmap, Utilities.IMAGE_TYPE);
-
+        return Utilities.createThumbnail(thumbnail);
     }
 
     public void createVideoDetails(Uri uri, Video video) {

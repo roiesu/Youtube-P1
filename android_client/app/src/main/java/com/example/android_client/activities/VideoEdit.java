@@ -20,6 +20,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.DataManager;
+import com.example.android_client.activities.helpers.MediaPickerActivity;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoViewModel;
 
@@ -28,17 +29,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class VideoEdit extends AppCompatActivity {
+public class VideoEdit extends MediaPickerActivity {
     private EditText nameInput;
     private EditText descriptionInput;
     private EditText tagsInput;
-
-    private ImageView videoThumbnail;
     private Button updateButton;
     private Button uploadImageButton;
     private VideoViewModel videoViewModel;
     private String oldId, oldThumbnail;
-    private Uri thumbnailURI = null;
     private boolean initialized = false;
 
 
@@ -50,7 +48,7 @@ public class VideoEdit extends AppCompatActivity {
         nameInput = findViewById(R.id.name);
         descriptionInput = findViewById(R.id.description);
         tagsInput = findViewById(R.id.tags);
-        videoThumbnail = findViewById(R.id.thumbnail);
+        targetImageView = findViewById(R.id.thumbnail);
         updateButton = findViewById(R.id.updateButton);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         videoViewModel = new VideoViewModel(this);
@@ -72,7 +70,7 @@ public class VideoEdit extends AppCompatActivity {
                 nameInput.setText(video.getName());
                 descriptionInput.setText(video.getDescription());
                 tagsInput.setText(String.join(" ", video.getTags()));
-                Glide.with(this).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(videoThumbnail);
+                Glide.with(this).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(targetImageView);
 
             } else if (video != null && finished.getValue() == false && initialized == true) {
                 videoViewModel.editVideo(finished, oldId, oldThumbnail);
@@ -82,17 +80,8 @@ public class VideoEdit extends AppCompatActivity {
             }
         });
 
-        ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        Intent data = result.getData();
-                        thumbnailURI = data.getData();
-                        videoThumbnail.setImageURI(thumbnailURI);
-                    }
-                });
         uploadImageButton.setOnClickListener(view -> {
-            galleryResultLauncher.launch(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
+            this.pickImage();
         });
 
         updateButton.setOnClickListener(l -> {
@@ -101,9 +90,8 @@ public class VideoEdit extends AppCompatActivity {
             video.setDescription(descriptionInput.getText().toString());
             video.setDescription(descriptionInput.getText().toString());
             video.setTags(new ArrayList<>(Arrays.asList(tagsInput.getText().toString().split(" "))));
-
-            if (thumbnailURI != null) {
-                video.setThumbnail(Utilities.imageUriToBase64(this, thumbnailURI));
+            if (imageUri != null) {
+                video.setThumbnail(Utilities.createThumbnail(Utilities.imageUriToBitmap(this, imageUri)));
             }
             videoViewModel.setVideo(video);
         });

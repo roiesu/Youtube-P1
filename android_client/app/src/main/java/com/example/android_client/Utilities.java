@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -136,13 +139,44 @@ public class Utilities {
     }
 
     public static String imageUriToBase64(Context context, Uri filePath) {
+        return Utilities.bitmapToBase64(imageUriToBitmap(context,filePath), Utilities.IMAGE_TYPE);
+    }
+
+    public static Bitmap imageUriToBitmap(Context context, Uri filePath) {
         Bitmap bitmap;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), filePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return Utilities.bitmapToBase64(bitmap, Utilities.IMAGE_TYPE);
+        return bitmap;
+    }
+
+    public static String createThumbnail(Bitmap thumbnail) {
+        Bitmap resultBitmap = Bitmap.createBitmap(320, 180, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        canvas.drawRect(0, 0, 320, 180, paint);
+        if (thumbnail != null) {
+            int thumbnailWidth = thumbnail.getWidth();
+            int thumbnailHeight = thumbnail.getHeight();
+            float aspectRatio = (float) thumbnailWidth / thumbnailHeight;
+
+            int newWidth = 320;
+            int newHeight = (int) (newWidth / aspectRatio);
+
+            if (newHeight > 180) {
+                newHeight = 180;
+                newWidth = (int) (newHeight * aspectRatio);
+            }
+            Bitmap resizedThumbnail = Bitmap.createScaledBitmap(thumbnail, newWidth, newHeight, true);
+            int left = (320 - newWidth) / 2;
+            int top = (180 - newHeight) / 2;
+            canvas.drawBitmap(resizedThumbnail, left, top, null);
+            thumbnail.recycle();
+        }
+        return Utilities.bitmapToBase64(resultBitmap, Utilities.IMAGE_TYPE);
     }
 
     public static void handleError(Response response) {
