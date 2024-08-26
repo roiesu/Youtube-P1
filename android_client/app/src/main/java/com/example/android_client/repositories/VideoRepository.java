@@ -1,14 +1,18 @@
 package com.example.android_client.repositories;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.AppDB;
 import com.example.android_client.api.VideoApi;
 
 import com.example.android_client.dao.VideoDao;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
+
+import java.util.List;
 
 
 public class VideoRepository {
@@ -17,7 +21,9 @@ public class VideoRepository {
     private VideoApi api;
     private LifecycleOwner owner;
 
-
+    public VideoRepository(VideoDao dao) {
+        this.dao = dao;
+    }
     public VideoRepository(LifecycleOwner owner) {
         api = new VideoApi();
         this.owner = owner;
@@ -70,5 +76,9 @@ public class VideoRepository {
         });
         api.deleteVideo(videoData, videoId, DataManager.getCurrentUsername());
     }
+    public LiveData<List<VideoWithUser>> getVideosByUserId(String userId) {
+        return dao.getVideoWithUserByUserId(userId);
+    }
+
 
 }
