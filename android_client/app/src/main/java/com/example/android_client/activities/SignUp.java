@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.helpers.GuestOnlyActivity;
 import com.example.android_client.adapters.InputValidationAdapter;
 import com.example.android_client.DataManager;
 import com.example.android_client.entities.InputValidation;
@@ -35,7 +36,7 @@ import com.example.android_client.view_models.UserViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends GuestOnlyActivity {
 
     private ArrayList<InputValidation> inputs;
 
@@ -182,14 +183,4 @@ public class SignUp extends AppCompatActivity {
         userViewModel.getUserData().setValue(newUser);
         userViewModel.create();
     }
-
-
-    public void onRestart() {
-        super.onRestart();
-        if (DataManager.getCurrentUser() != null) {
-            finish();
-        }
-    }
-
-
 }
