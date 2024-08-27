@@ -45,13 +45,13 @@ public class UserApi {
                 if (body != null) {
                     users.setValue(body);
                 } else {
-                    Log.w("INDEX ERROR", "error");
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.w("ERRORRRRR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -71,7 +71,7 @@ public class UserApi {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.w("USER RESPONSE", t);
+                ContextApplication.showToast(t.getMessage());
             }
 
         });
@@ -90,14 +90,14 @@ public class UserApi {
                 if (body != null) {
                     userData.setValue(body);
                 } else {
-                    Log.w("USER RESPONSE", response.raw().code() + "");
+                    Utilities.handleError(response);
                 }
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.w("USER RESPONSE", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -116,13 +116,12 @@ public class UserApi {
                     userDetails.postValue(null);
                 } else {
                     Utilities.handleError(response);
-                    Log.w("Login" + response.raw().code(), response.errorBody().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.w("Can't login", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -143,7 +142,7 @@ public class UserApi {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.w("ERRORRR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -163,7 +162,7 @@ public class UserApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.w("ERRORRR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -184,7 +183,7 @@ public class UserApi {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }

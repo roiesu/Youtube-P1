@@ -27,7 +27,7 @@ async function addComment(req, res) {
       return res.status(404).send("Video not found");
     }
     return res.status(400).send(err.message);
-  }
+  }
 }
 
 async function editComment(req, res) {
