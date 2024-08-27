@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:textColor="@android:color/text_color_primary"
                 android:paddingLeft="30px">
 
                 <!-- Uploader Name -->
