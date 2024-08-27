@@ -13,14 +13,15 @@ async function addComment(req, res) {
     if (!video || video.uploader.username !== id) {
       return res.status(404).send("Video not found");
     }
-    const comment = new Comment({ user: req.user, video: pid, text }, { new: true });
-    console.log(comment);
+    const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();
+
     video.comments.push(comment._id);
     await video.save();
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
     await comment.populate("user", ["name", "image", "username", "_id"]);
-    return res.status(201).send(comment);
+    const commentToSend = { ...comment.toJSON(), videoId: comment.video, userId: comment.user._id };
+    return res.status(201).send(commentToSend);
   } catch (err) {
     if (err.kind == "ObjectId") {
       return res.status(404).send("Video not found");
