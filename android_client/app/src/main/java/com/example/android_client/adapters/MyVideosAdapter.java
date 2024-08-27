@@ -62,7 +62,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.commentNum.setText(Utilities.shortCompactNumber(video.getCommentsNum()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.videoThumbnail);
-        PopupMenu popupMenu = createOptionsMenu(holder.videoOptions, video.get_id(), position);
+        PopupMenu popupMenu = createOptionsMenu(holder.videoOptions, video.get_id(), video);
         holder.videoOptions.setOnClickListener(l -> {
             popupMenu.show();
         });
@@ -72,15 +72,17 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
             intent.putExtra("videoId", video.get_id());
             intent.putExtra("channel", DataManager.getCurrentUserId());
             context.startActivity(intent);
-            this.notifyItemChanged(position);
         });
     }
+
 
     public void deleteVideo(String videoId, int position) {
         videoViewModel.getVideo().observe(owner, data -> {
             if (data != null && data.get_id() != null) {
                 this.videos.remove(position);
                 this.notifyItemRemoved(position);
+                this.videoViewModel.getVideo().removeObservers(owner);
+                this.videoViewModel.setVideo(null);
             }
         });
         videoViewModel.deleteVideo(videoId);
@@ -91,13 +93,13 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         return videos.size();
     }
 
-    public PopupMenu createOptionsMenu(View view, String videoId, int position) {
+    public PopupMenu createOptionsMenu(View view, String videoId, Video video) {
         PopupMenu popupMenu = new PopupMenu(this.context, view);
         popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int position = videos.indexOf(video);
             if (menuItem.getItemId() == R.id.editCommentOption) {
                 Intent editVideoIntent = new Intent(context, VideoEdit.class);
-                Video video = videos.get(position);
                 editVideoIntent.putExtra("videoId", video.get_id());
                 editVideoIntent.putExtra("position", position);
                 this.editVideoLauncher.launch(editVideoIntent);
