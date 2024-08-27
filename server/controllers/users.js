@@ -20,6 +20,7 @@ async function addUser(req, res) {
     const user = new User({ username, password, name, image: imagePath });
 
     await user.save();
+    console.log(user);
     return res.status(201).send(user);
   } catch (err) {
     if (imagePath) {
@@ -83,7 +84,13 @@ async function updateUser(req, res) {
     }
     await user.updateOne(updateFields, { runValidators: true });
     await user.save();
-    console.log(user, updateFields);
+    if (name) {
+      user.name = name;
+    }
+    if (password) {
+      user.password = password;
+    }
+    console.log(user);
     return res.send(user);
   } catch (err) {
     return res.status(400).send(err.message);

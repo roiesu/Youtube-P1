@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
@@ -51,9 +52,13 @@ public interface VideoDao {
     @Query("UPDATE video SET views = :views WHERE _id = :videoId")
     void increaseViews(long views, String videoId);
 
+    @Transaction
     @Query("DELETE FROM video WHERE _id = :videoId")
     void deleteVideo(String videoId);
 
+    @Update
+    void update(Video... videos);
+  
     @Query("SELECT * from video WHERE uploaderId = :userId")
     List<VideoWithUser>getVideosByUserId(String userId);
 

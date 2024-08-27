@@ -251,7 +251,6 @@ async function likeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $addToSet: { likes: pid } });
       video.likes.addToSet(req.user);
       await video.save();
-      console.log("Like", req.user);
       return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);
@@ -273,7 +272,6 @@ async function dislikeVideo(req, res) {
       await User.findByIdAndUpdate(req.user, { $pull: { likes: pid } });
       video.likes.pull(req.user);
       await video.save();
-      console.log("dislike", req.user);
       return res.status(201).send(req.user);
     } else {
       return res.sendStatus(404);

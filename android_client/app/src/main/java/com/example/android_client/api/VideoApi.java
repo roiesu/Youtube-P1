@@ -8,22 +8,17 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithLikes;
-import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.datatypes.VideoWithUserWithComments;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public class VideoApi {
     Retrofit retrofit;
@@ -162,12 +157,11 @@ public class VideoApi {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Video video = new Video();
                     video.set_id(videoId);
                     data.setValue(video);
-                }
-                else{
+                } else {
                     Utilities.handleError(response);
                 }
             }
@@ -177,5 +171,28 @@ public class VideoApi {
                 ContextApplication.showToast("ERRORRR");
             }
         });
+    }
+
+    public void updateVideo(MutableLiveData<Video> data) {
+        String header = "Bearer " + DataManager.getToken();
+        Call<Void> call = webServiceAPI.updateVideo(DataManager.getCurrentUsername(), data.getValue().get_id(), header, data.getValue());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Video video = data.getValue();
+                    video.set_id("-1");
+                    data.setValue(video);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                ContextApplication.showToast("ERRORRR");
+            }
+        });
+
     }
 }

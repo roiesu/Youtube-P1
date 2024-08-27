@@ -45,4 +45,7 @@ public interface VideoWebServiceAPI {
 
     @DELETE("users/{channel}/videos/{videoId}")
     Call<Void> deleteVideo(@Path("channel") String channel, @Path("videoId") String videoId, @Header("Authorization") String token);
+
+    @PATCH("users/{channel}/videos/{videoId}")
+    Call<Void> updateVideo(@Path("channel") String channel,@Path("videoId") String videoId,@Header("Authorization") String token,@Body Video video);
 }

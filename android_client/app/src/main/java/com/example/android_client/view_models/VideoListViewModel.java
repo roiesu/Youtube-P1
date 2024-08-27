@@ -9,7 +9,6 @@ import com.example.android_client.dao.VideoDao;
 import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
 import com.example.android_client.repositories.VideoListRepository;
-import com.example.android_client.repositories.VideosWithUsersListRepository;
 
 import java.util.List;
 
@@ -48,8 +47,8 @@ public class VideoListViewModel extends ViewModel {
         this.repository.getVideosDetailsByUser();
     }
 
-    public void refreshMyVideos(String newVideoId, String newVideoUploaderId) {
-        repository.refreshMyVideos(newVideoId, newVideoUploaderId);
+    public void addToMyVideos(String newVideoId, String newVideoUploaderId) {
+        repository.addToMyVideos(newVideoId, newVideoUploaderId);
     }
 
 }
