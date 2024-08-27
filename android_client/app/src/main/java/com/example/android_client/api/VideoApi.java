@@ -190,7 +190,7 @@ public class VideoApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                ContextApplication.showToast("ERRORRR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
 
