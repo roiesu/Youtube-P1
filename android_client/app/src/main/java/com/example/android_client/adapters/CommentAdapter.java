@@ -94,6 +94,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 this.comments.remove(position);
                 this.notifyItemRemoved(position);
                 this.commentListSize.setValue(comments.size());
+                commentViewModel.getComment().removeObservers(owner);
             }
         });
         commentViewModel.deleteComment(comments.get(position), videoUploader);
@@ -104,6 +105,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 this.comments.get(position).setEdited(true);
                 this.comments.get(position).setText(data.getText());
                 this.notifyItemChanged(position);
+                commentViewModel.getComment().removeObservers(owner);
             }
         });
         commentViewModel.editComment(comments.get(position), text, videoUploader);

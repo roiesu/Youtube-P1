@@ -54,6 +54,7 @@ public class WatchingVideo extends AppCompatActivity {
     private CommentListViewModel commentListViewModel;
     private MutableLiveData<Integer> commentListSize;
 
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watching_video);
@@ -143,11 +144,11 @@ public class WatchingVideo extends AppCompatActivity {
             videoView.start();
         });
     }
- 
-    private void initComments(String videoId, String videoUploader){
+
+    private void initComments(String videoId, String videoUploader) {
         commentListSize = new MutableLiveData<>(0);
         commentListViewModel = new CommentListViewModel();
-        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader,commentListSize);
+        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader, commentListSize);
         commentsList.setLayoutManager(new LinearLayoutManager(this));
         commentsList.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -155,18 +156,23 @@ public class WatchingVideo extends AppCompatActivity {
         dividerItemDecoration.setDrawable(dividerDrawable);
         commentsList.addItemDecoration(dividerItemDecoration);
         commentListViewModel.getComments().observe(this, commentsList -> {
+            if (commentsList == null) {
+                return;
+            }
             adapter.setComments(commentsList);
+            adapter.notifyDataSetChanged();
             commentListSize.setValue(commentsList.size());
             commentButton.setOnClickListener(l -> commentVideo(adapter));
+            commentListViewModel.getComments().setValue(null);
         });
-        commentListSize.observe(this,count->{
+        commentListSize.observe(this, count -> {
             commentsHeader.setText(count + " Comments");
         });
         commentListViewModel.getCommentsByVideo(videoId);
     }
 
     private void commentVideo(CommentAdapter adapter) {
-        commentListViewModel.addComment(this,commentInput.getText().toString(),video.getVideo().getValue().getUploader().getUsername(),video.getVideo().getValue().get_id());
+        commentListViewModel.addComment(this, commentInput.getText().toString(), video.getVideo().getValue().getUploader().getUsername(), video.getVideo().getValue().get_id());
 //        commentInput.setText("");
 //        adapter.notifyItemInserted(0);
     }
