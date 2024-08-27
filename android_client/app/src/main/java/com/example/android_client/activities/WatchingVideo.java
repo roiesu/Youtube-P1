@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
+import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import android.content.Intent;
@@ -97,7 +98,10 @@ public class WatchingVideo extends AppCompatActivity {
                 ImageView uploaderImage = findViewById(R.id.uploaderImage);
                 Glide.with(this).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(uploaderImage);
                 likeButton.setOnClickListener(view -> {
-                    if (!likeViewModel.getIsLiked().getValue()) {
+                    if(DataManager.getCurrentUsername()==null){
+                        ContextApplication.showToast("Can't like video if not logged in");
+                    }
+                    else if (!likeViewModel.getIsLiked().getValue()) {
                         likeViewModel.like(video.getUploader().getUsername(), video.get_id());
                     } else {
                         likeViewModel.dislike(video.getUploader().getUsername(), video.get_id());
