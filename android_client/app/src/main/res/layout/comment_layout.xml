@@ -51,7 +51,7 @@
                     android:id="@+id/commentUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/text_color_primary"
+                    android:textColor="@color/text_color_primary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Username" />
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="19dp"
                     android:layout_marginStart="8dp"
-                    android:textColor="@android:color/text_color_primary"
+                    android:textColor="@color/text_color_primary"
                     android:textSize="12sp"
                     tools:text="date" />
             </LinearLayout>
@@ -71,7 +71,7 @@
                 android:id="@+id/commentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/text_color_primary"
+                android:textColor="@color/text_color_primary"
                 android:textSize="14sp"
                 tools:text="content" />
 

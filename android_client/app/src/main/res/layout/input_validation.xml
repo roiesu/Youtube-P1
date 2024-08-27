@@ -33,6 +33,7 @@
                 android:clickable="true"
                 android:src="@drawable/question_mark" />
         </LinearLayout>
+
         <EditText
             android:id="@+id/editInput"
             style="@style/form_input"

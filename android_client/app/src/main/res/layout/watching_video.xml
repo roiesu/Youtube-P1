@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:textColor="@android:color/text_color_primary"
+                android:textColor="@color/text_color_primary"
                 android:padding="8dp">
 
                 <LinearLayout
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:textColor="@android:color/text_color_primary"
+                        android:textColor="@color/text_color_primary"
                         android:paddingLeft="30px">
 
                         <!-- Video Name -->
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:minHeight="120dp"
-                    android:textColor="@android:color/text_color_primary"
+                    android:textColor="@color/text_color_primary"
                     android:text="Description" />
 
                 <TextView
