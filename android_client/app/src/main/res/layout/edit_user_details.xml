@@ -2,13 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="2dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -32,7 +37,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="4"
                 android:gravity="center"
-                android:text="@string/video_preview"
+                android:text="Edit User Details"
                 android:textSize="20dp" />
 
             <Space
@@ -41,56 +46,55 @@
                 android:layout_weight="2" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="280dp"
-            android:layout_height="157dp"
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@color/black">
-
-            <VideoView
-                android:id="@+id/videoPreview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true" />
-        </RelativeLayout>
+            tools:srcCompat="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/videoInput"
+            android:id="@+id/changImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="Choose video" />
+            android:text="upload image" />
 
         <EditText
-            android:id="@+id/videoNameInput"
+            android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Enter video name" />
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="text" />
 
         <EditText
-            android:id="@+id/videoDescriptionInput"
+            android:id="@+id/userPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Enter video description" />
-
-        <EditText
-            android:id="@+id/videoTagsInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Enter tags (comma-separated)" />
+            android:ems="10"
+            android:hint="password"
+            android:inputType="text|textVisiblePassword" />
 
         <Button
-            android:id="@+id/submitVideoButton"
+            android:id="@+id/updateDetailsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="Submit Video Details" />
+            android:text="Update Details" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <Button
+            android:id="@+id/deleteUserButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:text="Delete User"
+            app:cornerRadius="0dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

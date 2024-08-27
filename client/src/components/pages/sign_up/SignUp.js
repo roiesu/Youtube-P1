@@ -44,7 +44,7 @@ function SignUp({ setCurrentUser, showToast }) {
     };
     try {
       const response = await axios.post("/api/users", user);
-      if (response.status === 200) {
+      if (response.status === 201) {
         const loginResponse = await axios.post(`/api/tokens`, {
           username: usernameInput,
           password: passwordInput,

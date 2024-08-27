@@ -35,7 +35,7 @@ async function loginUser(req, res) {
       return res.status(404).send("Wrong password");
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    return res.status(200).send(token);
+    return res.status(201).send(token);
   } catch (err) {
     return res.status(err.status || 400).send(err.message);
   }

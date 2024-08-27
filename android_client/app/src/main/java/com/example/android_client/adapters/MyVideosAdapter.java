@@ -9,35 +9,35 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.android_client.ContextApplication;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.VideoEdit;
 import com.example.android_client.activities.WatchingVideo;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.view_models.VideoViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoViewHolder> {
     private Context context;
     private VideoViewModel videoViewModel;
     private List<Video> videos;
     private LifecycleOwner owner;
+    private ActivityResultLauncher editVideoLauncher;
 
-    public MyVideosAdapter(Context context, List<Video> videos, LifecycleOwner owner) {
+    public MyVideosAdapter(Context context, List<Video> videos, LifecycleOwner owner, ActivityResultLauncher editVideoLauncher) {
         this.context = context;
         this.videos = videos;
         this.owner = owner;
-        videoViewModel = new VideoViewModel(owner);
+        this.videoViewModel = new VideoViewModel(owner);
+        this.editVideoLauncher = editVideoLauncher;
     }
 
     public void setVideos(List<Video> videos) {
@@ -61,7 +61,7 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         holder.likesNum.setText(Utilities.shortCompactNumber(video.getLikesNum()));
         holder.commentNum.setText(Utilities.shortCompactNumber(video.getCommentsNum()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
-        Glide.with(context).load(video.getThumbnailFromServer()).into(holder.videoThumbnail);
+        Glide.with(context).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.videoThumbnail);
         PopupMenu popupMenu = createOptionsMenu(holder.videoOptions, video.get_id(), position);
         holder.videoOptions.setOnClickListener(l -> {
             popupMenu.show();
@@ -86,8 +86,6 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         videoViewModel.deleteVideo(videoId);
     }
 
-    ;
-
     @Override
     public int getItemCount() {
         return videos.size();
@@ -98,7 +96,11 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
         popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.editCommentOption) {
-                ContextApplication.showToast("First");
+                Intent editVideoIntent = new Intent(context, VideoEdit.class);
+                Video video = videos.get(position);
+                editVideoIntent.putExtra("videoId", video.get_id());
+                editVideoIntent.putExtra("position", position);
+                this.editVideoLauncher.launch(editVideoIntent);
             } else if (menuItem.getItemId() == R.id.deleteCommentOption) {
                 deleteVideo(videoId, position);
             }

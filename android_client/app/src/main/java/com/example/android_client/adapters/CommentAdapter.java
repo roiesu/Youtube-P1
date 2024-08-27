@@ -2,13 +2,8 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,17 +18,17 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
-import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.datatypes.CommentWithUser;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.CommentViewModel;
 import com.example.android_client.view_models.VideoViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +77,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 popupMenu.show();
             });
         }
-        Glide.with(context).load(comment.getUser().getImageFromServer()).into(holder.profilePic);
+        Glide.with(context).load(comment.getUser().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.profilePic);
 
         holder.profilePic.setOnClickListener(l -> {
             // Move to channel page
