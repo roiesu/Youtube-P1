@@ -32,8 +32,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.DataManager;
-import com.example.android_client.datatypes.CommentWithUser;
-import com.example.android_client.entities.Comment;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
@@ -199,9 +197,9 @@ public class WatchingVideo extends AppCompatActivity {
 
     private void changeLikeIcon(Boolean isLiked) {
         if (isLiked) {
-            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_filled_like, getTheme()));
+            likeButton.setIcon(getResources().getDrawable(R.drawable.png_filled_like, getTheme()));
         } else {
-            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_like, getTheme()));
+            likeButton.setIcon(getResources().getDrawable(R.drawable.png_like, getTheme()));
         }
     }
 }

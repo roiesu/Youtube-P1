@@ -111,7 +111,7 @@
                         android:id="@+id/likeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_like" />
+                        app:icon="@drawable/png_like" />
 
                     <Button
                         android:id="@+id/shareButton"
