@@ -24,7 +24,6 @@ import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.DataManager;
 import com.example.android_client.entities.Comment;
-import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.User;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.CommentViewModel;

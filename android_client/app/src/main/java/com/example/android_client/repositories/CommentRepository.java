@@ -8,7 +8,7 @@ import com.example.android_client.api.CommentApi;
 
 import com.example.android_client.dao.CommentDao;
 import com.example.android_client.dao.VideoDao;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Comment;
 
 public class CommentRepository {
