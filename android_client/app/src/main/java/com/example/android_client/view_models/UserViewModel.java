@@ -1,6 +1,7 @@
 package com.example.android_client.view_models;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,13 +13,23 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<User> user;
     private UserRepository repository;
 
+
     public UserViewModel(LifecycleOwner owner) {
         this.repository = new UserRepository(owner);
         user = repository.get();
     }
+  
+    public UserViewModel(String username){
+        this.repository = new UserRepository(username);
+        user = repository.getUserData();
+    }
+    public UserViewModel(){
+        this.repository = new UserRepository();
+        user = repository.getUserData();
+    }
 
-    public MutableLiveData<User> getUserData() {
-        if (user == null) {
+    public MutableLiveData<User> getUserData(){
+        if(user==null){
             return new MutableLiveData<>();
         }
         return user;

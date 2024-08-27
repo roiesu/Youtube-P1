@@ -89,7 +89,7 @@ public class MainPage extends AppCompatActivity {
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(() -> {
-            searchInput.setQuery("", false);
+             searchInput.setQuery("", false);
             videos.reload();
         });
         videos.getVideos().observe(this, list -> {

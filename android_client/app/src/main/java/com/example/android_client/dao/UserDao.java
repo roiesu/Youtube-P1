@@ -1,5 +1,6 @@
 package com.example.android_client.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -18,9 +19,8 @@ public interface UserDao {
 
     @Query("SELECT _id,username,name,image from user WHERE username= :username")
     User get(String username);
-
-    @Query("SELECT _id,username from user WHERE _id=:id")
-    User getById(String id);
+    @Query("SELECT *  from user WHERE _id=:id")
+    LiveData<User> getUserById(String id);
 
     @Query("SELECT * from user")
     List<User> index();

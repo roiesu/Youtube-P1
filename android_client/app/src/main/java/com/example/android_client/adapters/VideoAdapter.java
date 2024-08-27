@@ -2,7 +2,6 @@ package com.example.android_client.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.example.android_client.Utilities;
 import com.example.android_client.activities.ChannelActivity;
 import com.example.android_client.activities.WatchingVideo;
 import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.entities.Video;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +26,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private Context context;
     private List<VideoWithUser> videos;
 
-    public VideoAdapter(Context context, List<VideoWithUser> videos) {
-        super();
+    public VideoAdapter(Context context) {
         this.context = context;
-        this.videos = videos;
+        this.videos = new ArrayList<>();
+    }
+
+    public VideoAdapter(Context context, List<VideoWithUser> videos) {
+        this.context = context;
+        this.videos = videos != null ? videos : new ArrayList<>();
     }
 
     @NonNull
@@ -52,27 +54,30 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         Glide.with(context).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.videoPreview);
         Glide.with(context).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.uploaderImage);
 
-        holder.videoPreview.setOnClickListener(l -> {
+        // OnClickListener for video preview -> WatchingVideo activity
+        holder.videoPreview.setOnClickListener(v -> {
             Intent intent = new Intent(context, WatchingVideo.class);
             intent.putExtra("videoId", video.get_id());
             intent.putExtra("channel", video.getUploader().get_id());
             context.startActivity(intent);
-            this.notifyItemChanged(position);
         });
 
-        // image -> channel
-        holder.uploaderImage.setOnClickListener(l -> {
-            // Move to channel page
+        // OnClickListener for uploader image -> ChannelActivity
+        holder.uploaderImage.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChannelActivity.class);
+            intent.putExtra("USER_ID", video.getUploader().get_id());
+            context.startActivity(intent);
         });
-    }
-
-    public void setVideos(List<VideoWithUser> newVideos) {
-        this.videos = newVideos;
     }
 
     @Override
     public int getItemCount() {
         return videos.size();
+    }
+
+    public void setVideos(List<VideoWithUser> newVideos) {
+        this.videos = newVideos != null ? newVideos : new ArrayList<>();
+        notifyDataSetChanged();
     }
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
