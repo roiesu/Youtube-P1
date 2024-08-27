@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:textColor="@color/text_color_primary"
                 android:padding="8dp">
 
                 <LinearLayout
@@ -61,6 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
+                        android:textColor="@color/text_color_primary"
                         android:paddingLeft="30px">
 
                         <!-- Video Name -->
@@ -111,13 +113,15 @@
                         android:id="@+id/likeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_like" />
+                        android:textColor="@android:color/white"
+                        app:icon="@drawable/png_like" />
 
                     <Button
                         android:id="@+id/shareButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:textColor="@android:color/white"
                         android:text="Share" />
 
                 </LinearLayout>
@@ -128,6 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:minHeight="120dp"
+                    android:textColor="@color/text_color_primary"
                     android:text="Description" />
 
                 <TextView
@@ -153,6 +158,7 @@
                         android:id="@+id/commentButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
                         android:text="comment" />
                 </LinearLayout>
 

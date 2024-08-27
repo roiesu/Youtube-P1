@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="@android:color/white"
             android:text="upload image" />
 
         <EditText
@@ -81,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="@android:color/white"
             android:text="Update Details" />
 
         <Space
@@ -93,6 +95,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:text="Delete User"
+            android:textColor="@android:color/white"
             app:cornerRadius="0dp" />
 
     </LinearLayout>
