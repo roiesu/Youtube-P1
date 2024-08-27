@@ -139,7 +139,7 @@ public class Utilities {
     }
 
     public static String imageUriToBase64(Context context, Uri filePath) {
-        return Utilities.bitmapToBase64(imageUriToBitmap(context,filePath), Utilities.IMAGE_TYPE);
+        return Utilities.bitmapToBase64(imageUriToBitmap(context, filePath), Utilities.IMAGE_TYPE);
     }
 
     public static Bitmap imageUriToBitmap(Context context, Uri filePath) {
@@ -180,11 +180,12 @@ public class Utilities {
     }
 
     public static void handleError(Response response) {
-        String errorMessage;
         if (response.code() == 403) {
             DataManager.Logout();
             ContextApplication.showToast("Registration token expired, please login again.");
+            return;
         }
+        String errorMessage;
         try {
             errorMessage = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {

@@ -83,7 +83,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.profilePic.setOnClickListener(v -> {
             Intent intent = new Intent(context, ChannelActivity.class);
             intent.putExtra("USER_ID", comment.getUserId());
-            context.startActivity(intent);});
+            context.startActivity(intent);
+        });
+
     }
 
     @Override

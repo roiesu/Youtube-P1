@@ -21,7 +21,6 @@ async function addComment(req, res) {
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
     await comment.populate("user", ["name", "image", "username", "_id"]);
     const commentToSend = { ...comment.toJSON(), videoId: comment.video, userId: comment.user._id };
-    console.log(commentToSend);
     return res.status(201).send(commentToSend);
   } catch (err) {
     if (err.kind == "ObjectId") {
@@ -50,7 +49,8 @@ async function editComment(req, res) {
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
-    await comment.updateOne({ $set: { text, edited: true } });    await comment.save();
+    await comment.updateOne({ $set: { text, edited: true } });
+    await comment.save();
     return res.sendStatus(201);
   } catch (err) {
     if (err.kind == "ObjectId") {
@@ -69,7 +69,7 @@ async function deleteComment(req, res) {
         select: ["_id", "uploader"],
         populate: { path: "uploader", select: ["username"] },
       })
-      .populate("user", ["_id"]);  
+      .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
       return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {

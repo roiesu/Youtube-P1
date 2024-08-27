@@ -64,3 +64,14 @@ After that, we connected the server to the React code we wrote in the first part
 During this part of the project, new requirements were added, such as the ability to edit user details, the option to delete a user from the program, and more. Therefore, we also implemented these changes by adding new pages to the application to support the required operations.
 
 Our overall workflow was similar to the first part of the project. We defined tasks in Jira and then assigned them. At regular intervals, we held Zoom meetings where each team member updated on their progress. We consulted with each other, updated the task list and the work distribution accordingly, and continued working until this part of the project was completed.
+
+# part 3
+
+## Runing the apllication
+
+
+
+## workflow
+
+First, since two of the three team members are active reservists, we received an extension for this part until the end of October.
+Second, we began work on the third part of the project together from a single computer in order to create a shared foundation. As a result, the initial commits for this section were all made from the same computer. After establishing this foundation, we returned to our usual workflow, which includes task division, each team member working on their assigned tasks, status updates through Zoom meetings, and repeating the process.
