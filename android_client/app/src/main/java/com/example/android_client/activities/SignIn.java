@@ -24,12 +24,13 @@ public class SignIn extends AppCompatActivity {
     private Button submit;
     private Button change;
     private UserViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userViewModel= new UserViewModel(this);
-        userViewModel.getUserData().observe(this,user->{
-            if(user==null){
+        userViewModel = new UserViewModel(this);
+        userViewModel.getUserData().observe(this, user -> {
+            if (user == null) {
                 Intent intent = new Intent(this, MainPage.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -64,15 +65,8 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void login() {
-        User userDetails = new User("0",inputs.get(0).getInputText(),inputs.get(1).getInputText(),"0","0");
+        User userDetails = new User("0", inputs.get(0).getInputText(), inputs.get(1).getInputText(), "0", "0");
         userViewModel.getUserData().setValue(userDetails);
         userViewModel.login();
-    }
-
-    public void onRestart() {
-        super.onRestart();
-        if (DataManager.getCurrentUser() != null) {
-            finish();
-        }
     }
 }
