@@ -93,8 +93,8 @@
                         android:id="@+id/videoDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        tools:text="date"/>
+                        android:layout_weight="1.5"
+                        tools:text="date" />
                 </LinearLayout>
 
                 <TextView
