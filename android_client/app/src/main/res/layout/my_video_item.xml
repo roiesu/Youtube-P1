@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@android:color/text_color_primary"
+                android:textColor="@color/text_color_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="Video Title" />
@@ -75,7 +75,7 @@
                     android:id="@+id/videoDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/text_color_primary"
+                    android:textColor="@color/text_color_primary"
                     android:textSize="14sp"
                     tools:text="Uploaded on Jan 1, 2024" />
 
@@ -93,7 +93,7 @@
                     android:id="@+id/viewsNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/text_color_primary"
+                    android:textColor="@color/text_color_primary"
                     android:textSize="14sp"
                     tools:text="1M views" />
             </LinearLayout>
@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textColor="@android:color/text_color_primary"
+                        android:textColor="@color/text_color_primary"
                         android:textSize="14sp"
                         tools:text="1M" />
 
@@ -151,7 +151,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textColor="@android:color/text_color_primary"
+                        android:textColor="@color/text_color_primary"
                         android:textSize="14sp"
                         tools:text="500" />
                 </LinearLayout>
