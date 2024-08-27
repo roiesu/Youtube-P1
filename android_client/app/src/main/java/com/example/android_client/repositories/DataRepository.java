@@ -79,8 +79,9 @@ public class DataRepository {
         return videoListData;
     }
 
-    public void init(LifecycleOwner lifecycleOwner,MutableLiveData initialized) {
+    public void init(LifecycleOwner lifecycleOwner, MutableLiveData initialized) {
         if (DataManager.isInitialized()) {
+            initialized.setValue(true);
             return;
         }
         Thread deleteThread = new Thread(() -> {
