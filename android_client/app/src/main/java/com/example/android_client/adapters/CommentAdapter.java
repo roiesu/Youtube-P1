@@ -2,6 +2,7 @@
 package com.example.android_client.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.android_client.R;
 import com.example.android_client.Utilities;
+import com.example.android_client.activities.ChannelActivity;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.DataManager;
 import com.example.android_client.entities.Comment;
@@ -78,8 +80,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
         Glide.with(context).load(comment.getUser().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.profilePic);
 
-        holder.profilePic.setOnClickListener(l -> {
-            // Move to channel page
+        holder.profilePic.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChannelActivity.class);
+            intent.putExtra("USER_ID", comment.getUserId());
+            context.startActivity(intent);
         });
     }
 
