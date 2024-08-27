@@ -47,8 +47,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         VideoWithUser video = videos.get(position);
         holder.videoTitle.setText(video.getName());
-        holder.videoUploader.setText(video.getUploader().getName());
-        holder.videoViews.setText(Utilities.numberFormatter(video.getViews()));
+        holder.videoUploader.setText("Uploaded by " +video.getUploader().getName());
+        holder.videoViews.setText(Utilities.shortCompactNumber(video.getViews())+" Views");
         holder.videoDate.setText(Utilities.dateDiff(video.getDate()));
         holder.videoDuration.setText(Utilities.secondsToTime(video.getDuration()));
         Glide.with(context).load(video.getThumbnailFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.videoPreview);
