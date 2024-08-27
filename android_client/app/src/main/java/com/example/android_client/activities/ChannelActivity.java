@@ -38,7 +38,7 @@ public class ChannelActivity extends AppCompatActivity {
         recyclerView.setAdapter(videoAdapter);
 
         String userId = getIntent().getStringExtra("USER_ID");
-        userRepository = new UserRepository();
+        userRepository = new UserRepository(this);
         videoRepository = new VideoRepository(AppDB.getInstance().videoDao());
         if (userId != null) {
             userRepository.getUserById(userId).observe(this, user -> {

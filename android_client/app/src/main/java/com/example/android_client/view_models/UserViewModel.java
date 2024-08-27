@@ -18,15 +18,6 @@ public class UserViewModel extends ViewModel {
         this.repository = new UserRepository(owner);
         user = repository.get();
     }
-  
-    public UserViewModel(String username){
-        this.repository = new UserRepository(username);
-        user = repository.getUserData();
-    }
-    public UserViewModel(){
-        this.repository = new UserRepository();
-        user = repository.getUserData();
-    }
 
     public MutableLiveData<User> getUserData(){
         if(user==null){

@@ -8,7 +8,6 @@ import com.example.android_client.api.VideoApi;
 import com.example.android_client.dao.VideoDao;
 import com.example.android_client.DataManager;
 import com.example.android_client.datatypes.VideoWithUser;
-import com.example.android_client.entities.DataManager;
 import com.example.android_client.entities.Video;
 
 import java.util.List;

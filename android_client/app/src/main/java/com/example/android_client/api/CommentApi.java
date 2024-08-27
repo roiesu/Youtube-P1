@@ -9,7 +9,7 @@ import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
 import com.example.android_client.repositories.CommentRepository;
 import com.example.android_client.web_service.CommentWebServiceAPI;
