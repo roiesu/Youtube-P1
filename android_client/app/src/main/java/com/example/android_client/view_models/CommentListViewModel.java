@@ -24,10 +24,9 @@ public class CommentListViewModel extends ViewModel {
         }
         return comments;
     }
-    public void init(LifecycleOwner lifecycleOwner){
-        repository.init(lifecycleOwner);
+    public void addComment(LifecycleOwner owner, String text, String uploaderId,String videoId){
+        repository.addComment(owner,text,uploaderId,videoId);
     }
-
     public void getCommentsByVideo(String videoId){
         this.repository.getCommentsByVideo(videoId);
     }
