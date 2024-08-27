@@ -27,11 +27,15 @@ public class CommentViewModel extends ViewModel {
         }
         return comment;
     }
-    public void editComment(Comment comment, String text, String videoUploader){
-        this.repository.editComment(comment, text, videoUploader);
+    public void editComment(Comment comment, String text, String videoUploader, MutableLiveData<Boolean> finished){
+        this.repository.editComment(comment, text, videoUploader, finished);
     }
 
-    public void deleteComment(Comment comment, String videoUploader) {
-        this.repository.deleteComment(comment, videoUploader);
+    public void deleteComment(Comment comment, String videoUploader, MutableLiveData<Boolean> finished) {
+        this.repository.deleteComment(comment, videoUploader, finished);
+    }
+
+    public void addComment(String text, String videoUploader, String videoId, MutableLiveData<Boolean> finished){
+        this.repository.addComment(text, videoUploader, videoId, finished);
     }
 }

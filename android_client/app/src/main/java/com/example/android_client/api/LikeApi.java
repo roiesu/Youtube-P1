@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 import com.example.android_client.DataManager;
+import com.example.android_client.Utilities;
 import com.example.android_client.entities.Like;
 import com.example.android_client.web_service.LikeWebServiceAPI;
 import com.google.gson.Gson;
@@ -40,13 +41,13 @@ public class LikeApi {
                 if (body != null) {
                     like.setValue(new Like(body, videoId));
                 } else {
-                    Log.w("ERROR", "error");
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.w("ERROR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -61,13 +62,13 @@ public class LikeApi {
                 if (body != null) {
                     like.setValue(new Like(body, videoId));
                 } else {
-                    Log.w("ERROR", "error");
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.w("ERROR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }

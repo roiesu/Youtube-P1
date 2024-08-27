@@ -15,17 +15,20 @@ async function addComment(req, res) {
     }
     const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();
+
     video.comments.push(comment._id);
     await video.save();
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
     await comment.populate("user", ["name", "image", "username", "_id"]);
-    return res.status(201).send(comment);
+    const commentToSend = { ...comment.toJSON(), videoId: comment.video, userId: comment.user._id };
+    console.log(commentToSend);
+    return res.status(201).send(commentToSend);
   } catch (err) {
     if (err.kind == "ObjectId") {
       return res.status(404).send("Video not found");
     }
     return res.status(400).send(err.message);
-  }
+  }
 }
 
 async function editComment(req, res) {

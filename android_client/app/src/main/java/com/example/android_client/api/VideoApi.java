@@ -39,12 +39,14 @@ public class VideoApi {
                 List<Video> body = response.body();
                 if (body != null) {
                     videoListData.setValue(body);
+                } else {
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
-                Log.w("VIDEO API", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -57,12 +59,14 @@ public class VideoApi {
                 List<Video> body = response.body();
                 if (body != null) {
                     videoListData.setValue(body);
+                } else {
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
-                Log.w("USER RESPONSE", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -78,12 +82,14 @@ public class VideoApi {
                 Video body = response.body();
                 if (body != null) {
                     viewsData.setValue(body.getViews());
+                } else {
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Video> call, Throwable t) {
-                Log.w("USER ERROR", "YES");
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -98,13 +104,13 @@ public class VideoApi {
                 if (body != null) {
                     videoListData.setValue(body);
                 } else {
-                    Log.w("Zbabir", "yes");
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<VideoWithLikes>> call, Throwable t) {
-                Log.w("Zbabir", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -119,12 +125,14 @@ public class VideoApi {
                 List<Video> body = response.body();
                 if (body != null) {
                     videoListData.setValue(body);
+                } else {
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Video>> call, Throwable t) {
-                Log.w("Zbabir", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -145,7 +153,7 @@ public class VideoApi {
 
             @Override
             public void onFailure(Call<Video> call, Throwable t) {
-                ContextApplication.showToast("ERRORRR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
 
@@ -168,7 +176,7 @@ public class VideoApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                ContextApplication.showToast("ERRORRR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -190,7 +198,7 @@ public class VideoApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                ContextApplication.showToast("ERRORRR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
 
