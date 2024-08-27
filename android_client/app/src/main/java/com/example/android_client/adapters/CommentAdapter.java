@@ -73,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (currentUsername == null || !currentUsername.equals(comment.getUser().getUsername())) {
             holder.commentOptionOpener.setVisibility(View.GONE);
         } else {
-            PopupMenu popupMenu = createOptionsMenu(holder.commentOptionOpener, position);
+            PopupMenu popupMenu = createOptionsMenu(holder.commentOptionOpener, comment);
             holder.commentOptionOpener.setOnClickListener(view -> {
                 popupMenu.show();
             });
@@ -85,6 +85,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             intent.putExtra("USER_ID", comment.getUserId());
             context.startActivity(intent);
         });
+
     }
 
     @Override
@@ -92,36 +93,59 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return comments.size();
     }
 
-    public void deleteComment(int position) {
-        commentViewModel.getComment().observe(owner, data -> {
-            if (data != null && data.get_id() != null && data.getUserId() == null) {
+    public void deleteComment(CommentWithUser comment) {
+        MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
+        int position = this.comments.indexOf(comment);
+        finished.observe(owner, value ->{
+            if (value) {
                 this.comments.remove(position);
                 this.notifyItemRemoved(position);
                 this.commentListSize.setValue(comments.size());
                 commentViewModel.getComment().removeObservers(owner);
+                commentViewModel.getComment().setValue(null);
             }
         });
-        commentViewModel.deleteComment(comments.get(position), videoUploader);
+        commentViewModel.deleteComment(comments.get(position), videoUploader, finished);
     }
-    public void editComment(int position,String text){
-        commentViewModel.getComment().observe(owner,data->{
-            if (data != null && data.get_id() != null && data.getText().equals(text)) {
+    public void editComment(CommentWithUser comment,String text){
+        MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
+        int position = this.comments.indexOf(comment);
+        finished.observe(owner, value ->{
+            if (value) {
                 this.comments.get(position).setEdited(true);
-                this.comments.get(position).setText(data.getText());
+                this.comments.get(position).setText(text);
                 this.notifyItemChanged(position);
                 commentViewModel.getComment().removeObservers(owner);
+                commentViewModel.getComment().setValue(null);
             }
         });
-        commentViewModel.editComment(comments.get(position), text, videoUploader);
+        commentViewModel.editComment(comments.get(position), text, videoUploader, finished);
 
     }
-    public PopupMenu createOptionsMenu(View view, int position) {
+
+    public void addComment(EditText textInput, String videoId, RecyclerView commentList){
+        MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
+        finished.observe(owner, value ->{
+            if (value) {
+                this.comments.add(0, (CommentWithUser) commentViewModel.getComment().getValue());
+                this.notifyItemInserted(0);
+                commentListSize.setValue(commentListSize.getValue() + 1);
+                commentList.getLayoutManager().scrollToPosition(0);
+                commentViewModel.getComment().removeObservers(owner);
+                commentViewModel.getComment().setValue(null);
+            }
+        });
+        commentViewModel.addComment(textInput.getText().toString(), videoUploader, videoId,finished);
+        textInput.setText("");
+    }
+
+    public PopupMenu createOptionsMenu(View view, CommentWithUser comment) {
         PopupMenu popupMenu = new PopupMenu(this.context, view);
         popupMenu.getMenuInflater().inflate(R.menu.comment_options, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
-            AlertDialog dialog = createInputDialog(view.getContext(), position);
+            AlertDialog dialog = createInputDialog(view.getContext(), comment);
             if (menuItem.getItemId() == R.id.deleteCommentOption) {
-                deleteComment(position);
+                deleteComment(comment);
             } else if (menuItem.getItemId() == R.id.editCommentOption) {
                 dialog.show();
             }
@@ -130,14 +154,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return popupMenu;
     }
 
-    public AlertDialog createInputDialog(Context context, int commentPlace) {
+    public AlertDialog createInputDialog(Context context, CommentWithUser comment) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Edit Comment");
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
         builder.setPositiveButton("Edit", (dialog, which) -> {
-            editComment(commentPlace,input.getText().toString());
+            editComment(comment,input.getText().toString());
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         return builder.create();

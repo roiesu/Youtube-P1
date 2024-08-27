@@ -13,7 +13,6 @@ public class ContextApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        Log.w("TESTING","YES");
     }
     public static void showToast(String message){
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();

@@ -42,13 +42,13 @@ public class CommentApi {
                 if (body != null) {
                     comments.setValue(body);
                 } else {
-                    Log.w("Errorrrr", "Yes");
+                    Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-                Log.w("ERRPRRRR", t);
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -69,7 +69,7 @@ public class CommentApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                ContextApplication.showToast("ERROR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
@@ -93,11 +93,11 @@ public class CommentApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                ContextApplication.showToast("ERROR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }
-    public void addComment(MutableLiveData<CommentWithUser> data,String text,String uploaderId,String videoId){
+    public void addComment(MutableLiveData<Comment> data,String text,String uploaderId,String videoId){
         String header = "Bearer " + DataManager.getToken();
         Comment temp = new Comment();
         temp.setText(text);
@@ -105,7 +105,7 @@ public class CommentApi {
         call.enqueue(new Callback<CommentWithUser>() {
             @Override
             public void onResponse(Call<CommentWithUser> call, Response<CommentWithUser> response) {
-                CommentWithUser body= response.body();
+                Comment body= response.body();
                 if(body!=null){
                     data.setValue(body);
                 }
@@ -116,7 +116,7 @@ public class CommentApi {
 
             @Override
             public void onFailure(Call<CommentWithUser> call, Throwable t) {
-                ContextApplication.showToast("ERROR");
+                ContextApplication.showToast(t.getMessage());
             }
         });
     }

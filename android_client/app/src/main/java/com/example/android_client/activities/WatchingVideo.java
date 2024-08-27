@@ -40,6 +40,7 @@ import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
@@ -108,6 +109,11 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
                 ImageView uploaderImage = findViewById(R.id.uploaderImage);
                 Glide.with(this).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(uploaderImage);
+                uploaderImage.setOnClickListener(v -> {
+                    Intent channelIntent = new Intent(this, ChannelActivity.class);
+                    channelIntent.putExtra("USER_ID", video.getUploader().get_id());
+                    this.startActivity(channelIntent);
+                });
                 likeButton.setOnClickListener(view -> {
                     if (DataManager.getCurrentUsername() == null) {
                         ContextApplication.showToast("Can't like video if not logged in");
@@ -168,13 +174,17 @@ public class WatchingVideo extends AppCompatActivity {
         dividerItemDecoration.setDrawable(dividerDrawable);
         commentsList.addItemDecoration(dividerItemDecoration);
         commentListViewModel.getComments().observe(this, commentsList -> {
-            if (commentsList == null) {
+            if(commentsList == null){
                 return;
             }
             adapter.setComments(commentsList);
             adapter.notifyDataSetChanged();
             commentListSize.setValue(commentsList.size());
-            commentButton.setOnClickListener(l -> commentVideo(adapter));
+            commentButton.setOnClickListener(l -> addComment(adapter));
+            if(DataManager.getCurrentUsername() == null){
+                ContextApplication.showToast("Can't comment without login");
+                return;
+            }
             commentListViewModel.getComments().setValue(null);
         });
         commentListSize.observe(this, count -> {
@@ -183,10 +193,8 @@ public class WatchingVideo extends AppCompatActivity {
         commentListViewModel.getCommentsByVideo(videoId);
     }
 
-    private void commentVideo(CommentAdapter adapter) {
-        commentListViewModel.addComment(this, commentInput.getText().toString(), video.getVideo().getValue().getUploader().getUsername(), video.getVideo().getValue().get_id());
-//        commentInput.setText("");
-//        adapter.notifyItemInserted(0);
+    private void addComment(CommentAdapter adapter) {
+        adapter.addComment(commentInput,video.getVideo().getValue().get_id(), commentsList);
     }
 
     private AlertDialog createShareDialog(String videoId, String userId) {

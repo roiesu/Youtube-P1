@@ -77,6 +77,7 @@ public class MyVideosPage extends RegisteredOnlyActivity {
                 adapter.setVideos(videos);
             } else {
                 adapter.notifyItemInserted(videos.size() - 1);
+                videosList.getLayoutManager().scrollToPosition(videos.size() - 1);
             }
         });
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(videosList.getContext(),
