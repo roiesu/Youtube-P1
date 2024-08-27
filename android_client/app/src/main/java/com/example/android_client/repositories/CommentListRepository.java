@@ -48,10 +48,10 @@ public class CommentListRepository {
         });
     }
     public void addComment(LifecycleOwner owner, String text, String uploaderId,String videoId){
-        MutableLiveData<CommentWithUser> commentData = new MutableLiveData<>();
+        MutableLiveData<Comment> commentData = new MutableLiveData<>();
         commentData.observe(owner,data->{
             new Thread(() -> {
-                data.setUserId(data.getUser().get_id());
+                data.setUserId(data.getUserId());
                 data.setVideoId(videoId);
                 dao.insert(data);
             }).start();

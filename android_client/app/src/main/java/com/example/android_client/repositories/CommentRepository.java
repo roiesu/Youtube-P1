@@ -37,26 +37,41 @@ public class CommentRepository {
         return commentData;
     }
 
-    public void deleteComment(Comment comment, String videoUploader) {
+    public void deleteComment(Comment comment, String videoUploader, MutableLiveData<Boolean> finished) {
         commentData.observe(owner, data -> {
             if ((data != null) && (data.get_id() != null)&&(data.getUserId() == null)) {
                 new Thread(() -> {
                     videoDao.updateComments(comment.getVideoId(),-1);
                     dao.deleteComment(comment.get_id());
+                    finished.postValue(true);
                 }).start();
             }
         });
         api.deleteComment(commentData, comment, videoUploader);
     }
 
-    public void editComment(Comment comment, String text, String videoUploader) {
+    public void editComment(Comment comment, String text, String videoUploader, MutableLiveData<Boolean> finished) {
         commentData.observe(owner, data -> {
             if ((data != null) && (data.getText().equals(text))) {
                 new Thread(() -> {
                     dao.editComment(comment.get_id(), text);
+                    finished.postValue(true);
                 }).start();
             }
         });
         api.editComment(commentData, comment, text, videoUploader);
+    }
+
+    public void addComment(String text, String videoUploader, String videoId, MutableLiveData<Boolean> finished) {
+        commentData.observe(owner, data -> {
+            if(data != null) {
+                new Thread(() -> {
+                    dao.insert(data);
+                    videoDao.updateComments(data.getVideoId(),1);
+                    finished.postValue(true);
+                }).start();
+            }
+        });
+        api.addComment(commentData,text, videoUploader, videoId);
     }
 }

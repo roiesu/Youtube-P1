@@ -23,8 +23,8 @@
     <string name="page_not_found">Page not found!\nOr maybe you don\'t have access to watch it?</string>
     <string name="camera_permission_denied">No permission to use camera</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="BaseUrlApi">http://10.100.102.10:8080/api/</string>
-    <string name="BaseUrlMedia">http://10.100.102.10:8080/media/</string>
+    <string name="BaseUrlApi">http://192.168.202.1:8080/api/</string>
+    <string name="BaseUrlMedia">http://192.168.202.1:8080/media/</string>
     <string name="video_preview">Video Preview</string>
     <string name="video_tags">Video Tags</string>
 </resources>
