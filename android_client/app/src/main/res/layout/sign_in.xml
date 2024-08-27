@@ -63,6 +63,7 @@
                     android:id="@+id/submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="@string/submit" />
 
                 <Space
@@ -73,6 +74,7 @@
                     android:id="@+id/signup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="@string/move_to_signup" />
             </LinearLayout>
 

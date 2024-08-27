@@ -15,11 +15,13 @@ async function addComment(req, res) {
     }
     const comment = new Comment({ user: req.user, video: pid, text });
     await comment.save();
+
     video.comments.push(comment._id);
     await video.save();
     await User.findByIdAndUpdate(req.user, { $addToSet: { comments: comment._id } });
     await comment.populate("user", ["name", "image", "username", "_id"]);
-    return res.status(201).send(comment);
+    const commentToSend = { ...comment.toJSON(), videoId: comment.video, userId: comment.user._id };
+    return res.status(201).send(commentToSend);
   } catch (err) {
     if (err.kind == "ObjectId") {
       return res.status(404).send("Video not found");
@@ -47,7 +49,8 @@ async function editComment(req, res) {
     } else if (comment.user._id != req.user) {
       return res.sendStatus(401);
     }
-    await comment.updateOne({ $set: { text, edited: true } });    await comment.save();
+    await comment.updateOne({ $set: { text, edited: true } });
+    await comment.save();
     return res.sendStatus(201);
   } catch (err) {
     if (err.kind == "ObjectId") {
@@ -66,7 +69,7 @@ async function deleteComment(req, res) {
         select: ["_id", "uploader"],
         populate: { path: "uploader", select: ["username"] },
       })
-      .populate("user", ["_id"]);  
+      .populate("user", ["_id"]);
     if (!comment || comment.video.uploader.username != id) {
       return res.status(404).send("Comment not found");
     } else if (comment.user._id != req.user) {

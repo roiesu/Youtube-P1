@@ -24,7 +24,7 @@ function SignIn({ setCurrentUser, showToast }) {
         password: passwordInput,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const token = response.data;
         localStorage.setItem("token", token);
         setCurrentUser(usernameInput);
