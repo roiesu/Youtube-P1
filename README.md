@@ -67,8 +67,13 @@ Our overall workflow was similar to the first part of the project. We defined ta
 
 # part 3
 
-## Runing the apllication
+## Running the apllication
 
+The first steps are the same as for part2.
+After performing these steps, open your cmd and write ipconfig. In the second section, you can find your IPv4 Address. copy it.
+Open the android_client directory and go to this file android_client\app\src\main\res\values\strings.xml
+In there you will find two string tags named BaseUrlApi and BaseUrlMedia. replace [Enter Your Ip Here] with the IPv4 Address you copied.
+Now open your emulator and run the application. make sure that your nodejs server is running.
 
 
 ## workflow
