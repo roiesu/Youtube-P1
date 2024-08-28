@@ -79,7 +79,8 @@ public class WatchingVideo extends AppCompatActivity {
 
 
     }
-    public void resumeOnCreate(){
+
+    public void resumeOnCreate() {
         AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
         String appLinkAction = intent.get().getAction();
         String channel = "";
@@ -174,17 +175,14 @@ public class WatchingVideo extends AppCompatActivity {
         dividerItemDecoration.setDrawable(dividerDrawable);
         commentsList.addItemDecoration(dividerItemDecoration);
         commentListViewModel.getComments().observe(this, commentsList -> {
-            if(commentsList == null){
+            if (commentsList == null) {
                 return;
             }
             adapter.setComments(commentsList);
             adapter.notifyDataSetChanged();
             commentListSize.setValue(commentsList.size());
             commentButton.setOnClickListener(l -> addComment(adapter));
-            if(DataManager.getCurrentUsername() == null){
-                ContextApplication.showToast("Can't comment without login");
-                return;
-            }
+
             commentListViewModel.getComments().setValue(null);
         });
         commentListSize.observe(this, count -> {
@@ -194,7 +192,11 @@ public class WatchingVideo extends AppCompatActivity {
     }
 
     private void addComment(CommentAdapter adapter) {
-        adapter.addComment(commentInput,video.getVideo().getValue().get_id(), commentsList);
+        if (DataManager.getCurrentUsername() == null) {
+            ContextApplication.showToast("Can't comment without login");
+            return;
+        }
+        adapter.addComment(commentInput, video.getVideo().getValue().get_id(), commentsList);
     }
 
     private AlertDialog createShareDialog(String videoId, String userId) {
