@@ -17,6 +17,7 @@ import com.example.android_client.R;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,7 +103,7 @@ public class WatchingVideo extends AppCompatActivity {
                 finish();
             } else {
                 initComments(video.get_id(), video.getUploader().getUsername());
-                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(), this, video.getLikesNum());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(),this);
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
@@ -197,6 +198,9 @@ public class WatchingVideo extends AppCompatActivity {
             return;
         }
         adapter.addComment(commentInput, video.getVideo().getValue().get_id(), commentsList);
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(commentInput.getWindowToken(), 0);
+
     }
 
     private AlertDialog createShareDialog(String videoId, String userId) {

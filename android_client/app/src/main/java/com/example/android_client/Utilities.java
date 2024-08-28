@@ -181,8 +181,8 @@ public class Utilities {
 
     public static void handleError(Response response) {
         if (response.code() == 403) {
-            DataManager.Logout();
             ContextApplication.showToast("Registration token expired, please login again.");
+            DataManager.Logout();
             return;
         }
         String errorMessage;

@@ -124,7 +124,7 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
         databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
             initializeData();
         }
         videos = new VideoWithUserListViewModel(this);
