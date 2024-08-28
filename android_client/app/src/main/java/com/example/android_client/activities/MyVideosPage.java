@@ -46,6 +46,9 @@ public class MyVideosPage extends RegisteredOnlyActivity {
                         boolean edited = result.getData().getBooleanExtra("edited", true);
                         if (!edited) {
                             DataManager.Logout();
+                            Intent intent = new Intent(this, MainPage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                             finish();
                         }
                     }

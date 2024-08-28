@@ -28,4 +28,7 @@ public interface LikeDao {
 
     @Query("SELECT * FROM `Like` WHERE userId = :userId AND videoId = :videoId")
     Like getLike(String userId, String videoId);
+
+    @Query("SELECT COUNT(*) FROM `Like` WHERE videoId = :videoId")
+    Integer countLikes(String videoId);
 }
