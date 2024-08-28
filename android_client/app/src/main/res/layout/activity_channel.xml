@@ -47,16 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/separationLine"
         app:layout_constraintBottom_toTopOf="@id/navBarFragment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/separationLine"
         tools:listitem="@layout/video_link_item" />
-    <fragment
-        android:id="@+id/navBarFragment"
-        android:name="com.example.android_client.fragments.NavBarFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <fragment
         android:id="@+id/navBarFragment"

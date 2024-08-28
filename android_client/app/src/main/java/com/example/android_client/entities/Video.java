@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.android_client.ContextApplication;
@@ -37,6 +38,7 @@ public class Video {
     private ArrayList<String> tags;
     private Integer commentsNum;
 
+    @Ignore
     public Video() {
     }
 
@@ -54,7 +56,7 @@ public class Video {
         this.tags = tags;
         this.commentsNum = commentsNum;
     }
-
+    @Ignore
     public Video(String _id, String name, String uploader, String thumbnail, long duration, long views, Date date) {
         this._id = _id;
         this.name = name;
@@ -158,7 +160,7 @@ public class Video {
         return likesNum;
     }
 
-    public void setLikesNum(int likesNum) {
+    public void setLikesNum(Integer likesNum) {
         this.likesNum = likesNum;
     }
 

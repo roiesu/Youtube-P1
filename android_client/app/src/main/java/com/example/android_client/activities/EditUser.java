@@ -57,7 +57,6 @@ public class EditUser extends MediaPickerActivity {
                 Glide.with(this).load(data.getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(this.targetImageView);
                 initialized = true;
                 userViewModel.getUserData().removeObservers(this);
-                userViewModel.getUserData().setValue(null);
             } else if (initialized == false) {
                 finish();
             }

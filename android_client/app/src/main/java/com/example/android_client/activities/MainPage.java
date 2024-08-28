@@ -89,7 +89,7 @@ public class MainPage extends AppCompatActivity {
         videoList.setAdapter(adapter);
         SwipeRefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(() -> {
-             searchInput.setQuery("", false);
+            searchInput.setQuery("", false);
             videos.reload();
         });
         videos.getVideos().observe(this, list -> {
@@ -122,9 +122,11 @@ public class MainPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
-        initializeData();
         setContentView(R.layout.main_page);
+        databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
+        if (savedInstanceState != null) {
+            initializeData();
+        }
         videos = new VideoWithUserListViewModel(this);
         userDetails = new UserViewModel(this);
         initItems();
