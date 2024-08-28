@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
+import com.example.android_client.Utilities;
 import com.example.android_client.activities.helpers.MediaPickerActivity;
 import com.example.android_client.adapters.InputValidationAdapter;
 import com.example.android_client.entities.InputValidation;
@@ -24,7 +26,6 @@ public class SignUp extends MediaPickerActivity {
 
     private RecyclerView inputList;
     private Button submit;
-    private String imageData;
     private Button goToSignInButton;
     private UserViewModel userViewModel;
 
@@ -76,18 +77,15 @@ public class SignUp extends MediaPickerActivity {
     }
 
     private void register() {
-        Toast toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
-        if (!inputs.get(1).getInputText().equals(inputs.get(2).getInputText())) {
-            toast.setText(inputs.get(2).getReqs());
-            toast.show();
-            return;
-        } else if (imageUri == null || imageData == null) {
-            toast.setText("No image chosen");
-            toast.show();
+        if(imageUri==null){
+            ContextApplication.showToast("Image is required");
             return;
         }
-        User newUser = new User(null, inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), imageData);
-
+        else if(inputs.get(1).equals(inputs.get(2))){
+            ContextApplication.showToast("Password validation doesn't match");
+            return;
+        }
+        User newUser = new User(null, inputs.get(0).getInputText(), inputs.get(1).getInputText(), inputs.get(3).getInputText(), Utilities.imageUriToBase64(this,imageUri));
         userViewModel.getUserData().setValue(newUser);
         userViewModel.create();
     }
