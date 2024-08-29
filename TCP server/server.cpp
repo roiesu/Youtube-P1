@@ -5,6 +5,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+using std::cout;
+using std::endl;
 int main() {
     const int server_port= 5555;
     int sock= socket(AF_INET, SOCK_STREAM,0);
@@ -37,10 +39,12 @@ int main() {
     // error 
     }
     else{
-        cout << buffer;
+        cout<<buffer;
     }
+    cout << client_sock<< endl;
     int sent_bytes= send(client_sock, buffer, read_bytes,0);
     if (sent_bytes<0){
+    
         perror("error sending to client");
     }
     close(sock);

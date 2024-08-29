@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const router = require("./routes/router");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const net = require("node:net");
+
 require("dotenv").config();
 const app = express();
 const path = require("path");
@@ -22,6 +24,13 @@ app.listen(8080, () => {
       dbName: process.env.MONGODB_DATABASE,
     })
     .then(() => {
+      const client = new net.Socket();
+      client.connect(5555, "192.168.64.129", () => {
+        console.log("Connected to the server");
+
+        // Send a message to the server
+        client.write("Hello, server! I am the client.");
+      });
       console.log("connected to database");
     })
     .catch((err) => console.error("Database connection error:", err));
