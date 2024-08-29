@@ -20,7 +20,7 @@ int main() {
     if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
         perror("error binding socket");
     }
-    if (listen(sock,5)<0){
+    if (listen(sock,2)<0){
         perror("error listening to a socket");
     }
     struct sockaddr_in client_sin;
@@ -31,21 +31,25 @@ int main() {
     }
     char buffer[4096];
     int expected_data_len= sizeof(buffer);
-    int read_bytes= recv(client_sock, buffer, expected_data_len,0);
-    if (read_bytes ==0){
-    // connection is closed 
-    }
-    else if (read_bytes<0){
-    // error 
-    }
-    else{
-        cout<<buffer;
-    }
-    cout << client_sock<< endl;
-    int sent_bytes= send(client_sock, buffer, read_bytes,0);
-    if (sent_bytes<0){
-    
-        perror("error sending to client");
+    while (true)
+    {    
+        int read_bytes= recv(client_sock, buffer, expected_data_len,0);
+        if (read_bytes ==0){
+            cout<<"closed"<<endl;
+            break;
+        // connection is closed 
+        }
+        else if (read_bytes<0){
+            cout<<"error"<<endl;
+            break;
+        }
+        else{
+            cout<<buffer<<endl;
+        }
+        int sent_bytes= send(client_sock, buffer, read_bytes,0);
+        if (sent_bytes<0){
+            perror("error sending to client");
+        }
     }
     close(sock);
     return 0;
