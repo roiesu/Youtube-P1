@@ -19,18 +19,27 @@ app.get("*", (req, res) => {
 });
 
 app.listen(8080, () => {
+  // TEST
+  const client = new net.Socket();
+  client.connect(5555, "192.168.64.129", () => {
+    console.log("Connected to the server");
+    // Send a message to the server
+    client.write("Hello, server! I am the client.");
+  });
+
+  client.on("data", (data) => {
+    console.log(data.toString());
+  });
+  client.on("close", () => {
+    console.log("bye");
+  });
+  // TEST
+
   mongoose
     .connect(process.env.MONGODB_CONNECTION_URL, {
       dbName: process.env.MONGODB_DATABASE,
     })
     .then(() => {
-      const client = new net.Socket();
-      client.connect(5555, "192.168.64.129", () => {
-        console.log("Connected to the server");
-
-        // Send a message to the server
-        client.write("Hello, server! I am the client.");
-      });
       console.log("connected to database");
     })
     .catch((err) => console.error("Database connection error:", err));
