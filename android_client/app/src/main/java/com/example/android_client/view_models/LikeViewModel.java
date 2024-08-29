@@ -13,8 +13,8 @@ public class LikeViewModel extends ViewModel {
     private MutableLiveData<Integer> videoLikes;
     private LikeRepository repository;
 
-    public LikeViewModel(String userId, String videoId, LifecycleOwner owner,Integer likesNum) {
-        this.repository = new LikeRepository(userId, videoId, owner,likesNum);
+    public LikeViewModel(String userId, String videoId, LifecycleOwner owner) {
+        this.repository = new LikeRepository(userId, videoId, owner);
         isLiked = repository.getIsLiked();
         videoLikes = repository.getLikeNum();
     }
