@@ -19,15 +19,15 @@ public class LikeRepository {
 
     private LifecycleOwner owner;
 
-    public LikeRepository(String userId, String videoId, LifecycleOwner owner, Integer videoLikesNum) {
+    public LikeRepository(String userId, String videoId, LifecycleOwner owner) {
         api = new LikeApi();
-        isLiked = new LikeData(userId, videoId);
-        likeNum = new LikeNumData(videoLikesNum);
         // Room
         AppDB database = AppDB.getInstance();
         likeDao = database.likeDao();
         videoDao = database.videoDao();
         this.owner = owner;
+        isLiked = new LikeData(userId, videoId);
+        likeNum = new LikeNumData(videoId);
     }
 
     class LikeData extends MutableLiveData<Boolean> {
@@ -39,9 +39,12 @@ public class LikeRepository {
     }
 
     class LikeNumData extends MutableLiveData<Integer> {
-        public LikeNumData(Integer videoLikesNum) {
+        public LikeNumData(String videoId) {
             super();
-            setValue(videoLikesNum);
+            new Thread(()->{
+                Integer count = likeDao.countLikes(videoId);
+                postValue(count);
+            }).start();
         }
 
     }

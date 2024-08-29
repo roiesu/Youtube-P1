@@ -1,7 +1,9 @@
 package com.example.android_client;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.example.android_client.activities.SignIn;
 import com.example.android_client.entities.User;
 import com.example.android_client.entities.Video;
 import com.google.gson.Gson;
@@ -63,6 +65,10 @@ public class DataManager {
         instance.currentUsername = null;
         instance.token = null;
         instance.currentUserId = null;
+        Context context = ContextApplication.context;
+        Intent intent = new Intent(context, SignIn.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
 }
