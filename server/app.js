@@ -18,23 +18,28 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/build/index.html"));
 });
 
+// TEST
+const client = new net.Socket();
+client.connect(process.env.TCP_PORT, process.env.TCP_IP, () => {
+  console.log("Connected to the TCP server");
+  // Send a message to the server
+});
+
+client.on("data", (data) => {
+  console.log(data.toString());
+});
+client.on("close", () => {
+  console.log("Disconnected from the TCP server");
+});
+
+process.on("SIGINT", () => {
+  console.log("Stopping server...");
+  client.end(); // Close TCP connection before exiting
+  process.exit(); // Exit the server process
+});
+
+// TEST
 app.listen(8080, () => {
-  // TEST
-  const client = new net.Socket();
-  client.connect(5555, "192.168.64.129", () => {
-    console.log("Connected to the server");
-    // Send a message to the server
-    client.write("Hello, server! I am the client.");
-  });
-
-  client.on("data", (data) => {
-    console.log(data.toString());
-  });
-  client.on("close", () => {
-    console.log("bye");
-  });
-  // TEST
-
   mongoose
     .connect(process.env.MONGODB_CONNECTION_URL, {
       dbName: process.env.MONGODB_DATABASE,
