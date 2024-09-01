@@ -368,13 +368,14 @@ async function increaseViews(req, res) {
 
 async function getVideoRecommendations(req,res){
   const{id,pid} = req.params;
-  const video= await Video.find({_id:pid,uploader:id});
-  if(!video){
-    return res.sendStatus(404);
-  }
+  // const video= await Video.find({_id:pid,uploader:id});
+  // if(!video){
+  //   return res.sendStatus(404);
+  // }
   let message;
   try{
-    message = await sendMessageToTcpServer(req.user+" "+pid);
+    // message = await sendMessageToTcpServer(req.user+" "+pid);
+    message = await sendMessageToTcpServer(id+" "+pid);
   }
   catch(err){
     return res.send(err);

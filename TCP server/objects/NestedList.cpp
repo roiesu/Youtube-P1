@@ -1,5 +1,7 @@
 #include "NestedNode.cpp"
 #include <iostream>
+using std::endl;
+using std::string;
 
 class NestedList {
 private:
@@ -73,12 +75,13 @@ public:
     }
 
     // Method to display the list
-    void display() const {
+    string display() const {
         NestedNode* current = head;
+        string toSend ="";
         while (current != nullptr) {
-            current->display();
+            toSend += current->display();
             current = current->next;
         }
-        std::cout << "null" << std::endl;
+        return toSend + "";
     }
 };
