@@ -21,25 +21,62 @@ public:
     }
 
     // Method to add a node to the end of the list
-    void add(const std::string& id) {
-        NestedNode* newNestedNode = new NestedNode(id);
+    NestedNode* addNode(const std::string& id) {
+        NestedNode* newNode = new NestedNode(id);
         if (head == nullptr) {
-            head = newNestedNode;
-            tail = newNestedNode;
+            head = newNode;
+            tail = newNode;
         } else if(head == tail){
-            tail = newNestedNode;
+            tail = newNode;
             head->next = tail;
+            tail->prev=head;
         } 
         else {
-            tail->next = newNestedNode;
+            tail->next = newNode;
+            newNode->prev = tail;
         }
+        return newNode;
+    }
+
+
+    NestedNode* findNode(std::string id){
+        NestedNode* current = head;
+        while (current != nullptr) {
+            if(current->id.compare(id)==0){
+                return current;
+            }
+            current = current->next;
+        }
+        return nullptr;
+    }
+
+    NestedNode* uniqueAdd(std::string id){
+        NestedNode* newNode = this->findNode(id);
+        if(newNode==nullptr){
+            newNode = this->addNode(id);
+        }
+        return newNode;
+    }
+
+    int deleteNode(std::string id){
+        NestedNode* toDelete = findNode(id);
+        if(toDelete==nullptr){
+            return 0;
+        }
+        else if(toDelete->prev==nullptr){
+            this->head = toDelete->next;
+            return 1;
+        }
+        NestedNode* prev = toDelete->prev;
+        prev->next=toDelete->next;
+        return 1;
     }
 
     // Method to display the list
     void display() const {
         NestedNode* current = head;
         while (current != nullptr) {
-            std::cout << current->id << " -> ";
+            current->display();
             current = current->next;
         }
         std::cout << "null" << std::endl;
