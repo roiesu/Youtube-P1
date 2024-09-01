@@ -21,8 +21,25 @@ std::pair<string, string> extractIds(string buffer,int read_bytes){
     return std::make_pair(userId,videoId);
 }
 string getRecommendations(string videoId);
-string updateReccomendations(string userId,string videoId){
-    
+void updateReccomendations(NestedList* users, NestedList* videos,string userId,string videoId){
+    NestedNode* userNode = users->uniqueAdd(userId);
+    NestedNode* videoNode = videos->uniqueAdd(videoId);
+    if(userNode->inner->findNode(videoId)){
+        // If the video is already inside the user's watching list, no need to update it's friend list.
+        return;
+    }
+
+    Node* watchedVideo = userNode->inner->head;
+    while(watchedVideo!=nullptr){
+        // Add every video from the user's watch list into the video's firends list
+        videoNode->inner->uniqueAdd(watchedVideo->id);
+        NestedNode* watchVideoNested = videos->findNode(watchedVideo->id);
+        // Add the new video to any other video in the user's watch list
+        watchVideoNested->inner->uniqueAdd(videoId);
+        watchedVideo= watchedVideo->next;
+    }
+    // Adding the new video to the user's watch list
+    userNode->inner->addNode(videoId);
 }
 
 void handleClient(int clientSocket, NestedList* users, NestedList* videos){
@@ -30,12 +47,15 @@ void handleClient(int clientSocket, NestedList* users, NestedList* videos){
     int expected_data_len= sizeof(buffer);
     int read_bytes;
     while((read_bytes=recv(clientSocket, buffer, expected_data_len,0))>0){
-        extractIds(buffer,read_bytes);    
+        std::pair<string,string> idPair= extractIds(buffer,read_bytes);    
         // Echo
         int sent_bytes= send(clientSocket, buffer, read_bytes,0);
         if (sent_bytes<0){
             perror("error sending to client");
         }
+        updateReccomendations(users,videos,idPair.first,idPair.second);
+        cout <<"users:"<<endl<< users->display();
+        cout <<"videos:"<<endl<< videos->display();
         // Echo
     }
     close(clientSocket);

@@ -1,12 +1,12 @@
 #include "Node.cpp"
 #include <iostream>
+using std::endl;
+using std::string;
 
 class List {
-private:
+public:
     Node* head;  // Pointer to the first node in the list
     Node* tail;
-
-public:
     // Constructor to initialize an empty list
     List() : head(nullptr),tail(nullptr) {}
 
@@ -75,12 +75,17 @@ public:
 
 
     // Method to display the list
-    void display() const {
+    string display() const {
         Node* current = head;
-        while (current != nullptr) {
-            std::cout << current->id << ", ";
+        string toSend="";
+        if(current==nullptr){
+            return "";
+        }
+        while (current->next != nullptr) {
+            toSend += current->id+ ", ";
             current = current->next;
         }
-        std::cout << "null" << std::endl;           
+        toSend+=current->id;
+        return toSend +"\n";
     }    
 };
