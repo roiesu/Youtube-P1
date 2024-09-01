@@ -11,6 +11,7 @@ const {
   getMinimalVideoDetails,
   getVideosByUserId,
   increaseViews,
+  getVideoRecommendations,
 } = require("../controllers/videos");
 const { authenticateTokenIfGot, authenticateToken } = require("../middleware/auth");
 
@@ -21,6 +22,7 @@ router.use("/:pid/comments", comments);
 router.put("/:pid/like", authenticateToken, likeVideo);
 router.delete("/:pid/like", authenticateToken, dislikeVideo);
 
+// Add a view
 router.patch("/:pid/view", increaseViews);
 
 // Getting videos by user
@@ -33,5 +35,8 @@ router.post("/", authenticateToken, addVideo);
 router.get("/:pid", authenticateTokenIfGot, getVideo);
 router.patch("/:pid", authenticateToken, updateVideo);
 router.delete("/:pid", authenticateToken, deleteVideo);
+
+// Getting video recommendations
+router.get("/:pid/rec",authenticateTokenIfGot,getVideoRecommendations);
 
 module.exports = router;
