@@ -14,6 +14,10 @@ class NestedNode{
     NestedNode(const std::string& idValue, NestedNode* nextNode = nullptr,NestedNode* prev=nullptr, List* inner = new List()) 
         : id(idValue), next(nextNode), prev(prev), inner(inner){}
     
+    ~NestedNode(){
+        delete inner;
+    }
+    
     string display(){
         return this->id + ": "+ this->inner->display();
     }

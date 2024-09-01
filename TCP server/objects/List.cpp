@@ -34,6 +34,7 @@ public:
         else {
             tail->next = newNode;
             newNode->prev = tail;
+            tail=newNode;
         }
         return newNode;
     }
@@ -75,7 +76,7 @@ public:
 
 
     // Method to display the list
-    string display() const {
+    string display()  {
         Node* current = head;
         string toSend="";
         if(current==nullptr){
@@ -86,6 +87,6 @@ public:
             current = current->next;
         }
         toSend+=current->id;
-        return toSend +"\n";
-    }    
+        return toSend;
+    }
 };

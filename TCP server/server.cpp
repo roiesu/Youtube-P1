@@ -17,10 +17,16 @@ std::pair<string, string> extractIds(string buffer,int read_bytes){
     int index= buffer.find(delimiter);
     string userId = buffer.substr(0, index);
     string videoId = buffer.substr(index+1,read_bytes);
-    cout<<"user: "<<userId<<", video: "<<videoId<<endl;
+    // cout<<"user: "<<userId<<", video: "<<videoId<<endl;
     return std::make_pair(userId,videoId);
 }
-string getRecommendations(string videoId);
+string getRecommendations(NestedList* videos, string videoId){
+    NestedNode* videoNode = videos->findNode(videoId);
+    if(videoNode!=nullptr){
+        return videoNode->inner->display();
+    }
+    return "";
+}
 void updateReccomendations(NestedList* users, NestedList* videos,string userId,string videoId){
     NestedNode* userNode = users->uniqueAdd(userId);
     NestedNode* videoNode = videos->uniqueAdd(videoId);
@@ -43,20 +49,21 @@ void updateReccomendations(NestedList* users, NestedList* videos,string userId,s
 }
 
 void handleClient(int clientSocket, NestedList* users, NestedList* videos){
-    char buffer[4096];
+    char buffer[31];
     int expected_data_len= sizeof(buffer);
     int read_bytes;
     while((read_bytes=recv(clientSocket, buffer, expected_data_len,0))>0){
         std::pair<string,string> idPair= extractIds(buffer,read_bytes);    
-        // Echo
+        string recVideos = getRecommendations(videos,idPair.second);
         int sent_bytes= send(clientSocket, buffer, read_bytes,0);
         if (sent_bytes<0){
             perror("error sending to client");
         }
-        updateReccomendations(users,videos,idPair.first,idPair.second);
-        cout <<"users:"<<endl<< users->display();
-        cout <<"videos:"<<endl<< videos->display();
-        // Echo
+        if(idPair.first.compare("undefined")!=0){
+            updateReccomendations(users,videos,idPair.first,idPair.second);
+        }
+        // cout <<"users:"<<endl<< users->display();
+        // cout <<"videos:"<<endl<< videos->display();
     }
     close(clientSocket);
 }
