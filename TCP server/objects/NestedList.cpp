@@ -36,6 +36,7 @@ public:
         else {
             tail->next = newNode;
             newNode->prev = tail;
+            tail=newNode;
         }
         return newNode;
     }
@@ -74,14 +75,13 @@ public:
         return 1;
     }
 
-    // Method to display the list
-    string display() const {
-        NestedNode* current = head;
+    string display()  {
+       NestedNode* current = head;
         string toSend ="";
         while (current != nullptr) {
             toSend += current->display();
             current = current->next;
         }
-        return toSend + "";
+        return toSend + "\n";
     }
 };
