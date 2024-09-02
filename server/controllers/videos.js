@@ -1,6 +1,7 @@
+const { isValidObjectId } = require("mongoose");
 const User = require("../models/user");
 const Video = require("../models/video");
-const {sendMessageToTcpServer} = require("../tcpClient");
+const { sendMessageToTcpServer } = require("../tcpClient");
 const { write64FileWithCopies, deletePublicFile, override64File } = require("../utils");
 
 async function videoIndex(req, res) {
@@ -366,35 +367,41 @@ async function increaseViews(req, res) {
   return res.status(200).send(video);
 }
 
-async function getVideoRecommendations(req,res){
-  const{id,pid} = req.params;
-  const video= await Video.find({_id:pid,uploader:id});
-  if(!video){
+async function getVideoRecommendations(req, res) {
+  const { id, pid } = req.params;
+  if (!pid || !isValidObjectId(pid)) {
+    return res.sendStatus(404);
+  }
+  const video = await Video.find({ _id: pid, uploader: id });
+  if (!video) {
     return res.sendStatus(404);
   }
   let message;
-  try{
-    message = await sendMessageToTcpServer("admin1"+" "+pid);
-  }
-  catch(err){
+  try {
+    message = await sendMessageToTcpServer("admin1" + " " + pid);
+  } catch (err) {
     return res.send(err);
   }
-  let idArray = message=="empty"? [] : message.split(", ");
-  let videosToSend = await Video.find({_id:{$in:idArray}})
-  .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
-  .populate({ path: "uploader", select: ["username", "name", "image"] })
-  .sort({ views: "desc" }).limit(10);
-  if(videosToSend.length<10){
-    const amount = 10- videosToSend.length;
-    let fillVideos = await Video.find({_id:{$nin:idArray}})
+  let idArray = message == "empty" ? [] : message.split(", ");
+  let videosToSend = await Video.find({ _id: { $in: idArray } })
     .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
     .populate({ path: "uploader", select: ["username", "name", "image"] })
-    .sort({ views: "desc" }).limit(amount);
-    videosToSend=videosToSend.concat(fillVideos);
+    .sort({ views: "desc" })
+    .limit(10);
+  if (videosToSend.length < 10) {
+    const amount = 10 - videosToSend.length;
+    // So the video that's being watched would not be recommended
+    idArray.push(pid);
+    // Filling the rest of the recommendations
+    let fillVideos = await Video.find({ _id: { $nin: idArray } })
+      .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
+      .populate({ path: "uploader", select: ["username", "name", "image"] })
+      .sort({ views: "desc" })
+      .limit(amount);
+    videosToSend = videosToSend.concat(fillVideos);
   }
   return res.status(200).send(videosToSend);
 }
-
 
 module.exports = {
   getVideos,
@@ -409,5 +416,5 @@ module.exports = {
   getVideosByUserId,
   videoIndex,
   increaseViews,
-  getVideoRecommendations
+  getVideoRecommendations,
 };
