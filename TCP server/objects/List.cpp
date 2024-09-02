@@ -1,12 +1,12 @@
 #include "Node.cpp"
 #include <iostream>
+using std::endl;
+using std::string;
 
 class List {
-private:
+public:
     Node* head;  // Pointer to the first node in the list
     Node* tail;
-
-public:
     // Constructor to initialize an empty list
     List() : head(nullptr),tail(nullptr) {}
 
@@ -21,7 +21,7 @@ public:
     }
 
     // Method to add a node to the end of the list
-    void add(const std::string& id) {
+    Node* addNode(const std::string& id) {
         Node* newNode = new Node(id);
         if (head == nullptr) {
             head = newNode;
@@ -29,19 +29,64 @@ public:
         } else if(head == tail){
             tail = newNode;
             head->next = tail;
+            tail->prev=head;
         } 
         else {
             tail->next = newNode;
+            newNode->prev = tail;
+            tail=newNode;
         }
+        return newNode;
     }
 
-    // Method to display the list
-    void display() const {
+
+    Node* findNode(std::string id){
         Node* current = head;
         while (current != nullptr) {
-            std::cout << current->id << " -> ";
+            if(current->id.compare(id)==0){
+                return current;
+            }
             current = current->next;
         }
-        std::cout << "null" << std::endl;
+        return nullptr;
+    }
+
+    Node* uniqueAdd(std::string id){
+        Node* newNode = this->findNode(id);
+        if(newNode==nullptr){
+            newNode = this->addNode(id);
+        }
+        return newNode;
+    }
+
+    int deleteNode(std::string id){
+        Node* toDelete = findNode(id);
+        if(toDelete==nullptr){
+            return 0;
+        }
+        else if(toDelete->prev==nullptr){
+            this->head = toDelete->next;
+            return 1;
+        }
+        Node* prev = toDelete->prev;
+        prev->next=toDelete->next;
+        return 1;
+    }
+
+
+
+    // Method to display the list
+    string display()  {
+        Node* current = head;
+        string toSend="";
+        if(current==nullptr){
+            return "";
+        }
+        while (current->next != nullptr) {
+            toSend += current->id+ ", ";
+            current = current->next;
+        }
+        toSend+=current->id;
+        return toSend;
     }
 };
