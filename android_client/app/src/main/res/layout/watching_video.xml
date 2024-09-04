@@ -24,18 +24,19 @@
             android:layout_alignParentTop="true" />
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/videoBlock"
         app:layout_constraintBottom_toTopOf="@id/navBarFragment"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoBlock">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:isScrollContainer="false"
             android:orientation="vertical"
             android:padding="8dp"
             android:textColor="@color/text_color_primary">
@@ -142,6 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="show comments" />
+
             <TextView
                 android:id="@+id/recHeader"
                 android:layout_width="wrap_content"
@@ -154,9 +156,10 @@
                 android:id="@+id/recList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 tools:listitem="@layout/video_link_item" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <fragment
         android:id="@+id/navBarFragment"
