@@ -28,4 +28,5 @@
     <string name="video_preview">Video Preview</string>
     <string name="video_tags">Video Tags</string>
     <string name="recommendation_header">You may also like the following videos</string>
+    <string name="read_more">read more</string>
 </resources>
