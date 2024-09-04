@@ -372,17 +372,21 @@ async function getVideoRecommendations(req, res) {
   if (!pid || !isValidObjectId(pid)) {
     return res.sendStatus(404);
   }
-  const video = await Video.find({ _id: pid, uploader: id });
-  if (!video) {
+  const video = await Video.findById(pid).populate({
+    path: "uploader",
+    select: ["_id", "username"],
+  });
+  if (!video || video.uploader.username != id) {
     return res.sendStatus(404);
   }
   let message;
   try {
-    message = await sendMessageToTcpServer("admin1" + " " + pid);
+    message = await sendMessageToTcpServer(req.user + " " + pid);
   } catch (err) {
     return res.send(err);
   }
   let idArray = message == "empty" ? [] : message.split(", ");
+  console.log(message, idArray);
   let videosToSend = await Video.find({ _id: { $in: idArray } })
     .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
     .populate({ path: "uploader", select: ["username", "name", "image"] })

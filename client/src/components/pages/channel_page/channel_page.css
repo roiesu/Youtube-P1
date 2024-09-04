@@ -1,240 +1,132 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap");
 
-body, .video-details {
-    font-family: 'Heebo', sans-serif;
+body,
+.video-details {
+  font-family: "Heebo", sans-serif;
 }
 
-.channel-page {	
-    display: flex;	
-    flex-direction: column;	
-    align-items: center;	
-  }	
-  
-  .channel-page .channel-page-header {	
-    display: flex;	
-    flex-direction: column;	
-    align-items: flex-start;	
-    margin-bottom: 20px;	
-    width: 71%;	
-    padding: 0 20px; 	
-    /* background-color: gray;	 */
-  
-  }	
-  
-  .channel-page .user-details {	
-    display: flex;	
-    flex-direction:row;	
-    align-items: center;	
-  }	
-  
-  
-  .channel-page .profile-pic {	
-    width: 200px;	
-    height: 200px;	
-    border-radius: 50%;	
-    border: 3px solid #ddd;	
-  }	
-  
-  .light .channel-page .user-name {	
-    font-size: 40px; 	
-    font-weight: bold;	
-    color: black;	
-    padding: 10px;	
-    border-radius: 8px;	
-  
-  }	
+.channel-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .dark .channel-page .user-name {	
-    font-size: 40px; 	
-    font-weight: bold;	
-    color: white;	
-    padding: 10px;	
-    border-radius: 8px;	
-  
-  }	
-  
-  .channel-page .video-list {	
-    display: flex;	
-    flex-wrap: wrap;	
-    justify-content: center;	
-    flex-direction: column;	
-  
-  }	
-  
-  .video-card {	
-    display: flex;	
-    width: 320px;	
-    margin: 20px;	
-    border: 1px solid;	
-    border-radius: 8px;	
-    overflow: hidden;	
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);	
-    flex-direction: column;	
-    flex-wrap: nowrap;	
-    text-align: left;	
-  }	
-  
-  .most-viewed-header{	
-    font-size: 20px; 	
-    font-weight: bold;	
-    color: #dddddd;	
-    background-color: rgb(63, 62, 62);	
-    padding: 10px;	
-    border-radius: 8px;	
-    border-color: antiquewhite;	
-    align-items: flex-start;	
-    margin-bottom: 20px;	
-    width: 71%;	
-    padding: 0 20px; 	
-    border-color: #d32f2f;	
-  }	
-  .most-viewed-video{	
-    align-items: flex-start;	
-    margin-bottom: 20px;	
-    width: 71%;	
-    padding: 0 20px; 	
-  }	
-  
-  .user-videos-header{	
-    font-size: 20px; 	
-    font-weight: bold;	
-    color: #dddddd;	
-    background-color: rgb(63, 62, 62);	
-    padding: 10px;	
-    border-radius: 8px;	
-    border-color: antiquewhite;	
-    border-color: #d32f2f;	
-  }	
-  
-  .light .video-card {	
-    border-color: #ddd;	
-  }	
-  
-  .dark .video-card {	
-    border-color: #050505;	
-    color: white;	
-  }	
-  
-  .video-row {	
-    display: flex;	
-    justify-content: center;	
-    flex-wrap: wrap;	
-    width: 100%;	
-  }	
-  
-  .video-link {	
-    width: calc(33.333% - 20px); 	
-    margin: 10px;	
-  }	
-  
-  .video-card:hover {	
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);	
-  }	
-  
-  .video-container {	
-    position: relative;	
-  }	
-  
-  .video-card video {	
-    width: 340px;	
-    height: 180px;	
-    background-color: black;	
-  }	
-  
-  .video-details {	
-    width: 70%;	
-    font-family: Arial, Helvetica, sans-serif;	
-  }	
-  
-  .video-details h1 {	
-    font-size: 18px;	
-    margin: 5px 0;	
-  
-  }	
-  
-  .video-length {	
-    background-color: rgba(10, 10, 10, 0.6);	
-    color: white;	
-    position: absolute;	
-    bottom: 9px;	
-    right: 14px;	
-    padding: 2px;	
-    border-radius: 5px;	
-    letter-spacing: 0.8px;	
-  }	
-  
-  .video-name {	
-    height: 50px;	
-    font-size: 21px;	
-    font-weight: 600;	
-    text-wrap: pretty;	
-    overflow: hidden;	
-  }	
-  
-  .profile-pic.small {	
-    width: 35px;	
-    border-width: 2px;	
-    height: 35px;	
-  
-  }	
-  
-  .user-details {	
-    display: flex;	
-    flex-direction: row;	
-    justify-content: center;	
-    align-items: center;	
-  }	
-  
-  .video-card .user-details {	
-    align-self: flex-start;	
-  }	
-  
-  .minor-details {	
-    display: flex;	
-    flex-direction: column;	
-    justify-content: space-evenly;	
-    height: 120px;	
-  }	
-  
-  .minor-details a {	
-    display: flex;	
-    flex-direction: column;	
-  }	
-  
-  .user-name {	
-    font-size: 24px;	
-    font-weight: bold;	
-    color: #dddddd;	
-    margin: 20px 0;	
-    padding: 10px 20px;	
-    background-color: #d32f2f;	
-    border: 1px solid #dddddd;	
-    border-radius: 8px;	
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);	
-    display: inline-block;	
-    transition: background-color 0.3s ease, color 0.3s ease;	
-  }	
-  
-  .change-theme-button {	
-  display: flex;	
-  padding: 8px 9px;	
-  width: fit-content;	
-  border: 2px solid;	
-  border-radius: 50%;	
-  justify-content: center;	
-  align-items: center;	
-  margin-right: 10px;	
-  font-size: 24px;	
-  transition: 0.2s;	
-  }	
-  
-  .light .change-theme-button {	
-  color: black;	
-  }	
-  .dark .change-theme-button {	
-  color: white;	
-  }	
-  .change-theme-button:hover {	
-  cursor: pointer;	
-  transform: translateY(-2px);	
-  }
+.channel-page .channel-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 71%;
+  padding: 0 20px;
+  /* background-color: gray;	 */
+}
+
+.channel-page .user-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.channel-page .profile-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 3px solid #ddd;
+}
+
+.light .channel-page .user-name {
+  font-size: 40px;
+  font-weight: bold;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.dark .channel-page .user-name {
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.channel-page .video-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.most-viewed-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dddddd;
+  background-color: rgb(63, 62, 62);
+  padding: 10px;
+  border-radius: 8px;
+  border-color: antiquewhite;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 71%;
+  padding: 0 20px;
+  border-color: #d32f2f;
+}
+.most-viewed-video {
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 71%;
+  padding: 0 20px;
+}
+
+.user-videos-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dddddd;
+  background-color: rgb(63, 62, 62);
+  padding: 10px;
+  border-radius: 8px;
+  border-color: antiquewhite;
+  border-color: #d32f2f;
+}
+
+.user-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #dddddd;
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.change-theme-button {
+  display: flex;
+  padding: 8px 9px;
+  width: fit-content;
+  border: 2px solid;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 24px;
+  transition: 0.2s;
+}
+
+.light .change-theme-button {
+  color: black;
+}
+.dark .change-theme-button {
+  color: white;
+}
+.change-theme-button:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+.video-row {
+  display: flex;
+  flex-direction: row;
+}

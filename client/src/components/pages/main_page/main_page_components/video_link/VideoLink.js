@@ -5,7 +5,8 @@ import {
   dateDifference,
   shortFormatter,
   getMediaFromServer,
-} from "../../../../utilities";
+} from "../../../../../utilities";
+import "./VideoLink.css";
 
 function VideoLink({ name, uploader, date, views, _id, thumbnail, duration }) {
   return (
