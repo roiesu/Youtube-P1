@@ -33,7 +33,7 @@ app.listen(8080, () => {
       console.log("connected to database");
     })
     .catch((err) => console.error("Database connection error:", err));
-    
+
   client.connect(process.env.TCP_PORT, process.env.TCP_IP, () => {
     console.log("Connected to the TCP server");
     // Send a message to the server
