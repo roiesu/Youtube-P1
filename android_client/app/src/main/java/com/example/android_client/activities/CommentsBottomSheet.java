@@ -2,6 +2,7 @@ package com.example.android_client.activities;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.example.android_client.DataManager;
 import com.example.android_client.R;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.view_models.CommentListViewModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -43,10 +46,8 @@ public class CommentsBottomSheet extends BottomSheetDialogFragment {
     private String videoId;
     private MutableLiveData<Integer> commentListSize;
     private CommentListViewModel commentListViewModel;
-    private Button commentButton;
     private TextView commentsHeader;
     private EditText commentInput;
-    private ImageView goBack;
 
     public CommentsBottomSheet(Context context, String videoUploader, String videoId) {
         this.context = context;
@@ -58,12 +59,14 @@ public class CommentsBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comments_list, container, false);
-        commentsRecyclerView = view.findViewById(R.id.commentsList);
-        commentButton = view.findViewById(R.id.commentButton);
-        commentsHeader = view.findViewById(R.id.commentsTitle);
+        Button commentButton = view.findViewById(R.id.commentButton);
         commentInput = view.findViewById(R.id.commentInput);
-        goBack = view.findViewById(R.id.backButton);
-        goBack.setOnClickListener(l-> dismissAllowingStateLoss());
+        commentsRecyclerView = view.findViewById(R.id.commentsList);
+
+
+        commentsHeader = view.findViewById(R.id.commentsTitle);
+        ImageView goBack = view.findViewById(R.id.backButton);
+        goBack.setOnClickListener(l -> dismissAllowingStateLoss());
 
         commentListSize = new MutableLiveData<>(0);
         commentListViewModel = new CommentListViewModel();
@@ -93,6 +96,24 @@ public class CommentsBottomSheet extends BottomSheetDialogFragment {
         return view;
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            View bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+            if (bottomSheet != null) {
+                bottomSheet.getLayoutParams().height = 1800;
+                bottomSheet.setLayoutParams(bottomSheet.getLayoutParams());
+            }
+        });
+
+        return dialog;
+    }
+
     private void addComment(CommentAdapter adapter) {
         if (DataManager.getCurrentUsername() == null) {
             ContextApplication.showToast("Can't comment without login");
@@ -103,8 +124,6 @@ public class CommentsBottomSheet extends BottomSheetDialogFragment {
         imm.hideSoftInputFromWindow(commentInput.getWindowToken(), 0);
     }
 
-
-    // Method to show the BottomSheetDialogFragment
     public void show(FragmentManager fragmentManager) {
         this.show(fragmentManager, "CommentsBottomSheet");
     }
