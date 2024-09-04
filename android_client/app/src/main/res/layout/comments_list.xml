@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -50,6 +50,7 @@
                 android:id="@+id/commentButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/main_red"
                 android:text="comment"
                 android:textColor="@android:color/white" />
         </LinearLayout>
