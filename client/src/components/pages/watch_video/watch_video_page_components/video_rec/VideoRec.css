@@ -1,0 +1,26 @@
+.video-rec {
+  display: flex;
+  flex-direction: row;
+}
+
+.video-rec .video-container {
+  position: relative;
+}
+.video-rec .video-container :hover {
+  cursor: pointer;
+}
+.video-rec .video-length {
+  background-color: rgba(10, 10, 10, 0.6);
+  color: white;
+  position: absolute;
+  bottom: 9px;
+  right: 27px;
+  padding: 2px;
+  border-radius: 5px;
+  letter-spacing: 0.8px;
+  font-size: 13px;
+}
+.video-rec img {
+  width: 180px;
+  height: 101px;
+}
