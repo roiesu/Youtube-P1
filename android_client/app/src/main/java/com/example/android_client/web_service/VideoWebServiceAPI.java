@@ -48,4 +48,7 @@ public interface VideoWebServiceAPI {
 
     @PATCH("users/{channel}/videos/{videoId}")
     Call<Void> updateVideo(@Path("channel") String channel,@Path("videoId") String videoId,@Header("Authorization") String token,@Body Video video);
+
+    @GET("users/{channel}/videos/{videoId}/rec")
+    Call<List<VideoWithUser>> getRecommendations(@Path("channel")String userId,@Path("videoId")String videoId,@Header("Authorization")String token);
 }

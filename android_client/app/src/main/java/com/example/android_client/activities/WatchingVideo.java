@@ -35,9 +35,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_client.Utilities;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.DataManager;
+import com.example.android_client.adapters.VideoAdapter;
 import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.LikeViewModel;
+import com.example.android_client.view_models.VideoWithUserListViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class WatchingVideo extends AppCompatActivity {
     private VideoView videoView;
     private RecyclerView commentsList;
     private TextView commentsHeader;
+    private RecyclerView recommendationsList;
     private com.google.android.material.button.MaterialButton likeButton;
     private Button commentButton;
     private Button shareButton;
@@ -55,6 +58,7 @@ public class WatchingVideo extends AppCompatActivity {
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
     private CommentListViewModel commentListViewModel;
+    private VideoWithUserListViewModel recommendationViewModel;
     private MutableLiveData<Integer> commentListSize;
     private DatabaseViewModel databaseViewModel;
 
@@ -102,6 +106,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
+                initRecommendations(video.getUploader().getUsername(),video.get_id());
                 initComments(video.get_id(), video.getUploader().getUsername());
                 likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(),this);
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
@@ -164,7 +169,20 @@ public class WatchingVideo extends AppCompatActivity {
             mediaPlayer.start();
         });
     }
-
+    private void initRecommendations(String videoUploader, String videoId){
+        recommendationsList = findViewById(R.id.recList);
+        recommendationViewModel = new VideoWithUserListViewModel(this);
+        VideoAdapter adapter = new VideoAdapter(this);
+        recommendationsList.setLayoutManager(new LinearLayoutManager(this));
+        recommendationsList.setAdapter(adapter);
+        recommendationViewModel.getVideos().observe(this,data->{
+            if(data!=null) {
+                adapter.setVideos(data);
+                recommendationViewModel.getVideos().setValue(null);
+            }
+        });
+        recommendationViewModel.getRecommendations(videoUploader,videoId);
+    }
     private void initComments(String videoId, String videoUploader) {
         commentListSize = new MutableLiveData<>(0);
         commentListViewModel = new CommentListViewModel();

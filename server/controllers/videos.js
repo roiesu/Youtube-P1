@@ -385,6 +385,7 @@ async function getVideoRecommendations(req, res) {
   } catch (err) {
     return res.send(err);
   }
+  console.log(req.user);
   let idArray = message == "empty" ? [] : message.split(", ");
   console.log(message, idArray);
   let videosToSend = await Video.find({ _id: { $in: idArray } })

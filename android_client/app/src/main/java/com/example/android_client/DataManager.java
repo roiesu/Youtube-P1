@@ -4,15 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.android_client.activities.SignIn;
-import com.example.android_client.entities.User;
-import com.example.android_client.entities.Video;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 
 public class DataManager {
@@ -21,6 +12,7 @@ public class DataManager {
     private static String token;
     private static DataManager instance;
     private static boolean initialized;
+
     public static boolean isInitialized() {
         return initialized;
     }
@@ -33,8 +25,8 @@ public class DataManager {
         token = newToken;
     }
 
-    public static String getToken() {
-        return token;
+    public static String getTokenHeader() {
+        return token != null ? "Bearer " + token : null;
     }
 
     public static void setCurrentUsername(String username) {
