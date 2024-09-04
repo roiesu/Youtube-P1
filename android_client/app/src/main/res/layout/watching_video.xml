@@ -138,39 +138,10 @@
                 android:textColor="@color/text_color_primary" />
 
             <TextView
-                android:id="@+id/commentsTitle"
+                android:id="@+id/showComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Comments" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/commentInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/commentButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="comment"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/comment_layout" >
-
-            </androidx.recyclerview.widget.RecyclerView>
-
+                android:text="show comments" />
             <TextView
                 android:id="@+id/recHeader"
                 android:layout_width="wrap_content"
