@@ -21,3 +21,7 @@ body,
   justify-content: center;
   padding-top: 50px;
 }
+.video-recs {
+  min-width: 320px;
+  width: 20%;
+}
