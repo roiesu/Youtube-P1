@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import VideoLink from "../main_page/main_page_components/VideoLink";
+import VideoLink from "../main_page/main_page_components/video_link/VideoLink";
 import { useParams, useNavigate } from "react-router-dom";
 import "./channel_page.css";
 import { getMediaFromServer, simpleErrorCatcher } from "../../../utilities";

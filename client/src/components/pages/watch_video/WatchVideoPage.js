@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
+import VideoRec from "./watch_video_page_components/video_rec/VideoRec";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
 import axios from "axios";
@@ -11,10 +12,12 @@ function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
   const commentInput = useRef(null);
   const location = useLocation();
   const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
   const navigate = useNavigate();
+
   async function addComment() {
     if (!currentUser) {
       showToast("Can't comment if not singed in");
@@ -91,12 +94,17 @@ function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
       simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
     }
   }
-
+  function reloadVideo(userId, videoId) {
+    setVideo(null);
+    setRecommendations([]);
+    setLikedVideo(false);
+    navigate(`/watch?channel=${userId}&v=${videoId}`);
+  }
   useEffect(() => {
     async function getVideo() {
       // Finds the video by query params
-      if (video) return;
       const { v, channel } = getQuery(location.search);
+
       if (!v || !channel) return;
       try {
         const headers = {};
@@ -110,34 +118,43 @@ function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
         }
         setVideo(found.data);
         setLikedVideo(found.data.likedVideo);
+        const recs = await axios.get(`/api/users/${channel}/videos/${v}/rec`, { headers });
+        setRecommendations(recs.data);
       } catch (err) {}
     }
     getVideo();
-  }, [video]);
+  }, [location.search]);
 
   return (
     <div className={`video-watching-page page ${theme}`}>
       {video ? (
-        <div className="video-page-main-component">
-          <VideoBlock
-            {...video}
-            likes={video.likes}
-            commentInput={commentInput}
-            like={like}
-            likedVideo={likedVideo}
-            loggedIn={currentUser != null}
-            showToast={showToast}
-          />
-          <Comments
-            currentUser={currentUser}
-            comments={video.comments}
-            addComment={addComment}
-            deleteComment={deleteComment}
-            commentInput={commentInput}
-            editComment={editComment}
-            showToast={showToast}
-          />
-        </div>
+        <>
+          <div className="video-recs">
+            {recommendations.map((item) => (
+              <VideoRec {...item} reloadVideo={reloadVideo} key={"rec" + item._id} />
+            ))}
+          </div>
+          <div className="video-page-main-component">
+            <VideoBlock
+              {...video}
+              likes={video.likes}
+              commentInput={commentInput}
+              like={like}
+              likedVideo={likedVideo}
+              loggedIn={currentUser != null}
+              showToast={showToast}
+            />
+            <Comments
+              currentUser={currentUser}
+              comments={video.comments}
+              addComment={addComment}
+              deleteComment={deleteComment}
+              commentInput={commentInput}
+              editComment={editComment}
+              showToast={showToast}
+            />
+          </div>
+        </>
       ) : (
         "Video not found"
       )}

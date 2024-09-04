@@ -1,0 +1,87 @@
+.video-card {
+  display: flex;
+  width: 320px;
+  margin: 20px;
+  border: 1px solid;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: left;
+}
+.light .video-card {
+  border-color: #ddd;
+}
+.dark .video-card {
+  border-color: #050505;
+  color: white;
+}
+
+a.video-link {
+  text-decoration: initial;
+  color: initial;
+}
+
+.video-card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-card .video-container {
+  position: relative;
+}
+
+.video-card .video-details {
+  width: 90%;
+  font-family: "Heebo", sans-serif;
+}
+
+.video-card .video-details h1 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.video-card .video-length {
+  background-color: rgba(10, 10, 10, 0.6);
+  color: white;
+  position: absolute;
+  bottom: 9px;
+  right: 21px;
+  padding: 2px;
+  border-radius: 5px;
+  letter-spacing: 0.8px;
+}
+
+.video-card .video-name {
+  height: 60px;
+  font-size: 21px;
+  font-weight: 600;
+  text-wrap: pretty;
+  overflow: hidden;
+}
+.video-card .user-details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.video-card .user-details a {
+  color: #a2a2a2;
+}
+
+.video-card .minor-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80px;
+}
+.video-card .minor-details a {
+  display: flex;
+  flex-direction: column;
+}
+
+.video-card .profile-pic.small {
+  width: 35px;
+  border-width: 2px;
+  height: 30px;
+}
