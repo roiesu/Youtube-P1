@@ -44,6 +44,10 @@ public class VideosWithUsersListRepository {
         searchVideo("");
     }
 
+    public void getRecommendations(String userId,String videoId){
+        api.getRecommendations(this.videoListData,userId,videoId);
+    }
+
     public void searchVideo(String query) {
         MutableLiveData<List<VideoWithUser>> temp = new MutableLiveData<>();
         new Thread(() -> {

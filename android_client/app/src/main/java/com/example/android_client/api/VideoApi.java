@@ -1,7 +1,5 @@
 package com.example.android_client.api;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
@@ -9,6 +7,7 @@ import com.example.android_client.R;
 import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.VideoWithLikes;
 import com.example.android_client.DataManager;
+import com.example.android_client.datatypes.VideoWithUser;
 import com.example.android_client.entities.Video;
 import com.example.android_client.web_service.VideoWebServiceAPI;
 
@@ -27,48 +26,6 @@ public class VideoApi {
     public VideoApi() {
         retrofit = new Retrofit.Builder().baseUrl(ContextApplication.context.getString(R.string.BaseUrlApi)).addConverterFactory(GsonConverterFactory.create()).build();
         webServiceAPI = retrofit.create(VideoWebServiceAPI.class);
-    }
-
-    // channel page
-    public void getVideosByUser(String userId, MutableLiveData<List<Video>> videoListData) {
-
-        Call<List<Video>> call = webServiceAPI.getVideosByUser(userId);
-        call.enqueue(new Callback<List<Video>>() {
-            @Override
-            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
-                List<Video> body = response.body();
-                if (body != null) {
-                    videoListData.setValue(body);
-                } else {
-                    Utilities.handleError(response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Video>> call, Throwable t) {
-                ContextApplication.showToast(t.getMessage());
-            }
-        });
-    }
-
-    public void getVideos(MutableLiveData videoListData, String query) {
-        Call<List<Video>> call = webServiceAPI.getVideos(query);
-        call.enqueue(new Callback<List<Video>>() {
-            @Override
-            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
-                List<Video> body = response.body();
-                if (body != null) {
-                    videoListData.setValue(body);
-                } else {
-                    Utilities.handleError(response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Video>> call, Throwable t) {
-                ContextApplication.showToast(t.getMessage());
-            }
-        });
     }
 
     public void getVideo(MutableLiveData viewsData, String channel, String videoId) {
@@ -116,7 +73,7 @@ public class VideoApi {
     }
 
     public void getVideosDetailsByUser(MutableLiveData<List<Video>> videoListData, String username) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
 
         Call<List<Video>> call = webServiceAPI.getVideosDetailsByUser(username, header);
         call.enqueue(new Callback<List<Video>>() {
@@ -138,7 +95,7 @@ public class VideoApi {
     }
 
     public void uploadVideo(MutableLiveData<Video> videoData) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<Video> call = webServiceAPI.uploadVideo(videoData.getValue().getUploaderId(), header, videoData.getValue());
         call.enqueue(new Callback<Video>() {
             @Override
@@ -160,7 +117,7 @@ public class VideoApi {
     }
 
     public void deleteVideo(MutableLiveData<Video> data, String videoId, String userId) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<Void> call = webServiceAPI.deleteVideo(userId, videoId, header);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -182,7 +139,7 @@ public class VideoApi {
     }
 
     public void updateVideo(MutableLiveData<Video> data) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<Void> call = webServiceAPI.updateVideo(DataManager.getCurrentUsername(), data.getValue().get_id(), header, data.getValue());
         call.enqueue(new Callback<Void>() {
             @Override
@@ -202,5 +159,26 @@ public class VideoApi {
             }
         });
 
+    }
+
+    public void getRecommendations(MutableLiveData<List<VideoWithUser>> data, String userId, String videoId) {
+        String header =DataManager.getTokenHeader();
+        Call<List<VideoWithUser>> call = webServiceAPI.getRecommendations(userId, videoId, header);
+        call.enqueue(new Callback<List<VideoWithUser>>() {
+            @Override
+            public void onResponse(Call<List<VideoWithUser>> call, Response<List<VideoWithUser>> response) {
+                List<VideoWithUser> body = response.body();
+                if (body != null) {
+                    data.setValue(body);
+                } else {
+                    Utilities.handleError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<VideoWithUser>> call, Throwable t) {
+                ContextApplication.showToast(t.getMessage());
+            }
+        });
     }
 }

@@ -30,15 +30,12 @@ public class VideoWithUserListViewModel extends ViewModel {
         this.repository.searchVideo(query);
     }
 
+    public void getRecommendations(String userId,String videoId){
+        this.repository.getRecommendations(userId,videoId);
+    }
+
     public void reload() {
         this.repository.reload();
     }
 
-    // get video for user - channel page
-    public void loadVideosForUser(String userId) {
-        MutableLiveData<List<VideoWithUser>> userVideos = new MutableLiveData<>();
-        // FIX LATER FOR CHANNEL
-//        this.repository.fetchVideosByUser(userId, userVideos);
-        this.videoList = userVideos;
-    }
 }

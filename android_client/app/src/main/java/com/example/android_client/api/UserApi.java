@@ -1,7 +1,5 @@
 package com.example.android_client.api;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.R;
@@ -13,8 +11,6 @@ import com.example.android_client.web_service.UserWebServiceAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -127,7 +123,7 @@ public class UserApi {
     }
 
     public void getUserFullDetails(MutableLiveData data, String username) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<User> call = webServiceAPI.getUserDetails(username, header);
         call.enqueue(new Callback<User>() {
             @Override
@@ -148,7 +144,7 @@ public class UserApi {
     }
 
     public void deleteUser(MutableLiveData<User> data) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<Void> call = webServiceAPI.deleteUser(data.getValue().getUsername(), header);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -168,7 +164,7 @@ public class UserApi {
     }
 
     public void editUser(MutableLiveData<User> userData, User userDetails) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<User> call = webServiceAPI.editUser(userDetails.getUsername(), header, userDetails);
         call.enqueue(new Callback<User>() {
             @Override

@@ -53,7 +53,8 @@ public class ChannelActivity extends AppCompatActivity {
 
             videoRepository.getVideosByUserId(userId).observe(this, videos -> {
                 if (videos != null) {
-                    videoAdapter.setVideos(videos);                  }
+                    videoAdapter.setVideos(videos);
+                }
             });
         }
     }
