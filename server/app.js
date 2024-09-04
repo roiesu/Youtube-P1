@@ -20,8 +20,8 @@ app.get("*", (req, res) => {
 
 process.on("SIGINT", () => {
   console.log("Stopping server...");
-  client.end(); // Close TCP connection before exiting
-  process.exit(); // Exit the server process
+  client.end();
+  process.exit();
 });
 
 app.listen(8080, () => {
@@ -36,6 +36,5 @@ app.listen(8080, () => {
 
   client.connect(process.env.TCP_PORT, process.env.TCP_IP, () => {
     console.log("Connected to the TCP server");
-    // Send a message to the server
   });
 });
