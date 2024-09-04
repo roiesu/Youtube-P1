@@ -48,18 +48,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
     private VideoView videoView;
-    private RecyclerView commentsList;
-    private TextView commentsHeader;
     private RecyclerView recommendationsList;
     private com.google.android.material.button.MaterialButton likeButton;
-    private Button commentButton;
     private Button shareButton;
-    private EditText commentInput;
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
-    private CommentListViewModel commentListViewModel;
     private VideoWithUserListViewModel recommendationViewModel;
-    private MutableLiveData<Integer> commentListSize;
     private DatabaseViewModel databaseViewModel;
 
     @Override
@@ -67,11 +61,7 @@ public class WatchingVideo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watching_video);
         videoView = findViewById(R.id.videoView);
-        commentsList = findViewById(R.id.commentsList);
-        commentsHeader = findViewById(R.id.commentsTitle);
         shareButton = findViewById(R.id.shareButton);
-        commentInput = findViewById(R.id.commentInput);
-        commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
         databaseViewModel = new DatabaseViewModel();
         databaseViewModel.init(this);
@@ -184,42 +174,13 @@ public class WatchingVideo extends AppCompatActivity {
         recommendationViewModel.getRecommendations(videoUploader,videoId);
     }
     private void initComments(String videoId, String videoUploader) {
-        commentListSize = new MutableLiveData<>(0);
-        commentListViewModel = new CommentListViewModel();
-        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader, commentListSize);
-        commentsList.setLayoutManager(new LinearLayoutManager(this));
-        commentsList.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        dividerItemDecoration.setDrawable(dividerDrawable);
-        commentsList.addItemDecoration(dividerItemDecoration);
-        commentListViewModel.getComments().observe(this, commentsList -> {
-            if (commentsList == null) {
-                return;
-            }
-            adapter.setComments(commentsList);
-            adapter.notifyDataSetChanged();
-            commentListSize.setValue(commentsList.size());
-            commentButton.setOnClickListener(l -> addComment(adapter));
-
-            commentListViewModel.getComments().setValue(null);
+        findViewById(R.id.showComments).setOnClickListener(l->{
+            CommentsBottomSheet commentsBottomSheet = new CommentsBottomSheet(this,videoUploader,videoId);
+            commentsBottomSheet.show(getSupportFragmentManager());
         });
-        commentListSize.observe(this, count -> {
-            commentsHeader.setText(count + " Comments");
-        });
-        commentListViewModel.getCommentsByVideo(videoId);
     }
 
-    private void addComment(CommentAdapter adapter) {
-        if (DataManager.getCurrentUsername() == null) {
-            ContextApplication.showToast("Can't comment without login");
-            return;
-        }
-        adapter.addComment(commentInput, video.getVideo().getValue().get_id(), commentsList);
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(commentInput.getWindowToken(), 0);
 
-    }
 
     private AlertDialog createShareDialog(String videoId, String userId) {
         String shareLink = getResources().getString(R.string.url) + "/watch?channel=" + userId + "&v=" + videoId;
