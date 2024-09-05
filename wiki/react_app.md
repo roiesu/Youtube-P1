@@ -26,7 +26,7 @@ An example of sending a password that doesn't follow the rules.
 After a new account is created, you will return to the main page with your details shown in the top of the page.
 ![](./images/Screenshot_17.png)
 
-## CRUD for videos
+## Videos and comments demonstration
 
 Now we would like to upload owr own video. In the menu, we will choose "My videos" to go to our channel and account editing page. In it, we will click on the upload video button to upload our first video.
 ![](./images/Screenshot_18.png)
@@ -37,3 +37,32 @@ Now we need to get a thumbnail for the video. For this, we can choose between ca
 Now we can upload our video. Uploading it will return us to the my video page where we could see the details and commit actions of our new video.
 ![](./images/Screenshot_21.png)
 Now we will click on it to watch and comment it.
+![](./images/Screenshot_22.png)
+We clicked on the video and it brought us to the watching page. We will go down to see the comments section and we will add a new comment to this video.
+![](./images/Screenshot_23.png)
+![](./images/Screenshot_24.png)
+Because this is our comment we can edit and delete it. In addition, if the comment is really long we can expand it to fully see it's content.
+Now we will log in from a different account to also comment on this video. So, we need to click the logout button in the menu and enter the other user's details. We will log in as admin1.
+![](./images/Screenshot_25.png)
+We will search for the video and open it.
+![](./images/Screenshot_26.png)
+We can see that the recommendations of this video has changed because admin have previously watched other videos, so these videos have been included to it's recommendation's list.
+Now we will comment and like on this video also.
+![](./images/Screenshot_27.png)
+![](./images/Screenshot_28.png)
+We will go back to My User to edit end delete this video. For that, we will logout from admin1 account, login to My User and return to my videos.
+We can see that the details of my first video has changed.
+Now, we would like to edit it's thumbnail to a different thumbnail we would upload and change it's description by clicking on the edit button in the video's row.
+![](./images/Screenshot_29.png)
+Now we would click on the Upload Thumbnail option and choose an image, and change it's description, and then, click on the Update Video button.
+![](./images/Screenshot_30.png)
+We would return to the My Videos page and we can see that the details of the video has changed.
+![](./images/Screenshot_31.png)
+To delete the video, we simply click on the trash can icon next to the edit icon and confirm the deletion by writing the video's name in the prompt opened.
+![](./images/Screenshot_32.png)
+Now the video has been removed from the database and it can't be reached.
+![](./images/Screenshot_33.png)
+So, we will delete our user by returning to my videos, and clicking on edit user details.
+There we will press the delete user option that would open a prompt and require from us our password as shown:
+![](./images/Screenshot_34.png)
+Now our user has been deleted.
