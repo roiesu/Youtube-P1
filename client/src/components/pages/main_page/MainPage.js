@@ -18,7 +18,7 @@ function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   async function getVideos() {
-    console.log(1);
+  
     try {
       const value = searchInputRef.current.value || "";
       const response = await axios.get(`/api/videos?name=${value}`);
