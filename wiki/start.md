@@ -40,4 +40,14 @@ TCP_IP="(The linux environment's ip address)"
 It should look like this:
 ![](./images/Screenshot_9.png)
 
+### For running the web application only you can skip to the next wiki run.md
+
 ## Init the Android application
+
+Open the android_client directory with Android Studio.
+First press on the hammer icon to build your project. When it's done, pick your android device, that could be an emulator or your own android device. For this demonstration we will use an emulator.
+![](./images/Screenshot_10.png)
+In your terminal, write ipconfig and copy the IPv4 Address under the 2nd section.
+Now, open the strings.xml file at this location: "./android_client/app/src/main/res/values/strings.xml"
+At lines 26 and 27 replace [ENTER_YOUR_IP_HERE] with the ip address copied:
+![](./images/Screenshot_11.png)
