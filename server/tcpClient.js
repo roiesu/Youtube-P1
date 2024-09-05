@@ -24,20 +24,19 @@ function waitForNoListeners() {
 
 async function sendMessageToTcpServer(message) {
   await waitForNoListeners();
-  return new Promise((resolve, reject) => {
-    // Set up an event listener for TCP data
-    client.once("data", (data) => {
+  return new Promise((resolve) => {
+    const dataListener = (data) => {
+      client.removeListener("error", errorListener);
       resolve(data.toString()); // Resolve with the TCP server's response
-      console.log(data.toString());
-    });
+    };
+    const errorListener = () => {
+      client.removeListener("data", dataListener);
+      resolve("empty");
+    };
 
-    // Handle any errors that occur
-    client.once("error", (err) => {
-      reject(err);
-      console.log(err.message);
-    });
+    client.once("data", dataListener);
+    client.once("error", errorListener);
 
-    // Send the message to the TCP server
     client.write(message);
   });
 }
