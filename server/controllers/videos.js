@@ -356,6 +356,9 @@ async function getVideosByUserId(req, res) {
 
 async function increaseViews(req, res) {
   const { pid, id } = req.params;
+  if (!isValidObjectId(id) || !isValidObjectId(pid)) {
+    return res.status(404).send("Video not found");
+  }
   const video = await Video.findOneAndUpdate(
     { _id: pid, uploader: id },
     { $inc: { views: 1 } },
