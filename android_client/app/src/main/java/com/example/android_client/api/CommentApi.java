@@ -1,7 +1,5 @@
 package com.example.android_client.api;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
@@ -10,10 +8,7 @@ import com.example.android_client.Utilities;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.entities.Comment;
 import com.example.android_client.DataManager;
-import com.example.android_client.entities.Video;
-import com.example.android_client.repositories.CommentRepository;
 import com.example.android_client.web_service.CommentWebServiceAPI;
-import com.example.android_client.web_service.VideoWebServiceAPI;
 
 
 import java.util.List;
@@ -54,7 +49,7 @@ public class CommentApi {
     }
 
     public void deleteComment(MutableLiveData<Comment> data, Comment comment, String videoUploader) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<Void> call = webServiceAPI.deleteComment(videoUploader, comment.getVideoId(), comment.get_id(), header);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -75,7 +70,7 @@ public class CommentApi {
     }
 
     public void editComment(MutableLiveData<Comment> data, Comment comment, String text, String videoUploader) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Comment temp = new Comment();
         temp.setText(text);
         Call<Void> call = webServiceAPI.editComment(videoUploader, comment.getVideoId(), comment.get_id(), header, temp);
@@ -98,7 +93,7 @@ public class CommentApi {
         });
     }
     public void addComment(MutableLiveData<Comment> data,String text,String uploaderId,String videoId){
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Comment temp = new Comment();
         temp.setText(text);
         Call<CommentWithUser> call = webServiceAPI.addComment(uploaderId,videoId,header,temp);

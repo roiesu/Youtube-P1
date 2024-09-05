@@ -386,7 +386,6 @@ async function getVideoRecommendations(req, res) {
     return res.send(err);
   }
   let idArray = message == "empty" ? [] : message.split(", ");
-  console.log(message, idArray);
   let videosToSend = await Video.find({ _id: { $in: idArray } })
     .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
     .populate({ path: "uploader", select: ["username", "name", "image"] })

@@ -4,7 +4,6 @@ package com.example.android_client.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,46 +15,35 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.Utilities;
-import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.DataManager;
-import com.example.android_client.view_models.CommentListViewModel;
+import com.example.android_client.adapters.VideoAdapter;
+import com.example.android_client.fragments.CommentsBottomSheet;
 import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.LikeViewModel;
+import com.example.android_client.view_models.VideoWithUserListViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
     private VideoView videoView;
-    private RecyclerView commentsList;
-    private TextView commentsHeader;
+    private RecyclerView recommendationsList;
     private com.google.android.material.button.MaterialButton likeButton;
-    private Button commentButton;
     private Button shareButton;
-    private EditText commentInput;
     private VideoWithUserViewModel video;
     private LikeViewModel likeViewModel;
-    private CommentListViewModel commentListViewModel;
-    private MutableLiveData<Integer> commentListSize;
+    private VideoWithUserListViewModel recommendationViewModel;
     private DatabaseViewModel databaseViewModel;
 
     @Override
@@ -63,11 +51,7 @@ public class WatchingVideo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watching_video);
         videoView = findViewById(R.id.videoView);
-        commentsList = findViewById(R.id.commentsList);
-        commentsHeader = findViewById(R.id.commentsTitle);
         shareButton = findViewById(R.id.shareButton);
-        commentInput = findViewById(R.id.commentInput);
-        commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
         databaseViewModel = new DatabaseViewModel();
         databaseViewModel.init(this);
@@ -102,6 +86,7 @@ public class WatchingVideo extends AppCompatActivity {
                 startActivity(intent.get());
                 finish();
             } else {
+                initRecommendations(video.getUploader().getUsername(),video.get_id());
                 initComments(video.get_id(), video.getUploader().getUsername());
                 likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(),this);
                 ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
@@ -164,44 +149,28 @@ public class WatchingVideo extends AppCompatActivity {
             mediaPlayer.start();
         });
     }
-
-    private void initComments(String videoId, String videoUploader) {
-        commentListSize = new MutableLiveData<>(0);
-        commentListViewModel = new CommentListViewModel();
-        CommentAdapter adapter = new CommentAdapter(this, new ArrayList<>(), this, videoUploader, commentListSize);
-        commentsList.setLayoutManager(new LinearLayoutManager(this));
-        commentsList.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        dividerItemDecoration.setDrawable(dividerDrawable);
-        commentsList.addItemDecoration(dividerItemDecoration);
-        commentListViewModel.getComments().observe(this, commentsList -> {
-            if (commentsList == null) {
-                return;
+    private void initRecommendations(String videoUploader, String videoId){
+        recommendationsList = findViewById(R.id.recList);
+        recommendationViewModel = new VideoWithUserListViewModel(this);
+        VideoAdapter adapter = new VideoAdapter(this);
+        recommendationsList.setLayoutManager(new LinearLayoutManager(this));
+        recommendationsList.setAdapter(adapter);
+        recommendationViewModel.getVideos().observe(this,data->{
+            if(data!=null) {
+                adapter.setVideos(data);
+                recommendationViewModel.getVideos().setValue(null);
             }
-            adapter.setComments(commentsList);
-            adapter.notifyDataSetChanged();
-            commentListSize.setValue(commentsList.size());
-            commentButton.setOnClickListener(l -> addComment(adapter));
-
-            commentListViewModel.getComments().setValue(null);
         });
-        commentListSize.observe(this, count -> {
-            commentsHeader.setText(count + " Comments");
+        recommendationViewModel.getRecommendations(videoUploader,videoId);
+    }
+    private void initComments(String videoId, String videoUploader) {
+        findViewById(R.id.showComments).setOnClickListener(l->{
+            CommentsBottomSheet commentsBottomSheet = new CommentsBottomSheet(this,videoUploader,videoId);
+            commentsBottomSheet.show(getSupportFragmentManager());
         });
-        commentListViewModel.getCommentsByVideo(videoId);
     }
 
-    private void addComment(CommentAdapter adapter) {
-        if (DataManager.getCurrentUsername() == null) {
-            ContextApplication.showToast("Can't comment without login");
-            return;
-        }
-        adapter.addComment(commentInput, video.getVideo().getValue().get_id(), commentsList);
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(commentInput.getWindowToken(), 0);
 
-    }
 
     private AlertDialog createShareDialog(String videoId, String userId) {
         String shareLink = getResources().getString(R.string.url) + "/watch?channel=" + userId + "&v=" + videoId;

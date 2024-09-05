@@ -1,7 +1,5 @@
 package com.example.android_client.api;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.ContextApplication;
@@ -32,7 +30,7 @@ public class LikeApi {
     }
 
     public void likeVideo(String username, String videoId, MutableLiveData like) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<String> call = webServiceAPI.likeVideo(username, videoId, header);
         call.enqueue(new Callback<String>() {
             @Override
@@ -53,7 +51,7 @@ public class LikeApi {
     }
 
     public void dislikeVideo(String username, String videoId, MutableLiveData like) {
-        String header = "Bearer " + DataManager.getToken();
+        String header =DataManager.getTokenHeader();
         Call<String> call = webServiceAPI.dislikeVideo(username, videoId, header);
         call.enqueue(new Callback<String>() {
             @Override
