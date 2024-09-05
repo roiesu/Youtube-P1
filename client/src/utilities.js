@@ -68,6 +68,7 @@ function getQuery(url) {
   queryArray.map((query) => {
     const [key, value] = query.split("=");
     queryObj[key] = value;
+    return;
   });
   return queryObj;
 }
