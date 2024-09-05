@@ -1,6 +1,7 @@
 const net = require("node:net");
 const client = new net.Socket();
 client.setMaxListeners(20);
+
 client.on("error", (err) => {
   console.log("couldn't connect to the tcp server:", err.message);
 });
@@ -27,7 +28,7 @@ async function sendMessageToTcpServer(message) {
   return new Promise((resolve) => {
     const dataListener = (data) => {
       client.removeListener("error", errorListener);
-      resolve(data.toString()); // Resolve with the TCP server's response
+      resolve(data.toString()); 
     };
     const errorListener = () => {
       client.removeListener("data", dataListener);
