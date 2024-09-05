@@ -40,12 +40,14 @@ public class VideoApi {
                 if (body != null) {
                     viewsData.setValue(body.getViews());
                 } else {
+                    viewsData.setValue((long)-1);
                     Utilities.handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Video> call, Throwable t) {
+                viewsData.setValue((long)-1);
                 ContextApplication.showToast(t.getMessage());
             }
         });

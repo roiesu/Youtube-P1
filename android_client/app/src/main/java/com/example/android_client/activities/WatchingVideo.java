@@ -4,6 +4,7 @@ package com.example.android_client.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +16,7 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -74,16 +76,17 @@ public class WatchingVideo extends AppCompatActivity {
             videoId = intent.get().getStringExtra("videoId");
             channel = intent.get().getStringExtra("channel");
         } else {
-            videoId = intent.get().getData().getQueryParameters("v").get(0);
-            channel = intent.get().getData().getQueryParameters("channel").get(0);
+            videoId = intent.get().getData().getQueryParameter("v");
+            channel = intent.get().getData().getQueryParameter("channel");
         }
 
         // Initialize views
         video = new VideoWithUserViewModel(channel, videoId, this);
         video.getVideo().observe(this, video -> {
             if (video == null) {
-                intent.set(new Intent(this, PageNotFound.class));
-                startActivity(intent.get());
+                Intent intent404 = new Intent(this, MainPage.class);
+                intent404.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent404);
                 finish();
             } else {
                 initRecommendations(video.getUploader().getUsername(),video.get_id());

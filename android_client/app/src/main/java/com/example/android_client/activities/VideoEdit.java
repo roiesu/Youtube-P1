@@ -75,8 +75,7 @@ public class VideoEdit extends MediaPickerActivity {
             } else if (video != null && finished.getValue() == false && initialized == true) {
                 videoViewModel.editVideo(finished, oldId, oldThumbnail);
             } else if (video == null) {
-                Intent intent = new Intent(this, PageNotFound.class);
-                startActivity(intent);
+                finish();
             }
         });
 
