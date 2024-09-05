@@ -8,6 +8,11 @@
   justify-content: center;
   align-items: center;
 }
+.video-block a.user-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .video {
   width: 100%;
   max-height: 600px;
@@ -60,23 +65,21 @@
   white-space: break-spaces;
 }
 .light .description-div {
-  border-color:  #c3c2c2;
+  border-color: #c3c2c2;
   color: #333333;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color:  #c3c2c2;
+  background-color: #c3c2c2;
 }
 .dark .description-div {
   background: #3d3d3d;
   color: white;
-  border-color:  #c3c2c2;
+  border-color: #c3c2c2;
   box-shadow: 0 2px 10px rgba(100, 100, 100, 0.1);
 }
-
 
 .tag {
   color: #7185f2;
 }
-
 
 .description-div {
   text-align: left;
