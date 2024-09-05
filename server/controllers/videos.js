@@ -379,13 +379,16 @@ async function getVideoRecommendations(req, res) {
   if (!video || video.uploader.username != id) {
     return res.sendStatus(404);
   }
-  let message;
-  try {
-    message = await sendMessageToTcpServer(req.user + " " + pid);
-  } catch (err) {
-    return res.send(err);
-  }
-  let idArray = message == "empty" ? [] : message.split(", ");
+  // let message;
+  // try {
+  //   message = await sendMessageToTcpServer(req.user + " " + pid);
+  // } catch (err) {
+  //   return res.send(err);
+  // }
+  // let idArray = message == "empty" ? [] : message.split(", ");
+
+// d
+  let idArray = [];
   let videosToSend = await Video.find({ _id: { $in: idArray } })
     .select(["name", "views", "date", "thumbnail", "uploader", "duration"])
     .populate({ path: "uploader", select: ["username", "name", "image"] })
