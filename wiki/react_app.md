@@ -1,4 +1,4 @@
-# Start the application
+# Start and use the react application
 
 ## Run the servers
 
