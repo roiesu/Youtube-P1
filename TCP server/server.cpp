@@ -17,11 +17,13 @@ std::pair<string, string> extractIds(string buffer,int read_bytes){
     int index= buffer.find(delimiter);
     string userId = buffer.substr(0, index);
     string videoId = buffer.substr(index+1,read_bytes);
-    // cout<<"user: "<<userId<<", video: "<<videoId<<endl;
     return std::make_pair(userId,videoId);
 }
 string getRecommendations(NestedList* videos, string videoId){
     NestedNode* videoNode = videos->findNode(videoId);
+    // cout<<videoId<<endl;
+    // cout<<videos->display()<<endl;
+    // cout<<"______"<<endl;
     if(videoNode!=nullptr){
         return videoNode->inner->display();
     }
@@ -59,11 +61,9 @@ void handleClient(int clientSocket, NestedList* users, NestedList* videos){
         if (sent_bytes<0){
             perror("error sending to client");
         }
-        if(idPair.first.compare("undefined")!=0){
+        if(idPair.first.compare("undefined")!=0 && idPair.first.compare("null")){
             updateReccomendations(users,videos,idPair.first,idPair.second);
         }
-        // cout <<"users:"<<endl<< users->display();
-        // cout <<"videos:"<<endl<< videos->display() <<endl;
     }
     close(clientSocket);
 }
@@ -93,7 +93,7 @@ int main() {
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr*)&client_sin, &addr_len);
         if (client_sock < 0) {
-            perror("error acceptisng client");
+            perror("error accepting client");
             continue;
         }
         // Create a new thread to handle communication with the client
