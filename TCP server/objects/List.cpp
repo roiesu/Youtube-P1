@@ -29,11 +29,9 @@ public:
         } else if(head == tail){
             tail = newNode;
             head->next = tail;
-            tail->prev=head;
         } 
         else {
             tail->next = newNode;
-            newNode->prev = tail;
             tail=newNode;
         }
         return newNode;
@@ -58,22 +56,6 @@ public:
         }
         return newNode;
     }
-
-    int deleteNode(std::string id){
-        Node* toDelete = findNode(id);
-        if(toDelete==nullptr){
-            return 0;
-        }
-        else if(toDelete->prev==nullptr){
-            this->head = toDelete->next;
-            return 1;
-        }
-        Node* prev = toDelete->prev;
-        prev->next=toDelete->next;
-        return 1;
-    }
-
-
 
     // Method to display the list
     string display()  {
