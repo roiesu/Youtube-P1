@@ -16,7 +16,9 @@ function VideoRec({ name, uploader, date, views, _id, thumbnail, duration, reloa
         <span className="video-length">{secondsToTime(duration)}</span>
       </div>
       <div className="video-details">
-        <div className="video-name">{name}</div>
+        <div className="video-name" onClick={() => reloadVideo(uploader.username, _id)}>
+          {name}
+        </div>
         <div className="minor-details">
           <Link to={`/channel/${uploader.username}`}>
             <div className="user-details">{uploader.name}</div>
