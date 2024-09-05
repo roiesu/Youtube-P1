@@ -138,11 +138,14 @@
                 android:text="Description"
                 android:textColor="@color/text_color_primary" />
 
-            <TextView
+            <Button
                 android:id="@+id/showComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="show comments" />
+                android:layout_marginStart="8dp"
+                android:text="show comments"
+                android:textColor="@android:color/white" />
+
 
             <TextView
                 android:id="@+id/recHeader"
