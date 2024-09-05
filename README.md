@@ -75,8 +75,27 @@ Open the android_client directory and go to this file android_client\app\src\mai
 In there you will find two string tags named BaseUrlApi and BaseUrlMedia. replace [Enter Your Ip Here] with the IPv4 Address you copied.
 Now open your emulator and run the application. make sure that your nodejs server is running.
 
-
 ## workflow
 
 First, since two of the three team members are active reservists, we received an extension for this part until the end of October.
 Second, we began work on the third part of the project together from a single computer in order to create a shared foundation. As a result, the initial commits for this section were all made from the same computer. After establishing this foundation, we returned to our usual workflow, which includes task division, each team member working on their assigned tasks, status updates through Zoom meetings, and repeating the process.
+
+# part 4
+
+## Running the application
+
+The first steps are the same as for part3.
+After performing these steps, open a workspace of your choosing that can run and compile c++ files. Either a linux workspace with a VM or WSL, or even with CLion. We were working with a VM, so this guide will be suited to a linux environment.
+
+1. Inside the linux environment, open the terminal, write hostname -I and copy the result.
+2. In the server directory open the .env file and add "TCP_PORT=5555" and "TCO_IP={the result from the previous step}"
+3. Now, go back to the linux environment and open the TCP server directory from there.
+4. Open a terminal in that directory and compile the server.cpp file with the command "g++ -o server.out server.cpp".
+5. From now on, you will be able to run the tcp server only with the server.out file
+
+After all the steps are completed, you will need to first start the tcp server with the command "./server.out" inside the linux environment and later start the NodeJS server with the command "npm start" inside the server directory. After both servers are up, you will be able to open the react application by opening the url "http://localhost:8080", or opening the android application using the android studio.
+
+## workflow
+
+For the most parts of initializing the tcp server we worked together on the same computer. We had to brainstorm the idea of the algorithm and then putting it into action.
+For the later parts, after the tcp server was complete, we added the new functionalities to the react app and later to the android app.
