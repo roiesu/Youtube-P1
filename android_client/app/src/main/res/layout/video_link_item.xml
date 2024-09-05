@@ -77,7 +77,6 @@
                     android:textStyle="bold"
                     tools:text="title" />
 
-                <!-- Other Details -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,16 +84,16 @@
 
                     <TextView
                         android:id="@+id/videoUploader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        tools:text="uploader"/>
+                        android:layout_weight="6"
+                        tools:text="uploader" />
 
                     <TextView
                         android:id="@+id/videoDate"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="3"
                         tools:text="date" />
                 </LinearLayout>
 
