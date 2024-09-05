@@ -17,7 +17,6 @@ std::pair<string, string> extractIds(string buffer,int read_bytes){
     int index= buffer.find(delimiter);
     string userId = buffer.substr(0, index);
     string videoId = buffer.substr(index+1,read_bytes);
-    // cout<<"user: "<<userId<<", video: "<<videoId<<endl;
     return std::make_pair(userId,videoId);
 }
 string getRecommendations(NestedList* videos, string videoId){
@@ -25,7 +24,7 @@ string getRecommendations(NestedList* videos, string videoId){
     if(videoNode!=nullptr){
         return videoNode->inner->display();
     }
-    return "";
+    return "empty";
 }
 void updateReccomendations(NestedList* users, NestedList* videos,string userId,string videoId){
     NestedNode* userNode = users->uniqueAdd(userId);
@@ -49,21 +48,20 @@ void updateReccomendations(NestedList* users, NestedList* videos,string userId,s
 }
 
 void handleClient(int clientSocket, NestedList* users, NestedList* videos){
-    char buffer[31];
+    char buffer[60];
     int expected_data_len= sizeof(buffer);
     int read_bytes;
     while((read_bytes=recv(clientSocket, buffer, expected_data_len,0))>0){
         std::pair<string,string> idPair= extractIds(buffer,read_bytes);    
         string recVideos = getRecommendations(videos,idPair.second);
-        int sent_bytes= send(clientSocket, buffer, read_bytes,0);
+        int sent_bytes= send(clientSocket, recVideos.c_str(), recVideos.size(),0);
         if (sent_bytes<0){
             perror("error sending to client");
         }
-        if(idPair.first.compare("undefined")!=0){
+        if(idPair.first.compare("undefined")!=0 && idPair.first.compare("null")){
             updateReccomendations(users,videos,idPair.first,idPair.second);
         }
-        // cout <<"users:"<<endl<< users->display();
-        // cout <<"videos:"<<endl<< videos->display();
+        memset(buffer,0, read_bytes);
     }
     close(clientSocket);
 }

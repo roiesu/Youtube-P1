@@ -28,11 +28,13 @@ async function sendMessageToTcpServer(message) {
     // Set up an event listener for TCP data
     client.once("data", (data) => {
       resolve(data.toString()); // Resolve with the TCP server's response
+      console.log(data.toString());
     });
 
     // Handle any errors that occur
     client.once("error", (err) => {
       reject(err);
+      console.log(err.message);
     });
 
     // Send the message to the TCP server

@@ -25,12 +25,8 @@ import com.example.android_client.Utilities;
 import com.example.android_client.activities.ChannelActivity;
 import com.example.android_client.datatypes.CommentWithUser;
 import com.example.android_client.DataManager;
-import com.example.android_client.entities.Comment;
-import com.example.android_client.entities.User;
-import com.example.android_client.view_models.CommentListViewModel;
 import com.example.android_client.view_models.CommentViewModel;
-import com.example.android_client.view_models.VideoViewModel;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
@@ -67,6 +63,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         CommentWithUser comment = comments.get(position);
         holder.commentText.setText(comment.getText());
+        holder.commentText.post(() -> {
+            if (holder.commentText.getLineCount() > 3) {
+                holder.readMore.setVisibility(View.VISIBLE);
+            } else {
+                holder.readMore.setVisibility(View.GONE);
+            }
+        });
         holder.commentUser.setText(comment.getUser().getUsername());
         holder.commentDate.setText(Utilities.dateDiff(comment.getDate()) + (comment.isEdited() ? "( edited )" : ""));
         String currentUsername = DataManager.getCurrentUsername();
@@ -79,11 +82,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             });
         }
         Glide.with(context).load(comment.getUser().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(holder.profilePic);
-
         holder.profilePic.setOnClickListener(v -> {
             Intent intent = new Intent(context, ChannelActivity.class);
             intent.putExtra("USER_ID", comment.getUserId());
             context.startActivity(intent);
+        });
+        holder.readMore.setOnClickListener(l -> {
+            if (holder.expanded) {
+                holder.commentText.setMaxLines(3);
+                holder.readMore.setText("read more");
+            } else {
+                holder.commentText.setMaxLines(200);
+                holder.readMore.setText("close");
+            }
+            holder.expanded = !holder.expanded;
         });
 
     }
@@ -96,7 +108,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void deleteComment(CommentWithUser comment) {
         MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
         int position = this.comments.indexOf(comment);
-        finished.observe(owner, value ->{
+        finished.observe(owner, value -> {
             if (value) {
                 this.comments.remove(position);
                 this.notifyItemRemoved(position);
@@ -107,10 +119,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         });
         commentViewModel.deleteComment(comments.get(position), videoUploader, finished);
     }
-    public void editComment(CommentWithUser comment,String text){
+
+    public void editComment(CommentWithUser comment, String text) {
         MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
         int position = this.comments.indexOf(comment);
-        finished.observe(owner, value ->{
+        finished.observe(owner, value -> {
             if (value) {
                 this.comments.get(position).setEdited(true);
                 this.comments.get(position).setText(text);
@@ -123,9 +136,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     }
 
-    public void addComment(EditText textInput, String videoId, RecyclerView commentList){
+    public void addComment(EditText textInput, String videoId, RecyclerView commentList) {
         MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
-        finished.observe(owner, value ->{
+        finished.observe(owner, value -> {
             if (value) {
                 this.comments.add(0, (CommentWithUser) commentViewModel.getComment().getValue());
                 this.notifyItemInserted(0);
@@ -135,7 +148,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 commentViewModel.getComment().setValue(null);
             }
         });
-        commentViewModel.addComment(textInput.getText().toString(), videoUploader, videoId,finished);
+        commentViewModel.addComment(textInput.getText().toString(), videoUploader, videoId, finished);
         textInput.setText("");
     }
 
@@ -161,7 +174,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
         builder.setPositiveButton("Edit", (dialog, which) -> {
-            editComment(comment,input.getText().toString());
+            editComment(comment, input.getText().toString());
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         return builder.create();
@@ -171,8 +184,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView commentUser;
         TextView commentDate;
         TextView commentText;
+        TextView readMore;
         View commentOptionOpener;
         ImageView profilePic;
+        boolean expanded;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,6 +196,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentDate = itemView.findViewById(R.id.commentDate);
             commentText = itemView.findViewById(R.id.commentText);
             commentOptionOpener = itemView.findViewById(R.id.commentOptionsOpener);
+            readMore = itemView.findViewById(R.id.read_more);
+            expanded = false;
         }
     }
 }
