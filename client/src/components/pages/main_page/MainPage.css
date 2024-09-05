@@ -71,6 +71,11 @@ body,
   height: 100px;
   padding: 20px 0px;
 }
+.main-page-header .user-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .profile-pic {
   width: 70px;
   height: 70px;
