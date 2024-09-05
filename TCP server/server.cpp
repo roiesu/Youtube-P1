@@ -21,9 +21,6 @@ std::pair<string, string> extractIds(string buffer,int read_bytes){
 }
 string getRecommendations(NestedList* videos, string videoId){
     NestedNode* videoNode = videos->findNode(videoId);
-    // cout<<videoId<<endl;
-    // cout<<videos->display()<<endl;
-    // cout<<"______"<<endl;
     if(videoNode!=nullptr){
         return videoNode->inner->display();
     }
@@ -64,6 +61,7 @@ void handleClient(int clientSocket, NestedList* users, NestedList* videos){
         if(idPair.first.compare("undefined")!=0 && idPair.first.compare("null")){
             updateReccomendations(users,videos,idPair.first,idPair.second);
         }
+        memset(buffer,0, read_bytes);
     }
     close(clientSocket);
 }
@@ -93,7 +91,7 @@ int main() {
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr*)&client_sin, &addr_len);
         if (client_sock < 0) {
-            perror("error accepting client");
+            perror("error acceptisng client");
             continue;
         }
         // Create a new thread to handle communication with the client
