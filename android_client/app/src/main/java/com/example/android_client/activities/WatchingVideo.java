@@ -4,7 +4,6 @@ package com.example.android_client.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,34 +15,25 @@ import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.Utilities;
-import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.DataManager;
 import com.example.android_client.adapters.VideoAdapter;
-import com.example.android_client.view_models.CommentListViewModel;
+import com.example.android_client.fragments.CommentsBottomSheet;
 import com.example.android_client.view_models.DatabaseViewModel;
 import com.example.android_client.view_models.LikeViewModel;
 import com.example.android_client.view_models.VideoWithUserListViewModel;
 import com.example.android_client.view_models.VideoWithUserViewModel;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {

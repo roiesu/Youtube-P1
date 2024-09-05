@@ -1,4 +1,4 @@
-package com.example.android_client.activities;
+package com.example.android_client.fragments;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -17,11 +17,9 @@ import com.example.android_client.DataManager;
 import com.example.android_client.R;
 import com.example.android_client.adapters.CommentAdapter;
 import com.example.android_client.view_models.CommentListViewModel;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +31,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
