@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -77,15 +78,16 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.VideoV
 
 
     public void deleteVideo(String videoId, int position) {
-        videoViewModel.getVideo().observe(owner, data -> {
-            if (data != null && data.get_id() != null) {
+        MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
+        finished.observe(owner, isFinished -> {
+            if (isFinished) {
                 this.videos.remove(position);
                 this.notifyItemRemoved(position);
                 this.videoViewModel.getVideo().removeObservers(owner);
                 this.videoViewModel.setVideo(null);
             }
         });
-        videoViewModel.deleteVideo(videoId);
+        videoViewModel.deleteVideo(videoId,finished);
     }
 
     @Override
