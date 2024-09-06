@@ -72,11 +72,12 @@ public class VideoRepository {
         this.api.uploadVideo(videoData);
     }
 
-    public void deleteVideo(String videoId) {
+    public void deleteVideo(String videoId,MutableLiveData finished) {
         videoData.observe(owner, data -> {
             if ((data != null) && (data.get_id() != null)) {
                 new Thread(() -> {
                     dao.deleteVideo(videoId);
+                    finished.postValue(true);
                 }).start();
             }
         });

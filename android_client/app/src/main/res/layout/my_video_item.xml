@@ -88,14 +88,29 @@
                     android:text="•"
                     android:textColor="@android:color/darker_gray" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/baseline_eye_24" />
+
+                    <TextView
+                        android:id="@+id/viewsNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="14sp"
+                        tools:text="1M" />
+                </LinearLayout>
+
                 <!-- Video Views -->
-                <TextView
-                    android:id="@+id/viewsNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="14sp"
-                    tools:text="1M views" />
             </LinearLayout>
 
 

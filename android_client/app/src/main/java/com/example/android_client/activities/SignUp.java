@@ -81,7 +81,7 @@ public class SignUp extends MediaPickerActivity {
             ContextApplication.showToast("Image is required");
             return;
         }
-        else if(inputs.get(1).equals(inputs.get(2))){
+        else if(!inputs.get(1).getInputText().equals(inputs.get(2).getInputText())){
             ContextApplication.showToast("Password validation doesn't match");
             return;
         }

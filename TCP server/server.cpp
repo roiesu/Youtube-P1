@@ -26,7 +26,7 @@ string getRecommendations(NestedList* videos, string videoId){
     }
     return "empty";
 }
-void updateRecommendations(NestedList* users, NestedList* videos,string userId,string videoId){
+void updateReccomendations(NestedList* users, NestedList* videos,string userId,string videoId){
     NestedNode* userNode = users->uniqueAdd(userId);
     NestedNode* videoNode = videos->uniqueAdd(videoId);
     if(userNode->inner->findNode(videoId)){
@@ -59,7 +59,7 @@ void handleClient(int clientSocket, NestedList* users, NestedList* videos){
             perror("error sending to client");
         }
         if(idPair.first.compare("undefined")!=0 && idPair.first.compare("null")){
-            updateRecommendations(users,videos,idPair.first,idPair.second);
+            updateReccomendations(users,videos,idPair.first,idPair.second);
         }
         memset(buffer,0, read_bytes);
     }
