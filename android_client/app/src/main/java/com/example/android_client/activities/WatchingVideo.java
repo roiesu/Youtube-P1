@@ -96,6 +96,11 @@ public class WatchingVideo extends AppCompatActivity {
                 ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
                 ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
                 ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
+                String tags = android.text.TextUtils.join(" #", video.getTags());
+                if(!video.getTags().isEmpty()) {
+                    tags = "#" + tags;
+                }
+                ((TextView) findViewById(R.id.tags)).setText(tags);
                 ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
                 ImageView uploaderImage = findViewById(R.id.uploaderImage);
                 Glide.with(this).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(uploaderImage);

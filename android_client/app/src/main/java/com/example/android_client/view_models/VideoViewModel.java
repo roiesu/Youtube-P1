@@ -38,8 +38,8 @@ public class VideoViewModel extends ViewModel {
         this.repository.upload(finished);
     }
 
-    public void deleteVideo(String id) {
-        this.repository.deleteVideo(id);
+    public void deleteVideo(String id,MutableLiveData finished) {
+        this.repository.deleteVideo(id,finished);
     }
 
     public void editVideo(MutableLiveData finished, String oldId, String oldThumbnail) {
