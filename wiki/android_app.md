@@ -12,10 +12,6 @@ Open a powershell terminal in your server directory and write "npm start" to sta
 
 ![](./images/Screenshot_13.png)
 
-Open the url (http://localhost:8080) to start your react application
-
-![](./images/Screenshot_14.png)
-
 ## Run the application
 
 Open android studio, choose the device you want to run the application on, and press on the green triangle to start it.
