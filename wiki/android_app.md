@@ -32,6 +32,7 @@ In addition, we will have to pick an image either from the gallery or from the c
 ![](./images/Screenshot_37.png)
 
 Entering values not according to the requirements will result in a popup message about what needs to be changed. In this example, the username value is 4 letters long instead of 6.
+
 ![](./images/Screenshot_38.png)
 
 After signing up, we will be send to the main page. You will be able to see your details at the top of the screen.
@@ -83,6 +84,7 @@ we will be able to see that because it's to long, the content will not shown in 
 ![](./images/Screenshot_50.png)
 
 Now admin1 want's to edit it's comment, so he will click on the options button and choose edit. It will open a prompt that he will be able to write the new text in it.
+
 ![](./images/Screenshot_51.png)
 ![](./images/Screenshot_52.png)
 
