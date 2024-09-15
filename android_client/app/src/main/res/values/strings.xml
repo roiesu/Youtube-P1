@@ -7,12 +7,6 @@
         <item>Validate Password</item>
         <item>Name</item>
     </string-array>
-    <string-array name="inputRegex">
-        <item>^[\\w\\d!@#$%^&amp;*\\-_]{6,}$</item>
-        <item>^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!?#$%&amp;*+,\\-./@^_{}|~])[\\w\\d!?#$%&amp;*+,\\-./@^{}|~]{8,}$</item>
-        <item>.+</item>
-        <item>^[\\w\\d\\-_!@#$%^&amp;*]+( [\\w\\d\\-_!@#$%^&amp;*]+)*$</item>
-    </string-array>
     <string-array name="inputRequierments">
         <item>Username at least 6 letters long, Contains only letters, numbers and special symbols.</item>
         <item>Password t least 8 letters long, Must contain: a small and a capital letter, a number and a symbol.</item>
@@ -29,4 +23,10 @@
     <string name="page_not_found">Page not found!\nOr maybe you don\'t have access to watch it?</string>
     <string name="camera_permission_denied">No permission to use camera</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="BaseUrlApi">http://[ENTER_YOUR_IP_HERE]:8080/api/</string>
+    <string name="BaseUrlMedia">http://[ENTER_YOUR_IP_HERE]:8080/media/</string>
+    <string name="video_preview">Video Preview</string>
+    <string name="video_tags">Video Tags</string>
+    <string name="recommendation_header">You may also like the following videos</string>
+    <string name="read_more">read more</string>
 </resources>

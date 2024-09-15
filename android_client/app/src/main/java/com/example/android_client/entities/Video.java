@@ -1,84 +1,95 @@
 package com.example.android_client.entities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import com.example.android_client.ContextApplication;
+import com.example.android_client.R;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+@Entity
+        (
+                foreignKeys = @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "uploaderId", onDelete = ForeignKey.CASCADE)
+        )
 public class Video {
-
-    private int id;
+    @PrimaryKey
+    @NonNull
+    private String _id;
     private String name;
-    private String uploader;
-    private String displayUploader;
+    @NonNull
+    private String uploaderId;
     private String src;
-    private Bitmap thumbnail;
+    private String thumbnail;
     private long duration;
-    private ArrayList<String> likes;
+    private Integer likesNum;
     private long views;
-    private Date date_time;
+    private Date date;
     private String description;
     private ArrayList<String> tags;
-    private ArrayList<Comment> comments;
+    private Integer commentsNum;
 
+    @Ignore
     public Video() {
-
     }
 
-    public Video(int id, String name, String uploader, String displayUploader, String src, ArrayList<String> likes, long views, Date dateTime, String description, ArrayList<String> tags, ArrayList<Comment> comments) {
-        this.id = id;
+    public Video(String _id, String name, String uploaderId, String src, Integer likesNum, String thumbnail, long duration, long views, Date date, String description, ArrayList<String> tags, Integer commentsNum) {
+        this._id = _id;
         this.name = name;
-        this.uploader = uploader;
-        this.displayUploader = displayUploader;
+        this.uploaderId = uploaderId;
         this.src = src;
-        this.likes = likes;
+        this.thumbnail = thumbnail;
+        this.duration = duration;
+        this.likesNum = likesNum;
         this.views = views;
-        this.date_time = dateTime;
+        this.date = date;
         this.description = description;
         this.tags = tags;
-        this.comments = comments;
+        this.commentsNum = commentsNum;
     }
-
-    public Video(int id, String name, User uploader, String src, String description, ArrayList<String> tags, Context context) {
-        this.id = id;
+    @Ignore
+    public Video(String _id, String name, String uploader, String thumbnail, long duration, long views, Date date) {
+        this._id = _id;
         this.name = name;
-        this.uploader = uploader.getUsername();
-        this.displayUploader = uploader.getName();
-        this.src = src;
-        this.likes = new ArrayList<>();
-        this.views = 0;
-        this.date_time = new Date();
-        this.description = description;
-        this.tags = tags;
-        this.comments = new ArrayList<>();
-        createVideoDetails(context);
+        this.uploaderId = uploader;
+        this.thumbnail = thumbnail;
+        this.duration = duration;
+        this.views = views;
+        this.date = date;
     }
 
-    public void createVideoDetails(Context context) {
-        try {
-            MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
-            mediaRetriever.setDataSource(context, Uri.parse(getSrc()));
-            String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
-            this.setDuration(seconds);
-            this.setThumbnail(mediaRetriever.getFrameAtTime());
-            mediaRetriever.release();
-        } catch (Exception ex) {
-            Log.w("Error", ex.toString());
-        }
+    @NonNull
+    public String get_id() {
+        return _id;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
+    public void set_id(@NonNull String _id) {
+        this._id = _id;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(String uploader) {
+        this.uploaderId = uploader;
     }
 
     public String getSrc() {
@@ -89,37 +100,28 @@ public class Video {
         this.src = src;
     }
 
-    public String getUploader() {
-        return uploader;
+    public String getThumbnailFromServer() {
+        return ContextApplication.context.getString(R.string.BaseUrlMedia) + "image/" + thumbnail;
     }
 
-    public void setUploader(String uploader) {
-        this.uploader = uploader;
+    public String getVideoFromServer() {
+        return ContextApplication.context.getString(R.string.BaseUrlMedia) + "video/" + src;
     }
 
-    public int getId() {
-        return id;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
-    public String getDisplayUploader() {
-        return displayUploader;
+    public long getDuration() {
+        return duration;
     }
 
-    public void setDisplayUploader(String displayUploader) {
-        this.displayUploader = displayUploader;
-    }
-
-
-    public ArrayList<String> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ArrayList<String> likes) {
-        this.likes = likes;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public long getViews() {
@@ -130,12 +132,12 @@ public class Video {
         this.views = views;
     }
 
-    public Date getDate_time() {
-        return date_time;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate_time(Date date_time) {
-        this.date_time = date_time;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDescription() {
@@ -154,67 +156,19 @@ public class Video {
         this.tags = tags;
     }
 
-    public String getName() {
-        return name;
+    public Integer getLikesNum() {
+        return likesNum;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLikesNum(Integer likesNum) {
+        this.likesNum = likesNum;
     }
 
-    public void addView() {
-        this.views++;
+    public Integer getCommentsNum() {
+        return commentsNum;
     }
 
-    public void like(String user) {
-        for (int i = 0; i < likes.size(); i++) {
-            if (likes.get(i).equals(user)) {
-                likes.remove(i);
-                return;
-            }
-        }
-        likes.add(user);
-    }
-
-    public void addComment(String username, String displayUsername, String text) {
-        Comment comment = new Comment(new Date(), username, displayUsername, text, false);
-        comments.add(0, comment);
-    }
-
-    public void editComment(String username, Date date, String newText) {
-        for (Comment comment : comments) {
-            if (comment.getDate_time().equals(date) && comment.getUser().equals(username)) {
-                comment.setText(newText);
-                comment.setEdited(false);
-            }
-        }
-    }
-
-    public void deleteComment(String username, Date date) {
-        for (int i = 0; i < comments.size(); i++) {
-            if (comments.get(i).getDate_time().equals(date) && comments.get(i).getUser().equals(username)) {
-                comments.remove(i);
-            }
-        }
-    }
-
-    public String toString() {
-        return getName();
-    }
-
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public Bitmap getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(Bitmap thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setCommentsNum(Integer commentsNum) {
+        this.commentsNum = commentsNum;
     }
 }

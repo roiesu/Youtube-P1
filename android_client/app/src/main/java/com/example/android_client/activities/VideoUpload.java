@@ -1,48 +1,77 @@
 package com.example.android_client.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.android_client.R;
-import com.example.android_client.entities.DataManager;
+import com.example.android_client.Utilities;
+import com.example.android_client.datatypes.VideoWithUser;
+import com.example.android_client.DataManager;
 import com.example.android_client.entities.Video;
-import com.example.android_client.entities.Comment;
+import com.example.android_client.view_models.VideoViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class VideoUpload extends AppCompatActivity {
     private VideoView previewVideo;
     private Uri videoUri;
     private Button uploadVideoButton, submitVideoDetailsButton;
     private EditText videoNameInput, videoDescriptionInput, videoTagsInput;
+    private Video video;
+    private ImageView goBackButton;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+
+    private VideoViewModel videoViewModel;
+    private MutableLiveData<Boolean> finished;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_video);
-
+        video = new VideoWithUser();
+        videoViewModel = new VideoViewModel(this);
+        goBackButton = findViewById(R.id.goBack);
+        goBackButton.setOnClickListener(l -> {
+            finish();
+        });
+        finished = new MutableLiveData<>();
+        finished.observe(this, data -> {
+            if (data) {
+                Intent result = new Intent();
+                result.putExtra("videoId", videoViewModel.getVideo().getValue().get_id());
+                result.putExtra("uploaderId", videoViewModel.getVideo().getValue().getUploaderId());
+                setResult(RESULT_OK, result);
+                finish();
+            }
+        });
         previewVideo = findViewById(R.id.videoPreview);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(previewVideo);
+        previewVideo.setMediaController(mediaController);
+        previewVideo.setOnPreparedListener(mediaPlayer -> {
+            mediaPlayer.start();
+            previewVideo.start();
+        });
         uploadVideoButton = findViewById(R.id.videoInput);
         videoNameInput = findViewById(R.id.videoNameInput);
         videoDescriptionInput = findViewById(R.id.videoDescriptionInput);
@@ -51,6 +80,8 @@ public class VideoUpload extends AppCompatActivity {
         pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri != null) {
                 videoUri = uri;
+                String data = Utilities.videoUriToBase64(this, uri);
+                video.setSrc(data);
                 previewVideo.setVideoURI(videoUri);
                 previewVideo.start();
             }
@@ -61,42 +92,37 @@ public class VideoUpload extends AppCompatActivity {
                     .build());
         });
         submitVideoDetailsButton.setOnClickListener(view -> {
-            if (videoUri == null || videoNameInput.getText().toString().equals("") || videoDescriptionInput.getText().toString().equals("")) {
-                Toast.makeText(this, "Video, Name and Description are required", Toast.LENGTH_SHORT).show();
-                return;
-            }
             createVideoObject();
         });
-    }
 
-    public void onRestart() {
-        super.onRestart();
-        if (DataManager.getCurrentUser() == null) {
-            finish();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putParcelable("mediaPicker", (Parcelable) pickMedia);
-    }
-
-    @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-        if (savedInstanceState != null) {
-            pickMedia = (ActivityResultLauncher<PickVisualMediaRequest>) savedInstanceState.get("mediaPicker");
-        }
     }
 
     private void createVideoObject() {
-        String name = videoNameInput.getText().toString();
-        String description = videoDescriptionInput.getText().toString();
-        ArrayList<String> tags = new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(",")));
-        String src = videoUri.toString();
-        DataManager.createVideo(name, DataManager.getCurrentUser(), src, description, tags, this);
-        startActivity(new Intent(this, MyVideosPage.class));
+        createVideoDetails(videoUri, video);
+        video.setName(videoNameInput.getText().toString());
+        video.setDescription(videoDescriptionInput.getText().toString());
+        video.setTags(new ArrayList<>(Arrays.asList(videoTagsInput.getText().toString().split(" "))));
+        video.setUploaderId(DataManager.getCurrentUsername());
+        videoViewModel.setVideo(video);
+        videoViewModel.uploadVideo(finished);
+    }
 
+    public String createThumbnail(MediaMetadataRetriever mediaRetriever) {
+        Bitmap thumbnail = mediaRetriever.getFrameAtTime(previewVideo.getCurrentPosition() * 1000L, MediaMetadataRetriever.OPTION_CLOSEST);
+        return Utilities.createThumbnail(thumbnail);
+    }
+
+    public void createVideoDetails(Uri uri, Video video) {
+        try {
+            MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
+            mediaRetriever.setDataSource(this, uri);
+            String time = mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            long seconds = (long) Math.floor(Long.parseLong(time) / 1000);
+            video.setDuration(seconds);
+            video.setThumbnail(createThumbnail(mediaRetriever));
+            mediaRetriever.release();
+        } catch (Exception ex) {
+            Log.w("Error", ex.toString());
+        }
     }
 }

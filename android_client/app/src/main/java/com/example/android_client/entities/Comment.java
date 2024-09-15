@@ -1,44 +1,63 @@
 package com.example.android_client.entities;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity(foreignKeys = {
+        @ForeignKey(entity = User.class, parentColumns = "_id", childColumns = "userId", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = Video.class, parentColumns = "_id", childColumns = "videoId", onDelete = ForeignKey.CASCADE)
+})
 public class Comment {
-    private Date date_time;
-    private String user;
-    private String display_name;
+    @PrimaryKey
+    @NonNull
+    private String _id;
+    private Date date;
+    @NonNull
+    private String userId;
+    @NonNull
+    private String videoId;
     private String text;
-    private boolean edited;
+    private Boolean edited;
 
-    public Comment(Date dateTime, String user, String displayName, String text,boolean edited) {
-        this.date_time = dateTime;
-        this.user = user;
-        this.display_name = displayName;
+    public Comment(@NonNull String _id, Date date, @NonNull String userId, @NonNull String videoId, String text, Boolean edited) {
+        this._id = _id;
+        this.date = date;
+        this.userId = userId;
+        this.videoId = videoId;
         this.text = text;
-        this.edited=edited;
+        this.edited = edited;
+    }
+    public Comment(){
+
     }
 
-    public Date getDate_time() {
-        return date_time;
+    public String get_id() {
+        return _id;
     }
 
-    public void setDate_time(Date date_time) {
-        this.date_time = date_time;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public String getUser() {
-        return user;
+    public Date getDate() {
+        return date;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+
+    public String getVideoId() {
+        return videoId;
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public void setVideoId(String video) {
+        this.videoId = video;
     }
 
     public String getText() {
@@ -49,16 +68,19 @@ public class Comment {
         this.text = text;
     }
 
-    public void edit(String text){
-        this.text=text;
-        this.edited=true;
-    }
-
-    public boolean isEdited() {
+    public Boolean isEdited() {
         return edited;
     }
 
-    public void setEdited(boolean edited) {
+    public void setEdited(Boolean edited) {
         this.edited = edited;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

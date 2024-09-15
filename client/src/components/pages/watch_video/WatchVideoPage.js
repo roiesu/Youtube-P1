@@ -1,100 +1,160 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import VideoBlock from "./watch_video_page_components/video_block/VideoBlock";
 import Comments from "./watch_video_page_components/comments/Comments";
+import VideoRec from "./watch_video_page_components/video_rec/VideoRec";
 import "./WatchVideoPage.css";
 import { useTheme } from "../general_components/ThemeContext";
-function WatchVideoPage({ videos, currentUser }) {
+import axios from "axios";
+import { getQuery, simpleErrorCatcher } from "../../../utilities";
+
+function WatchVideoPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
   const [video, setVideo] = useState();
   const [likedVideo, setLikedVideo] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
   const commentInput = useRef(null);
   const location = useLocation();
+  const AuthHeader = { Authorization: "Bearer " + localStorage.getItem("token") };
+  const navigate = useNavigate();
 
-  function addComment() {
-    if (!currentUser || commentInput.current.value == "") return;
-    const newComment = {
-      user: currentUser.username,
-      displayName: currentUser.name,
-      text: commentInput.current.value,
-      date_time: new Date().toISOString(),
-      edited: false,
-    };
-    const tempVideo = { ...video };
-    tempVideo.comments.push(newComment);
-    setVideo(tempVideo);
-    commentInput.current.value = "";
-  }
-
-  function deleteComment(commentDate) {
-    const tempVideo = { ...video };
-    tempVideo.comments = video.comments.filter(
-      (comment) => comment.date_time != commentDate || comment.user != currentUser.username
-    );
-    setVideo(tempVideo);
-    const found = videos.find((item) => item.id == video.id);
-    found.comments = tempVideo.comments;
-  }
-
-  function editComment(commentDate, newContent) {
-    const tempVideo = { ...video };
-    const found = tempVideo.comments.find(
-      (comment) => comment.user == currentUser.username && comment.date_time == commentDate
-    );
-    found.text = newContent;
-    found.edited = true;
-    setVideo(tempVideo);
-  }
-
-  function like() {
-    if (!currentUser) return;
-    const tempVideo = { ...video };
-    if (likedVideo) {
-      tempVideo.likes = video.likes.filter((user) => user != currentUser.username);
-    } else {
-      tempVideo.likes.push(currentUser.username);
+  async function addComment() {
+    if (!currentUser) {
+      showToast("Can't comment if not singed in");
+      return;
+    } else if (commentInput == "") {
+      showToast("Can't comment an empty text");
+      return;
     }
-    video.likes = [...tempVideo.likes];
-    setVideo(tempVideo);
-    setLikedVideo(!likedVideo);
+
+    try {
+      const response = await axios.post(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments`,
+        { text: commentInput.current.value },
+        { headers: AuthHeader }
+      );
+      const tempVideo = { ...video };
+      tempVideo.comments.push(response.data);
+      setVideo(tempVideo);
+      commentInput.current.value = "";
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
   }
 
-  useEffect(() => {
-    // Finds the video by query params
-    if (video) return;
-    const query = location.search.match(/v=(.*)/);
-    if (!query) return;
-    const found = videos.find((video) => video.id == query[1]);
-    found.views++;
-    setVideo(found);
-    if (!currentUser) return;
+  async function deleteComment(commentId) {
+    try {
+      const response = await axios.delete(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments/${commentId}`,
+        { headers: AuthHeader }
+      );
+      if (response.status === 201) {
+        const tempVideo = { ...video };
+        tempVideo.comments = tempVideo.comments.filter((comment) => comment._id != commentId);
+        setVideo(tempVideo);
+      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
+  }
 
-    // Set if liked the video
-    const user = found.likes.find((user) => user === currentUser.username);
-    if (user) setLikedVideo(true);
-  }, [video]);
+  async function editComment(commentId, newContent) {
+    try {
+      const response = await axios.patch(
+        `/api/users/${video.uploader.username}/videos/${video._id}/comments/${commentId}`,
+        { text: newContent },
+        { headers: AuthHeader }
+      );
+      if (response.status === 201) {
+        const tempVideo = { ...video };
+        const found = tempVideo.comments.find((comment) => comment._id == commentId);
+        found.text = newContent;
+        found.edited = true;
+        setVideo(tempVideo);
+      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
+  }
+
+  async function like() {
+    if (!currentUser) return;
+    const url = `/api/users/${video.uploader.username}/videos/${video._id}/like`;
+    let addition = 1;
+    try {
+      if (likedVideo) {
+        await axios.delete(url, { headers: AuthHeader });
+        addition = -1;
+      } else {
+        await axios.put(url, { data: "" }, { headers: AuthHeader });
+      }
+      setLikedVideo(!likedVideo);
+      video.likes += addition;
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
+  }
+  function reloadVideo(userId, videoId) {
+    setVideo(null);
+    setRecommendations([]);
+    setLikedVideo(false);
+    navigate(`/watch?channel=${userId}&v=${videoId}`);
+  }
+  useEffect(() => {
+    async function getVideo() {
+      // Finds the video by query params
+      const { v, channel } = getQuery(location.search);
+
+      if (!v || !channel) return;
+      try {
+        const headers = {};
+        const token = localStorage.getItem("token");
+        if (token) headers.Authorization = "Bearer " + token;
+        const found = await axios.get(`/api/users/${channel}/videos/${v}`, {
+          headers,
+        });
+        if (!found) {
+          return;
+        }
+        setVideo(found.data);
+        setLikedVideo(found.data.likedVideo);
+        const recs = await axios.get(`/api/users/${channel}/videos/${v}/rec`, { headers });
+        setRecommendations(recs.data);
+      } catch (err) {}
+    }
+    getVideo();
+  }, [location.search]);
 
   return (
     <div className={`video-watching-page page ${theme}`}>
       {video ? (
-        <div className="video-page-main-component">
-          <VideoBlock
-            {...video}
-            likes={video.likes.length}
-            commentInput={commentInput}
-            like={like}
-            likedVideo={likedVideo}
-            loggedIn={currentUser != null}
-          />
-          <Comments
-            currentUser={currentUser ? currentUser.username : null}
-            comments={video.comments}
-            addComment={addComment}
-            deleteComment={deleteComment}
-            commentInput={commentInput}
-            editComment={editComment}
-          />
-        </div>
+        <>
+          <div className="video-recs">
+            {recommendations.map((item) => (
+              <VideoRec {...item} reloadVideo={reloadVideo} key={"rec" + item._id} />
+            ))}
+          </div>
+          <div className="video-page-main-component">
+            <VideoBlock
+              {...video}
+              likes={video.likes}
+              commentInput={commentInput}
+              like={like}
+              likedVideo={likedVideo}
+              loggedIn={currentUser != null}
+              showToast={showToast}
+            />
+            <Comments
+              currentUser={currentUser}
+              comments={video.comments}
+              addComment={addComment}
+              deleteComment={deleteComment}
+              commentInput={commentInput}
+              editComment={editComment}
+              showToast={showToast}
+            />
+          </div>
+        </>
       ) : (
         "Video not found"
       )}

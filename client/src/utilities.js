@@ -59,17 +59,29 @@ function dateDifference(dateString) {
   return `${diffTime} years ago`;
 }
 
-function printWithLineBreaks(text) {
-  let x = text.split("\n").map(function (item, idx) {
-    return (
-      <span key={idx}>
-        {item}
-        <br />
-      </span>
-    );
+function getMediaFromServer(type, name) {
+  return `http://localhost:8080/media/${type}/${name}`;
+}
+function getQuery(url) {
+  const queryArray = url.replace(/^.*\?/, "").split("&");
+  let queryObj = {};
+  queryArray.map((query) => {
+    const [key, value] = query.split("=");
+    queryObj[key] = value;
+    return;
   });
-  console.log(x);
-  return x;
+  return queryObj;
+}
+function simpleErrorCatcher(error, handleTokenExpired, navigate, showToast) {
+  if (error.response) {
+    if (handleTokenExpired && error.response.status === 403) {
+      handleTokenExpired(navigate);
+    } else {
+      showToast(error.response.data);
+    }
+    return;
+  }
+  showToast("An unexpected error accrued");
 }
 export {
   readFileIntoState,
@@ -78,5 +90,7 @@ export {
   dateDifference,
   shortFormatter,
   longFormatter,
-  printWithLineBreaks,
+  getMediaFromServer,
+  getQuery,
+  simpleErrorCatcher,
 };

@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./SignIn.css";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
 import { useTheme } from "../general_components/ThemeContext";
+import axios from "axios";
+import { callWithEnter, simpleErrorCatcher } from "../../../utilities";
 
-function SignIn(props) {
+function SignIn({ setCurrentUser, showToast }) {
   const { theme } = useTheme();
 
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (errorMessage)
-      setTimeout(() => {
-        setErrorMessage(false);
-      }, 4000);
-  }, [errorMessage]);
+  async function validateSignIn() {
+    if (!usernameInput || !passwordInput) {
+      showToast("Username and password are required!");
+      return;
+    }
 
-  function validateSignIn() {
-    const user = props.users.find((user) => user.username === usernameInput);
-    if (user && user.username === usernameInput && user.password === passwordInput) {
-      props.setCurrentUser(user);
-      navigate("/");
-    } else {
-      setErrorMessage(true);
+    try {
+      const response = await axios.post("/api/tokens", {
+        username: usernameInput,
+        password: passwordInput,
+      });
+
+      if (response.status === 201) {
+        const token = response.data;
+        localStorage.setItem("token", token);
+        setCurrentUser(usernameInput);
+        navigate("/");
+      }
+    } catch (err) {
+      simpleErrorCatcher(err, null, navigate, showToast);
     }
   }
 
@@ -38,11 +44,9 @@ function SignIn(props) {
             First time? sign up <Link to="/sign-up">here!</Link>
           </div>
         </div>
-        <div className="input-div">
+        <div className="input-div" onKeyDown={(e) => callWithEnter(e, validateSignIn)}>
           <div className="validation-input-div">
-            <PopUpMessage message="Username or password are incorrect" isActive={errorMessage} />
             <label>username</label>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <input
               className="text-input"
               type="text"
