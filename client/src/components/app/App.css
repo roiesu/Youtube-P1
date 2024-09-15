@@ -25,7 +25,14 @@
 }
 .page.light {
   background-color: white;
+  color: black;
 }
 .page.dark {
   background-color: #131313;
+  color: white;
+}
+a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
 }

@@ -1,26 +1,62 @@
-import React, { useRef, useState } from "react";
-import VideoLink from "./main_page_components/VideoLink";
-import { callWithEnter } from "../../../utilities";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import VideoLink from "./main_page_components/video_link/VideoLink";
+import { callWithEnter, getMediaFromServer, simpleErrorCatcher } from "../../../utilities";
 import "./MainPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../general_components/ThemeContext";
 import IconSun from "../../icons/IconSun";
 import IconMoon from "../../icons/IconMoon";
 
-function MainPage({ videos, currentUser }) {
+function MainPage({ currentUser, showToast, handleExpiredToken }) {
   const { theme, changeTheme } = useTheme();
-
   const searchInputRef = useRef(null);
-  const [filteredVideos, setFilteredVideos] = useState(videos);
-
-  function search() {
-    if (searchInputRef.current.value === "") {
-      setFilteredVideos(videos);
+  const [topVideos, setTopVideos] = useState([]);
+  const [userImage, setUserImage] = useState("");
+  const [restVideos, setRestVideos] = useState([]);
+  const [userDetails, setUserDetails] = useState();
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
+  async function getVideos() {
+  
+    try {
+      const value = searchInputRef.current.value || "";
+      const response = await axios.get(`/api/videos?name=${value}`);
+      const videoArr = response.data;
+      setTopVideos(videoArr.slice(0, 10));
+      setRestVideos(videoArr.slice(10, 20));
+      setSearchValue(value);
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
+  }
+  async function getUserDetails() {
+    if (!currentUser) {
       return;
     }
-    const reg = new RegExp(searchInputRef.current.value, "i");
-    const tempFiltered = videos.filter((video) => video.name.match(reg));
-    setFilteredVideos(tempFiltered);
+    try {
+      const response = await axios.get("/api/users/" + currentUser, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      });
+      setUserDetails(response.data);
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
+  }
+  useEffect(() => {
+    getVideos();
+  }, []);
+
+  useEffect(() => {
+    getUserDetails();
+  }, [, currentUser]);
+
+  useEffect(() => {
+    if (userDetails) setUserImage(getMediaFromServer("image", userDetails.image));
+  }, [userDetails]);
+
+  function search() {
+    getVideos();
     searchInputRef.current.value = "";
   }
 
@@ -28,10 +64,12 @@ function MainPage({ videos, currentUser }) {
     <div className={`main-page page ${theme}`}>
       <div className="main-page-header">
         <div className="user-details">
-          {currentUser ? (
+          {userDetails ? (
             <>
-              <img className="profile-pic-small" src={currentUser.image} />
-              <span className="user-name">Welcome back {currentUser.name}</span>
+              <Link to={`/channel/${currentUser}`}>
+                <img key={userImage} className="profile-pic" src={userImage} />
+              </Link>
+              <span className="user-name">Welcome back {userDetails.name}</span>
             </>
           ) : (
             <span className="user-name">
@@ -56,11 +94,39 @@ function MainPage({ videos, currentUser }) {
           search
         </button>
       </div>
-      <div className="video-list">
-        {filteredVideos.map((video) => (
-          <VideoLink key={video.id} {...video} />
-        ))}
-      </div>
+
+      {topVideos.length > 0 ? (
+        <>
+          <div className="video-list-header">
+            The most popular videos
+            {searchValue ? ` for "${searchValue}"` : ""}:
+          </div>
+          <div className="video-list top">
+            {topVideos.map((video) => (
+              <VideoLink key={video._id} {...video} />
+            ))}
+          </div>
+        </>
+      ) : searchValue ? (
+        `No results for "${searchValue}"`
+      ) : (
+        "No videos found"
+      )}
+
+      {restVideos.length > 0 ? (
+        <>
+          <div className="more-videos-header">
+            More videos to watch{searchValue ? ` for "${searchValue}"` : ""}:
+          </div>
+          <div className="video-list rest">
+            {restVideos.map((video) => (
+              <VideoLink key={video._id} {...video} />
+            ))}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

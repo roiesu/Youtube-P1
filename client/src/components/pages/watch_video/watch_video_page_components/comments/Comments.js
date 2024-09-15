@@ -4,7 +4,15 @@ import "./Comments.css";
 import Comment from "./Comment";
 import VideoActionButton from "../action_button/VideoActionButton";
 
-function Comments({ comments, addComment, deleteComment, editComment, commentInput, currentUser }) {
+function Comments({
+  comments,
+  addComment,
+  deleteComment,
+  editComment,
+  commentInput,
+  currentUser,
+  showToast,
+}) {
   return (
     <div className="comments">
       <div className="comments-title">
@@ -22,6 +30,7 @@ function Comments({ comments, addComment, deleteComment, editComment, commentInp
           callback={addComment}
           name="comment"
           content={""}
+          showToast={showToast}
           badMessage={"You can't comment if not signed in"}
           canActivate={currentUser != null}
         />

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
+
+body, .video-details {
+    font-family: 'Heebo', sans-serif;
+}
+
 .signup-page,
 .signin-page,
 .mainpage-page {
@@ -38,12 +44,11 @@
   box-shadow: #000000 1px 1px 5px 0px;
   color: white;
 }
-.profile-pic {
+.preview-picture {
   width: 100%;
   max-height: 100%;
 }
-.choose-file,
-.submit {
+.choose-file {
   background-color: #f44336;
   border: none;
   color: white;
@@ -57,10 +62,27 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.submit {
+  margin-right: 60px;
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  
+}
 
 .choose-file:hover,
 .submit:hover {
   background-color: #d32f2f;
+  
 }
 
 .choose-file input {

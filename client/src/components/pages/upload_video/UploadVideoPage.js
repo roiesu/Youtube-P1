@@ -1,49 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideoPage.css";
-import { readFileIntoState } from "../../../utilities";
-import PopUpMessage from "../general_components/popup_message/PopUpMessage";
+import { readFileIntoState, simpleErrorCatcher } from "../../../utilities";
 import { useTheme } from "../general_components/ThemeContext";
+import axios from "axios";
+import ImagePicker from "../general_components/image_picker/ImagePicker";
 
-function UploadVideo({ videos, setVideos, currentUser }) {
+function UploadVideo({ currentUser, showToast, handleExpiredToken }) {
   const { theme } = useTheme();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState();
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
-  const navigate = useNavigate();
+  const [thumbnail, setThumbnail] = useState(null);
+  const videoRef = useRef(null);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (videoFile) {
       readFileIntoState(videoFile, setVideoPreview);
     }
   }, [videoFile]);
-
   function validateInput(input) {
     return input != "" && input != null;
   }
 
-  function handleSubmit() {
-    if (!validateInput(title) || !validateInput(videoFile) || !validateInput(description)) {
+  async function handleSubmit() {
+    if (
+      !validateInput(title) ||
+      !validateInput(videoFile) ||
+      !validateInput(description) ||
+      !validateInput(thumbnail)
+    ) {
+      showToast("Name, Description, video file and thumbnail are required");
       return;
     }
-    const id = videos.length == 0 ? 1 : videos[videos.length - 1].id + 1;
+    let tagsToSend = [];
+    if (tags) {
+      tagsToSend = tags.split(" ");
+    }
     const newVideo = {
-      id,
       name: title,
-      uploader: currentUser.username,
-      displayUploader: currentUser.name,
       src: videoPreview,
-      likes: [],
-      views: 0,
-      date_time: new Date(),
+      thumbnail,
       description,
-      tags: [],
-      comments: [],
+      tags: tagsToSend,
+      duration: Math.floor(videoRef.current.duration),
     };
-    setVideos([...videos, newVideo]);
-    navigate("/my-videos");
+    try {
+      const response = await axios.post(`/api/users/${currentUser}/videos`, newVideo, {
+        headers: { authorization: localStorage.getItem("token") },
+      });
+      if (response.status == 201) {
+        navigate("/my-videos");
+      }
+    } catch (err) {
+      simpleErrorCatcher(err, handleExpiredToken, navigate, showToast);
+    }
   }
 
   return (
@@ -54,15 +69,19 @@ function UploadVideo({ videos, setVideos, currentUser }) {
           type="text"
           className="input-field"
           placeholder="Enter video title"
-          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <textarea
           className="input-field"
           placeholder="Video description"
-          value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+        <input
+          type="tags"
+          className="input-field"
+          placeholder="Video tags separated by spaces (Optional)"
+          onChange={(e) => setTags(e.target.value)}
         />
         <input
           type="file"
@@ -75,11 +94,14 @@ function UploadVideo({ videos, setVideos, currentUser }) {
           Upload Video
         </button>
         {videoPreview ? (
-          <video width={300}>
-            <source src={videoPreview} type="video/mp4" />
-          </video>
+          <ImagePicker
+            videoPreview={videoPreview}
+            setThumbnail={setThumbnail}
+            videoRef={videoRef}
+            showToast={showToast}
+          />
         ) : (
-          "no video"
+          ""
         )}
       </div>
     </div>

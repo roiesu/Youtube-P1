@@ -8,6 +8,11 @@
   justify-content: center;
   align-items: center;
 }
+.video-block a.user-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .video {
   width: 100%;
   max-height: 600px;
@@ -38,13 +43,15 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 40%;
+  align-items: flex-start;
   flex-wrap: nowrap;
 }
 
 .description-div {
   text-align: left;
   width: 100%;
-  height: 200px;
+  min-height: 200px;
+  height: fit-content;
   overflow: auto;
   padding: 20px;
   border-radius: 10px;
@@ -54,34 +61,30 @@
   line-height: 1.6;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+.description-div .description {
+  white-space: break-spaces;
+}
 .light .description-div {
-  border-color: #ffd700;
+  border-color: #c3c2c2;
   color: #333333;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background: #fffbcc;
+  background-color: #c3c2c2;
 }
 .dark .description-div {
   background: #3d3d3d;
   color: white;
-  border-color: #737373;
+  border-color: #c3c2c2;
   box-shadow: 0 2px 10px rgba(100, 100, 100, 0.1);
 }
 
-.light .description-div:hover {
-  background-color: #fffacd;
-  border-color: #ffc107;
-}
-.dark .description-div:hover {
-  background: #474747;
-  border-color: #737373;
-}
-.dark .tag {
+.tag {
   color: #7185f2;
 }
+
 .description-div {
   text-align: left;
   width: 100%;
-  height: 200px;
+  height: 100px;
   overflow: auto;
   padding: 15px;
   background: #f0f0f0;
@@ -93,11 +96,6 @@
   color: #333333;
   line-height: 1.5;
   transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.description-div:hover {
-  background-color: #e0e0e0;
-  border-color: #b0b0b0;
 }
 
 .video-tools > * {

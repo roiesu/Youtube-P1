@@ -1,12 +1,9 @@
 import React from "react";
 import "./PopUpMessage.css";
-function PopUpMessage(props) {
-  console.log(props.message);
+function PopUpMessage({ isActive, message }) {
   return (
     <div className="message-anchor">
-      <div className={props.isActive ? "popup-message visible" : "popup-message hidden"}>
-        {props.message}
-      </div>
+      <div className={isActive ? "popup-message visible" : "popup-message hidden"}>{message}</div>
     </div>
   );
 }

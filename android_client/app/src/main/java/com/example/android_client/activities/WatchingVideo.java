@@ -1,119 +1,136 @@
+
 package com.example.android_client.activities;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
+import com.example.android_client.ContextApplication;
 import com.example.android_client.R;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_client.Utilities;
-import com.example.android_client.adapters.CommentAdapter;
-import com.example.android_client.entities.DataManager;
-import com.example.android_client.entities.User;
-import com.example.android_client.entities.Video;
+import com.example.android_client.DataManager;
+import com.example.android_client.adapters.VideoAdapter;
+import com.example.android_client.fragments.CommentsBottomSheet;
+import com.example.android_client.view_models.DatabaseViewModel;
+import com.example.android_client.view_models.LikeViewModel;
+import com.example.android_client.view_models.VideoWithUserListViewModel;
+import com.example.android_client.view_models.VideoWithUserViewModel;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class WatchingVideo extends AppCompatActivity {
-    private Video video;
     private VideoView videoView;
-    private RecyclerView commentsList;
-    private TextView commentsHeader;
-
+    private RecyclerView recommendationsList;
     private com.google.android.material.button.MaterialButton likeButton;
-    private Button commentButton;
     private Button shareButton;
-    private EditText commentInput;
-    private User currentUser;
-    private boolean likedVideo;
+    private VideoWithUserViewModel video;
+    private LikeViewModel likeViewModel;
+    private VideoWithUserListViewModel recommendationViewModel;
+    private DatabaseViewModel databaseViewModel;
 
-    @SuppressLint("SetTextI18n")
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String appLinkAction = intent.getAction();
-        int id = 0;
-        if (appLinkAction == null) {
-            id = intent.getIntExtra("videoId", 0);
-        } else {
-            DataManager.initializeData(this);
-            String lastPathSegment = intent.getData().getLastPathSegment();
-            if (lastPathSegment.matches("^\\d{0,9}$")) {
-                id = Integer.parseInt(lastPathSegment);
-            }
-        }
-        video = DataManager.findVideoById(id, true);
-        if (video == null) {
-            intent = new Intent(this, PageNotFound.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
         setContentView(R.layout.watching_video);
-        ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
-        ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews())+" Views");
-        ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at "+Utilities.formatDate(video.getDate_time()));
-        ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
-        ((TextView) findViewById(R.id.videoUploader)).setText(video.getDisplayUploader());
-        currentUser = DataManager.getCurrentUser();
+        videoView = findViewById(R.id.videoView);
         shareButton = findViewById(R.id.shareButton);
-        commentInput = findViewById(R.id.commentInput);
-        commentButton = findViewById(R.id.commentButton);
         likeButton = findViewById(R.id.likeButton);
-        likeButton.setText(video.getLikes().size() + "");
-        likeButton.setOnClickListener(view -> {
-            if (DataManager.getCurrentUser() == null) {
-                return;
+        databaseViewModel = new DatabaseViewModel();
+        databaseViewModel.init(this);
+        databaseViewModel.getInitialized().observe(this, value -> {
+            if (value == true) {
+                DataManager.setInitialized(true);
+                resumeOnCreate();
             }
-            DataManager.likeVideo(video.getId(), DataManager.getCurrentUser().getUsername());
-            ((TextView) view).setText(video.getLikes().size() + "");
-            likedVideo = !likedVideo;
-            changeLikeIcon();
-        });
-        isLiked();
-        initVideo();
-
-        commentsList = findViewById(R.id.commentsList);
-        commentsList.setLayoutManager(new LinearLayoutManager(this));
-        CommentAdapter adapter = new CommentAdapter(this, video.getComments());
-        commentsList.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        dividerItemDecoration.setDrawable(dividerDrawable);
-        commentsList.addItemDecoration(dividerItemDecoration);
-
-        commentsHeader = findViewById(R.id.commentsTitle);
-        commentsHeader.setText(adapter.getItemCount() + " Comments");
-
-        commentButton.setOnClickListener(l -> {
-            commentVideo(adapter);
-        });
-        AlertDialog shareDialog = createShareDialog(video.getId());
-        shareButton.setOnClickListener(l -> {
-            shareDialog.show();
         });
 
+
+    }
+
+    public void resumeOnCreate() {
+        AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
+        String appLinkAction = intent.get().getAction();
+        String channel = "";
+        String videoId = "";
+        if (appLinkAction == null) {
+            videoId = intent.get().getStringExtra("videoId");
+            channel = intent.get().getStringExtra("channel");
+        } else {
+            videoId = intent.get().getData().getQueryParameter("v");
+            channel = intent.get().getData().getQueryParameter("channel");
+        }
+
+        // Initialize views
+        video = new VideoWithUserViewModel(channel, videoId, this);
+        video.getVideo().observe(this, video -> {
+            if (video == null) {
+                Intent intent404 = new Intent(this, MainPage.class);
+                intent404.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent404);
+                finish();
+            } else {
+                initRecommendations(video.getUploader().getUsername(),video.get_id());
+                initComments(video.get_id(), video.getUploader().getUsername());
+                likeViewModel = new LikeViewModel(DataManager.getCurrentUserId(), video.get_id(),this);
+                ((TextView) findViewById(R.id.videoTitle)).setText(video.getName());
+                ((TextView) findViewById(R.id.videoViews)).setText(Utilities.numberFormatter(video.getViews()) + " Views");
+                ((TextView) findViewById(R.id.videoDate)).setText("Uploaded at " + Utilities.formatDate(video.getDate()));
+                ((TextView) findViewById(R.id.videoDescription)).setText(video.getDescription());
+                String tags = android.text.TextUtils.join(" #", video.getTags());
+                if(!video.getTags().isEmpty()) {
+                    tags = "#" + tags;
+                }
+                ((TextView) findViewById(R.id.tags)).setText(tags);
+                ((TextView) findViewById(R.id.videoUploader)).setText(video.getUploader().getName());
+                ImageView uploaderImage = findViewById(R.id.uploaderImage);
+                Glide.with(this).load(video.getUploader().getImageFromServer()).signature(new ObjectKey(System.currentTimeMillis())).into(uploaderImage);
+                uploaderImage.setOnClickListener(v -> {
+                    Intent channelIntent = new Intent(this, ChannelActivity.class);
+                    channelIntent.putExtra("USER_ID", video.getUploader().get_id());
+                    this.startActivity(channelIntent);
+                });
+                likeButton.setOnClickListener(view -> {
+                    if (DataManager.getCurrentUsername() == null) {
+                        ContextApplication.showToast("Can't like video if not logged in");
+                    } else if (!likeViewModel.getIsLiked().getValue()) {
+                        likeViewModel.like(video.getUploader().getUsername(), video.get_id());
+                    } else {
+                        likeViewModel.dislike(video.getUploader().getUsername(), video.get_id());
+                    }
+                });
+                initVideo();
+
+
+                AlertDialog shareDialog = createShareDialog(video.get_id(), video.getUploader().get_id());
+                shareButton.setOnClickListener(l -> shareDialog.show());
+                likeViewModel.getIsLiked().observe(this, isLiked -> {
+                    changeLikeIcon(isLiked);
+                });
+                likeViewModel.getVideoLikes().observe(this, likeNumber -> {
+                    likeButton.setText(likeNumber + "");
+                });
+            }
+        });
     }
 
     @Override
@@ -125,38 +142,46 @@ public class WatchingVideo extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        videoView.start();
+        videoView.setOnPreparedListener(mediaPlayer -> {
+            mediaPlayer.start();
+        });
     }
 
     private void initVideo() {
         videoView = findViewById(R.id.videoView);
-        videoView.setVideoURI(Uri.parse(video.getSrc()));
+        videoView.setVideoPath(video.getVideo().getValue().getVideoFromServer());
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.setOnPreparedListener(mediaPlayer -> {
             mediaPlayer.start();
-            videoView.start();
+        });
+    }
+    private void initRecommendations(String videoUploader, String videoId){
+        recommendationsList = findViewById(R.id.recList);
+        recommendationViewModel = new VideoWithUserListViewModel(this);
+        VideoAdapter adapter = new VideoAdapter(this);
+        recommendationsList.setLayoutManager(new LinearLayoutManager(this));
+        recommendationsList.setAdapter(adapter);
+        recommendationViewModel.getVideos().observe(this,data->{
+            if(data!=null) {
+                adapter.setVideos(data);
+                recommendationViewModel.getVideos().setValue(null);
+            }
+        });
+        recommendationViewModel.getRecommendations(videoUploader,videoId);
+    }
+    private void initComments(String videoId, String videoUploader) {
+        findViewById(R.id.showComments).setOnClickListener(l->{
+            CommentsBottomSheet commentsBottomSheet = new CommentsBottomSheet(this,videoUploader,videoId);
+            commentsBottomSheet.show(getSupportFragmentManager());
         });
     }
 
-    private void commentVideo(CommentAdapter adapter) {
-        if (currentUser == null) {
-            return;
-        }
-        String content = commentInput.getText().toString();
-        if (content.matches("^[\\s \\r\\t\\n]*$")) {
-            // Notify user
-            return;
-        }
-        video.addComment(currentUser.getUsername(), currentUser.getName(), content);
-        commentInput.setText("");
-        adapter.notifyItemInserted(0);
-        commentsHeader.setText(adapter.getItemCount() + " Comments");
-    }
 
-    private AlertDialog createShareDialog(int videoId) {
-        String shareLink = getResources().getString(R.string.url) + "/watch/" + videoId;
+
+    private AlertDialog createShareDialog(String videoId, String userId) {
+        String shareLink = getResources().getString(R.string.url) + "/watch?channel=" + userId + "&v=" + videoId;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setPositiveButton("Copy to clipboard", (dialog, id1) -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -175,24 +200,11 @@ public class WatchingVideo extends AppCompatActivity {
         return dialogBuilder.create();
     }
 
-    private void isLiked() {
-        if (currentUser != null) {
-            for (String username : video.getLikes()) {
-                if (username.equals(currentUser.getUsername())) {
-                    likedVideo = true;
-                    changeLikeIcon();
-                    return;
-                }
-            }
-        }
-        likedVideo = false;
-    }
-
-    private void changeLikeIcon() {
-        if (likedVideo) {
-            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_filled_like, getTheme()));
+    private void changeLikeIcon(Boolean isLiked) {
+        if (isLiked) {
+            likeButton.setIcon(getResources().getDrawable(R.drawable.png_filled_like, getTheme()));
         } else {
-            likeButton.setIcon(getResources().getDrawable(R.drawable.ic_like, getTheme()));
+            likeButton.setIcon(getResources().getDrawable(R.drawable.png_like, getTheme()));
         }
     }
 }
