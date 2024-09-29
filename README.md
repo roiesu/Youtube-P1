@@ -1,5 +1,10 @@
 Jira link: https://roiesu3.atlassian.net/jira/software/projects/BIS/boards/2/timeline
 
+For further information check the wiki pages
+[setup the environment](./wiki/setup.md)
+[android app demo](./wiki/react_app.md)
+[react app demo](./wiki/android_app.md)
+
 ## Important note
 
 At first, we started working only Oren and Roie. Yuval was assigned to another group that resigned from the course so she joined us later on. Yuval is also in active reserve duty
