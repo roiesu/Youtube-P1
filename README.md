@@ -2,7 +2,9 @@ Jira link: https://roiesu3.atlassian.net/jira/software/projects/BIS/boards/2/tim
 
 For further information check the wiki pages
 [setup the environment](./wiki/setup.md)
+
 [android app demo](./wiki/react_app.md)
+
 [react app demo](./wiki/android_app.md)
 
 ## Important note
