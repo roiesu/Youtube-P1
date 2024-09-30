@@ -1,5 +1,5 @@
 # Youtube project
-This project was made as a final project for a advancded programming course. Its goal was to create an application resembeling youtube in android and react.
+This project was made as a final project for a advanced programming course. Its goal was to create an application resembeling youtube in android and react.
 
 Jira link: https://roiesu3.atlassian.net/jira/software/projects/BIS/boards/2/timeline
 
