@@ -41,12 +41,11 @@ async function getVideos(req, res) {
       .sort({ views: "desc" })
       .limit(10)
       .populate("uploader", ["name", "username", "image"]);
-
     let restVideos = [];
     if (topVideos.length > 0) {
-      let viewsBar = topVideos[topVideos.length - 1].views;
+      const topIdArray = topVideos.map(item=>item._id);
       restVideos = await Video.aggregate([
-        { $match: { ...filterValues, views: { $lt: viewsBar } } },
+        { $match: { ...filterValues, _id:{$nin:topIdArray} } },
         { $sample: { size: 10 } },
         {
           $lookup: {
@@ -56,7 +55,6 @@ async function getVideos(req, res) {
             as: "uploader",
           },
         },
-        { $unwind: "$uploader" },
         {
           $project: {
             name: 1,
@@ -208,7 +206,7 @@ async function addVideo(req, res) {
     if (!videoFile) {
       return res.status(400).send("Invalid video file");
     } else if (!imageFile) {
-      res.status(400).send("Invalid image");
+      return res.status(400).send("Invalid image");
     }
     const video = new Video({
       name,

@@ -1,4 +1,3 @@
-const { errorMonitor } = require("events");
 const fs = require("fs");
 
 function write64FileWithCopies(dest, data) {

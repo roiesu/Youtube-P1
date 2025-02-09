@@ -23,6 +23,7 @@ function App() {
   const [toastMessage, setToastMessage] = useState();
   const [toastShowing, setToastShowing] = useState("hide");
   let toastTimeout;
+
   function showToast(message) {
     if (toastShowing == "show") {
       clearTimeout(toastTimeout);

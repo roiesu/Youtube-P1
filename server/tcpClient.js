@@ -41,4 +41,5 @@ async function sendMessageToTcpServer(message) {
     client.write(message);
   });
 }
+
 module.exports = { client, sendMessageToTcpServer };

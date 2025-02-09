@@ -70,6 +70,7 @@ public class CommentRepository {
                     videoDao.updateComments(data.getVideoId(),1);
                     finished.postValue(true);
                 }).start();
+
             }
         });
         api.addComment(commentData,text, videoUploader, videoId);
