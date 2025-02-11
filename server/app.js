@@ -12,11 +12,11 @@ const path = require("path");
 app.use(cors());
 app.use(express.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
-if(!fs.existsSync("./public/image")){
+if(!fs.existsSync("./public/video")){
   fs.mkdirSync("./public/video",{recursive:true});
 }
 if(!fs.existsSync("./public/image")){
-  fs.mkdirSync("./public/video",{recursive:true});
+  fs.mkdirSync("./public/image",{recursive:true});
 }
 app.use("/media", express.static("./public"));
 app.use("/api", router);
