@@ -43,9 +43,9 @@ async function getVideos(req, res) {
       .populate("uploader", ["name", "username", "image"]);
     let restVideos = [];
     if (topVideos.length > 0) {
-      const topIdArray = topVideos.map(item=>item._id);
+      const topIdArray = topVideos.map((item) => item._id);
       restVideos = await Video.aggregate([
-        { $match: { ...filterValues, _id:{$nin:topIdArray} } },
+        { $match: { ...filterValues, _id: { $nin: topIdArray } } },
         { $sample: { size: 10 } },
         {
           $lookup: {
@@ -55,6 +55,7 @@ async function getVideos(req, res) {
             as: "uploader",
           },
         },
+        { $unwind: "$uploader" },
         {
           $project: {
             name: 1,
