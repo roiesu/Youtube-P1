@@ -14,7 +14,7 @@ import MyVideos from "../pages/MyVideos/MyVideos.js";
 import Page404 from "../pages/page_404/Page404";
 import VideoEdit from "../pages/VideoEdit/VideoEdit.js";
 import EditUser from "../pages/edit_user/EditUser.js";
-import { ThemeContext } from "../pages/general_components/ThemeContext";
+import { ThemeContext, useTheme } from "../pages/general_components/ThemeContext";
 import ChannelPage from "../pages/channel_page/ChannelPage.js";
 import Toast from "../pages/general_components/toast/Toast.js";
 
@@ -61,8 +61,10 @@ function App() {
         }
       }
     };
+
     autoLogin();
   }, []);
+
   return (
     <ThemeContext>
       <div className="App">

@@ -31,7 +31,9 @@ function override64File(fileType, name, data) {
   }
 }
 function deletePublicFile(type, name) {
-  fs.unlinkSync(`./public/${type}/${name}`);
+  try {
+    fs.unlinkSync(`./public/${type}/${name}`);
+  } catch (err) {}
 }
 
 module.exports = { write64FileWithCopies, deletePublicFile, override64File };
