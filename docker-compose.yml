@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  cpp-app:
+    build:
+      context: "./TCP server"
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    ports:
+      - "5555:5555"
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "3000:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - backend
+  server:
+    build:
+      context: "./server"
+      dockerfile: Dockerfile
+    volumes:
+      - public-data:/public
+    networks:
+      - backend
+    depends_on:
+      - mongo
+      - cpp-app
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo-data:
+  public-data:
+
+networks:
+  backend:
